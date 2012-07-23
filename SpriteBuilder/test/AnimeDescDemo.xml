@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<anime-desc>
+	<!-- 动画大小(w,h) -->
+	<size>100,100</size>
+	<frames>
+		<!-- 每一帧 -->
+		<frame>
+			<!-- 注册点(x,y) -->
+			<reg-point>0,0</reg-point>
+			<!-- 帧矩形(x,y,w,h) -->
+			<rect>0,0,100,100</rect>
+		</frame>
+		<!-- 每一帧 -->
+		<frame>
+			<!-- 注册点(x,y) -->
+			<reg-point>0,0</reg-point>
+			<!-- 帧矩形(x,y,w,h) -->
+			<rect>0,0,100,100</rect>
+		</frame>
+	</frames>
+</anime-desc>

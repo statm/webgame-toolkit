@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<anime>	<fullSize>2760,1384</fullSize>
+	<offset>46,45</offset>
+	<sourceFrameSize>320,320</sourceFrameSize>
+	<frame>12</frame>
+	<dirNum>8</dirNum>
+	<frameRate>12</frameRate>
+	<frameSize>230,173</frameSize>
+	<dirMapping>3,1,5,7,4,8,2,6</dirMapping>
+	<regPoint>161,171</regPoint>
+</anime>

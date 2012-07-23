@@ -5,7 +5,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：战斗层。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class CombatLayer extends MaskLayerBase

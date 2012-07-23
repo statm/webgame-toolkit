@@ -15,7 +15,7 @@ package statm.dev.mapeditor.mediators
 	/**
 	 * 菜单条 Mediator，同时控制窗口标题。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ControlBarMediator extends Mediator

@@ -12,7 +12,7 @@ package statm.dev.mapeditor.app
 	/**
 	 * 应用程序状态。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public final class AppState

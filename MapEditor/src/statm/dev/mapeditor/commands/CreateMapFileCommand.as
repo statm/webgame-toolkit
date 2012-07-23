@@ -11,7 +11,7 @@ package statm.dev.mapeditor.commands
 	/**
 	 * 命令：创建新地图。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class CreateMapFileCommand extends SimpleCommand

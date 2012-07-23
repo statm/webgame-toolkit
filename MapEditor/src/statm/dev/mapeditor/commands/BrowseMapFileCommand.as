@@ -18,7 +18,7 @@ package statm.dev.mapeditor.commands
 	/**
 	 * 命令：浏览打开地图文件。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BrowseMapFileCommand extends SimpleCommand

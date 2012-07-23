@@ -8,7 +8,7 @@ package statm.dev.mapeditor.utils
 	/**
 	 * 惯性速度测量。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class InertiaTracker

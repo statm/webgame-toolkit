@@ -7,7 +7,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：怪物层。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class MobLayer extends PlacementLayerBase

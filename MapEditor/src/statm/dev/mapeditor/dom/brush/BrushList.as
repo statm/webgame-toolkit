@@ -8,7 +8,7 @@ package statm.dev.mapeditor.dom.brush
 	/**
 	 * 画笔列表。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BrushList implements IXMLSerializable

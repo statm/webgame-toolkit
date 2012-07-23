@@ -22,7 +22,7 @@ package statm.dev.mapeditor.commands
 	/**
 	 * 命令：保存地图文件。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class SaveMapFileCommand extends SimpleCommand

@@ -14,7 +14,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：网格组。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class Grids extends DomNode

@@ -4,7 +4,7 @@ package statm.dev.mapeditor.io
 	/**
 	 * XML 序列化接口。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public interface IXMLSerializable

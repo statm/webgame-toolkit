@@ -13,7 +13,7 @@ package statm.dev.mapeditor.commands
 	/**
 	 * 命令：关闭程序。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class AppExitCommand extends SimpleCommand

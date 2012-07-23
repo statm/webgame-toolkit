@@ -14,7 +14,7 @@ package statm.dev.mapeditor.utils
 	/**
 	 * 网格相关工具类。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class GridUtils

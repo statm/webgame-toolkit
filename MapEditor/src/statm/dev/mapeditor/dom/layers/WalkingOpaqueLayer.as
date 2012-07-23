@@ -6,7 +6,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：行走半透明层。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class WalkingOpaqueLayer extends MaskLayerBase

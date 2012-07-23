@@ -21,7 +21,7 @@ package statm.dev.mapeditor.mediators
 	/**
 	 * 工具箱 Mediator。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class LayerPanelMediator extends Mediator

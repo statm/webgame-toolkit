@@ -36,7 +36,7 @@ package statm.dev.mapeditor.mediators
 	/**
 	 * 属性面板 Mediator。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class PropertyPanelMediator extends Mediator

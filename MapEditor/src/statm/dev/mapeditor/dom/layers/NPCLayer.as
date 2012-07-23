@@ -7,7 +7,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：NPC 层。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class NPCLayer extends PlacementLayerBase

@@ -21,7 +21,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * DOM 对象：连接点。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class LinkPoint extends Item

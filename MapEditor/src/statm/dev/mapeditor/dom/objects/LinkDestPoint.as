@@ -15,7 +15,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * DOM 对象：连接点目标。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class LinkDestPoint extends Item

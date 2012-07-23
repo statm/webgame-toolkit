@@ -20,7 +20,7 @@ package statm.dev.mapeditor.mediators
 	/**
 	 * 缩略图面板 Mediator。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ThumbnailPanelMediator extends Mediator

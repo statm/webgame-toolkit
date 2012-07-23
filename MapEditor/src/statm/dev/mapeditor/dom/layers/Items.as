@@ -17,7 +17,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：物件层（文件夹）。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class Items extends DomNode

@@ -16,7 +16,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：物体放置层（抽象）。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class PlacementLayerBase extends DomNode

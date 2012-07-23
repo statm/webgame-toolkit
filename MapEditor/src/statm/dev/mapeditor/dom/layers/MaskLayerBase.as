@@ -16,7 +16,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：掩码层（抽象）。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class MaskLayerBase extends DomNode

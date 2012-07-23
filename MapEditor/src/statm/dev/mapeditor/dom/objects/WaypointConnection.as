@@ -14,7 +14,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * DOM 对象：路点之间的连线。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class WaypointConnection extends DomObject

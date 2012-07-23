@@ -19,7 +19,7 @@ package statm.dev.mapeditor.dom.item
 	/**
 	 * 物件工厂类。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ItemFactory

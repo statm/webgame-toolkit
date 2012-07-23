@@ -13,7 +13,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * 物件基类。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class Item extends DomObject

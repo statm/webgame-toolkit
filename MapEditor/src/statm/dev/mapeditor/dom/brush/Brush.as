@@ -9,7 +9,7 @@ package statm.dev.mapeditor.dom.brush
 	/**
 	 * 画笔数据。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class Brush implements IXMLSerializable

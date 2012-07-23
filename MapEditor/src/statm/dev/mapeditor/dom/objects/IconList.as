@@ -11,7 +11,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * 物件图标列表。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class IconList implements IXMLSerializable

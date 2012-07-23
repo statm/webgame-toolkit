@@ -9,7 +9,7 @@ package statm.dev.mapeditor.dom.item
 	/**
 	 * 物件定义列表。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ItemDefinitionList implements IXMLSerializable

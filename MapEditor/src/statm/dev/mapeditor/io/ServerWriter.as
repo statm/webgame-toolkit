@@ -18,7 +18,7 @@ package statm.dev.mapeditor.io
 	/**
 	 * 将地图文件输出为服务器端 XML 格式。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ServerWriter

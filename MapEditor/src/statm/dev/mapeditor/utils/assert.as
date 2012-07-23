@@ -4,7 +4,7 @@ package statm.dev.mapeditor.utils
 	/**
 	 * 断言
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 

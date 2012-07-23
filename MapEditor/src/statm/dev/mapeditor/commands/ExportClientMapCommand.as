@@ -20,7 +20,7 @@ package statm.dev.mapeditor.commands
 	/**
 	 * 命令：导出客户端文件。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ExportClientMapCommand extends SimpleCommand

@@ -18,7 +18,7 @@ package statm.dev.mapeditor.dom
 	/**
 	 * DOM 对象：地图。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class Map extends DomNode

@@ -9,7 +9,7 @@ package statm.dev.mapeditor.utils
 	/**
 	 * 位图 - base64 编解码工具类。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BitmapCODECUtils

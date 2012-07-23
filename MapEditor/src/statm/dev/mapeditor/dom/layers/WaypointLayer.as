@@ -26,7 +26,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：路点层
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class WaypointLayer extends PlacementLayerBase

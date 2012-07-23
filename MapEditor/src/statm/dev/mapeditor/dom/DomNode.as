@@ -13,7 +13,7 @@ package statm.dev.mapeditor.dom
 	/**
 	 * DOM 节点。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class DomNode extends EventDispatcher implements IXMLSerializable

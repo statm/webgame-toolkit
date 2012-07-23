@@ -17,7 +17,7 @@ package statm.dev.mapeditor.commands
 	/**
 	 * 命令：关闭地图文件。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class CloseMapFileCommand extends SimpleCommand

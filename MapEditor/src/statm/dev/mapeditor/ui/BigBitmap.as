@@ -15,7 +15,7 @@ package statm.dev.mapeditor.ui
 	/**
 	 * 无限大位图。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BigBitmap extends SpriteVisualElement

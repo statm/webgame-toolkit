@@ -7,7 +7,7 @@ package statm.dev.mapeditor.ui
 	/**
 	 * 各种鼠标指针。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	[Mixin]

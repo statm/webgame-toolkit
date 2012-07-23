@@ -4,7 +4,7 @@ package statm.dev.mapeditor.app
 	/**
 	 * 地图编辑操作。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public final class MapEditingActions

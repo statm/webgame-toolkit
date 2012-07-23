@@ -4,7 +4,7 @@ package statm.dev.mapeditor.ui
 	/**
 	 * 所有 UI 资源。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public final class UIResource

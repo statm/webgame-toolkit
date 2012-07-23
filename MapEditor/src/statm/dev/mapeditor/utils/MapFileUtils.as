@@ -5,7 +5,7 @@ package statm.dev.mapeditor.utils
 	/**
 	 * 地图文件编解码。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public final class MapFileUtils

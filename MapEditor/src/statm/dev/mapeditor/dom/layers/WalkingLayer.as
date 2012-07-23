@@ -7,7 +7,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：行走层。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class WalkingLayer extends MaskLayerBase

@@ -4,7 +4,7 @@ package statm.dev.mapeditor.dom.brush
 	/**
 	 * 画笔类型枚举类。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BrushType

@@ -12,7 +12,7 @@ package statm.dev.mapeditor.ui
 	/**
 	 * 可最小化的面板。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class MinimizablePanel extends Panel

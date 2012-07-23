@@ -15,7 +15,7 @@ package statm.dev.mapeditor.app
 	/**
 	 * 应用程序 Facade。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class AppFacade extends Facade

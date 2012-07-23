@@ -33,7 +33,7 @@ package statm.dev.mapeditor.mediators
 	/**
 	 * 地图编辑区 Mediator。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class MapAreaMediator extends Mediator

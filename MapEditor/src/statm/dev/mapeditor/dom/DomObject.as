@@ -19,7 +19,7 @@ package statm.dev.mapeditor.dom
 	/**
 	 * DOM 物件。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class DomObject extends DomNode

@@ -4,7 +4,7 @@ package statm.dev.mapeditor.dom.item
 	/**
 	 * 物件类型枚举类。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ItemType

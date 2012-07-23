@@ -17,7 +17,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * DOM 对象：传送点。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class TeleportPoint extends Item

@@ -10,7 +10,7 @@ package statm.dev.mapeditor.dom.objects
 	/**
 	 * DOM 对象：出生点。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BornPoint extends Item

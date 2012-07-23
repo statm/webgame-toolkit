@@ -9,7 +9,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：背景。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class BgLayer extends DomNode

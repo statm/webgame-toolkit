@@ -9,7 +9,7 @@ package statm.dev.mapeditor.dom.item
 	 * ItemFactory 类根据物件定义制造实际的地图元素。
 	 * 在地图文件中，要保存此列表。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class ItemDefinition implements IXMLSerializable

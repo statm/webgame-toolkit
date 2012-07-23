@@ -4,7 +4,7 @@ package statm.dev.mapeditor.app
 	/**
 	 * 各种消息字符串。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public final class AppNotificationCode

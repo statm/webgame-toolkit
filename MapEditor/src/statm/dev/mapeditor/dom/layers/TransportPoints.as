@@ -10,7 +10,7 @@ package statm.dev.mapeditor.dom.layers
 	/**
 	 * DOM 对象：传送层。
 	 *
-	 * @author renjie.zh
+	 * @author statm
 	 *
 	 */
 	public class TransportPoints extends PlacementLayerBase

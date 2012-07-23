@@ -118,5 +118,17 @@ private function loader_next(event : Event = null) : void
 		AppState.croppedBitmaps[loadingIndex] = cropped;
 	}
 	loadingIndex++;
-	(loadingIndex < AppState.files.length) && bitmapLoader.load(new URLRequest(AppState.files[loadingIndex].url));
+	if (loadingIndex < AppState.files.length)
+	{
+		bitmapLoader.load(new URLRequest(AppState.files[loadingIndex].url));
+	}
+	else
+	{
+		assembleSprite();
+	}
+}
+
+private function assembleSprite() : void
+{
+	
 }

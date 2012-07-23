@@ -1,8 +1,9 @@
 package statm.dev.spritebuilder
 {
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	import flash.geom.Rectangle;
-	
+
 	import mx.collections.ArrayCollection;
 
 	/**
@@ -21,6 +22,8 @@ package statm.dev.spritebuilder
 		public static var originalBitmapBounds : Vector.<Rectangle>;
 
 		public static var croppedBitmaps : Vector.<BitmapData>;
+
+		public static var assembledSprite : Sprite;
 
 		public static function reset() : void
 		{

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tree:TreeItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:tree="com.sparkTree.*"
+					   width="100%"
+					   implements="mx.managers.IFocusManagerComponent">
+	<fx:Script>
+		<![CDATA[
+			import com.sparkTree.Tree;
+			
+			import mx.events.FlexEvent;
+			
+			import statm.dev.mapeditor.app.AppState;
+			import statm.dev.mapeditor.dom.DomNode;
+			import statm.dev.mapeditor.dom.Map;
+			import statm.dev.mapeditor.dom.layers.BgLayer;
+			import statm.dev.mapeditor.dom.layers.Grids;
+			import statm.dev.mapeditor.dom.layers.TransportPoints;
+			import statm.dev.mapeditor.dom.objects.BornPoint;
+			import statm.dev.mapeditor.dom.objects.LinkDestPoint;
+			import statm.dev.mapeditor.dom.objects.LinkPoint;
+			import statm.dev.mapeditor.dom.objects.TeleportPoint;
+			import statm.dev.mapeditor.dom.objects.Waypoint;
+
+			protected function cbxVisibility_valueCommitHandler(event : FlexEvent) : void
+			{
+				if (!this.isLeaf && !cbxVisibility.selected)
+				{
+					Tree(this.owner).expandItem(this.data, false);
+					cbxVisibility.selected = false;
+					foldButton.mouseEnabled = false;
+				}
+				else
+				{
+					foldButton.mouseEnabled = true;
+				}
+			}
+
+			private function getCheckboxVisibility(data : Object) : Boolean
+			{
+				return !(data is TeleportPoint)
+					&& !(data is LinkPoint)
+					&& !(data is LinkDestPoint)
+					&& !(data is BornPoint)
+					&& !(data is Waypoint);
+			}
+
+			override public function set data(value : Object) : void
+			{
+				if (data)
+				{
+					data.removeEventListener(Event.CHANGE, data_changeHandler);
+				}
+
+				super.data = value;
+
+				if (data)
+				{
+					data.addEventListener(Event.CHANGE, data_changeHandler);
+				}
+
+				lblProps.text = getNodeProps(value);
+			}
+
+			private function getNodeProps(node : Object) : String
+			{
+				if (!node)
+				{
+					return "";
+				}
+
+				var result : String = "";
+
+				if (node is Map)
+				{
+					var map : Map = Map(node);
+					result = map.mapName + " (ID: " + map.mapID + ", 等级: " + map.levelLimit + ")";
+				}
+				else if (node is BgLayer)
+				{
+					var bg : BgLayer = BgLayer(node);
+					if (bg.bgPath && bg.bgPath.length > 0)
+					{
+						result = new File(bg.bgPath).name;
+					}
+				}
+				else if (node is Grids)
+				{
+					var grids : Grids = Grids(node);
+					result = grids.gridSize.y + " x " + grids.gridSize.x
+						+ ", 起始点: (" + grids.gridAnchor.x + "," + grids.gridAnchor.y + ")";
+				}
+				else if (node is TransportPoints)
+				{
+					var transPoints : TransportPoints = TransportPoints(node);
+					var tpCount : int = 0;
+					var lpCount : int = 0;
+					var bpCount : int = 0;
+					for each (var child : DomNode in transPoints.children)
+					{
+						if (child is TeleportPoint)
+						{
+							++tpCount;
+						}
+						else if (child is LinkPoint)
+						{
+							++lpCount;
+						}
+						else if (child is BornPoint)
+						{
+							++bpCount;
+						}
+					}
+					result = "传送: " + tpCount + ", 连接: " + lpCount + ", 出生: " + bpCount;
+				}
+				else if (node is TeleportPoint)
+				{
+					var tp : TeleportPoint = TeleportPoint(node);
+					result = "(" + tp.x + "," + tp.y + ")";
+					if (tp.mapID != AppState.getCurrentMap().mapID)
+					{
+						result += ", 地图: " + tp.mapID;
+					}
+					if (tp.allowNations.length != 3)
+					{
+						result += ", " + getNationString(tp.allowNations);
+					}
+				}
+				else if (node is LinkPoint)
+				{
+					var lp : LinkPoint = LinkPoint(node);
+					result = "(" + lp.x + "," + lp.y + "), 目标点: " + lp.children.length;
+				}
+				else if (node is LinkDestPoint)
+				{
+					var ldp : LinkDestPoint = LinkDestPoint(node);
+					result = "(" + ldp.x + "," + ldp.y + ")";
+					if (ldp.mapID != AppState.getCurrentMap().mapID)
+					{
+						result += ", 地图: " + ldp.mapID;
+					}
+				}
+				else if (node is BornPoint)
+				{
+					var bp : BornPoint = BornPoint(node);
+					result = "(" + bp.x + "," + bp.y + ")";
+					if (bp.allowNations.length != 3)
+					{
+						result += ", " + getNationString(bp.allowNations);
+					}
+				}
+				else if (node is Waypoint)
+				{
+					var wp:Waypoint = Waypoint(node);
+					result = "(" + wp.x + "," + wp.y + ")";
+				}
+
+				if (result.length > 0)
+				{
+					result = "- " + result;
+				}
+
+				return result;
+			}
+
+			private function data_changeHandler(event : Event) : void
+			{
+				lblProps.text = getNodeProps(data);
+			}
+
+			private function getNationString(allowNations : Array) : String
+			{
+				var result : String = "国家: ";
+				var resultArray : Array = [];
+
+				if (allowNations.indexOf("WU") != -1)
+				{
+					resultArray.push("吴");
+				}
+				if (allowNations.indexOf("SHU") != -1)
+				{
+					resultArray.push("蜀");
+				}
+				if (allowNations.indexOf("WEI") != -1)
+				{
+					resultArray.push("魏");
+				}
+
+				result += resultArray.join("/");
+
+				return result;
+			}
+		]]>
+	</fx:Script>
+
+	<tree:states>
+		<s:State name="normal"/>
+		<s:State name="over"/>
+	</tree:states>
+
+	<tree:layout>
+		<s:HorizontalLayout paddingLeft="4"
+							verticalAlign="middle"
+							paddingBottom="3"
+							paddingTop="3"/>
+	</tree:layout>
+
+	<s:CheckBox id="cbxVisibility"
+				valueCommit="cbxVisibility_valueCommitHandler(event)"
+				selected="@{data.display.visible}"
+				visible="{getCheckboxVisibility(data)}"
+				enabled="{!(data is Map)}"/>
+
+	<s:Spacer width="{indentation - 12}"/>
+
+	<s:Group id="foldButton"
+			 click="toggle();"
+			 buttonMode="true"
+			 useHandCursor="true"
+			 width="16"
+			 height="100%"
+			 visible="{hasChildren}"
+			 alpha="0.8">
+		<s:Path data="M 5 6 L 0 0 L 0 11"
+				visible="{!isOpen}"
+				includeInLayout="{!isOpen}"
+				right="3"
+				verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#000000"/>
+			</s:fill>
+		</s:Path>
+		<s:Path data="M 0 1 L 11 1 L 5 7"
+				visible="{isOpen}"
+				includeInLayout="{isOpen}"
+				right="0"
+				verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#000000"/>
+			</s:fill>
+		</s:Path>
+	</s:Group>
+
+	<s:BitmapImage id="imgIcon"
+				   source="{icon}"
+				   width="16"
+				   height="16"
+				   smooth="true"/>
+
+	<s:Label id="lblName"
+			 text="{data.name}"
+			 color="{textColor}"
+			 fontSize="12"/>
+
+	<s:Label id="lblProps"
+			 color="#777777"
+			 fontSize="12"/>
+</tree:TreeItemRenderer>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   skinClass="statm.dev.mapeditor.ui.skins.WindowedApplicationSkinControlBar"
+					   xmlns:modules="statm.dev.mapeditor.modules.*"
+					   xmlns:ui="statm.dev.mapeditor.ui.*"
+					   showStatusBar="false"
+					   applicationComplete="applicationCompleteHandler(event)"
+					   closing="closingHandler(event)"
+					   width="850"
+					   height="700"
+					   frameRate="40">
+
+	<fx:Style source="styles/styles.css"/>
+
+	<fx:Script>
+		<![CDATA[
+			import flash.text.engine.TextLine;
+			
+			import mx.events.FlexEvent;
+			import mx.managers.IFocusManagerComponent;
+			
+			import spark.components.Label;
+			import spark.components.RichEditableText;
+			import spark.components.TextInput;
+			
+			import statm.dev.mapeditor.app.AppFacade;
+			import statm.dev.mapeditor.app.AppNotificationCode;
+			import statm.dev.mapeditor.app.AppState;
+			import statm.dev.mapeditor.dom.DomNode;
+			import statm.dev.mapeditor.dom.DomObject;
+			import statm.dev.mapeditor.dom.layers.PlacementLayerBase;
+			import statm.dev.mapeditor.dom.objects.LinkDestPoint;
+			import statm.dev.mapeditor.dom.objects.LinkPoint;
+			import statm.dev.mapeditor.io.ServerWriter;
+
+			protected function applicationCompleteHandler(event : FlexEvent) : void
+			{
+				stage.nativeWindow.maximize();
+
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+				stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+				stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+
+				XML.prettyPrinting = true;
+				XML.prettyIndent = 4;
+			}
+
+			private var isMouseDown : Boolean = false;
+
+			override protected function mouseDownHandler(event : MouseEvent) : void
+			{
+				super.mouseDownHandler(event);
+
+				if (!(event.target is IFocusManagerComponent)
+					&& !(event.target is Label)
+					&& !(event.target is TextLine))
+				{
+					stage.focus = null;
+				}
+
+				isMouseDown = true;
+			}
+
+			protected function mouseUpHandler(event : MouseEvent) : void
+			{
+				isMouseDown = false;
+			}
+
+			override protected function keyDownHandler(event : KeyboardEvent) : void
+			{
+				super.keyDownHandler(event);
+
+				if (event.keyCode == Keyboard.SPACE
+					&& !(stage.focus is TextInput)
+					&& !(AppState.isDrawingMask() && isMouseDown))
+				{
+					AppState.startMovingViewport();
+				}
+				else if (event.keyCode == Keyboard.CONTROL)
+				{
+					AppState.startMovingGrid();
+				}
+				else if (event.keyCode == Keyboard.G)
+				{
+					var writer : ServerWriter = new ServerWriter();
+					writer.read(AppState.getCurrentMap());
+					writer.flush();
+				}
+				else if (event.keyCode == Keyboard.H)
+				{
+					trace(stage.focus);
+				}
+			}
+
+			override protected function keyUpHandler(event : KeyboardEvent) : void
+			{
+				super.keyUpHandler(event);
+
+				if (event.keyCode == Keyboard.SPACE && !isMouseDown)
+				{
+					AppState.stopMovingViewport();
+				}
+				else if (event.keyCode == Keyboard.CONTROL && !isMouseDown)
+				{
+					AppState.stopMovingGrid();
+				}
+				else if (event.keyCode == Keyboard.DELETE)
+				{
+					if (!(stage.focus
+						&& (stage.focus is TextInput || stage.focus is TextLine || stage.focus is RichEditableText)))
+					{
+						var selection : DomNode = AppState.getCurrentSelection();
+
+						if (!selection)
+						{
+							return;
+						}
+
+						if (selection is LinkDestPoint)
+						{
+							LinkPoint(selection.parent).removeLinkDestination(LinkDestPoint(selection));
+						}
+						else if (selection is DomObject)
+						{
+							PlacementLayerBase(DomObject(selection).parent).removeItem(DomObject(selection));
+						}
+
+						AppState.setCurrentSelection(selection.parent);
+					}
+				}
+			}
+
+			private function closingHandler(event : Event) : void
+			{
+				event.preventDefault();
+				AppFacade.getInstance().sendNotification(AppNotificationCode.CLOSE_APP);
+			}
+		]]>
+	</fx:Script>
+
+	<s:controlBarContent>
+		<modules:ControlBar id="ctrlBar"/>
+	</s:controlBarContent>
+
+	<s:HGroup width="100%"
+			  height="100%"
+			  gap="1"
+			  verticalAlign="middle">
+		<modules:ToolBar id="toolBar"/>
+		<modules:MapArea id="mapArea" depth="-9999"/>
+		<s:Scroller width="350"
+					height="100%"
+					skinClass="statm.dev.mapeditor.ui.skins.LiteScrollerSkin">
+			<s:VGroup id="panelGroup"
+					  height="100%">
+				<modules:PropertyPanel id="propPanel"/>
+				<modules:LayerPanel id="tbPanel"/>
+				<modules:ThumbnailPanel id="thumbPanel"/>
+			</s:VGroup>
+		</s:Scroller>
+	</s:HGroup>
+</s:WindowedApplication>

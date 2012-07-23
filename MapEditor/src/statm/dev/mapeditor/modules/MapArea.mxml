@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:ui="statm.dev.mapeditor.ui.*"
+		 width="100%"
+		 height="100%"
+		 creationComplete="creationCompleteHandler(event)"
+		 rollOver="rollOverHandler(event)"
+		 rollOut="rollOutHandler(event)">
+
+	<fx:Declarations>
+		<s:Animate id="mapMovingEffect">
+			<s:motionPaths>
+				<s:SimpleMotionPath id="mapMovingPathX"
+									property="x"/>
+				<s:SimpleMotionPath id="mapMovingPathY"
+									property="y"/>
+			</s:motionPaths>
+		</s:Animate>
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import spark.effects.easing.Sine;
+			
+			import statm.dev.mapeditor.app.AppFacade;
+			import statm.dev.mapeditor.mediators.MapAreaMediator;
+			import statm.dev.mapeditor.utils.GridUtils;
+
+			protected function creationCompleteHandler(event : FlexEvent) : void
+			{
+				AppFacade.getInstance().registerMediator(new MapAreaMediator(MapAreaMediator.NAME,
+					this));
+			}
+
+			public function setMapBg(bgPath : String) : void
+			{
+				mapImage.source = bgPath;
+			}
+
+			// TODO: 改光标。
+			protected function rollOverHandler(event : MouseEvent) : void
+			{
+//				var cursorClass : Class;
+//				var offset : Point;
+//
+//				if (AppState.isDragging())
+//				{
+//					cursorClass = MouseCursors.HAND;
+//				}
+//				else if (AppState.isDrawingMask())
+//				{
+//					cursorClass = MouseCursors.BRUSH;
+//				}
+//				else if (AppState.isAdjustingGrid())
+//				{
+//					cursorClass = MouseCursors.MOVE;
+//				}
+//				else
+//				{
+//					cursorClass = MouseCursors.SELECT;
+//				}
+//
+//				if (cursorClass)
+//				{
+//					Mouse.hide();
+//					offset = MouseCursors.getOffset(cursorClass);
+//					cursorManager.setCursor(cursorClass, CursorManagerPriority.HIGH, offset.x, offset.y);
+//				}
+			}
+
+			protected function rollOutHandler(event : MouseEvent) : void
+			{
+//				Mouse.show();
+//				cursorManager.removeCursor(cursorManager.currentCursorID);
+			}
+		]]>
+	</fx:Script>
+
+	<s:Scroller id="mapScroller"
+				width="100%"
+				height="100%"
+				horizontalScrollPolicy="off"
+				verticalScrollPolicy="off">
+		<s:Group id="mapScrollingGroup">
+			<s:BitmapImage id="mapImage"
+						   clearOnLoad="true"/>
+			<s:Group id="grids">
+				<ui:BigBitmap id="gridDisplay"/>
+				<ui:BigBitmap id="walkingLayer"/>
+				<ui:BigBitmap id="walkingOpaqueLayer"/>
+				<ui:BigBitmap id="regionLayer"/>
+				<ui:BigBitmap id="combatLayer"/>
+
+				<s:Group id="items">
+					<s:Group id="NPCLayer"/>
+					<s:Group id="mobLayer"/>
+					<s:Group id="transportLayer"/>
+					<s:Group id="waypointLayer"/>
+					<s:Group id="itemDrawingLayer"
+							 alpha="0.6"/>
+				</s:Group>
+
+				<ui:BigBitmap id="maskDrawingLayer"
+							  alpha="0.6"
+							  mouseEnabled="false"/>
+			</s:Group>
+		</s:Group>
+	</s:Scroller>
+</s:Group>

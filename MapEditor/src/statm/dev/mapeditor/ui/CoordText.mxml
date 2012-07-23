@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Metadata>
+		[Event(name="coordChanged", type="flash.events.Event")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			private var coord : Point = new Point();
+
+			public function setCoord(x : int, y : int) : void
+			{
+				coord.x = x;
+				coord.y = y;
+				lblCoord.label = "(" + coord.x + "," + coord.y + ")";
+				tiCoordX.text = x.toString();
+				tiCoordY.text = y.toString();
+			}
+
+			public function getCoord() : Point
+			{
+				return coord.clone();
+			}
+
+			private function submitEdit() : void
+			{
+				var newPoint : Point = new Point(parseInt(tiCoordX.text), parseInt(tiCoordY.text));
+				if (!coord.equals(newPoint))
+				{
+					coord = newPoint;
+					lblCoord.label = "(" + coord.x + "," + coord.y + ")";
+					this.dispatchEvent(new Event("coordChanged"));
+				}
+			}
+
+			private var _editMode : Boolean = false;
+
+			[Bindable]
+			private function get editMode() : Boolean
+			{
+				return _editMode;
+			}
+
+			private function set editMode(value : Boolean) : void
+			{
+				if (value == _editMode)
+				{
+					return;
+				}
+
+				_editMode = value;
+
+				lblCoord.visible = !_editMode;
+				grpEdit.visible = _editMode;
+
+				if (_editMode)
+				{
+					tiCoordX.text = coord.x.toString();
+					tiCoordY.text = coord.y.toString();
+					tiCoordX.setFocus();
+				}
+				else
+				{
+					submitEdit();
+				}
+			}
+
+			private function ti_focusOutHandler(event : FocusEvent) : void
+			{
+				if (stage && stage.focus && grpEdit.contains(stage.focus))
+				{
+					submitEdit();
+				}
+				else
+				{
+					editMode = false;
+				}
+			}
+
+			private function tiCoordY_keyFocusChangeHandler(event : FocusEvent) : void
+			{
+				event.preventDefault();
+				tiCoordX.setFocus();
+			}
+
+			private function ti_keyDownHandler(event : KeyboardEvent) : void
+			{
+				if (event.keyCode == Keyboard.ESCAPE)
+				{
+					tiCoordX.text = coord.x.toString();
+					tiCoordY.text = coord.y.toString();
+					editMode = false;
+				}
+			}
+		]]>
+	</fx:Script>
+
+	<s:Button id="lblCoord"
+			  click="editMode=true;"
+			  skinClass="statm.dev.mapeditor.ui.skins.CoordTextButtonSkin"
+			  left="0"
+			  right="0"
+			  verticalCenter="0"
+			  useHandCursor="true"
+			  buttonMode="true"/>
+	<s:Group id="grpEdit"
+			 visible="false"
+			 verticalCenter="0">
+		<s:layout>
+			<s:HorizontalLayout gap="3"
+								verticalAlign="middle"/>
+		</s:layout>
+		<s:Label text="("
+				 fontWeight="bold"/>
+		<s:TextInput id="tiCoordX"
+					 enter="editMode=false;"
+					 width="35"
+					 textAlign="center"
+					 restrict="0-9"
+					 focusOut="ti_focusOutHandler(event)"
+					 keyDown="ti_keyDownHandler(event)"/>
+		<s:Label text=","
+				 fontWeight="bold"/>
+		<s:TextInput id="tiCoordY"
+					 enter="editMode=false;"
+					 width="35"
+					 textAlign="center"
+					 restrict="0-9"
+					 focusOut="ti_focusOutHandler(event)"
+					 keyDown="ti_keyDownHandler(event)"
+					 keyFocusChange="tiCoordY_keyFocusChangeHandler(event)"/>
+		<s:Label text=")"
+				 fontWeight="bold"/>
+	</s:Group>
+</s:Group>

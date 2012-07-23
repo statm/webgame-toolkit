@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:MinimizablePanel xmlns:fx="http://ns.adobe.com/mxml/2009"
+					 xmlns:s="library://ns.adobe.com/flex/spark"
+					 xmlns:mx="library://ns.adobe.com/flex/mx"
+					 xmlns:ui="statm.dev.mapeditor.ui.*"
+					 width="100%"
+					 height="100%"
+					 creationComplete="creationCompleteHandler(event)"
+					 currentState="blank"
+					 title="属性">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			
+			import statm.dev.mapeditor.app.AppFacade;
+			import statm.dev.mapeditor.dom.item.ItemType;
+			import statm.dev.mapeditor.mediators.PropertyPanelMediator;
+
+			protected function creationCompleteHandler(event : FlexEvent) : void
+			{
+				AppFacade.getInstance().registerMediator(new PropertyPanelMediator(PropertyPanelMediator.NAME,
+					this));
+			}
+
+			private function submit(target : EventDispatcher = null) : void
+			{
+				if (!target)
+				{
+					this.dispatchEvent(new Event("submit"));
+				}
+				else
+				{
+					target.dispatchEvent(new Event("submit"));
+				}
+			}
+
+			protected function btnBrowseMapBg_clickHandler(event : MouseEvent) : void
+			{
+				var file : File = File.desktopDirectory;
+				file.addEventListener(Event.SELECT, function(event : Event) : void
+				{
+					tiMapBgPath.text = event.target.nativePath;
+					submit();
+				});
+				file.browseForOpen("选择地图背景", [new FileFilter("图片文件(*.jpg)", "*.jpg")]);
+			}
+
+			public function filterItems() : void
+			{
+				if (!itemsList.dataProvider)
+				{
+					return;
+				}
+
+				var data : ArrayCollection = ArrayCollection(itemsList.dataProvider);
+
+				switch (itemsListFilterBar.selectedIndex)
+				{
+					case 0:
+						data.filterFunction = function(o : Object) : Boolean
+						{
+							return (o.type == ItemType.NPC);
+						};
+						data.refresh();
+						break;
+
+					case 1:
+						data.filterFunction = function(o : Object) : Boolean
+						{
+							return (o.type == ItemType.MOB);
+						};
+						data.refresh();
+						break;
+
+					case 2:
+						data.filterFunction = function(o : Object) : Boolean
+						{
+							return (o.type != ItemType.NPC) && (o.type != ItemType.MOB);
+						};
+						data.refresh();
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	<ui:states>
+		<s:State name="blank"/>
+		<s:State name="mapProps"/>
+		<s:State name="bgProps"/>
+		<s:State name="gridProps"/>
+		<s:State name="regionLayerEditing"/>
+		<s:State name="walkingLayerEditing"/>
+		<s:State name="walkingOpaqueLayerEditing"/>
+		<s:State name="combatLayerEditing"/>
+		<s:State name="itemLayerEditing"/>
+		<s:State name="transportLayerProps"/>
+		<s:State name="teleportPointProps"/>
+		<s:State name="linkPointProps"/>
+		<s:State name="bornPointProps"/>
+		<s:State name="linkDestPointProps"/>
+	</ui:states>
+
+	<s:Scroller width="100%"
+				height="100%"
+				skinClass="statm.dev.mapeditor.ui.skins.LiteScrollerSkin"
+				horizontalScrollPolicy="off">
+		<s:Group>
+			<s:Form width="100%"
+					height="100%">
+				<s:layout>
+					<s:FormLayout gap="-13"
+								  paddingRight="-30"
+								  paddingLeft="-10"
+								  paddingTop="-10"
+								  paddingBottom="-10"/>
+				</s:layout>
+				<s:FormHeading>
+					<s:label.mapProps>地图</s:label.mapProps>
+					<s:label.bgProps>背景</s:label.bgProps>
+					<s:label.gridProps>网格</s:label.gridProps>
+					<s:label.regionLayerEditing>地区</s:label.regionLayerEditing>
+					<s:label.walkingLayerEditing>行走模式</s:label.walkingLayerEditing>
+					<s:label.walkingOpaqueLayerEditing>行走半透明</s:label.walkingOpaqueLayerEditing>
+					<s:label.combatLayerEditing>战斗模式</s:label.combatLayerEditing>
+					<s:label.itemLayerEditing>添加物件</s:label.itemLayerEditing>
+					<s:label.transportLayerProps>传送</s:label.transportLayerProps>
+					<s:label.teleportPointProps>传送</s:label.teleportPointProps>
+					<s:label.linkPointProps>传送</s:label.linkPointProps>
+					<s:label.bornPointProps>传送</s:label.bornPointProps>
+					<s:label.linkDestPointProps>传送</s:label.linkDestPointProps>
+				</s:FormHeading>
+				<!-- 地图属性 -->
+				<s:FormItem includeIn="mapProps"
+							label="地图 ID:">
+					<s:TextInput id="tiMapID"
+								 width="100%"
+								 enter="submit();"
+								 focusOut="submit();"
+								 restrict="0-9"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mapProps"
+							label="地图名称:">
+					<s:TextInput id="tiMapName"
+								 width="100%"
+								 enter="submit();"
+								 focusOut="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mapProps"
+							label="等级限制:">
+					<s:TextInput id="tiMapLevel"
+								 width="100%"
+								 enter="submit();"
+								 focusOut="submit();"
+								 restrict="0-9"/>
+				</s:FormItem>
+				<!-- 背景属性 -->
+				<s:FormItem includeIn="bgProps"
+							label="地图背景:">
+					<s:layout>
+						<s:HorizontalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:TextInput id="tiMapBgPath"
+								 width="100%"
+								 editable="false"/>
+					<s:Button id="btnBrowseMapBg"
+							  label="浏览..."
+							  click="btnBrowseMapBg_clickHandler(event)"/>
+				</s:FormItem>
+				<!-- 网格属性 -->
+				<s:FormItem includeIn="gridProps"
+							label="网格块数:">
+					<s:layout>
+						<s:HorizontalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:NumericStepper id="nsGridBlockR"
+									  maximum="12"
+									  minimum="1"
+									  change="submit();"/>
+					<s:Label text="列 x "
+							 height="100%"
+							 verticalAlign="middle"/>
+					<s:NumericStepper id="nsGridBlockC"
+									  maximum="12"
+									  minimum="1"
+									  change="submit();"/>
+					<s:Label text="行"
+							 height="100%"
+							 verticalAlign="middle"/>
+				</s:FormItem>
+				<s:FormItem includeIn="gridProps"
+							label="网格起点:">
+					<s:layout>
+						<s:HorizontalLayout/>
+					</s:layout>
+					<ui:CoordText id="ctGridAnchor" coordChanged="submit();"/>
+				</s:FormItem>
+				<!-- 地区层绘制 -->
+				<s:FormItem id="regionFormItem"
+							includeIn="regionLayerEditing"
+							label="可用属性:">
+					<s:List id="regionMaskList"
+							width="100%"
+							height="100%"
+							minHeight="160"
+							click="submit();"
+							itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.MaskBrushItemRenderer"
+							skinClass="statm.dev.mapeditor.ui.skins.LiteListSkin">
+						<s:layout>
+							<s:TileLayout horizontalGap="1"
+										  verticalGap="1"/>
+						</s:layout>
+					</s:List>
+				</s:FormItem>
+				<!-- 行走层绘制 -->
+				<s:FormItem id="walkingFormItem"
+							includeIn="walkingLayerEditing"
+							label="可用属性:">
+					<s:List id="walkingMaskList"
+							width="100%"
+							height="100%"
+							minHeight="160"
+							click="submit();"
+							itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.MaskBrushItemRenderer"
+							skinClass="statm.dev.mapeditor.ui.skins.LiteListSkin">
+						<s:layout>
+							<s:TileLayout horizontalGap="1"
+										  verticalGap="1"/>
+						</s:layout>
+					</s:List>
+				</s:FormItem>
+				<!-- 行走半透明层绘制 -->
+				<s:FormItem id="walkingOpaqueFormItem"
+							includeIn="walkingOpaqueLayerEditing"
+							label="可用属性:">
+					<s:List id="walkingOpaqueMaskList"
+							width="100%"
+							height="100%"
+							minHeight="160"
+							click="submit();"
+							itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.MaskBrushItemRenderer"
+							skinClass="statm.dev.mapeditor.ui.skins.LiteListSkin">
+						<s:layout>
+							<s:TileLayout horizontalGap="1"
+										  verticalGap="1"/>
+						</s:layout>
+					</s:List>
+				</s:FormItem>
+				<!-- 战斗层绘制 -->
+				<s:FormItem id="combatFormItem"
+							includeIn="combatLayerEditing"
+							label="可用属性:">
+					<s:List id="combatMaskList"
+							width="100%"
+							height="100%"
+							minHeight="160"
+							click="submit();"
+							itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.MaskBrushItemRenderer"
+							skinClass="statm.dev.mapeditor.ui.skins.LiteListSkin">
+						<s:layout>
+							<s:TileLayout horizontalGap="1"
+										  verticalGap="1"/>
+						</s:layout>
+					</s:List>
+				</s:FormItem>
+				<!-- 物件层绘制 -->
+				<s:FormItem id="itemsFormItem"
+							includeIn="itemLayerEditing"
+							label="选择物件:">
+					<s:layout>
+						<s:VerticalLayout gap="0"/>
+					</s:layout>
+					<s:TabBar id="itemsListFilterBar"
+							  dataProvider="{new ArrayList(['NPC', '怪物', '地图元素'])}"
+							  change="filterItems();"
+							  cornerRadius="0"/>
+					<s:List id="itemsList"
+							width="100%"
+							height="100%"
+							minHeight="160"
+							click="submit();"
+							itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.ItemDefinitionItemRenderer"
+							skinClass="statm.dev.mapeditor.ui.skins.LiteListSkin">
+						<s:layout>
+							<s:TileLayout horizontalGap="1"
+										  verticalGap="1"/>
+						</s:layout>
+					</s:List>
+				</s:FormItem>
+				<!-- 传送点属性 -->
+				<s:FormItem includeIn="teleportPointProps"
+							label="地图ID:">
+					<s:TextInput id="tiTeleportPointMapID"
+								 enter="submit();"
+								 focusOut="submit();"
+								 restrict="0-9"/>
+				</s:FormItem>
+				<s:FormItem includeIn="teleportPointProps"
+							label="坐标:">
+					<ui:CoordText id="ctTeleportPointCoord" coordChanged="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="teleportPointProps"
+							label="国家:">
+					<ui:NationSelector id="nsTeleportPoint"
+									   nationChanged="submit();"/>
+				</s:FormItem>
+				<!-- 连接点属性 -->
+				<s:FormItem includeIn="linkPointProps"
+							label="坐标:">
+					<ui:CoordText id="ctLinkPointCoord" coordChanged="submit();"/>
+<!--					<s:Button id="btnAddLinkDestination"
+							  label="添加连接终点"
+							  click="submit(btnAddLinkDestination);"/>-->
+				</s:FormItem>
+				<!-- 出生点属性 -->
+				<s:FormItem includeIn="bornPointProps"
+							label="坐标:">
+					<ui:CoordText id="ctBornPointCoord" coordChanged="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="bornPointProps"
+							label="国家:">
+					<ui:NationSelector id="nsBornPoint"
+									   nationChanged="submit();"/>
+				</s:FormItem>
+				<!-- 连接终点属性 -->
+				<s:FormItem includeIn="linkDestPointProps"
+							label="坐标:">
+					<ui:CoordText id="ctLinkDestPointCoord" coordChanged="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="linkDestPointProps"
+							label="地图ID:">
+					<s:TextInput id="tiLinkDestPointMapID"
+								 enter="submit();"
+								 focusOut="submit();"
+								 restrict="0-9"/>
+				</s:FormItem>
+				<s:FormItem includeIn="linkDestPointProps"
+							label="国家:">
+					<ui:NationSelector id="nsLinkDestPoint"
+									   nationChanged="submit();"/>
+				</s:FormItem>
+			</s:Form>
+		</s:Group>
+	</s:Scroller>
+</ui:MinimizablePanel>

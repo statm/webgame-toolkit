@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="40"
+		 height="100%">
+
+	<s:Group width="100%"
+			 height="100%">
+		<s:Rect width="100%"
+				height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#000000" alpha="0.5"/>
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#CCCCCC"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+
+	<s:VGroup gap="5"
+			  paddingTop="5"
+			  horizontalCenter="0"
+			  horizontalAlign="center">
+		<s:Button width="32"
+				  height="32"
+				  label="选"
+				  focusEnabled="false"/>
+		<s:Button width="32"
+				  height="32"
+				  label="掩"
+				  focusEnabled="false"/>
+		<s:Button width="32"
+				  height="32"
+				  label="擦"
+				  focusEnabled="false"/>
+		<s:Button width="32"
+				  height="32"
+				  label="特"
+				  focusEnabled="false"/>
+		<s:Button width="32"
+				  height="32"
+				  label="N"
+				  focusEnabled="false"/>
+	</s:VGroup>
+	
+	<!--<s:Group id="popUpBox" includeInLayout="false" x="50" y="50">
+		<s:VGroup>
+			<s:Button/>
+			<s:Button/>
+			<s:Button/>
+			<s:Button/>
+			<s:Button/>
+			<s:Button/>
+		</s:VGroup>
+	</s:Group>-->
+</s:Group>

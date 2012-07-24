@@ -6,23 +6,24 @@
 		 height="100%">
 	<fx:Script>
 		<![CDATA[
-			import mx.events.FlexEvent;
-			
+			import spark.events.IndexChangeEvent;
+
 			import statm.dev.spritebuilder.AppState;
 
-			protected function fileList_valueCommitHandler(event : FlexEvent) : void
+			private function fileList_changeHandler(event : IndexChangeEvent) : void
 			{
-				fileList.ensureIndexIsVisible(fileList.selectedIndex);
+				AppState.activeBatch = fileList.selectedItem;
+				AppState.activeBatch.currentFrameIndex = 0;
+				AppState.playStatus = 0;
 			}
 		]]>
 	</fx:Script>
 	<s:List id="fileList"
 			height="100%"
 			width="150"
-			dataProvider="{AppState.files}"
+			dataProvider="{AppState.batches}"
 			requireSelection="true"
-			selectedIndex="@{AppState.currentFrameIndex}"
-			valueCommit="fileList_valueCommitHandler(event)"
+			change="fileList_changeHandler(event)"
 			itemRenderer="statm.dev.spritebuilder.ui.skins.itemRenderers.FileListItemRenderer"
 			skinClass="statm.dev.spritebuilder.ui.skins.LiteListSkin"
 			borderVisible="false"/>

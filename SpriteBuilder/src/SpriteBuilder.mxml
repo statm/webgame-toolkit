@@ -10,6 +10,7 @@
 					   enterFrame="enterFrameHandler(event)"
 					   frameRate="30"
 					   showStatusBar="false"
+					   title="Sprite 拼合工具"
 					   nativeDragDrop.init="app_nativeDragDropHandler(event)"
 					   nativeDragEnter.init="app_nativeDragEnterHandler(event)">
 
@@ -24,9 +25,11 @@
 	</s:states>
 
 	<s:VGroup verticalCenter="0"
-			  left="0" right="0"
+			  left="0"
+			  right="0"
 			  horizontalAlign="center">
-		<s:Label includeIn="init,loading"
+		<s:Label id="lblStatus"
+				 includeIn="init,loading"
 				 text.init="拖动文件夹到这里"
 				 text.loading="正在读取文件"
 				 fontSize="24"

@@ -13,27 +13,31 @@
 
 			private function btnPlay_clickHandler(event : MouseEvent) : void
 			{
-				AppState.playStatus = (btnPlay.selected ? 1 : 0);
+				AppState.playStatus = (AppState.playStatus == 0 ? 1 : 0);
+				btnPlay.setStyle("icon", AppState.playStatus == 0 ? UIResource.PLAY_ICON : UIResource.PAUSE_ICON);
 			}
 
 			private function btnFF_clickHandler(event : MouseEvent) : void
 			{
-				AppState.currentFrameIndex++;
+				AppState.activeBatch.currentFrameIndex++;
 
 			}
 
 			private function btnRw_clickHandler(event : MouseEvent) : void
 			{
-				AppState.currentFrameIndex--;
+				AppState.activeBatch.currentFrameIndex--;
 			}
 
 			private var timerKey : uint;
+
+			[Bindable]
+			private var specialPlayingMode : Boolean = false;
 
 			private function startTimer(event : MouseEvent) : void
 			{
 				stage.addEventListener(MouseEvent.MOUSE_UP, stage_mouseUpHandler);
 				AppState.playStatus = 0;
-				btnPlay.selected = false;
+				btnPlay.setStyle("icon", UIResource.PLAY_ICON);
 
 				switch (event.currentTarget)
 				{
@@ -41,6 +45,7 @@
 						timerKey = setInterval(function() : void
 						{
 							AppState.playStatus = 1;
+							specialPlayingMode = true;
 						}, 400);
 						break;
 
@@ -48,6 +53,7 @@
 						timerKey = setInterval(function() : void
 						{
 							AppState.playStatus = -1;
+							specialPlayingMode = true;
 						}, 400);
 						break;
 				}
@@ -57,23 +63,29 @@
 			{
 				clearInterval(timerKey);
 				AppState.playStatus = 0;
+				specialPlayingMode = false;
 				stage.removeEventListener(MouseEvent.MOUSE_UP, stage_mouseUpHandler);
 			}
 		]]>
 	</fx:Script>
-	<s:ToggleButton id="btnPlay"
-					label="{btnPlay.selected ? '||' : '>'}"
-					click="btnPlay_clickHandler(event)"/>
+	<s:Button id="btnPlay"
+			  icon="{(AppState.playStatus == 0 || specialPlayingMode) ? UIResource.PLAY_ICON : UIResource.PAUSE_ICON}"
+			  width="40"
+			  height="24"
+			  toolTip="播放/停止"
+			  click="btnPlay_clickHandler(event)"/>
 	<s:Button id="btnFF"
-			  label=">>"
+			  icon="{UIResource.FF_ICON}"
+			  width="40"
+			  height="24"
+			  toolTip="后退一帧(长按可倒放)"
 			  click="btnFF_clickHandler(event)"
 			  mouseDown="startTimer(event)"/>
 	<s:Button id="btnRw"
-			  label="&lt;&lt;"
+			  icon="{UIResource.RW_ICON}"
+			  width="40"
+			  height="24"
+			  toolTip="前进一帧(长按可播放)"
 			  click="btnRw_clickHandler(event)"
 			  mouseDown="startTimer(event)"/>
-	<s:Button id="btnOK"
-			  label="OK"/>
-	<s:Button id="btnCancel"
-			  label="Cancel"/>
 </s:HGroup>

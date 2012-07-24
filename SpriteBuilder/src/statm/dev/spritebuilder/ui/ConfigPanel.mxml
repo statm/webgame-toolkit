@@ -23,8 +23,8 @@
 
 	<s:HSlider id="playSlider"
 			   showDataTip="false"
-			   value="@{AppState.currentFrameIndex}"
-			   maximum="{AppState.fileCount - 1}"
+			   value="@{AppState.activeBatch.currentFrameIndex}"
+			   maximum="{AppState.activeBatch.fileCount - 1}"
 			   width="100%"/>
 
 	<s:HGroup verticalAlign="middle">

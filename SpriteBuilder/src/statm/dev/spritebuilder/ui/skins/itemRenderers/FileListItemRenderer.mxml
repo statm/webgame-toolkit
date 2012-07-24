@@ -7,15 +7,16 @@
 
 	<fx:Script>
 		<![CDATA[
+			import statm.dev.spritebuilder.Batch;
 			override public function set data(value : Object) : void
 			{
 				super.data = value;
 
-				var file : File = value as File;
+				var batch : Batch = value as Batch;
 
-				if (file)
+				if (batch)
 				{
-					lblFileName.text = file.name;
+					lblFileName.text = batch.folder.name;
 				}
 			}
 		]]>

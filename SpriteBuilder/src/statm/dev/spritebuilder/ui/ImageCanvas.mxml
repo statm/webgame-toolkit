@@ -11,8 +11,8 @@
 		]]>
 	</fx:Script>
 	<s:Image id="image"
-			 source="{AppState.currentBitmapData}"
 			 horizontalCenter="0"
 			 verticalCenter="0"
+			 source="{AppState.activeBatch.currentBitmapData}"
 			 skinClass="statm.dev.spritebuilder.ui.skins.ImageBorderSkin"/>
 </s:BorderContainer>

@@ -154,7 +154,7 @@ package statm.dev.spritebuilder
 			var frame : BitmapData;
 			for (i = 0; i < l; i++)
 			{
-				frame = originalBitmaps[i];
+				frame = croppedBitmaps[i];
 
 				if (nextX + frame.width <= MAX_WIDTH)
 				{
@@ -178,7 +178,7 @@ package statm.dev.spritebuilder
 
 			for (i = 0; i < l; i++)
 			{
-				frame = originalBitmaps[i];
+				frame = croppedBitmaps[i];
 				assembledSprite.copyPixels(frame, frame.rect, framePos[i]);
 					//		var tf : TextField = new TextField();
 					//		tf.text = i.toString();

@@ -26,12 +26,6 @@ private function init() : void
 {
 	XML.prettyPrinting = true;
 	XML.prettyIndent = 4;
-
-//	===== DEBUG
-//	var folder : File = new File("C:\\Users\\Administrator\\Desktop\\frames");
-//	this.currentState = "loading";
-//	startLoading(folder);
-//	===========
 }
 
 protected function app_nativeDragEnterHandler(event : NativeDragEvent) : void
@@ -95,7 +89,7 @@ private function nextBatch(event : Event = null) : void
 	}
 
 	batchLoadingIndex++;
-	
+
 	lblStatus.text = "正在读取文件，第" + (batchLoadingIndex + 1) + "组，共" + AppState.batches.length + "组";
 
 	if (batchLoadingIndex < AppState.batches.length)
@@ -108,6 +102,22 @@ private function nextBatch(event : Event = null) : void
 	else
 	{
 		this.currentState = "config";
+
+		var c : int = AppState.batches.length;
+		while (--c > -1)
+		{
+			if (AppState.batches[c].files.length == 0)
+			{
+				AppState.batches.removeItemAt(c);
+			}
+		}
+		
+		if (AppState.batches.length == 0)
+		{
+			this.currentState = "init";
+			return;
+		}
+
 		AppState.activeBatch = AppState.batches[0];
 		AppState.activeBatch.currentFrameIndex = 0;
 	}

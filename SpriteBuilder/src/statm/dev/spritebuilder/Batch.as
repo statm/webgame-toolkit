@@ -80,6 +80,12 @@ package statm.dev.spritebuilder
 		public function load() : void
 		{
 			files = new ArrayCollection(FileUtils.filterImageFiles(folder));
+			if (files.length == 0)
+			{
+				dispatchEvent(new Event(Event.COMPLETE));
+				return;
+			}
+			
 			var sort : Sort = new Sort();
 			sort.compareFunction = FileUtils.compareFiles;
 			files.sort = sort;

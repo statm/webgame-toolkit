@@ -85,7 +85,7 @@ package statm.dev.spritebuilder
 				dispatchEvent(new Event(Event.COMPLETE));
 				return;
 			}
-			
+
 			var sort : Sort = new Sort();
 			sort.compareFunction = FileUtils.compareFiles;
 			files.sort = sort;
@@ -109,6 +109,7 @@ package statm.dev.spritebuilder
 			bitmapLoader = new Loader();
 			bitmapLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, loader_next);
 			loadingIndex = -1;
+			totalSize = 0.;
 			loader_next();
 		}
 
@@ -125,6 +126,8 @@ package statm.dev.spritebuilder
 				var cropped : BitmapData = new BitmapData(bound.width, bound.height, true, 0x00000000);
 				cropped.copyPixels(bitmapData, bound, new Point(0, 0));
 				croppedBitmaps[loadingIndex] = cropped;
+				
+				totalSize += bound.width * bound.height;
 			}
 			loadingIndex++;
 
@@ -138,14 +141,16 @@ package statm.dev.spritebuilder
 			{
 				assembleSprite();
 				writeConfigXML();
-				
+
 				dispatchEvent(new Event(Event.COMPLETE));
 			}
 		}
 
+		private var totalSize : Number;
+
 		private function assembleSprite() : void
 		{
-			var MAX_WIDTH : int = 2850;
+			var MAX_WIDTH : int = Math.sqrt(totalSize);
 			var nextX : int = 0, nextY : int = 0, lineHeight : int = 0, maxX : int = 0, maxY : int = 0;
 			var framePos : Vector.<Point> = framePos = new Vector.<Point>(fileCount, true);
 

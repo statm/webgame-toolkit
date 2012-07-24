@@ -6,13 +6,23 @@
 		 height="100%">
 	<fx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
+			
 			import statm.dev.spritebuilder.AppState;
+
+			protected function fileList_valueCommitHandler(event : FlexEvent) : void
+			{
+				fileList.ensureIndexIsVisible(fileList.selectedIndex);
+			}
 		]]>
 	</fx:Script>
 	<s:List id="fileList"
 			height="100%"
 			width="150"
 			dataProvider="{AppState.files}"
+			requireSelection="true"
+			selectedIndex="@{AppState.currentFrameIndex}"
+			valueCommit="fileList_valueCommitHandler(event)"
 			itemRenderer="statm.dev.spritebuilder.ui.skins.itemRenderers.FileListItemRenderer"
 			skinClass="statm.dev.spritebuilder.ui.skins.LiteListSkin"
 			borderVisible="false"/>

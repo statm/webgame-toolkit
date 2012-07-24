@@ -2,13 +2,16 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   backgroundColor="#E8E8E8"
+					   xmlns:ui="statm.dev.spritebuilder.ui.*"
 					   width="800"
 					   height="600"
-					   nativeDragEnter.init="app_nativeDragEnterHandler(event)"
-					   nativeDragDrop.init="app_nativeDragDropHandler(event)"
+					   backgroundColor="#E8E8E8"
+					   creationComplete="init();"
+					   enterFrame="enterFrameHandler(event)"
+					   frameRate="30"
 					   showStatusBar="false"
-					   xmlns:ui="statm.dev.spritebuilder.ui.*">
+					   nativeDragDrop.init="app_nativeDragDropHandler(event)"
+					   nativeDragEnter.init="app_nativeDragEnterHandler(event)">
 
 	<fx:Style source="styles/styles.css"/>
 
@@ -16,15 +19,28 @@
 
 	<s:states>
 		<s:State name="init"/>
+		<s:State name="loading"/>
 		<s:State name="config"/>
 	</s:states>
 
-	<s:Label includeIn="init"
-			 text="拖动文件夹到这里"
-			 fontSize="24"
-			 color="#888888"
-			 horizontalCenter="0"
-			 verticalCenter="0"/>
+	<s:VGroup verticalCenter="0"
+			  left="0" right="0"
+			  horizontalAlign="center">
+		<s:Label includeIn="init,loading"
+				 text.init="拖动文件夹到这里"
+				 text.loading="正在读取文件"
+				 fontSize="24"
+				 color="#888888"
+				 textAlign="center"/>
+		<mx:ProgressBar includeIn="init,loading"
+						id="loadingProgBar"
+						mode="manual"
+						label=""
+						alpha=".9"
+						visible.init="false"
+						visible.loading="true"/>
+	</s:VGroup>
+
 	<s:HGroup includeIn="config"
 			  left="0"
 			  right="0"
@@ -32,6 +48,6 @@
 			  bottom="0"
 			  gap="1">
 		<ui:FileListPanel id="fileListPanel"/>
-		<ui:ConfigPanel id="regPointPanel"/>
+		<ui:ConfigPanel id="configPanel"/>
 	</s:HGroup>
 </s:WindowedApplication>

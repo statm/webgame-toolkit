@@ -4,8 +4,76 @@
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
 		  horizontalAlign="center"
 		  width="100%">
-	<s:Button/>
-	<s:Button/>
-	<s:Button/>
-	<s:Button/>
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
+
+			import statm.dev.spritebuilder.AppState;
+
+			private function btnPlay_clickHandler(event : MouseEvent) : void
+			{
+				AppState.playStatus = (btnPlay.selected ? 1 : 0);
+			}
+
+			private function btnFF_clickHandler(event : MouseEvent) : void
+			{
+				AppState.currentFrameIndex++;
+
+			}
+
+			private function btnRw_clickHandler(event : MouseEvent) : void
+			{
+				AppState.currentFrameIndex--;
+			}
+
+			private var timerKey : uint;
+
+			private function startTimer(event : MouseEvent) : void
+			{
+				stage.addEventListener(MouseEvent.MOUSE_UP, stage_mouseUpHandler);
+				AppState.playStatus = 0;
+				btnPlay.selected = false;
+
+				switch (event.currentTarget)
+				{
+					case btnFF:
+						timerKey = setInterval(function() : void
+						{
+							AppState.playStatus = 1;
+						}, 400);
+						break;
+
+					case btnRw:
+						timerKey = setInterval(function() : void
+						{
+							AppState.playStatus = -1;
+						}, 400);
+						break;
+				}
+			}
+
+			private function stage_mouseUpHandler(event : MouseEvent) : void
+			{
+				clearInterval(timerKey);
+				AppState.playStatus = 0;
+				stage.removeEventListener(MouseEvent.MOUSE_UP, stage_mouseUpHandler);
+			}
+		]]>
+	</fx:Script>
+	<s:ToggleButton id="btnPlay"
+					label="{btnPlay.selected ? '||' : '>'}"
+					click="btnPlay_clickHandler(event)"/>
+	<s:Button id="btnFF"
+			  label=">>"
+			  click="btnFF_clickHandler(event)"
+			  mouseDown="startTimer(event)"/>
+	<s:Button id="btnRw"
+			  label="&lt;&lt;"
+			  click="btnRw_clickHandler(event)"
+			  mouseDown="startTimer(event)"/>
+	<s:Button id="btnOK"
+			  label="OK"/>
+	<s:Button id="btnCancel"
+			  label="Cancel"/>
 </s:HGroup>

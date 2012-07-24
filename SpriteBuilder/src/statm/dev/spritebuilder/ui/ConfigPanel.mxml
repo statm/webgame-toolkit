@@ -11,11 +11,23 @@
 		  paddingBottom="15"
 		  horizontalAlign="center"
 		  gap="15">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
 
-	<ui:ImageCanvas/>
+			import statm.dev.spritebuilder.AppState;
+		]]>
+	</fx:Script>
+
+	<ui:ImageCanvas id="imgCanvas"/>
 
 	<s:HSlider id="playSlider"
+			   showDataTip="false"
+			   value="@{AppState.currentFrameIndex}"
+			   maximum="{AppState.fileCount - 1}"
 			   width="100%"/>
 
-	<ui:PlaybackBar id="playbackBar"/>
+	<s:HGroup verticalAlign="middle">
+		<ui:PlaybackBar id="playbackBar"/>
+	</s:HGroup>
 </s:VGroup>

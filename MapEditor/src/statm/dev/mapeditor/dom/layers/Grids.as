@@ -28,7 +28,7 @@ package statm.dev.mapeditor.dom.layers
 			_children = new ArrayCollection([
 				_regionLayer = new RegionLayer(root),
 				_walkingLayer = new WalkingLayer(root),
-				_walkingOpaqueLayer = new WalkingOpaqueLayer(root),
+				_walkingShadowLayer = new WalkingShadowLayer(root),
 				_combatLayer = new CombatLayer(root)]);
 			_regionLayer.parent = _walkingLayer.parent = _combatLayer.parent = this;
 		}
@@ -47,11 +47,11 @@ package statm.dev.mapeditor.dom.layers
 			return _walkingLayer;
 		}
 
-		private var _walkingOpaqueLayer : WalkingOpaqueLayer;
+		private var _walkingShadowLayer : WalkingShadowLayer;
 
-		public function get walkingOpaqueLayer() : WalkingOpaqueLayer
+		public function get walkingShadowLayer() : WalkingShadowLayer
 		{
-			return _walkingOpaqueLayer;
+			return _walkingShadowLayer;
 		}
 
 		private var _combatLayer : CombatLayer;
@@ -110,7 +110,7 @@ package statm.dev.mapeditor.dom.layers
 
 			result.appendChild(regionLayer.toXML())
 				.appendChild(walkingLayer.toXML())
-				.appendChild(walkingOpaqueLayer.toXML())
+				.appendChild(walkingShadowLayer.toXML())
 				.appendChild(combatLayer.toXML());
 
 			return result;
@@ -123,7 +123,7 @@ package statm.dev.mapeditor.dom.layers
 
 			this.regionLayer.readXML(xml.regionLayer[0]);
 			this.walkingLayer.readXML(xml.walkingLayer[0]);
-			this.walkingOpaqueLayer.readXML(xml.walkingOpaqueLayer[0]);
+			this.walkingShadowLayer.readXML(xml.walkingShadowLayer[0]);
 			this.combatLayer.readXML(xml.combatLayer[0]);
 		}
 	}

@@ -13,7 +13,7 @@ package statm.dev.mapeditor.dom.brush
 
 		public static const WALKING : String = "WALKING";
 
-		public static const WALKING_OPAQUE : String = "WALKING_OPAQUE";
+		public static const WALKING_SHADOW : String = "WALKING_SHADOW";
 
 		public static const COMBAT : String = "COMBAT";
 

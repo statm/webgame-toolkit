@@ -9,6 +9,7 @@ package statm.dev.mapeditor.io
 	import statm.dev.mapeditor.dom.layers.CombatLayer;
 	import statm.dev.mapeditor.dom.layers.RegionLayer;
 	import statm.dev.mapeditor.dom.layers.WalkingLayer;
+	import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
 	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
@@ -95,10 +96,12 @@ package statm.dev.mapeditor.io
 
 			var regionLayer : RegionLayer = map.grids.regionLayer;
 			var walkingLayer : WalkingLayer = map.grids.walkingLayer;
+			var walkingShadowLayer : WalkingShadowLayer = map.grids.walkingShadowLayer;
 			var combatLayer : CombatLayer = map.grids.combatLayer;
 
 			var regionBrushID : int;
 			var walkingBrushID : int;
+			var walkingShadowBrushID: int;
 			var combatBrushID : int;
 
 			for (var i : int = 0; i < maxX; i++)
@@ -107,20 +110,23 @@ package statm.dev.mapeditor.io
 				{
 					var regionBrush : Brush = regionLayer.getMask(i, j);
 					var walkingBrush : Brush = walkingLayer.getMask(i, j);
+					var walkingShadowBrush : Brush = walkingShadowLayer.getMask(i, j);
 					var combatBrush : Brush = combatLayer.getMask(i, j);
 
 					regionBrushID = (regionBrush ? regionBrush.id : -1);
 					walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
+					walkingShadowBrushID = (walkingShadowBrush ? walkingShadowBrush.id : -1);
 					combatBrushID = (combatBrush ? combatBrush.id : -1);
 
 					if (regionBrushID == -1
 						&& walkingBrushID == -1
+						&& walkingShadowBrushID == -1
 						&& combatBrushID == -1)
 					{
 						continue;
 					}
 
-					hashString = regionBrushID + "|" + walkingBrushID + "|" + combatBrushID;
+					hashString = regionBrushID + "|" + walkingBrushID + "|" + walkingShadowBrushID + "|" + combatBrushID;
 
 					var plan : TilePlan = currentTilePlans[hashString] as TilePlan;
 
@@ -129,6 +135,7 @@ package statm.dev.mapeditor.io
 						plan = new TilePlan();
 						plan.id = ++planCount;
 						plan.region = regionBrush;
+						plan.walkingShadow = walkingShadowBrush;
 						plan.walking = walkingBrush;
 						plan.combat = combatBrush;
 
@@ -172,7 +179,6 @@ package statm.dev.mapeditor.io
 		{
 			var tpResult : XML = <teleporter-list/>;
 			var lpResult : XML = <link-point-list/>;
-			var bpResult : XML = <born-point-list/>;
 
 			for each (var node : DomObject in map.items.transportPoints.children)
 			{
@@ -184,13 +190,9 @@ package statm.dev.mapeditor.io
 				{
 					lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
 				}
-				else if (node is BornPoint)
-				{
-					bpResult.appendChild(generateBornPoint(BornPoint(node)));
-				}
 			}
 
-			return tpResult + lpResult + bpResult;
+			return tpResult + lpResult;
 		}
 
 		private function generateTeleportPoint(tp : TeleportPoint) : XML
@@ -249,24 +251,6 @@ package statm.dev.mapeditor.io
 			return result;
 		}
 
-		private function generateBornPoint(bp : BornPoint) : XML
-		{
-			var result : XML = <born-point>
-					<position col={bp.x} row={bp.y}/>
-				</born-point>;
-
-			var allowNationNode : XML = <allow-nation/>;
-
-			for each (var nation : String in bp.allowNations)
-			{
-				allowNationNode.appendChild(<nation>{nation}</nation>);
-			}
-
-			result.appendChild(allowNationNode);
-
-			return result;
-		}
-
 		private function generateWaypoints() : XML
 		{
 			var result : XML = <waypoint-list/>;
@@ -299,6 +283,7 @@ class TilePlan
 	public var id : int;
 	public var region : Brush;
 	public var walking : Brush;
+	public var walkingShadow : Brush;
 	public var combat : Brush;
 
 	public function toXML() : XML
@@ -307,6 +292,7 @@ class TilePlan
 				<id>{id}</id>
 				<site-id>{(region && region.data) ? region.data : "1"}</site-id>
 				<walk-state-limit>{(walking && walking.data) ? walking.data : ""}</walk-state-limit>
+				<walk-shadow>{(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}</walk-shadow>
 				<battle-type-limit>{(combat && combat.data) ? combat.data : ""}</battle-type-limit>
 			</tile-plan>;
 

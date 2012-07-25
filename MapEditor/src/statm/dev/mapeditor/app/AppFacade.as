@@ -4,7 +4,7 @@ package statm.dev.mapeditor.app
 	import org.puremvc.as3.patterns.facade.Facade;
 	
 	import statm.dev.mapeditor.commands.AppExitCommand;
-	import statm.dev.mapeditor.commands.BrowseMapFileCommand;
+	import statm.dev.mapeditor.commands.OpenMapFileCommand;
 	import statm.dev.mapeditor.commands.CloseMapFileCommand;
 	import statm.dev.mapeditor.commands.CreateMapFileCommand;
 	import statm.dev.mapeditor.commands.ExportClientMapCommand;
@@ -40,7 +40,7 @@ package statm.dev.mapeditor.app
 			super.initializeController();
 
 			this.registerCommand(AppNotificationCode.CREATE_MAP_FILE, CreateMapFileCommand);
-			this.registerCommand(AppNotificationCode.BROWSE_MAP_FILE, BrowseMapFileCommand);
+			this.registerCommand(AppNotificationCode.BROWSE_MAP_FILE, OpenMapFileCommand);
 			this.registerCommand(AppNotificationCode.SAVE_MAP_FILE, SaveMapFileCommand);
 			this.registerCommand(AppNotificationCode.CLOSE_MAP_FILE, CloseMapFileCommand);
 			this.registerCommand(AppNotificationCode.CLOSE_APP, AppExitCommand);

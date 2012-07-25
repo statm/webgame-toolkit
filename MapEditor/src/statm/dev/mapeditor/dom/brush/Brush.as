@@ -20,7 +20,7 @@ package statm.dev.mapeditor.dom.brush
 
 		public static const ERASE : Brush = new Brush("擦除", null, new UIResource.ERASE_ICON().bitmapData, BrushType.ERASE);
 
-		public function Brush(name : String = null, data : XMLList = null, icon : BitmapData = null, type : String = null) : void
+		public function Brush(name : String = null, data : String = null, icon : BitmapData = null, type : String = null) : void
 		{
 			_name = name;
 			_data = data;
@@ -50,9 +50,9 @@ package statm.dev.mapeditor.dom.brush
 			return _name;
 		}
 
-		private var _data : XMLList;
+		private var _data : String;
 
-		public function get data() : XMLList
+		public function get data() : String
 		{
 			return _data;
 		}
@@ -88,7 +88,7 @@ package statm.dev.mapeditor.dom.brush
 		{
 			this._id = xml.@id;
 			this._name = xml.@name;
-			this._data = XMLList(xml.data.toString());
+			this._data = xml.data.toString();
 			this._type = xml.type;
 			this._icon = BitmapCODECUtils.decode(xml.icon.toString(), BRUSH_WIDTH, BRUSH_HEIGHT);
 		}

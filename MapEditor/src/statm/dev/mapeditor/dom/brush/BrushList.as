@@ -16,23 +16,23 @@ package statm.dev.mapeditor.dom.brush
 		public function BrushList(enforcer : SingletonEnforcer) : void
 		{
 			addBrush(new Brush("可行走",
-				new XMLList(""),
-				new UIResource.WALK_ICON().bitmapData,
+				"",
+				new UIResource.WALKING_ICON().bitmapData,
 				BrushType.WALKING));
 			addBrush(new Brush("行走半透明",
-				new XMLList(""),
-				new UIResource.WALK_OPAQUE_ICON().bitmapData,
-				BrushType.WALKING_OPAQUE));
+				"true",
+				new UIResource.WALKING_SHADOW_ICON().bitmapData,
+				BrushType.WALKING_SHADOW));
 			addBrush(new Brush("PVE",
-				new XMLList("<battleType>PVP</battleType>"),
+				"<battleType>PVP</battleType>",
 				new UIResource.PVE_ICON().bitmapData,
 				BrushType.COMBAT));
 			addBrush(new Brush("PVE/PVP",
-				new XMLList(""),
+				"",
 				new UIResource.PVE_AND_PVP_ICON().bitmapData,
 				BrushType.COMBAT));
 			addBrush(new Brush("PVP",
-				new XMLList("<battleType>PVE</battleType>"),
+				"<battleType>PVE</battleType>",
 				new UIResource.PVP_ICON().bitmapData,
 				BrushType.COMBAT));
 		}
@@ -41,7 +41,7 @@ package statm.dev.mapeditor.dom.brush
 
 		public var walkingBrushes : ArrayCollection = new ArrayCollection();
 
-		public var walkingOpaqueBrushes : ArrayCollection = new ArrayCollection();
+		public var walkingShadowBrushes : ArrayCollection = new ArrayCollection();
 
 		public var combatBrushes : ArrayCollection = new ArrayCollection();
 
@@ -60,7 +60,7 @@ package statm.dev.mapeditor.dom.brush
 				result.appendChild(brush.toXML());
 			}
 
-			for each (brush in walkingOpaqueBrushes)
+			for each (brush in walkingShadowBrushes)
 			{
 				result.appendChild(brush.toXML());
 			}
@@ -77,7 +77,7 @@ package statm.dev.mapeditor.dom.brush
 		{
 			regionBrushes.removeAll();
 			walkingBrushes.removeAll();
-			walkingOpaqueBrushes.removeAll();
+			walkingShadowBrushes.removeAll();
 			combatBrushes.removeAll();
 			brushArray.length = 0;
 
@@ -103,8 +103,8 @@ package statm.dev.mapeditor.dom.brush
 					walkingBrushes.addItem(brush);
 					break;
 
-				case BrushType.WALKING_OPAQUE:
-					walkingOpaqueBrushes.addItem(brush);
+				case BrushType.WALKING_SHADOW:
+					walkingShadowBrushes.addItem(brush);
 					break;
 
 				case BrushType.COMBAT:

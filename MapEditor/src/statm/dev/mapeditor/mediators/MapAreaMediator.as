@@ -77,7 +77,7 @@ package statm.dev.mapeditor.mediators
 						currentMap.bgLayer.display = mapArea.mapImage;
 						currentMap.grids.display = mapArea.grids;
 						currentMap.grids.walkingLayer.display = mapArea.walkingLayer;
-						currentMap.grids.walkingOpaqueLayer.display = mapArea.walkingOpaqueLayer;
+						currentMap.grids.walkingShadowLayer.display = mapArea.walkingShadowLayer;
 						currentMap.grids.regionLayer.display = mapArea.regionLayer;
 						currentMap.grids.combatLayer.display = mapArea.combatLayer;
 						currentMap.items.display = mapArea.items;
@@ -140,7 +140,7 @@ package statm.dev.mapeditor.mediators
 					mapArea.mapImage.source = null;
 					mapArea.gridDisplay.clear();
 					mapArea.walkingLayer.clear();
-					mapArea.walkingOpaqueLayer.clear();
+					mapArea.walkingShadowLayer.clear();
 					mapArea.regionLayer.clear();
 					mapArea.combatLayer.clear();
 					mapArea.maskDrawingLayer.clear();

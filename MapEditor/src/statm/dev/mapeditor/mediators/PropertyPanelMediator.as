@@ -24,7 +24,7 @@ package statm.dev.mapeditor.mediators
 	import statm.dev.mapeditor.dom.layers.RegionLayer;
 	import statm.dev.mapeditor.dom.layers.TransportPoints;
 	import statm.dev.mapeditor.dom.layers.WalkingLayer;
-	import statm.dev.mapeditor.dom.layers.WalkingOpaqueLayer;
+	import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
 	import statm.dev.mapeditor.dom.layers.WaypointLayer;
 	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
@@ -119,9 +119,9 @@ package statm.dev.mapeditor.mediators
 			{
 				panel.currentState = "walkingLayerEditing";
 			}
-			else if (selection is WalkingOpaqueLayer)
+			else if (selection is WalkingShadowLayer)
 			{
-				panel.currentState = "walkingOpaqueLayerEditing";
+				panel.currentState = "walkingShadowLayerEditing";
 			}
 			else if (selection is CombatLayer)
 			{
@@ -200,10 +200,10 @@ package statm.dev.mapeditor.mediators
 					}
 					break;
 
-				case "walkingOpaqueLayerEditing":
-					if (panel.walkingOpaqueMaskList.selectedItem)
+				case "walkingShadowLayerEditing":
+					if (panel.walkingShadowMaskList.selectedItem)
 					{
-						AppState.startDrawingMask(panel.walkingOpaqueMaskList.selectedItem);
+						AppState.startDrawingMask(panel.walkingShadowMaskList.selectedItem);
 					}
 					break;
 
@@ -298,11 +298,11 @@ package statm.dev.mapeditor.mediators
 				panel.walkingMaskList.dataProvider = new ArrayList(list);
 			}
 
-			if (panel.walkingOpaqueMaskList)
+			if (panel.walkingShadowMaskList)
 			{
-				list = currentMap.brushList.walkingOpaqueBrushes.toArray();
+				list = currentMap.brushList.walkingShadowBrushes.toArray();
 				list.unshift(Brush.ERASE);
-				panel.walkingOpaqueMaskList.dataProvider = new ArrayList(list);
+				panel.walkingShadowMaskList.dataProvider = new ArrayList(list);
 			}
 
 			if (panel.combatMaskList)
@@ -342,11 +342,11 @@ package statm.dev.mapeditor.mediators
 				list.unshift(Brush.ERASE);
 				panel.walkingMaskList.dataProvider = new ArrayList(list);
 			}
-			else if (event.target == panel.walkingOpaqueFormItem)
+			else if (event.target == panel.walkingShadowFormItem)
 			{
-				list = currentMap.brushList.walkingOpaqueBrushes.toArray();
+				list = currentMap.brushList.walkingShadowBrushes.toArray();
 				list.unshift(Brush.ERASE);
-				panel.walkingOpaqueMaskList.dataProvider = new ArrayList(list);
+				panel.walkingShadowMaskList.dataProvider = new ArrayList(list);
 			}
 			else if (event.target == panel.combatFormItem)
 			{

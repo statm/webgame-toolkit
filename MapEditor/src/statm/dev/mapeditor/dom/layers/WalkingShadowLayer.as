@@ -9,9 +9,9 @@ package statm.dev.mapeditor.dom.layers
 	 * @author statm
 	 *
 	 */
-	public class WalkingOpaqueLayer extends MaskLayerBase
+	public class WalkingShadowLayer extends MaskLayerBase
 	{
-		public function WalkingOpaqueLayer(root : DomNode)
+		public function WalkingShadowLayer(root : DomNode)
 		{
 			super(root);
 
@@ -22,7 +22,7 @@ package statm.dev.mapeditor.dom.layers
 		{
 			var result : XML = super.toXML();
 
-			result.setName("walkingOpaqueLayer");
+			result.setName("walkingShadowLayer");
 
 			return result;
 		}

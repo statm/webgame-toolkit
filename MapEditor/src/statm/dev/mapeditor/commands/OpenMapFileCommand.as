@@ -21,9 +21,9 @@ package statm.dev.mapeditor.commands
 	 * @author statm
 	 *
 	 */
-	public class BrowseMapFileCommand extends SimpleCommand
+	public class OpenMapFileCommand extends SimpleCommand
 	{
-		public function BrowseMapFileCommand()
+		public function OpenMapFileCommand()
 		{
 			super();
 		}

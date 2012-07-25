@@ -91,7 +91,7 @@
 			<s:Group id="grids">
 				<ui:BigBitmap id="gridDisplay"/>
 				<ui:BigBitmap id="walkingLayer"/>
-				<ui:BigBitmap id="walkingOpaqueLayer"/>
+				<ui:BigBitmap id="walkingShadowLayer"/>
 				<ui:BigBitmap id="regionLayer"/>
 				<ui:BigBitmap id="combatLayer"/>
 

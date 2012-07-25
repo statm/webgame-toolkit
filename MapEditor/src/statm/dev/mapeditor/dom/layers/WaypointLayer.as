@@ -74,7 +74,7 @@ package statm.dev.mapeditor.dom.layers
 			{
 				super.addItem(waypoint);
 				redrawShadow(waypoint);
-				connectAdjacantWaypoints(waypoint);
+				connectAdjacentWaypoints(waypoint);
 				waypointDic[waypoint.wid] = waypoint;
 			}
 		}
@@ -88,7 +88,7 @@ package statm.dev.mapeditor.dom.layers
 
 		public function removeConnection(connection : WaypointConnection) : void
 		{
-			Waypoint(connection.endPoints[0]).removeAdjacantWaypoint(Waypoint(connection.endPoints[1]));
+			Waypoint(connection.endPoints[0]).removeAdjacentWaypoint(Waypoint(connection.endPoints[1]));
 			lineLayer.removeElement(IVisualElement(connection.display));
 			var lineKey : String = getLineKey(Waypoint(connection.endPoints[0]), Waypoint(connection.endPoints[1]));
 			if (connectionDic[lineKey] == connection)
@@ -116,10 +116,10 @@ package statm.dev.mapeditor.dom.layers
 			removeShadow(waypoint);
 			delete waypointDic[waypoint.wid];
 
-			var i : int = waypoint.adjacantWaypoints.length;
+			var i : int = waypoint.adjacentWaypoints.length;
 			while (--i > -1)
 			{
-				var wp : Waypoint = Waypoint(waypoint.adjacantWaypoints[i]);
+				var wp : Waypoint = Waypoint(waypoint.adjacentWaypoints[i]);
 				var key : String = getLineKey(wp, waypoint);
 				var conn : WaypointConnection = connectionDic[key] as WaypointConnection;
 				removeConnection(conn);
@@ -156,7 +156,7 @@ package statm.dev.mapeditor.dom.layers
 			}
 		}
 
-		public function connectAdjacantWaypoints(waypoint : Waypoint, createPath : Boolean = true) : void
+		public function connectAdjacentWaypoints(waypoint : Waypoint, createPath : Boolean = true) : void
 		{
 			var wp : Waypoint;
 			var connection : WaypointConnection;
@@ -176,9 +176,9 @@ package statm.dev.mapeditor.dom.layers
 					if (GridUtils.distance(wp, waypoint) <= GridUtils.WAYPOINT_DIST_THRESHOLD
 						&& isPathAvailable(GridUtils.getPathBetween(new Point(wp.x, wp.y), new Point(waypoint.x, waypoint.y))))
 					{
-						if (!waypoint.isAdjacantTo(wp))
+						if (!waypoint.isAdjacentTo(wp))
 						{
-							waypoint.addAdjacantWaypoint(wp);
+							waypoint.addAdjacentWaypoint(wp);
 						}
 
 						lineKey = getLineKey(wp, waypoint);
@@ -194,9 +194,9 @@ package statm.dev.mapeditor.dom.layers
 					}
 					else
 					{
-						if (waypoint.isAdjacantTo(wp))
+						if (waypoint.isAdjacentTo(wp))
 						{
-							waypoint.removeAdjacantWaypoint(wp);
+							waypoint.removeAdjacentWaypoint(wp);
 
 							lineKey = getLineKey(wp, waypoint);
 							connection = connectionDic[lineKey] as WaypointConnection;
@@ -211,7 +211,7 @@ package statm.dev.mapeditor.dom.layers
 			}
 			else
 			{
-				for each (wp in waypoint.adjacantWaypoints)
+				for each (wp in waypoint.adjacentWaypoints)
 				{
 					lineKey = getLineKey(wp, waypoint);
 					connection = connectionDic[lineKey] as WaypointConnection;
@@ -292,15 +292,15 @@ package statm.dev.mapeditor.dom.layers
 
 			for each (var wp : Waypoint in children)
 			{
-				for each (var wid : int in wp.adjacantWaypointIDs)
+				for each (var wid : int in wp.adjacentWaypointIDs)
 				{
 					if (wid < wp.wid)
 					{
-						wp.addAdjacantWaypoint(waypointDic[wid]);
+						wp.addAdjacentWaypoint(waypointDic[wid]);
 					}
 				}
 
-				connectAdjacantWaypoints(wp, false);
+				connectAdjacentWaypoints(wp, false);
 			}
 		}
 

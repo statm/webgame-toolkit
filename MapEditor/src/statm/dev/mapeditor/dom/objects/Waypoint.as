@@ -18,7 +18,7 @@ package statm.dev.mapeditor.dom.objects
 		{
 			super(root);
 			_name = "路点";
-			_adjacantWaypoints = [];
+			_adjacentWaypoints = [];
 
 			_wid = ++WID;
 		}
@@ -30,36 +30,36 @@ package statm.dev.mapeditor.dom.objects
 			return _wid;
 		}
 
-		private var _adjacantWaypoints : Array;
+		private var _adjacentWaypoints : Array;
 
-		public function get adjacantWaypoints() : Array
+		public function get adjacentWaypoints() : Array
 		{
-			return _adjacantWaypoints;
+			return _adjacentWaypoints;
 		}
 
-		public function addAdjacantWaypoint(wp : Waypoint) : void
+		public function addAdjacentWaypoint(wp : Waypoint) : void
 		{
-			if (_adjacantWaypoints.indexOf(wp) == -1)
+			if (_adjacentWaypoints.indexOf(wp) == -1)
 			{
-				_adjacantWaypoints.push(wp);
-				wp._adjacantWaypoints.push(this);
+				_adjacentWaypoints.push(wp);
+				wp._adjacentWaypoints.push(this);
 			}
 		}
 
-		public function isAdjacantTo(wp : Waypoint) : Boolean
+		public function isAdjacentTo(wp : Waypoint) : Boolean
 		{
-			return (_adjacantWaypoints.indexOf(wp) != -1);
+			return (_adjacentWaypoints.indexOf(wp) != -1);
 		}
 
-		public function removeAdjacantWaypoint(wp : Waypoint) : void
+		public function removeAdjacentWaypoint(wp : Waypoint) : void
 		{
-			var index : int = _adjacantWaypoints.indexOf(wp);
+			var index : int = _adjacentWaypoints.indexOf(wp);
 
 			if (index != -1)
 			{
-				_adjacantWaypoints.splice(index, 1);
-				var thisIndex : int = wp._adjacantWaypoints.indexOf(this);
-				wp._adjacantWaypoints.splice(thisIndex, 1);
+				_adjacentWaypoints.splice(index, 1);
+				var thisIndex : int = wp._adjacentWaypoints.indexOf(this);
+				wp._adjacentWaypoints.splice(thisIndex, 1);
 			}
 		}
 
@@ -69,7 +69,7 @@ package statm.dev.mapeditor.dom.objects
 			if (parent)
 			{
 				WaypointLayer(parent).redrawShadow(this);
-				WaypointLayer(parent).connectAdjacantWaypoints(this);
+				WaypointLayer(parent).connectAdjacentWaypoints(this);
 			}
 		}
 
@@ -79,7 +79,7 @@ package statm.dev.mapeditor.dom.objects
 			if (parent)
 			{
 				WaypointLayer(parent).redrawShadow(this);
-				WaypointLayer(parent).connectAdjacantWaypoints(this);
+				WaypointLayer(parent).connectAdjacentWaypoints(this);
 			}
 		}
 
@@ -87,14 +87,14 @@ package statm.dev.mapeditor.dom.objects
 		{
 			super.parent = value;
 			WaypointLayer(parent).redrawShadow(this);
-			WaypointLayer(parent).connectAdjacantWaypoints(this);
+			WaypointLayer(parent).connectAdjacentWaypoints(this);
 		}
 
-		public var adjacantWaypointIDs : Vector.<int> = new Vector.<int>();
+		public var adjacentWaypointIDs : Vector.<int> = new Vector.<int>();
 
 		override public function readXML(xml : XML) : void
 		{
-			adjacantWaypointIDs.length = 0;
+			adjacentWaypointIDs.length = 0;
 
 			x = xml.@x;
 			y = xml.@y;
@@ -108,7 +108,7 @@ package statm.dev.mapeditor.dom.objects
 				var adjWid : int = parseInt(adj.toString());
 				if (adjWid < _wid)
 				{
-					adjacantWaypointIDs.push(adjWid);
+					adjacentWaypointIDs.push(adjWid);
 				}
 			}
 		}
@@ -135,7 +135,7 @@ package statm.dev.mapeditor.dom.objects
 		{
 			var result : XML = <waypoint x={x} y={y} wid={wid}/>;
 
-			for each (var wp : Waypoint in adjacantWaypoints)
+			for each (var wp : Waypoint in adjacentWaypoints)
 			{
 				result.appendChild(<adj>{wp.wid}</adj>);
 			}

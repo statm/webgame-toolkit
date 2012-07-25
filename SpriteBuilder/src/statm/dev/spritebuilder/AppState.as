@@ -1,11 +1,5 @@
 package statm.dev.spritebuilder
 {
-	import flash.display.BitmapData;
-	import flash.display.Sprite;
-	import flash.filesystem.File;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	
 	import mx.collections.ArrayCollection;
 
 	/**
@@ -38,11 +32,6 @@ package statm.dev.spritebuilder
 			{
 				_playStatus = value;
 			}
-		}
-		
-		public static function reset():void
-		{
-			batches = new ArrayCollection();
 		}
 	}
 }

@@ -12,7 +12,9 @@
 					   showStatusBar="false"
 					   title="Sprite 拼合工具"
 					   nativeDragDrop.init="app_nativeDragDropHandler(event)"
-					   nativeDragEnter.init="app_nativeDragEnterHandler(event)">
+					   nativeDragEnter.init="app_nativeDragEnterHandler(event)"
+					   nativeDragDrop.config="app_nativeDragDropHandler(event)"
+					   nativeDragEnter.config="app_nativeDragEnterHandler(event)">
 
 	<fx:Style source="styles/styles.css"/>
 

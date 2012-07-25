@@ -1,23 +1,9 @@
 import flash.desktop.ClipboardFormats;
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.display.Loader;
 import flash.events.Event;
 import flash.events.NativeDragEvent;
-import flash.events.ProgressEvent;
 import flash.filesystem.File;
-import flash.filesystem.FileMode;
-import flash.filesystem.FileStream;
-import flash.geom.Point;
-import flash.geom.Rectangle;
-import flash.net.URLRequest;
-import flash.utils.ByteArray;
 
-import mx.collections.ArrayCollection;
-import mx.graphics.codec.PNGEncoder;
 import mx.managers.DragManager;
-
-import spark.collections.Sort;
 
 import statm.dev.spritebuilder.AppState;
 import statm.dev.spritebuilder.Batch;
@@ -49,6 +35,8 @@ protected function app_nativeDragEnterHandler(event : NativeDragEvent) : void
 				return;
 			}
 		}
+
+		this.currentState = "init";
 		DragManager.acceptDragDrop(this);
 	}
 }
@@ -56,7 +44,9 @@ protected function app_nativeDragEnterHandler(event : NativeDragEvent) : void
 protected function app_nativeDragDropHandler(event : NativeDragEvent) : void
 {
 	this.currentState = "loading";
-	AppState.reset();
+
+	AppState.batches.removeAll();
+	batchLoadingIndex = AppState.batches.length - 1;
 
 	var folders : Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
 	for each (var folder : File in folders)
@@ -73,7 +63,6 @@ private var batchLoadingIndex : int;
 
 private function startBatchLoading() : void
 {
-	batchLoadingIndex = -1;
 	nextBatch();
 }
 
@@ -111,7 +100,7 @@ private function nextBatch(event : Event = null) : void
 				AppState.batches.removeItemAt(c);
 			}
 		}
-		
+
 		if (AppState.batches.length == 0)
 		{
 			this.currentState = "init";

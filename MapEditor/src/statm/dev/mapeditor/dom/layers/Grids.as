@@ -2,9 +2,9 @@ package statm.dev.mapeditor.dom.layers
 {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	
+
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.mapeditor.app.AppFacade;
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.MapEditingActions;

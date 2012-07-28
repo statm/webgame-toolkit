@@ -10,7 +10,8 @@
 		<s:Rect width="100%"
 				height="100%">
 			<s:stroke>
-				<s:SolidColorStroke color="#000000" alpha="0.5"/>
+				<s:SolidColorStroke color="#000000"
+									alpha="0.5"/>
 			</s:stroke>
 			<s:fill>
 				<s:SolidColor color="#CCCCCC"/>
@@ -43,7 +44,7 @@
 				  label="N"
 				  focusEnabled="false"/>
 	</s:VGroup>
-	
+
 	<!--<s:Group id="popUpBox" includeInLayout="false" x="50" y="50">
 		<s:VGroup>
 			<s:Button/>

@@ -2,7 +2,7 @@ package statm.dev.mapeditor.utils
 {
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
-	
+
 	import mx.utils.Base64Decoder;
 	import mx.utils.Base64Encoder;
 
@@ -36,7 +36,7 @@ package statm.dev.mapeditor.utils
 
 			var decoder : Base64Decoder = new Base64Decoder();
 			decoder.decode(base64);
-			var bitmapByteArray:ByteArray = decoder.flush();
+			var bitmapByteArray : ByteArray = decoder.flush();
 			bitmapByteArray.uncompress();
 			result.setPixels(result.rect, bitmapByteArray);
 

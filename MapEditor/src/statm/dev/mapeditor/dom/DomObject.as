@@ -4,14 +4,14 @@ package statm.dev.mapeditor.dom
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
 	import flash.geom.Rectangle;
-	
+
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColorStroke;
-	
+
 	import spark.components.Group;
 	import spark.primitives.Rect;
 	import spark.primitives.supportClasses.GraphicElement;
-	
+
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.utils.GridUtils;

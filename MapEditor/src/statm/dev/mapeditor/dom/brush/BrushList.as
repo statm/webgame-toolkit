@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.brush
 {
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.mapeditor.io.IXMLSerializable;
 	import statm.dev.mapeditor.ui.UIResource;
 

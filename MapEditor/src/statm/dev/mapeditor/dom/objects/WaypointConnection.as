@@ -1,11 +1,11 @@
 package statm.dev.mapeditor.dom.objects
 {
 	import mx.graphics.SolidColorStroke;
-	
+
 	import spark.core.SpriteVisualElement;
 	import spark.filters.GlowFilter;
 	import spark.primitives.Line;
-	
+
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.layers.WaypointLayer;
@@ -31,14 +31,14 @@ package statm.dev.mapeditor.dom.objects
 		public var endPoints : Array;
 
 		public var line : Line;
-		
-		override public function select():void
+
+		override public function select() : void
 		{
 			super.select();
 			WaypointLayer(parent).light();
 		}
-		
-		override public function deselect():void
+
+		override public function deselect() : void
 		{
 			super.deselect();
 			WaypointLayer(parent).dim();

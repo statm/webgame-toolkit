@@ -5,25 +5,27 @@
 				width="60"
 				height="60"
 				autoDrawBackground="true">
-	
+
 	<fx:Script>
 		<![CDATA[
-			override public function set data(value:Object):void
+			override public function set data(value : Object) : void
 			{
 				super.data = value;
-				
+
 				icon.source = data.icon;
 				brushLabel.text = data.name;
 			}
 		]]>
 	</fx:Script>
-	
-	<s:Group verticalCenter="0" width="100%">
+
+	<s:Group verticalCenter="0"
+			 width="100%">
 		<s:layout>
 			<s:VerticalLayout horizontalAlign="center"/>
 		</s:layout>
-		
+
 		<s:BitmapImage id="icon"/>
-		<s:Label id="brushLabel" textAlign="center"/>
+		<s:Label id="brushLabel"
+				 textAlign="center"/>
 	</s:Group>
 </s:ItemRenderer>

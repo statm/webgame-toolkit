@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<anime>	<fullSize>2760,1384</fullSize>
+<anime>
+	<fullSize>2760,1384</fullSize>
 	<offset>46,45</offset>
 	<sourceFrameSize>320,320</sourceFrameSize>
 	<frame>12</frame>

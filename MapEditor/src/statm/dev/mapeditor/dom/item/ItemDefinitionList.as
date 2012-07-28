@@ -1,9 +1,9 @@
 package statm.dev.mapeditor.dom.item
 {
 	import flash.utils.Dictionary;
-	
+
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.mapeditor.io.IXMLSerializable;
 
 	/**
@@ -59,7 +59,7 @@ package statm.dev.mapeditor.dom.item
 		public function readXML(xml : XML) : void
 		{
 			_itemDefinitions.removeAll();
-			
+
 			addBuiltinItemDefs();
 
 			for each (var itemDefXML : XML in xml.itemDefinitionList)

@@ -1,12 +1,12 @@
 package statm.dev.mapeditor.mediators
 {
 	import mx.collections.ArrayCollection;
-	
+
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-	
+
 	import spark.events.IndexChangeEvent;
-	
+
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomNode;
@@ -74,7 +74,7 @@ package statm.dev.mapeditor.mediators
 						panel.layerTree.expandItem(map.items.transportPoints);
 						panel.layerTree.selectedItem = selection;
 					}
-					
+
 					if (selection is LinkDestPoint)
 					{
 						panel.layerTree.expandItem(LinkDestPoint(selection).parent);

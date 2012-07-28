@@ -244,7 +244,7 @@ package statm.dev.mapeditor.io
 					<position col={bp.x} row={bp.y}/>
 					<allowNation/>
 				</bornPoint>;
-			
+
 			for each (var nation : String in bp.allowNations)
 			{
 				result.allowNation.appendChild(<nation>{nation}</nation>);

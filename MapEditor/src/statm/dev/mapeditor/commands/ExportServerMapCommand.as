@@ -5,12 +5,12 @@ package statm.dev.mapeditor.commands
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
-	
+
 	import mx.controls.Alert;
-	
+
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
-	
+
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.io.ServerWriter;
@@ -59,7 +59,7 @@ package statm.dev.mapeditor.commands
 			{
 				fileStream.open(fileToSave, FileMode.WRITE);
 				fileStream.writeMultiByte('<?xml version="1.0" encoding="utf-8"?>\n'
-											+ mapXML.toXMLString(), "utf-8");
+					+ mapXML.toXMLString(), "utf-8");
 				fileStream.close();
 			});
 

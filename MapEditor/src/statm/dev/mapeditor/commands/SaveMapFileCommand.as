@@ -68,7 +68,7 @@ package statm.dev.mapeditor.commands
 				fileStream.open(fileToSave, FileMode.WRITE);
 				fileStream.writeMultiByte(mapXML.toXMLString(), "utf-8");
 				fileStream.close();
-				
+
 				map.filePath = fileToSave.nativePath;
 
 				sendNotification(AppNotificationCode.MAP_FILE_SAVED);
@@ -93,7 +93,7 @@ package statm.dev.mapeditor.commands
 					fileStream.open(fileToSave, FileMode.WRITE);
 					fileStream.writeMultiByte(mapXML.toXMLString(), "utf-8");
 					fileStream.close();
-					
+
 					map.filePath = fileToSave.nativePath;
 
 					sendNotification(AppNotificationCode.MAP_FILE_SAVED);

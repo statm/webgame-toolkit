@@ -4,14 +4,14 @@ package statm.dev.mapeditor.dom.objects
 	import flash.filters.GlowFilter;
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.core.IVisualElement;
 	import mx.graphics.SolidColorStroke;
-	
+
 	import spark.components.Group;
 	import spark.primitives.Line;
-	
+
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.item.ItemFactory;

@@ -1,10 +1,10 @@
 package statm.dev.mapeditor.dom.objects
 {
 	import mx.collections.ArrayCollection;
-	
+
 	import spark.components.Group;
 	import spark.components.Image;
-	
+
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.DomObject;

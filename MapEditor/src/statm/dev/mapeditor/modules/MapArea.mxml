@@ -23,9 +23,9 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
-			
+
 			import spark.effects.easing.Sine;
-			
+
 			import statm.dev.mapeditor.app.AppFacade;
 			import statm.dev.mapeditor.mediators.MapAreaMediator;
 			import statm.dev.mapeditor.utils.GridUtils;

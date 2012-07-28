@@ -8,9 +8,9 @@
 	<fx:Script>
 		<![CDATA[
 			import com.sparkTree.Tree;
-			
+
 			import mx.events.FlexEvent;
-			
+
 			import statm.dev.mapeditor.app.AppState;
 			import statm.dev.mapeditor.dom.DomNode;
 			import statm.dev.mapeditor.dom.Map;
@@ -152,7 +152,7 @@
 				}
 				else if (node is Waypoint)
 				{
-					var wp:Waypoint = Waypoint(node);
+					var wp : Waypoint = Waypoint(node);
 					result = "(" + wp.x + "," + wp.y + ")";
 				}
 

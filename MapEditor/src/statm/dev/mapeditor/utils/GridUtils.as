@@ -140,7 +140,7 @@ package statm.dev.mapeditor.utils
 			for (var i : int = 0; i <= steps; i++)
 			{
 				var point : Point = new Point(grid1.x * GRID_WIDTH + GRID_WIDTH / 2 + dx * i / steps,
-												grid1.y * GRID_HEIGHT + GRID_HEIGHT / 2 + dy * i / steps);
+					grid1.y * GRID_HEIGHT + GRID_HEIGHT / 2 + dy * i / steps);
 				var grid : Point = globalToGrid(point);
 
 				if (!lastGrid ||

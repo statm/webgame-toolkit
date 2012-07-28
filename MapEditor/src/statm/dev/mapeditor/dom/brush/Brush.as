@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.brush
 {
 	import flash.display.BitmapData;
-	
+
 	import statm.dev.mapeditor.io.IXMLSerializable;
 	import statm.dev.mapeditor.ui.UIResource;
 	import statm.dev.mapeditor.utils.BitmapCODECUtils;

@@ -1,11 +1,11 @@
 package statm.dev.mapeditor.ui
 {
 	import flash.events.MouseEvent;
-	
+
 	import spark.components.Group;
 	import spark.components.Panel;
 	import spark.effects.Resize;
-	
+
 	import statm.dev.mapeditor.ui.skins.MinimizablePanelSkin;
 
 

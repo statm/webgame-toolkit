@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom
 {
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.mapeditor.app.AppFacade;
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.MapEditingActions;

@@ -33,7 +33,7 @@ package statm.dev.mapeditor.dom.layers
 		override public function readXML(xml : XML) : void
 		{
 			ItemFactory.domRoot = root;
-			
+
 			for each (var pointXML : XML in xml.children())
 			{
 				this.addItem(ItemFactory.createItemFromXML(pointXML));

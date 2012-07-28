@@ -2,7 +2,7 @@ package statm.dev.mapeditor.commands
 {
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
-	
+
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.Map;

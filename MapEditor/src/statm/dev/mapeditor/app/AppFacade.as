@@ -2,7 +2,7 @@ package statm.dev.mapeditor.app
 {
 	import org.puremvc.as3.interfaces.IFacade;
 	import org.puremvc.as3.patterns.facade.Facade;
-	
+
 	import statm.dev.mapeditor.commands.AppExitCommand;
 	import statm.dev.mapeditor.commands.OpenMapFileCommand;
 	import statm.dev.mapeditor.commands.CloseMapFileCommand;

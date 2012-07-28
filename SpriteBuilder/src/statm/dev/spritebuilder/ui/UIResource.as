@@ -9,16 +9,16 @@ package statm.dev.spritebuilder.ui
 	 */
 	public class UIResource
 	{
-		[Embed(source="../../../../assets/play.png")]
+		[Embed(source = "../../../../assets/play.png")]
 		public static const PLAY_ICON : Class;
 
-		[Embed(source="../../../../assets/pause.png")]
+		[Embed(source = "../../../../assets/pause.png")]
 		public static const PAUSE_ICON : Class;
 
-		[Embed(source="../../../../assets/ff.png")]
+		[Embed(source = "../../../../assets/ff.png")]
 		public static const FF_ICON : Class;
 
-		[Embed(source="../../../../assets/rw.png")]
+		[Embed(source = "../../../../assets/rw.png")]
 		public static const RW_ICON : Class;
 	}
 }

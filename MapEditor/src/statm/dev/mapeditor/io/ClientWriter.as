@@ -2,7 +2,7 @@ package statm.dev.mapeditor.io
 {
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-	
+
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.brush.Brush;
@@ -10,7 +10,6 @@ package statm.dev.mapeditor.io
 	import statm.dev.mapeditor.dom.layers.RegionLayer;
 	import statm.dev.mapeditor.dom.layers.WalkingLayer;
 	import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
-	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -47,19 +46,19 @@ package statm.dev.mapeditor.io
 
 		private function parseMap() : void
 		{
-			xmlResult = <world>
+			xmlResult = <worldMap>
 					<id>{map.mapID}</id>
 					<name>{map.mapName}</name>
-					<max-col>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</max-col>
-					<max-row>{map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION}</max-row>
-					<grid-x>{map.grids.gridAnchor.x}</grid-x>
-					<grid-y>{map.grids.gridAnchor.y}</grid-y>
+					<maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>
+					<maxRow>{map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION}</maxRow>
+					<gridX>{map.grids.gridAnchor.x}</gridX>
+					<gridY>{map.grids.gridAnchor.y}</gridY>
 					<image>{getImageName()}</image>
-					<level-limit>{map.levelLimit}</level-limit>
+					<levelLimit>{map.levelLimit}</levelLimit>
 					{generateTileAndPlanLists()}
 					{generateTransportPoints()}
 					{generateWaypoints()}
-				</world>;
+				</worldMap>;
 		}
 
 		private function getImageName() : String
@@ -101,7 +100,7 @@ package statm.dev.mapeditor.io
 
 			var regionBrushID : int;
 			var walkingBrushID : int;
-			var walkingShadowBrushID: int;
+			var walkingShadowBrushID : int;
 			var combatBrushID : int;
 
 			for (var i : int = 0; i < maxX; i++)
@@ -149,7 +148,7 @@ package statm.dev.mapeditor.io
 
 		private function generateTilePlanList() : XML
 		{
-			var result : XML = <tile-plan-list/>;
+			var result : XML = <tilePlanList/>;
 
 			for each (var plan : TilePlan in currentTilePlans)
 			{
@@ -161,7 +160,7 @@ package statm.dev.mapeditor.io
 
 		private function generateTileList() : XML
 		{
-			var result : XML = <tile-list/>;
+			var result : XML = <tileList/>;
 
 			for (var key : String in currentTiles)
 			{
@@ -169,7 +168,7 @@ package statm.dev.mapeditor.io
 				var x : int = parseInt(coordArray[0]);
 				var y : int = parseInt(coordArray[1]);
 
-				result.appendChild(<tile><plan-id>{currentTiles[key]}</plan-id><position col={x} row={y}/></tile>);
+				result.appendChild(<tile><planID>{currentTiles[key]}</planID><position col={x} row={y}/></tile>);
 			}
 
 			return result;
@@ -177,8 +176,8 @@ package statm.dev.mapeditor.io
 
 		private function generateTransportPoints() : XMLList
 		{
-			var tpResult : XML = <teleporter-list/>;
-			var lpResult : XML = <link-point-list/>;
+			var tpResult : XML = <teleporterList/>;
+			var lpResult : XML = <linkPointList/>;
 
 			for each (var node : DomObject in map.items.transportPoints.children)
 			{
@@ -198,11 +197,11 @@ package statm.dev.mapeditor.io
 		private function generateTeleportPoint(tp : TeleportPoint) : XML
 		{
 			var result : XML = <teleporter>
-					<map-id>{tp.mapID}</map-id>
+					<mapID>{tp.mapID}</mapID>
 					<position col={tp.x} row={tp.y}/>
 				</teleporter>;
 
-			var allowNationNode : XML = <allow-nation/>;
+			var allowNationNode : XML = <allowNation/>;
 
 			for each (var nation : String in tp.allowNations)
 			{
@@ -216,11 +215,11 @@ package statm.dev.mapeditor.io
 
 		private function generateLinkPoint(lp : LinkPoint) : XML
 		{
-			var result : XML = <link-point>
+			var result : XML = <linkPoint>
 					<source col={lp.x} row={lp.y}/>
-				</link-point>;
+				</linkPoint>;
 
-			var destinationListNode : XML = <destination-list/>;
+			var destinationListNode : XML = <destinationList/>;
 
 			for each (var ldp : LinkDestPoint in lp.children)
 			{
@@ -235,11 +234,11 @@ package statm.dev.mapeditor.io
 		private function generateLinkDestPoint(ldp : LinkDestPoint) : XML
 		{
 			var result : XML = <teleporter>
-					<map-id>{ldp.mapID}</map-id>
+					<mapID>{ldp.mapID}</mapID>
 					<position col={ldp.x} row={ldp.y}/>
 				</teleporter>;
 
-			var allowNationNode : XML = <allow-nation/>;
+			var allowNationNode : XML = <allowNation/>;
 
 			for each (var nation : String in ldp.allowNations)
 			{
@@ -253,7 +252,7 @@ package statm.dev.mapeditor.io
 
 		private function generateWaypoints() : XML
 		{
-			var result : XML = <waypoint-list/>;
+			var result : XML = <waypointList/>;
 
 			for each (var waypoint : Waypoint in map.items.waypoints.children)
 			{
@@ -288,13 +287,13 @@ class TilePlan
 
 	public function toXML() : XML
 	{
-		var result : XML = <tile-plan>
+		var result : XML = <tilePlan>
 				<id>{id}</id>
-				<site-id>{(region && region.data) ? region.data : "1"}</site-id>
-				<walk-state-limit>{(walking && walking.data) ? walking.data : ""}</walk-state-limit>
-				<walk-shadow>{(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}</walk-shadow>
-				<battle-type-limit>{(combat && combat.data) ? combat.data : ""}</battle-type-limit>
-			</tile-plan>;
+				<siteID>{(region && region.data) ? region.data : "1"}</siteID>
+				<walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
+				<walkShadow>{(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}</walkShadow>
+				<battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
+			</tilePlan>;
 
 		return result;
 	}

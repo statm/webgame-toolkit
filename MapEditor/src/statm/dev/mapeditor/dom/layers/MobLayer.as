@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.layers
 {
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.mapeditor.dom.DomNode;
 
 	/**
@@ -18,17 +18,17 @@ package statm.dev.mapeditor.dom.layers
 
 			_name = "怪物";
 		}
-		
+
 		override public function toXML() : XML
 		{
 			var result : XML = super.toXML();
-			
+
 			result.setName("mobLayer");
-			
+
 			return result;
 		}
-		
-		
+
+
 		override public function readXML(xml : XML) : void
 		{
 			// TODO: NYI

@@ -1,10 +1,9 @@
 package statm.dev.mapeditor.dom.layers
 {
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomNode;
-	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.item.ItemFactory;
 	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.Item;

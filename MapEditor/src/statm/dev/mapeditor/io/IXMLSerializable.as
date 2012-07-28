@@ -10,7 +10,7 @@ package statm.dev.mapeditor.io
 	public interface IXMLSerializable
 	{
 		function toXML() : XML;
-		
+
 		function readXML(xml : XML) : void;
 	}
 }

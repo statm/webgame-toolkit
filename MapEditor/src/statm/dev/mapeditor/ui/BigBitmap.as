@@ -6,9 +6,9 @@ package statm.dev.mapeditor.ui
 	import flash.geom.Rectangle;
 	import flash.sampler.getLexicalScopes;
 	import flash.utils.Dictionary;
-	
+
 	import spark.core.SpriteVisualElement;
-	
+
 	import statm.dev.mapeditor.utils.assert;
 
 
@@ -79,7 +79,7 @@ package statm.dev.mapeditor.ui
 			var xMax : int = Math.ceil(rect.right / UNIT_WIDTH);
 			var yMin : int = Math.floor(rect.y / UNIT_HEIGHT);
 			var yMax : int = Math.ceil(rect.bottom / UNIT_HEIGHT);
-			
+
 			assert(xMin >= 0);
 			assert(yMin >= 0);
 			assert(xMax >= xMin);
@@ -117,7 +117,7 @@ package statm.dev.mapeditor.ui
 			var xMax : int = Math.ceil(rect.right / UNIT_WIDTH);
 			var yMin : int = Math.floor(rect.y / UNIT_HEIGHT);
 			var yMax : int = Math.ceil(rect.bottom / UNIT_HEIGHT);
-			
+
 			assert(xMin >= 0);
 			assert(yMin >= 0);
 			assert(xMax >= xMin);

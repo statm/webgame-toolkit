@@ -2,7 +2,7 @@ package statm.dev.mapeditor.dom.layers
 {
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
-	
+
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.DomNode;
@@ -53,7 +53,7 @@ package statm.dev.mapeditor.dom.layers
 			{
 				GridUtils.drawMaskBit(BigBitmap(_display), gridX, gridY, mask, mask.type == BrushType.ERASE);
 			}
-			
+
 			notifyChange(MapEditingActions.DRAW_MASK);
 		}
 
@@ -84,7 +84,7 @@ package statm.dev.mapeditor.dom.layers
 			}
 
 			GridUtils.drawMaskRect(BigBitmap(_display), rect, mask, mask.type == BrushType.ERASE);
-			
+
 			notifyChange(MapEditingActions.DRAW_MASK);
 		}
 
@@ -104,8 +104,8 @@ package statm.dev.mapeditor.dom.layers
 		{
 			AppState.setCurrentMaskLayer(this);
 		}
-		
-		override public function deselect():void
+
+		override public function deselect() : void
 		{
 			AppState.stopDrawingMask();
 		}

@@ -8,6 +8,7 @@
 	<fx:Script>
 		<![CDATA[
 			import statm.dev.spritebuilder.Batch;
+
 			override public function set data(value : Object) : void
 			{
 				super.data = value;
@@ -22,8 +23,14 @@
 		]]>
 	</fx:Script>
 
-	<s:Label id="lblFileName" verticalCenter="0" left="10" fontSize="12" color="#333333"/>
-	<s:Line left="3" right="3" bottom="0">
+	<s:Label id="lblFileName"
+			 verticalCenter="0"
+			 left="10"
+			 fontSize="12"
+			 color="#333333"/>
+	<s:Line left="3"
+			right="3"
+			bottom="0">
 		<s:stroke>
 			<s:SolidColorStroke color="#DDDDDD"/>
 		</s:stroke>

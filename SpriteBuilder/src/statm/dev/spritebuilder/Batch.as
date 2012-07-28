@@ -12,11 +12,11 @@ package statm.dev.spritebuilder
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.graphics.codec.PNGEncoder;
-	
+
 	import statm.dev.spritebuilder.utils.FileUtils;
 
 	/**
@@ -126,7 +126,7 @@ package statm.dev.spritebuilder
 				var cropped : BitmapData = new BitmapData(bound.width, bound.height, true, 0x00000000);
 				cropped.copyPixels(bitmapData, bound, new Point(0, 0));
 				croppedBitmaps[loadingIndex] = cropped;
-				
+
 				totalSize += bound.width * bound.height;
 			}
 			loadingIndex++;

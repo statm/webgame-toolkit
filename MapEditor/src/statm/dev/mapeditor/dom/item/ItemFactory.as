@@ -1,11 +1,7 @@
 package statm.dev.mapeditor.dom.item
 {
-	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	
-	import spark.components.Image;
-	import spark.primitives.BitmapImage;
-	
+
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.objects.BornPoint;
@@ -14,7 +10,6 @@ package statm.dev.mapeditor.dom.item
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 	import statm.dev.mapeditor.dom.objects.Waypoint;
-	import statm.dev.mapeditor.ui.UIResource;
 
 	/**
 	 * 物件工厂类。
@@ -51,7 +46,7 @@ package statm.dev.mapeditor.dom.item
 					item = new BornPoint(domRoot);
 					item.iconImage.source = Map(domRoot).iconList.getIcon(3);
 					break;
-				
+
 				case "waypoint":
 					item = new Waypoint(domRoot);
 					item.iconImage.source = Map(domRoot).iconList.getIcon(4);

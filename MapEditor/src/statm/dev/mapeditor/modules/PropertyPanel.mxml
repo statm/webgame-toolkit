@@ -13,7 +13,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.collections.ArrayList;
 			import mx.events.FlexEvent;
-			
+
 			import statm.dev.mapeditor.app.AppFacade;
 			import statm.dev.mapeditor.dom.item.ItemType;
 			import statm.dev.mapeditor.mediators.PropertyPanelMediator;
@@ -194,7 +194,8 @@
 					<s:layout>
 						<s:HorizontalLayout/>
 					</s:layout>
-					<ui:CoordText id="ctGridAnchor" coordChanged="submit();"/>
+					<ui:CoordText id="ctGridAnchor"
+								  coordChanged="submit();"/>
 				</s:FormItem>
 				<!-- 地区层绘制 -->
 				<s:FormItem id="regionFormItem"
@@ -298,7 +299,8 @@
 				</s:FormItem>
 				<s:FormItem includeIn="teleportPointProps"
 							label="坐标:">
-					<ui:CoordText id="ctTeleportPointCoord" coordChanged="submit();"/>
+					<ui:CoordText id="ctTeleportPointCoord"
+								  coordChanged="submit();"/>
 				</s:FormItem>
 				<s:FormItem includeIn="teleportPointProps"
 							label="国家:">
@@ -308,15 +310,17 @@
 				<!-- 连接点属性 -->
 				<s:FormItem includeIn="linkPointProps"
 							label="坐标:">
-					<ui:CoordText id="ctLinkPointCoord" coordChanged="submit();"/>
-<!--					<s:Button id="btnAddLinkDestination"
-							  label="添加连接终点"
-							  click="submit(btnAddLinkDestination);"/>-->
+					<ui:CoordText id="ctLinkPointCoord"
+								  coordChanged="submit();"/>
+					<!--					<s:Button id="btnAddLinkDestination"
+												  label="添加连接终点"
+												  click="submit(btnAddLinkDestination);"/>-->
 				</s:FormItem>
 				<!-- 出生点属性 -->
 				<s:FormItem includeIn="bornPointProps"
 							label="坐标:">
-					<ui:CoordText id="ctBornPointCoord" coordChanged="submit();"/>
+					<ui:CoordText id="ctBornPointCoord"
+								  coordChanged="submit();"/>
 				</s:FormItem>
 				<s:FormItem includeIn="bornPointProps"
 							label="国家:">
@@ -326,7 +330,8 @@
 				<!-- 连接终点属性 -->
 				<s:FormItem includeIn="linkDestPointProps"
 							label="坐标:">
-					<ui:CoordText id="ctLinkDestPointCoord" coordChanged="submit();"/>
+					<ui:CoordText id="ctLinkDestPointCoord"
+								  coordChanged="submit();"/>
 				</s:FormItem>
 				<s:FormItem includeIn="linkDestPointProps"
 							label="地图ID:">

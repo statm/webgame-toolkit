@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.objects
 {
 	import spark.components.Image;
-	
+
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.ui.UIResource;

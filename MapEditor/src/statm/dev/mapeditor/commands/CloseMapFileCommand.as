@@ -2,13 +2,13 @@ package statm.dev.mapeditor.commands
 {
 	import flash.filesystem.File;
 	import flash.utils.setTimeout;
-	
+
 	import mx.controls.Alert;
 	import mx.events.CloseEvent;
-	
+
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
-	
+
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.Map;
@@ -49,7 +49,7 @@ package statm.dev.mapeditor.commands
 				var fileName : String = map.mapName + ".map";
 				if (map.filePath)
 				{
-					var file:File = new File(map.filePath);
+					var file : File = new File(map.filePath);
 					fileName = file.name;
 				}
 				Alert.show("您要将更改保存到 " + fileName + " 吗？", "地图编辑器", Alert.YES | Alert.NO, null, confirmHandler);

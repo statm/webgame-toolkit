@@ -2,7 +2,8 @@ package statm.dev.mapeditor.io
 {
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-
+	
+	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.brush.Brush;
@@ -46,6 +47,7 @@ package statm.dev.mapeditor.io
 		private function parseMap() : void
 		{
 			xmlResult = <worldMapModel>
+					<version>{AppState.xmlUID}</version>
 					<id>{map.mapID}</id>
 					<name>{map.mapName}</name>
 					<maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>
@@ -66,7 +68,7 @@ package statm.dev.mapeditor.io
 				return "";
 			}
 
-			return new File(map.bgLayer.bgPath).name.split(".")[0];
+			return "image/" + new File(map.bgLayer.bgPath).name.split(".")[0] + ".jpg";
 		}
 
 		private function generateTileAndPlanLists() : XMLList

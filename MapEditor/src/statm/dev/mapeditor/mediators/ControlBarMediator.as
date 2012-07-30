@@ -30,8 +30,7 @@ package statm.dev.mapeditor.mediators
 			Button(viewComponent.btnBrowseMapFile).addEventListener(MouseEvent.CLICK, btnBrowseMapFile_clickHandler);
 			Button(viewComponent.btnSaveMapFile).addEventListener(MouseEvent.CLICK, btnSaveMapFile_clickHandler);
 			Button(viewComponent.btnCloseMapFile).addEventListener(MouseEvent.CLICK, btnCloseMapFile_clickHandler);
-			Button(viewComponent.btnExportServer).addEventListener(MouseEvent.CLICK, btnExportServer_clickHandler);
-			Button(viewComponent.btnExportClient).addEventListener(MouseEvent.CLICK, btnExportClient_clickHandler);
+			Button(viewComponent.btnExportXML).addEventListener(MouseEvent.CLICK, btnExportXML_clickHandler);
 		}
 
 
@@ -89,14 +88,9 @@ package statm.dev.mapeditor.mediators
 			sendNotification(AppNotificationCode.CLOSE_MAP_FILE);
 		}
 
-		private function btnExportServer_clickHandler(event : MouseEvent) : void
+		private function btnExportXML_clickHandler(event : MouseEvent) : void
 		{
-			sendNotification(AppNotificationCode.EXPORT_SERVER_MAP);
-		}
-
-		private function btnExportClient_clickHandler(event : MouseEvent) : void
-		{
-			sendNotification(AppNotificationCode.EXPORT_CLIENT_MAP);
+			sendNotification(AppNotificationCode.EXPORT_XML);
 		}
 
 		private function setWindowTitle(map : Map = null) : void

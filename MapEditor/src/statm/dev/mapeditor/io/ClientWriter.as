@@ -2,7 +2,8 @@ package statm.dev.mapeditor.io
 {
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-
+	
+	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.brush.Brush;
@@ -47,6 +48,7 @@ package statm.dev.mapeditor.io
 		private function parseMap() : void
 		{
 			xmlResult = <worldMap>
+					<version>{AppState.xmlUID}</version>
 					<id>{map.mapID}</id>
 					<name>{map.mapName}</name>
 					<maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>

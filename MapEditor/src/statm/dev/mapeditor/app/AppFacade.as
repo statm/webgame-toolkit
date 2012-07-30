@@ -2,13 +2,12 @@ package statm.dev.mapeditor.app
 {
 	import org.puremvc.as3.interfaces.IFacade;
 	import org.puremvc.as3.patterns.facade.Facade;
-
+	
 	import statm.dev.mapeditor.commands.AppExitCommand;
-	import statm.dev.mapeditor.commands.OpenMapFileCommand;
 	import statm.dev.mapeditor.commands.CloseMapFileCommand;
 	import statm.dev.mapeditor.commands.CreateMapFileCommand;
-	import statm.dev.mapeditor.commands.ExportClientMapCommand;
-	import statm.dev.mapeditor.commands.ExportServerMapCommand;
+	import statm.dev.mapeditor.commands.ExportXMLCommand;
+	import statm.dev.mapeditor.commands.OpenMapFileCommand;
 	import statm.dev.mapeditor.commands.SaveMapFileCommand;
 
 
@@ -44,8 +43,7 @@ package statm.dev.mapeditor.app
 			this.registerCommand(AppNotificationCode.SAVE_MAP_FILE, SaveMapFileCommand);
 			this.registerCommand(AppNotificationCode.CLOSE_MAP_FILE, CloseMapFileCommand);
 			this.registerCommand(AppNotificationCode.CLOSE_APP, AppExitCommand);
-			this.registerCommand(AppNotificationCode.EXPORT_SERVER_MAP, ExportServerMapCommand);
-			this.registerCommand(AppNotificationCode.EXPORT_CLIENT_MAP, ExportClientMapCommand);
+			this.registerCommand(AppNotificationCode.EXPORT_XML, ExportXMLCommand); 
 		}
 	}
 }

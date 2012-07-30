@@ -148,7 +148,7 @@
 			  height="100%"
 			  gap="1"
 			  verticalAlign="middle">
-		<modules:ToolBar id="toolBar"/>
+		<!--<modules:ToolBar id="toolBar"/>-->
 		<modules:MapArea id="mapArea"
 						 depth="-9999"/>
 		<s:Scroller width="350"

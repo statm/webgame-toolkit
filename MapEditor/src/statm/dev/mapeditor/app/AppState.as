@@ -216,5 +216,7 @@ package statm.dev.mapeditor.app
 		{
 			currentItem = itemDef;
 		}
+
+		public static var xmlUID : String;
 	}
 }

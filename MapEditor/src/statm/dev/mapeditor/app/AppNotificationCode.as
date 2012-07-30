@@ -23,9 +23,7 @@ package statm.dev.mapeditor.app
 
 		public static const CLOSE_APP : String = "closeApp";
 
-		public static const EXPORT_SERVER_MAP : String = "exportServerMap";
-
-		public static const EXPORT_CLIENT_MAP : String = "exportClientMap";
+		public static const EXPORT_XML : String = "exportXML";
 
 		public static const MAP_DATA_READY : String = "mapDataReady";
 

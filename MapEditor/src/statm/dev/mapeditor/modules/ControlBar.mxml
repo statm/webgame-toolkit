@@ -34,11 +34,8 @@
 	<s:Button id="btnCloseMapFile"
 			  label="关闭地图"
 			  focusEnabled="false"/>
-	<s:Button id="btnExportServer"
-			  label="导出服务器数据"
-			  focusEnabled="false"/>
-	<s:Button id="btnExportClient"
-			  label="导出客户端数据"
+	<s:Button id="btnExportXML"
+			  label="导出数据..."
 			  focusEnabled="false"/>
 	<s:Spacer width="100%"/>
 	<s:Label id="lblCurrentCoord"/>

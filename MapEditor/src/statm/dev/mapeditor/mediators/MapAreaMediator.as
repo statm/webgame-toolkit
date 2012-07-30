@@ -90,8 +90,8 @@ package statm.dev.mapeditor.mediators
 						AppState.setViewport(new Rectangle(0, 0, mapArea.mapScroller.width,
 							mapArea.mapScroller.height));
 
-						GridUtils.drawGrids(mapArea.gridDisplay, currentMap.grids.gridSize.x,
-							currentMap.grids.gridSize.y);
+						GridUtils.drawGrids(mapArea.gridDisplay, currentMap.grids.gridSize.y,
+							currentMap.grids.gridSize.x);
 
 						mapArea.grids.move(currentMap.grids.gridAnchor.x, currentMap.
 							grids.gridAnchor.y);
@@ -113,8 +113,8 @@ package statm.dev.mapeditor.mediators
 					}
 					else if (action == MapEditingActions.GRID_SIZE)
 					{
-						GridUtils.drawGrids(mapArea.gridDisplay, currentMap.grids.gridSize.x,
-							currentMap.grids.gridSize.y);
+						GridUtils.drawGrids(mapArea.gridDisplay, currentMap.grids.gridSize.y,
+							currentMap.grids.gridSize.x);
 					}
 					else if (action == MapEditingActions.GRID_ANCHOR)
 					{

@@ -2,13 +2,13 @@ package statm.dev.mapeditor.mediators
 {
 	import flash.events.Event;
 	import flash.geom.Point;
-
+	
 	import mx.collections.ArrayList;
 	import mx.events.FlexEvent;
-
+	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-
+	
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;
@@ -109,6 +109,8 @@ package statm.dev.mapeditor.mediators
 			{
 				panel.currentState = "gridProps";
 
+				panel.nsGridBlockR.value = currentMap.grids.gridSize.x;
+				panel.nsGridBlockC.value = currentMap.grids.gridSize.y;
 				panel.ctGridAnchor.setCoord(currentMap.grids.gridAnchor.x, currentMap.grids.gridAnchor.y);
 			}
 			else if (selection is RegionLayer)

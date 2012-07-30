@@ -106,7 +106,7 @@ package statm.dev.mapeditor.dom.layers
 
 		override public function toXML() : XML
 		{
-			var result : XML = <grids row={gridSize.x} col={gridSize.y} x={gridAnchor.x} y={gridAnchor.y}/>;
+			var result : XML = <grids row={gridSize.y} col={gridSize.x} x={gridAnchor.x} y={gridAnchor.y}/>;
 
 			result.appendChild(regionLayer.toXML())
 				.appendChild(walkingLayer.toXML())
@@ -118,7 +118,7 @@ package statm.dev.mapeditor.dom.layers
 
 		override public function readXML(xml : XML) : void
 		{
-			this.gridSize = new Point(parseInt(xml.@row), parseInt(xml.@col));
+			this.gridSize = new Point(parseInt(xml.@col), parseInt(xml.@row));
 			this.gridAnchor = new Point(parseInt(xml.@x), parseInt(xml.@y));
 
 			this.regionLayer.readXML(xml.regionLayer[0]);

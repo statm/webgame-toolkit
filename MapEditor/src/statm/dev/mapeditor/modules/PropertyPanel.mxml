@@ -13,7 +13,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.collections.ArrayList;
 			import mx.events.FlexEvent;
-
+			
 			import statm.dev.mapeditor.app.AppFacade;
 			import statm.dev.mapeditor.dom.item.ItemType;
 			import statm.dev.mapeditor.mediators.PropertyPanelMediator;
@@ -145,6 +145,7 @@
 					<s:TextInput id="tiMapName"
 								 width="100%"
 								 enter="submit();"
+								 restrict="a-zA-Z0-9"
 								 focusOut="submit();"/>
 				</s:FormItem>
 				<s:FormItem includeIn="mapProps"
@@ -174,6 +175,7 @@
 					<s:layout>
 						<s:HorizontalLayout verticalAlign="middle"/>
 					</s:layout>
+					<!-- TODO: bug: 当选中NS内容，按空格，然后消除焦点时，值会变为NaN。 -->
 					<s:NumericStepper id="nsGridBlockR"
 									  maximum="12"
 									  minimum="1"

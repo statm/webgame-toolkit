@@ -32,6 +32,7 @@
 					requireSelection="true"
 					borderVisible="false"
 					hasFocusableChildren="true"
+					horizontalScrollPolicy="off"
 					skinClass="statm.dev.mapeditor.ui.skins.LiteListSkin"
 					itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.LayerPanelTreeItemRenderer">
 		<sparkTree:layout>

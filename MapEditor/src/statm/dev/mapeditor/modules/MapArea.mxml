@@ -38,7 +38,7 @@
 
 			public function setMapBg(bgPath : String) : void
 			{
-				mapImage.source = bgPath;
+				mapImage.source = "file:///" + bgPath;
 			}
 
 			// TODO: 改光标。

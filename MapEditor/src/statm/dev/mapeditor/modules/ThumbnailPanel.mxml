@@ -26,14 +26,14 @@
 				}
 				else
 				{
-					thumbImg.source = bgPath;
+					thumbImg.source = "file:///" + bgPath;
 				}
 			}
 		]]>
 	</fx:Script>
 
 	<s:Group id="thumbnailGroup"
-			 width="100%"
+			 width="350"
 			 height="100%"
 			 clipAndEnableScrolling="true">
 		<s:Image id="thumbImg"

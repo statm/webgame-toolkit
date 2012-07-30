@@ -88,7 +88,7 @@
 				else if (node is Grids)
 				{
 					var grids : Grids = Grids(node);
-					result = grids.gridSize.y + " x " + grids.gridSize.x
+					result = grids.gridSize.x + " x " + grids.gridSize.y
 						+ ", 起始点: (" + grids.gridAnchor.x + "," + grids.gridAnchor.y + ")";
 				}
 				else if (node is TransportPoints)

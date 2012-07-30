@@ -46,7 +46,7 @@ package statm.dev.mapeditor.commands
 
 			if (map.isDirty)
 			{
-				var fileName : String = map.mapName + ".map";
+				var fileName : String = map.mapName + ".xml";
 				if (map.filePath)
 				{
 					var file : File = new File(map.filePath);

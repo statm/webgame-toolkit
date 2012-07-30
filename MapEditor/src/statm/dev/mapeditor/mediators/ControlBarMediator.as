@@ -100,7 +100,7 @@ package statm.dev.mapeditor.mediators
 			if (map)
 			{
 				title += (map.isDirty ? "*" : "");
-				title += (map.filePath ? map.filePath : (map.mapName + ".map"));
+				title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
 				title += " - 地图编辑器";
 			}
 			else

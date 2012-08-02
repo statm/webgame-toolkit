@@ -12,11 +12,11 @@ package statm.dev.spritebuilder
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
-
+	
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.graphics.codec.PNGEncoder;
-
+	
 	import statm.dev.spritebuilder.utils.FileUtils;
 
 	/**

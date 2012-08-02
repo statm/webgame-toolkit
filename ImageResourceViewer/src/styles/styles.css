@@ -1,0 +1,17 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+s|Application 
+{
+	fontFamily: "Microsoft YaHei";
+	fontSize: 15;
+	backgroundColor: #EFEFEF;
+}
+s|WindowedApplication
+{
+	skinClass:ClassReference("statm.dev.imageresourceviewer.ui.skins.MetroChromeWindowedApplicationSkin");
+}
+s|Button
+{
+	skinClass:ClassReference("statm.dev.imageresourceviewer.ui.skins.MetroButtonSkin");
+}

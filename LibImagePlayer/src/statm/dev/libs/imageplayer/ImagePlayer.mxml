@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   borderColor="#999999"
+				   backgroundColor="#EEEEEE"
+				   maxHeight="120"
+				   maxWidth="120"
+				   creationComplete="init()">
+
+	<fx:Script>
+		<![CDATA[
+			import statm.dev.libs.imageplayer.loader.ImageBatch;
+			import statm.dev.libs.imageplayer.loader.ImageBatchEvent;
+
+			private function init() : void
+			{
+				this.contentGroup.clipAndEnableScrolling = true;
+			}
+
+			private var imageBatch : ImageBatch;
+
+			public function setImageBatch(batch : ImageBatch) : void
+			{
+				if (batch == imageBatch)
+				{
+					return;
+				}
+
+				if (imageBatch)
+				{
+					imageBatch.removeEventListener(ImageBatchEvent.PROGRESS, imageBatch_progressHandler);
+					imageBatch.removeEventListener(ImageBatchEvent.COMPLETE, imageBatch_completeHandler);
+				}
+
+				imageBatch = batch;
+
+				currentFrame = 0;
+				playEnabled = false;
+
+				imageBatch.addEventListener(ImageBatchEvent.PROGRESS, imageBatch_progressHandler);
+				imageBatch.addEventListener(ImageBatchEvent.COMPLETE, imageBatch_completeHandler);
+				image.source = imageBatch.getImage(0);
+
+				load();
+			}
+
+			public function load() : void
+			{
+				if (!imageBatch)
+				{
+					return;
+				}
+
+				progBarGroup.visible = true;
+				imageBatch.load();
+			}
+
+			public function play() : void
+			{
+				playDelayKey = setTimeout($play, 100);
+			}
+
+			private var playDelayKey : uint;
+
+			private function $play() : void
+			{
+				this.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			}
+
+			public function stop() : void
+			{
+				clearTimeout(playDelayKey);
+				this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				if (imageBatch)
+				{
+					image.source = imageBatch.getImage(currentFrame = 0);
+				}
+			}
+
+			private var currentFrame : int;
+			private var playEnabled : Boolean = false;
+
+			private function enterFrameHandler(event : Event) : void
+			{
+				if (!playEnabled || !imageBatch)
+				{
+					return;
+				}
+
+				currentFrame = (currentFrame + 1) % imageBatch.length;
+				image.source = imageBatch.getImage(currentFrame);
+			}
+
+			private function imageBatch_progressHandler(event : ImageBatchEvent) : void
+			{
+				trace("loaded: " + imageBatch.loadedCount + "/" + imageBatch.length);
+				image.source = imageBatch.getImage(0);
+				progBar.percentWidth = imageBatch.loadedCount / imageBatch.length * 100;
+			}
+
+			private function imageBatch_completeHandler(event : ImageBatchEvent) : void
+			{
+				trace("complete");
+				playEnabled = true;
+				progBarGroup.visible = false;
+			}
+
+			private var _playOnRollOver : Boolean = false;
+
+			public function get playOnRollOver() : Boolean
+			{
+				return _playOnRollOver;
+			}
+
+			public function set playOnRollOver(value : Boolean) : void
+			{
+				if (value != _playOnRollOver)
+				{
+					_playOnRollOver = value;
+					
+					if (!_playOnRollOver)
+					{
+						this.removeEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
+						this.removeEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
+					}
+					else
+					{
+						this.addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
+						this.addEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
+					}
+				}
+			}
+			
+			private function rollOverHandler(event:MouseEvent):void
+			{
+				play();
+			}
+			
+			private function rollOutHandler(event:MouseEvent):void
+			{
+				stop();
+			}
+		]]>
+	</fx:Script>
+
+	<s:Image id="image"
+			 left="0"
+			 right="0"
+			 top="0"
+			 bottom="0"
+			 scaleMode="letterbox"
+			 fillMode="scale"/>
+	<s:Group id="progBarGroup"
+			 height="4"
+			 left="0"
+			 right="0"
+			 bottom="0"
+			 visible="false">
+		<s:Rect id="progBarBackground"
+				left="0"
+				right="0"
+				top="0"
+				bottom="0">
+			<s:fill>
+				<s:SolidColor color="#DFDFDF"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect id="progBar"
+				left="0"
+				top="1"
+				bottom="0">
+			<s:fill>
+				<s:SolidColor color="#278AD6"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+</s:BorderContainer>

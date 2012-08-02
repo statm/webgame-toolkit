@@ -23,18 +23,18 @@ package statm.dev.mapeditor.dom.brush
 				"true",
 				new UIResource.WALKING_SHADOW_ICON().bitmapData,
 				BrushType.WALKING_SHADOW));
-			addBrush(new Brush("PVE",
+			addBrush(new Brush("安全区",
 				"<battleType>PVP</battleType>",
 				new UIResource.PVE_ICON().bitmapData,
 				BrushType.COMBAT));
-			addBrush(new Brush("PVE/PVP",
-				"",
-				new UIResource.PVE_AND_PVP_ICON().bitmapData,
-				BrushType.COMBAT));
-			addBrush(new Brush("PVP",
-				"<battleType>PVE</battleType>",
-				new UIResource.PVP_ICON().bitmapData,
-				BrushType.COMBAT));
+//			addBrush(new Brush("PVE/PVP",
+//				"",
+//				new UIResource.PVE_AND_PVP_ICON().bitmapData,
+//				BrushType.COMBAT));
+//			addBrush(new Brush("PVP",
+//				"<battleType>PVE</battleType>",
+//				new UIResource.PVP_ICON().bitmapData,
+//				BrushType.COMBAT));
 		}
 
 		public var regionBrushes : ArrayCollection = new ArrayCollection();

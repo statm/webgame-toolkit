@@ -5,8 +5,8 @@
 					   xmlns:imageplayer="statm.dev.libs.imageplayer.*"
 					   showStatusBar="false"
 					   title="测试"
-					   minWidth="1050"
-					   minHeight="600"
+					   width="1200"
+					   height="720"
 					   frameRate="15"
 					   displayStateChange="displayStateChangeHandler(event)"
 					   creationComplete="init()">
@@ -19,7 +19,7 @@
 
 			private function init() : void
 			{
-				nativeWindow.maximize();
+				//nativeWindow.maximize();
 			}
 
 			protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
@@ -37,18 +37,25 @@
 			}
 		]]>
 	</fx:Script>
-	<s:HGroup bottom="0"
-			  left="0"
+	<s:VGroup bottom="0"
+			  top="0"
 			  right="0"
 			  gap="2"
-			  paddingLeft="5"
+			  paddingTop="5"
 			  paddingRight="5"
-			  height="130"
-			  horizontalAlign="center">
-		<imageplayer:ImagePlayer width="100%" height="100%"/>
-		<imageplayer:ImagePlayer width="100%" height="100%"/>
-		<imageplayer:ImagePlayer width="100%" height="100%"/>
-		<imageplayer:ImagePlayer width="100%" height="100%"/>
-		<imageplayer:ImagePlayer width="100%" height="100%"/>
-	</s:HGroup>
+			  paddingLeft="5"
+			  paddingBottom="5"
+			  width="130"
+			  verticalAlign="middle">
+		<imageplayer:ImagePlayer width="100%"
+								 height="100%"/>
+		<imageplayer:ImagePlayer width="100%"
+								 height="100%"/>
+		<imageplayer:ImagePlayer width="100%"
+								 height="100%"/>
+		<imageplayer:ImagePlayer width="100%"
+								 height="100%"/>
+		<imageplayer:ImagePlayer width="100%"
+								 height="100%"/>
+	</s:VGroup>
 </s:WindowedApplication>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:ui="statm.dev.imageresourceviewer.ui.*"
+		 width.normal="130"
+		 width.expanded="80%"
+		 height="100%">
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="expanded"/>
+	</s:states>
+	
+	<s:Group width="100%" height="100%">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="#FF9900"/>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+	<s:VGroup bottom="0"
+			  top="0"
+			  left="0"
+			  width="130"
+			  paddingTop="5"
+			  paddingRight="5"
+			  paddingLeft="5"
+			  paddingBottom="5"
+			  gap="6"
+			  verticalAlign="middle">
+		<ui:CategoryButton/>
+		<ui:CategoryButton/>
+		<ui:CategoryButton/>
+		<ui:CategoryButton/>
+		<ui:CategoryButton/>
+	</s:VGroup>
+</s:Group>

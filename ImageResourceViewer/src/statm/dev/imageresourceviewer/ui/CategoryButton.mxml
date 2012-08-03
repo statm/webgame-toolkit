@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:imageplayer="statm.dev.libs.imageplayer.*"
+		  mouseEnabledWhereTransparent="true"
+		  rollOver="currentState='over'"
+		  rollOut="currentState='normal'"
+		  minWidth="200">
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="over"/>
+		<s:State name="collapseNormal"/>
+		<s:State name="collapseOver"/>
+	</s:states>
+	
+	<imageplayer:ImagePlayer id="player" includeIn="normal,over"/>
+	<s:VGroup id="grpCategoryLabel"
+			  paddingTop="8"
+			  gap="2"
+			  x="{player.x + player.width + 5}"
+			  visible.normal="false"
+			  visible.over="true">
+		<s:Label id="lblCategoryName"
+				 text="角色"
+				 fontSize="18"
+				 color="#3C3C3C"
+				 color.collapseNormal="#999999"
+				 fontWeight="bold"/>
+		<s:Label id="lblCategoryValue"
+				 text="男武将1号"
+				 color="#999999"
+				 includeIn="over"/>
+	</s:VGroup>
+
+</s:Group>

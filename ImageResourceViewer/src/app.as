@@ -9,12 +9,14 @@ import flash.utils.getTimer;
 
 import mx.managers.DragManager;
 
-import statm.dev.imageresourceviewer.data.ResourceBatch;
+import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
+import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 import statm.dev.libs.imageplayer.loader.ImageBatch;
 
 private function init() : void
 {
 	//nativeWindow.maximize();
+	ResourceLib.reset();
 }
 
 protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
@@ -89,10 +91,12 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 	}
 	// =
 
-	var t:int = getTimer();
+	var t : int = getTimer();
 	traverseFolders(fileArray);
 	trace(getTimer() - t);
 	
+	ResourceLib.print();
+
 	DragManager.acceptDragDrop(this);
 }
 
@@ -102,7 +106,10 @@ private function traverseFolders(folders : Array) : void
 	{
 		// 建立一个 batch
 		var batch : ResourceBatch = new ResourceBatch(folder);
-		trace(batch.path + ":" + batch.length);
+		if (batch.length > 0)
+		{
+			ResourceLib.addResource(batch);
+		}
 
 		// 遍历目录内容，递归	
 		var folderContent : Array = folder.getDirectoryListing();

@@ -15,8 +15,29 @@
 					   nativeDragDrop="nativeDragDropHandler(event)">
 
 	<fx:Style source="styles/styles.css"/>
-	
+
 	<fx:Script source="app.as"/>
 
-	<ui:CategoryPanel id="categoryPanel"/>
+	<s:HGroup left="135"
+			  right="0"
+			  gap="5"
+			  top="0"
+			  bottom="0"
+			  width="100%">
+		
+		<s:List id="resourceList"
+				height="100%"/>
+		
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="#0066CC"/>
+			</s:fill>
+		</s:Rect>
+		
+	</s:HGroup>
+
+	<ui:CategoryPanel id="categoryPanel"
+					  top="0"
+					  bottom="0"/>
+	
 </s:WindowedApplication>

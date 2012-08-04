@@ -12,24 +12,21 @@
 		<s:State name="expanded"/>
 	</s:states>
 	
-	<s:Group width="100%" height="100%">
+<!--	<s:Group width="100%" height="100%">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="#FF9900"/>
 			</s:fill>
 		</s:Rect>
-	</s:Group>
+	</s:Group>-->
 	
 	<s:VGroup bottom="0"
 			  top="0"
 			  left="0"
 			  width="130"
-			  paddingTop="5"
 			  paddingRight="5"
 			  paddingLeft="5"
-			  paddingBottom="5"
-			  gap="6"
-			  verticalAlign="middle">
+			  gap="6">
 		<ui:CategoryButton/>
 		<ui:CategoryButton/>
 		<ui:CategoryButton/>

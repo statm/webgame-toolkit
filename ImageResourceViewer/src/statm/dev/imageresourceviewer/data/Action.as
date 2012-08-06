@@ -4,6 +4,8 @@ package statm.dev.imageresourceviewer.data
 
 	import mx.collections.ArrayCollection;
 
+	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
+
 	/**
 	 * 动画元素的动作。
 	 *
@@ -12,34 +14,36 @@ package statm.dev.imageresourceviewer.data
 	 */
 	public class Action
 	{
-		private var _name : String;
+		private var _info : ActionInfo;
 
-		public function get name() : String
+		public function get info() : ActionInfo
 		{
-			return _name;
+			return _info;
 		}
-
-		private var _directions : ArrayCollection;
 
 		private var _directionDic : Dictionary;
 
 		public function Action(name : String) : void
 		{
-			_name = name;
-			_directions = new ArrayCollection();
+			_info = new ActionInfo();
+			_info.name = name;
 			_directionDic = new Dictionary();
 		}
 
-		public function getDirection(dir : String) : Direction
+		public function addBatch(direction : String, batch : ResourceBatch) : void
 		{
-			var direction : Direction = _directionDic[dir];
-			if (!direction)
-			{
-				direction = new Direction(dir);
-				_directionDic[dir] = direction;
-				_directions.addItem(direction);
-			}
-			return direction;
+			_directionDic[direction] = batch;
+			_info.frameCount = batch.length;
+		}
+
+		public function getBatch(direction : String) : ResourceBatch
+		{
+			return _directionDic[direction];
+		}
+
+		public function toString() : String
+		{
+			return _info.name + "(" + _info.frameCount + ")";
 		}
 	}
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%"
+		 height="100%">
+	<fx:Script>
+		<![CDATA[
+			import statm.dev.imageresourceviewer.AppState;
+		]]>
+	</fx:Script>
+	<s:DataGroup id="layers"
+			width="100%"
+			height="100%"
+			itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.LayerItemRenderer"
+			dataProvider="{AppState.activeLayers}">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+	</s:DataGroup>
+	<s:TileGroup columnWidth="30" horizontalGap="0" verticalGap="0">
+		<s:Button label="1"/>
+		<s:Button label="2"/>
+		<s:Button label="3"/>
+		<s:Button label="4"/>
+		<s:Button label="5"/>
+		<s:Button label="6"/>
+		<s:Button label="7"/>
+		<s:Button label="8"/>
+		<s:Button label="9"/>
+	</s:TileGroup>
+</s:HGroup>

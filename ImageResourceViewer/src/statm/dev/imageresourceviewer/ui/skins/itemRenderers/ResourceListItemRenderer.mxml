@@ -4,6 +4,6 @@
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
 				autoDrawBackground="true">
 	
-	<s:Label text="{data}"/>
+	<s:Label text="{data.name}"/>
 	
 </s:ItemRenderer>

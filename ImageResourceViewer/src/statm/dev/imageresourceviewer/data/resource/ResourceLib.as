@@ -1,9 +1,9 @@
 package statm.dev.imageresourceviewer.data.resource
 {
 	import flash.utils.Dictionary;
-
+	
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
@@ -15,28 +15,14 @@ package statm.dev.imageresourceviewer.data.resource
 	 */
 	public class ResourceLib
 	{
-		[Bindable]
-		public static var hero : ArrayCollection;
+		public static var hero : ResourceCategory;
+		public static var weapon : ResourceCategory;
+		public static var mount : ResourceCategory;
+		public static var npc : ResourceCategory;
+		public static var mob : ResourceCategory;
+		public static var pet : ResourceCategory;
+		public static var fx : ResourceCategory;
 
-		[Bindable]
-		public static var weapon : ArrayCollection;
-
-		[Bindable]
-		public static var mount : ArrayCollection;
-
-		[Bindable]
-		public static var npc : ArrayCollection;
-
-		[Bindable]
-		public static var mob : ArrayCollection;
-
-		[Bindable]
-		public static var pet : ArrayCollection;
-
-		[Bindable]
-		public static var fx : ArrayCollection;
-
-		[Bindable]
 		public static var unknown : ArrayCollection;
 
 		private static var heroDic : Dictionary;
@@ -49,13 +35,13 @@ package statm.dev.imageresourceviewer.data.resource
 
 		public static function reset() : void
 		{
-			hero = new ArrayCollection();
-			weapon = new ArrayCollection();
-			mount = new ArrayCollection();
-			npc = new ArrayCollection();
-			mob = new ArrayCollection();
-			pet = new ArrayCollection();
-			fx = new ArrayCollection();
+			hero = new ResourceCategory(ResourceType.HERO);
+			weapon = new ResourceCategory(ResourceType.WEAPON);
+			mount = new ResourceCategory(ResourceType.MOUNT);
+			npc = new ResourceCategory(ResourceType.NPC);
+			mob = new ResourceCategory(ResourceType.MOB);
+			pet = new ResourceCategory(ResourceType.PET);
+			fx = new ResourceCategory(ResourceType.FX);
 
 			unknown = new ArrayCollection();
 
@@ -73,14 +59,14 @@ package statm.dev.imageresourceviewer.data.resource
 			if (resourceBatch.batchInfo.isComplete)
 			{
 				var type : String = resourceBatch.batchInfo.type;
-				var lib : ArrayCollection = getLib(type);
+				var category : ResourceCategory = getCategory(type);
 
 				var element : Element = getElement(resourceBatch);
-				element.getAction(resourceBatch.batchInfo.action).getDirection(resourceBatch.batchInfo.direction).setBatch(resourceBatch);
+				element.addBatch(resourceBatch);
 
-				if (lib.getItemIndex(element) == -1)
+				if (category.elements.getItemIndex(element) == -1)
 				{
-					lib.addItem(element);
+					category.elements.addItem(element);
 				}
 			}
 			else
@@ -102,7 +88,7 @@ package statm.dev.imageresourceviewer.data.resource
 			return result;
 		}
 
-		public static function getLib(type : String) : ArrayCollection
+		public static function getCategory(type : String) : ResourceCategory
 		{
 			switch (type)
 			{
@@ -162,13 +148,13 @@ package statm.dev.imageresourceviewer.data.resource
 
 		public static function print() : void
 		{
-			trace(hero.source.join());
-			trace(weapon.source.join());
-			trace(mount.source.join());
-			trace(npc.source.join());
-			trace(mob.source.join());
-			trace(pet.source.join());
-			trace(fx.source.join());
+			trace(hero.elements.source.join());
+			trace(weapon.elements.source.join());
+			trace(mount.elements.source.join());
+			trace(npc.elements.source.join());
+			trace(mob.elements.source.join());
+			trace(pet.elements.source.join());
+			trace(fx.elements.source.join());
 		}
 	}
 }

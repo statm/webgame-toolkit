@@ -9,9 +9,13 @@ import flash.utils.getTimer;
 
 import mx.managers.DragManager;
 
+import spark.events.IndexChangeEvent;
+
+import statm.dev.imageresourceviewer.AppState;
+import statm.dev.imageresourceviewer.data.Element;
 import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 import statm.dev.imageresourceviewer.data.resource.ResourceLib;
-import statm.dev.libs.imageplayer.loader.ImageBatch;
+import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 private function init() : void
 {
@@ -94,7 +98,7 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 	var t : int = getTimer();
 	traverseFolders(fileArray);
 	trace("耗时" + (getTimer() - t) + "ms");
-	
+
 	ResourceLib.print();
 
 	DragManager.acceptDragDrop(this);
@@ -121,4 +125,90 @@ private function traverseFolders(folders : Array) : void
 			}
 		}
 	}
+}
+
+private function resourceList_changeHandler(event : IndexChangeEvent) : void
+{
+	var selectedItem : Element = resourceList.selectedItem;
+
+	switch (selectedItem.type)
+	{
+		case ResourceType.HERO:
+			AppState.selectedHero = selectedItem;
+			setCategoryMode(ResourceType.HERO);
+			break;
+
+		case ResourceType.WEAPON:
+			AppState.selectedWeapon = selectedItem;
+			setCategoryMode(ResourceType.HERO);
+			break;
+
+		case ResourceType.MOUNT:
+			AppState.selectedMount = selectedItem;
+			setCategoryMode(ResourceType.HERO);
+			break;
+
+		case ResourceType.NPC:
+			AppState.selectedNPC = selectedItem;
+			setCategoryMode(ResourceType.NPC);
+			break;
+
+		case ResourceType.MOB:
+			AppState.selectedMob = selectedItem;
+			setCategoryMode(ResourceType.MOB);
+			break;
+
+		case ResourceType.PET:
+			AppState.selectedPet = selectedItem;
+			setCategoryMode(ResourceType.NPC);
+			break;
+
+		case ResourceType.FX:
+			AppState.selectedFX = selectedItem;
+			setCategoryMode(ResourceType.FX);
+			break;
+	}
+	
+	calculateActionList();
+}
+
+private function setCategoryMode(mode : String) : void
+{
+	AppState.categoryMode = mode;
+	AppState.activeLayers.removeAll();
+
+	switch (mode)
+	{
+		case ResourceType.HERO:
+			categoryPanel.setCategoryButtons(["hero", "weapon", "mount"]);
+			AppState.activeLayers.addItem(AppState.selectedHero);
+			AppState.activeLayers.addItem(AppState.selectedWeapon);
+			AppState.activeLayers.addItem(AppState.selectedMount);
+			break;
+
+		case ResourceType.NPC:
+			categoryPanel.setCategoryButtons(["npc"]);
+			AppState.activeLayers.addItem(AppState.selectedNPC);
+			break;
+
+		case ResourceType.MOB:
+			categoryPanel.setCategoryButtons(["mob"]);
+			AppState.activeLayers.addItem(AppState.selectedMob);
+			break;
+
+		case ResourceType.PET:
+			categoryPanel.setCategoryButtons(["pet"]);
+			AppState.activeLayers.addItem(AppState.selectedPet);
+			break;
+
+		case ResourceType.FX:
+			categoryPanel.setCategoryButtons(["fx"]);
+			AppState.activeLayers.addItem(AppState.selectedPet);
+			break;
+	}
+}
+
+private function calculateActionList() : void
+{
+	// TODO: 根据当前零件计算动作列表（最小公倍数）
 }

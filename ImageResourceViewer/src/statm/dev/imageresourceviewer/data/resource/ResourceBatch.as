@@ -16,19 +16,24 @@ package statm.dev.imageresourceviewer.data.resource
 	{
 		private var folder : File;
 
-		private var loadingBatch : ImageBatch;
-
 		public function ResourceBatch(folder : File) : void
 		{
 			this.folder = folder;
-			this.loadingBatch = new ImageBatch(folder);
+			this._loadingBatch = new ImageBatch(folder);
 			_path = folder.nativePath;
-			_length = loadingBatch.length;
+			_length = _loadingBatch.length;
 
 			if (_length > 0)
 			{
 				_batchInfo = getResourceBatchInfo(_path);
 			}
+		}
+
+		private var _loadingBatch : ImageBatch;
+
+		public function get loadingBatch() : ImageBatch
+		{
+			return _loadingBatch;
 		}
 
 		private var _path : String;

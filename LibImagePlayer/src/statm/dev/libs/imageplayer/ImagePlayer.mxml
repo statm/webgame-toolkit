@@ -38,11 +38,17 @@
 				currentFrame = 0;
 				playEnabled = false;
 
-				imageBatch.addEventListener(ImageBatchEvent.PROGRESS, imageBatch_progressHandler);
-				imageBatch.addEventListener(ImageBatchEvent.COMPLETE, imageBatch_completeHandler);
-				image.source = imageBatch.getImage(0);
-
-				load();
+				if (imageBatch)
+				{
+					imageBatch.addEventListener(ImageBatchEvent.PROGRESS, imageBatch_progressHandler);
+					imageBatch.addEventListener(ImageBatchEvent.COMPLETE, imageBatch_completeHandler);
+					image.source = imageBatch.getImage(0);
+					load();
+				}
+				else
+				{
+					image.source = null;
+				}
 			}
 
 			public function load() : void

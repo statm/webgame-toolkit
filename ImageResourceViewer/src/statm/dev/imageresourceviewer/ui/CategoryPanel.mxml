@@ -9,13 +9,54 @@
 
 	<fx:Script>
 		<![CDATA[
-			private var buttons : Array = [btnHero, btnWeapon, btnMount, btnNPC, btnMob, btnPet, btnFX];
+			import statm.dev.imageresourceviewer.AppState;
+			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
+			private var buttons : Array = [hero, weapon, mount, pet, mob, npc, fx];
 
 			private function btn_clickHandler(event : MouseEvent) : void
 			{
-				trace(event.currentTarget);
+				switch (event.currentTarget)
+				{
+					case hero:
+						AppState.selectedCategory = ResourceLib.hero;
+						break;
+					case weapon:
+						AppState.selectedCategory = ResourceLib.weapon;
+						break;
+					case mount:
+						AppState.selectedCategory = ResourceLib.mount;
+						break;
+					case npc:
+						AppState.selectedCategory = ResourceLib.npc;
+						break;
+					case mob:
+						AppState.selectedCategory = ResourceLib.mob;
+						break;
+					case pet:
+						AppState.selectedCategory = ResourceLib.pet;
+						break;
+					case fx:
+						AppState.selectedCategory = ResourceLib.fx;
+						break;
+				}
 			}
-			
+
+			public function setCategoryButtons(buttons : Array) : void
+			{
+				hero.currentState
+					= weapon.currentState
+					= mount.currentState
+					= npc.currentState
+					= mob.currentState
+					= pet.currentState
+					= fx.currentState
+					= "collapseNormal";
+
+				for each (var buttonName : String in buttons)
+				{
+					this[buttonName].currentState = "normal";
+				}
+			}
 		]]>
 	</fx:Script>
 
@@ -31,22 +72,39 @@
 			  paddingRight="5"
 			  paddingLeft="5"
 			  gap="6">
-		<ui:CategoryButton id="btnHero"
-						   click="btn_clickHandler(event)"/>
-		<ui:CategoryButton id="btnWeapon"
-						   click="btn_clickHandler(event)"/>
-		<ui:CategoryButton id="btnMount"
-						   click="btn_clickHandler(event)"/>
-		<ui:CategoryButton id="btnNPC"
+		<ui:CategoryButton id="hero"
+						   categoryName="角色"
+						   element="{AppState.selectedHero}"
 						   click="btn_clickHandler(event)"
 						   currentState="collapseNormal"/>
-		<ui:CategoryButton id="btnMob"
+		<ui:CategoryButton id="weapon"
+						   categoryName="武器"
+						   element="{AppState.selectedWeapon}"
 						   click="btn_clickHandler(event)"
 						   currentState="collapseNormal"/>
-		<ui:CategoryButton id="btnPet"
+		<ui:CategoryButton id="mount"
+						   categoryName="坐骑"
+						   element="{AppState.selectedMount}"
 						   click="btn_clickHandler(event)"
 						   currentState="collapseNormal"/>
-		<ui:CategoryButton id="btnFX"
+		<ui:CategoryButton id="npc"
+						   categoryName="NPC"
+						   element="{AppState.selectedNPC}"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
+		<ui:CategoryButton id="mob"
+						   categoryName="怪物"
+						   element="{AppState.selectedMob}"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
+		<ui:CategoryButton id="pet"
+						   categoryName="宠物"
+						   element="{AppState.selectedPet}"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
+		<ui:CategoryButton id="fx"
+						   categoryName="特效"
+						   element="{AppState.selectedFX}"
 						   click="btn_clickHandler(event)"
 						   currentState="collapseNormal"/>
 	</s:VGroup>

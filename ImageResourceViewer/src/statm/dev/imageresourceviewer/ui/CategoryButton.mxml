@@ -5,33 +5,76 @@
 		 xmlns:imageplayer="statm.dev.libs.imageplayer.*"
 		 minWidth="200">
 
+	<fx:Script>
+		<![CDATA[
+			import statm.dev.imageresourceviewer.data.Element;
+			import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
+			import statm.dev.libs.imageplayer.loader.ImageBatch;
+			import statm.dev.libs.imageplayer.loader.ImageBatchState;
+
+			public function set categoryName(value : String) : void
+			{
+				lblCategoryName.text = value;
+			}
+
+			public function set itemName(value : String) : void
+			{
+				lblItemName.text = value;
+			}
+
+			public function set element(element : Element) : void
+			{
+				var resourceBatch : ResourceBatch = element.getCurrentBatch();
+
+				if (!resourceBatch)
+				{
+					player.setImageBatch(null);
+					return;
+				}
+
+				var imageBatch : ImageBatch = element.getCurrentBatch().loadingBatch;
+
+				player.setImageBatch(imageBatch);
+
+				if (imageBatch.batchState == ImageBatchState.READY)
+				{
+					imageBatch.load();
+				}
+			}
+		]]>
+	</fx:Script>
+
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="over"/>
-		<s:State name="collapseNormal" stateGroups="collapse"/>
-		<s:State name="collapseOver" stateGroups="collapse"/>
+		<s:State name="collapseNormal"
+				 stateGroups="collapse"/>
+		<s:State name="collapseOver"
+				 stateGroups="collapse"/>
 	</s:states>
+	
+	<s:layout>
+		<s:HorizontalLayout/>
+	</s:layout>
 
 	<imageplayer:ImagePlayer id="player"
 							 rollOver="currentState='over'"
 							 rollOut="currentState='normal'"
+							 playOnRollOver="true"
 							 includeIn="normal,over"/>
 	<s:VGroup id="grpCategoryLabel"
 			  paddingTop="8"
 			  gap="2"
 			  rollOver.collapse="currentState='collapseOver'"
 			  rollOut.collapse="currentState='collapseNormal'"
-			  x="{player.x + player.width + 5}"
 			  visible.normal="false"
 			  visible.over="true">
 		<s:Label id="lblCategoryName"
-				 text="角色"
 				 fontSize="18"
 				 color="#3C3C3C"
 				 color.collapseNormal="#999999"
 				 fontWeight="bold"/>
-		<s:Label id="lblCategoryValue"
-				 text="男武将1号"
+		<s:Label id="lblItemName"
 				 color="#999999"
 				 includeIn="over"/>
 	</s:VGroup>

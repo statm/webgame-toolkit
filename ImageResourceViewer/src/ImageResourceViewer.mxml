@@ -15,6 +15,11 @@
 					   nativeDragDrop="nativeDragDropHandler(event)">
 
 	<fx:Style source="styles/styles.css"/>
+	<fx:Script>
+		<![CDATA[
+			import statm.dev.imageresourceviewer.AppState;
+		]]>
+	</fx:Script>
 
 	<fx:Script source="app.as"/>
 
@@ -24,16 +29,24 @@
 			  top="0"
 			  bottom="0"
 			  width="100%">
-		
+
 		<s:List id="resourceList"
+				dataProvider="{AppState.selectedCategory.elements}"
 				itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.ResourceListItemRenderer"
+				requireSelection="true"
+				change="resourceList_changeHandler(event)"
 				width="200"
 				height="100%"/>
-		
+
+		<s:VGroup width="100%" height="100%">
+			<ui:PlaybackPanel/>
+			<ui:Dashboard/>
+		</s:VGroup>
+
 	</s:HGroup>
 
 	<ui:CategoryPanel id="categoryPanel"
 					  top="0"
 					  bottom="0"/>
-	
+
 </s:WindowedApplication>

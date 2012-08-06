@@ -4,8 +4,8 @@
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   borderColor="#999999"
 				   backgroundColor="#EEEEEE"
-				   maxHeight="120"
-				   maxWidth="120"
+				   height="120"
+				   width="120"
 				   creationComplete="init()">
 
 	<fx:Script>

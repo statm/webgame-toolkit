@@ -6,20 +6,24 @@
 		 width.normal="130"
 		 width.expanded="80%"
 		 height="100%">
-	
+
+	<fx:Script>
+		<![CDATA[
+			private var buttons : Array = [btnHero, btnWeapon, btnMount, btnNPC, btnMob, btnPet, btnFX];
+
+			private function btn_clickHandler(event : MouseEvent) : void
+			{
+				trace(event.currentTarget);
+			}
+			
+		]]>
+	</fx:Script>
+
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="expanded"/>
 	</s:states>
-	
-<!--	<s:Group width="100%" height="100%">
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="#FF9900"/>
-			</s:fill>
-		</s:Rect>
-	</s:Group>-->
-	
+
 	<s:VGroup bottom="0"
 			  top="0"
 			  left="0"
@@ -27,10 +31,23 @@
 			  paddingRight="5"
 			  paddingLeft="5"
 			  gap="6">
-		<ui:CategoryButton/>
-		<ui:CategoryButton/>
-		<ui:CategoryButton/>
-		<ui:CategoryButton/>
-		<ui:CategoryButton/>
+		<ui:CategoryButton id="btnHero"
+						   click="btn_clickHandler(event)"/>
+		<ui:CategoryButton id="btnWeapon"
+						   click="btn_clickHandler(event)"/>
+		<ui:CategoryButton id="btnMount"
+						   click="btn_clickHandler(event)"/>
+		<ui:CategoryButton id="btnNPC"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
+		<ui:CategoryButton id="btnMob"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
+		<ui:CategoryButton id="btnPet"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
+		<ui:CategoryButton id="btnFX"
+						   click="btn_clickHandler(event)"
+						   currentState="collapseNormal"/>
 	</s:VGroup>
 </s:Group>

@@ -49,5 +49,10 @@ package statm.dev.imageresourceviewer.data
 			}
 			return action;
 		}
+
+		public function toString() : String
+		{
+			return "[Element(type=" + type + ",name=" + name + ")]";
+		}
 	}
 }

@@ -56,6 +56,7 @@ package statm.dev.imageresourceviewer.data.resource
 			mob = new ArrayCollection();
 			pet = new ArrayCollection();
 			fx = new ArrayCollection();
+
 			unknown = new ArrayCollection();
 
 			heroDic = new Dictionary();
@@ -72,8 +73,15 @@ package statm.dev.imageresourceviewer.data.resource
 			if (resourceBatch.batchInfo.isComplete)
 			{
 				var type : String = resourceBatch.batchInfo.type;
-				getLib(type).addItem(resourceBatch);
-				getDic(type)[resourceBatch.batchInfo.name] = resourceBatch;
+				var lib : ArrayCollection = getLib(type);
+
+				var element : Element = getElement(resourceBatch);
+				element.getAction(resourceBatch.batchInfo.action).getDirection(resourceBatch.batchInfo.direction).setBatch(resourceBatch);
+
+				if (lib.getItemIndex(element) == -1)
+				{
+					lib.addItem(element);
+				}
 			}
 			else
 			{
@@ -83,7 +91,15 @@ package statm.dev.imageresourceviewer.data.resource
 
 		private static function getElement(resourceBatch : ResourceBatch) : Element
 		{
-			
+			var result : Element = getDic(resourceBatch.batchInfo.type)[resourceBatch.batchInfo.name] as Element;
+
+			if (!result)
+			{
+				result = new Element(resourceBatch.batchInfo.name, resourceBatch.batchInfo.type);
+				getDic(resourceBatch.batchInfo.type)[resourceBatch.batchInfo.name] = result;
+			}
+
+			return result;
 		}
 
 		public static function getLib(type : String) : ArrayCollection
@@ -146,13 +162,13 @@ package statm.dev.imageresourceviewer.data.resource
 
 		public static function print() : void
 		{
-			trace(hero.length);
-			trace(weapon.length);
-			trace(mount.length);
-			trace(npc.length);
-			trace(mob.length);
-			trace(pet.length);
-			trace(fx.length);
+			trace(hero.source.join());
+			trace(weapon.source.join());
+			trace(mount.source.join());
+			trace(npc.source.join());
+			trace(mob.source.join());
+			trace(pet.source.join());
+			trace(fx.source.join());
 		}
 	}
 }

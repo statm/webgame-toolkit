@@ -5,8 +5,8 @@
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 					   showStatusBar="false"
 					   title="测试"
-					   width="800"
-					   height="300"
+					   width="962"
+					   height="625"
 					   frameRate="15"
 					   displayStateChange="displayStateChangeHandler(event)"
 					   creationComplete="init()"
@@ -26,13 +26,9 @@
 			  width="100%">
 		
 		<s:List id="resourceList"
+				itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.ResourceListItemRenderer"
+				width="200"
 				height="100%"/>
-		
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="#0066CC"/>
-			</s:fill>
-		</s:Rect>
 		
 	</s:HGroup>
 

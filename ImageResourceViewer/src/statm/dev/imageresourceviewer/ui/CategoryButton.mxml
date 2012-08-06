@@ -8,8 +8,8 @@
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="over"/>
-		<s:State name="collapseNormal"/>
-		<s:State name="collapseOver"/>
+		<s:State name="collapseNormal" stateGroups="collapse"/>
+		<s:State name="collapseOver" stateGroups="collapse"/>
 	</s:states>
 
 	<imageplayer:ImagePlayer id="player"
@@ -19,6 +19,8 @@
 	<s:VGroup id="grpCategoryLabel"
 			  paddingTop="8"
 			  gap="2"
+			  rollOver.collapse="currentState='collapseOver'"
+			  rollOut.collapse="currentState='collapseNormal'"
 			  x="{player.x + player.width + 5}"
 			  visible.normal="false"
 			  visible.over="true">

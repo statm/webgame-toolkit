@@ -93,7 +93,7 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 
 	var t : int = getTimer();
 	traverseFolders(fileArray);
-	trace(getTimer() - t);
+	trace("耗时" + (getTimer() - t) + "ms");
 	
 	ResourceLib.print();
 

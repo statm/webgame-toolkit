@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				autoDrawBackground="false">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+
+			import statm.dev.imageresourceviewer.AppState;
+
+			override public function set data(value : Object) : void
+			{
+				super.data = value;
+
+				if (value)
+				{
+					btnAction.label = value.name + "(" + value.frameCount + ")";
+				}
+			}
+
+			protected function btnAction_clickHandler(event : MouseEvent) : void
+			{
+				FlexGlobals.topLevelApplication.setAction(data);
+			}
+		]]>
+	</fx:Script>
+
+	<s:Button id="btnAction"
+			  click="btnAction_clickHandler(event)"
+			  enabled="{AppState.currentAction!=data.name}"/>
+</s:ItemRenderer>

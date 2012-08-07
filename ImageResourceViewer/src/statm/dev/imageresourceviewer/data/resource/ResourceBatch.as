@@ -1,7 +1,8 @@
 package statm.dev.imageresourceviewer.data.resource
 {
+	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
-
+	
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.libs.imageplayer.loader.ImageBatch;
 	import statm.dev.libs.imageplayer.loader.ImageBatchEvent;
@@ -12,28 +13,21 @@ package statm.dev.imageresourceviewer.data.resource
 	 * @author statm
 	 *
 	 */
-	public class ResourceBatch
+	public class ResourceBatch extends ImageBatch
 	{
-		private var folder : File;
+		private var _folder : File;
 
 		public function ResourceBatch(folder : File) : void
 		{
-			this.folder = folder;
-			this._loadingBatch = new ImageBatch(folder);
+			super(folder);
+			
+			_folder = folder;
 			_path = folder.nativePath;
-			_length = _loadingBatch.length;
 
-			if (_length > 0)
+			if (count > 0)
 			{
 				_batchInfo = getResourceBatchInfo(_path);
 			}
-		}
-
-		private var _loadingBatch : ImageBatch;
-
-		public function get loadingBatch() : ImageBatch
-		{
-			return _loadingBatch;
 		}
 
 		private var _path : String;
@@ -41,13 +35,6 @@ package statm.dev.imageresourceviewer.data.resource
 		public function get path() : String
 		{
 			return _path;
-		}
-
-		private var _length : int;
-
-		public function get length() : int
-		{
-			return _length;
 		}
 
 		private var _type : String;

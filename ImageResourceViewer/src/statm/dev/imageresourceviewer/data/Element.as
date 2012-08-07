@@ -70,6 +70,11 @@ package statm.dev.imageresourceviewer.data
 			return _actionDic[actionName];
 		}
 
+		public function hasAction(actionName : String) : Boolean
+		{
+			return _actionDic[actionName] != null;
+		}
+
 		public function get actionList() : ArrayCollection
 		{
 			return _actions;

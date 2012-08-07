@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%"
-		 height="100%">
-	<s:Group width="100%"
-			 height="100%">
-		<s:Rect width="100%"
-				height="100%">
-			<s:fill>
-				<s:SolidColor color="#FF9900"/>
-			</s:fill>
-		</s:Rect>
-	</s:Group>
-</s:Group>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="500"
+		  height="100%"
+		  horizontalAlign="center"
+		  verticalAlign="middle">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+
+			import statm.dev.imageresourceviewer.AppState;
+
+			protected function changeHandler(event : Event) : void
+			{
+				FlexGlobals.topLevelApplication.gotoFrame(playbackSlider.value);
+			}
+		]]>
+	</fx:Script>
+	<s:DataGroup id="layerDataGroup"
+				 dataProvider="{AppState.activeLayers}"
+				 horizontalCenter="0"
+				 verticalCenter="0"
+				 itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.PlaybackItemRenderer"/>
+
+	<s:HGroup width="100%" verticalAlign="middle">
+		<s:Button/>
+		<s:HSlider id="playbackSlider"
+				   width="100%"
+				   maximum="{AppState.frameTotal - 1}"
+				   value="{AppState.currentFrame}"
+				   change="changeHandler(event)"
+				   dataTipPrecision="0"/>
+	</s:HGroup>
+</s:VGroup>

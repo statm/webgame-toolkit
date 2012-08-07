@@ -12,5 +12,15 @@ package statm.dev.imageresourceviewer.data
 		public var name : String;
 
 		public var frameCount : int;
+
+		public function equals(info : ActionInfo) : Boolean
+		{
+			return info.name == name;
+		}
+
+		public function toString() : String
+		{
+			return "[" + name + ":" + frameCount + "]";
+		}
 	}
 }

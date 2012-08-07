@@ -15,8 +15,15 @@ package statm.dev.imageresourceviewer.data.type
 
 		public static const E : String = "朝右";
 
-		public static const WE : String = "朝右上";
+		public static const NE : String = "朝右上";
 
 		public static const SE : String = "朝右下";
+
+		// 镜像
+		public static const W : String = "朝左";
+
+		public static const NW : String = "朝左上";
+
+		public static const SW : String = "朝左下";
 	}
 }

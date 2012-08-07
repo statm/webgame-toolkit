@@ -29,7 +29,7 @@ package statm.dev.libs.imageplayer.loader
 	{
 		private var files : ArrayCollection;
 
-		private var count : int = 0;
+		protected var count : int = 0;
 
 		private var loadedImages : Vector.<BitmapData>;
 

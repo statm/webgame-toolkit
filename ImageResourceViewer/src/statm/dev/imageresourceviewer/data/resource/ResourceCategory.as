@@ -1,7 +1,8 @@
 package statm.dev.imageresourceviewer.data.resource
 {
 	import mx.collections.ArrayCollection;
-
+	
+	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 	/**
@@ -22,7 +23,7 @@ package statm.dev.imageresourceviewer.data.resource
 		public function ResourceCategory(type : String)
 		{
 			_type = type;
-			elements = new ArrayCollection();
+			elements = new ArrayCollection([new Element("无", type)]);
 		}
 
 		[Bindable]

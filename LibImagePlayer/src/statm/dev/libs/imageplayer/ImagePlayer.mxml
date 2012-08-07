@@ -58,7 +58,10 @@
 					return;
 				}
 
-				progBarGroup.visible = true;
+				if (_showProgressBar)
+				{
+					progBarGroup.visible = true;
+				}
 				imageBatch.load();
 			}
 
@@ -84,7 +87,8 @@
 				}
 			}
 
-			private var currentFrame : int;
+			[Bindable]
+			public var currentFrame : int;
 			private var playEnabled : Boolean = false;
 
 			private function enterFrameHandler(event : Event) : void
@@ -98,16 +102,27 @@
 				image.source = imageBatch.getImage(currentFrame);
 			}
 
+			public function gotoFrame(frame : int) : void
+			{
+				if (!playEnabled || !imageBatch)
+				{
+					return;
+				}
+				
+				currentFrame = frame % imageBatch.length;
+				image.source = imageBatch.getImage(currentFrame);
+			}
+
 			private function imageBatch_progressHandler(event : ImageBatchEvent) : void
 			{
-				trace("loaded: " + imageBatch.loadedCount + "/" + imageBatch.length);
+//				trace("loaded: " + imageBatch.loadedCount + "/" + imageBatch.length);
 				image.source = imageBatch.getImage(0);
 				progBar.percentWidth = imageBatch.loadedCount / imageBatch.length * 100;
 			}
 
 			private function imageBatch_completeHandler(event : ImageBatchEvent) : void
 			{
-				trace("complete");
+//				trace("complete");
 				playEnabled = true;
 				progBarGroup.visible = false;
 			}
@@ -124,7 +139,7 @@
 				if (value != _playOnRollOver)
 				{
 					_playOnRollOver = value;
-					
+
 					if (!_playOnRollOver)
 					{
 						this.removeEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
@@ -137,15 +152,44 @@
 					}
 				}
 			}
-			
-			private function rollOverHandler(event:MouseEvent):void
+
+			private function rollOverHandler(event : MouseEvent) : void
 			{
 				play();
 			}
-			
-			private function rollOutHandler(event:MouseEvent):void
+
+			private function rollOutHandler(event : MouseEvent) : void
 			{
 				stop();
+			}
+
+			public function set showBorder(value : Boolean) : void
+			{
+				setStyle("borderVisible", value);
+				setStyle("backgroundAlpha", (value ? 1. : 0.));
+			}
+
+			public function set horizontalMirroring(value : Boolean) : void
+			{
+				if (value)
+				{
+					image.scaleX = -1;
+				}
+				else
+				{
+					image.scaleX = 1;
+				}
+			}
+			
+			private var _showProgressBar:Boolean = true;
+			
+			public function set showProgressBar(value:Boolean):void
+			{
+				_showProgressBar = value;
+				if (!value && progBarGroup)
+				{
+					progBarGroup.visible = false;
+				}
 			}
 		]]>
 	</fx:Script>

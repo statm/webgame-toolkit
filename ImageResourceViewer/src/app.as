@@ -1,26 +1,48 @@
 import flash.desktop.ClipboardFormats;
 import flash.desktop.NativeDragManager;
 import flash.display.NativeWindowDisplayState;
+import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
+import flash.ui.Keyboard;
 import flash.utils.getTimer;
 
+import mx.collections.ArrayCollection;
 import mx.managers.DragManager;
 
 import spark.events.IndexChangeEvent;
 
 import statm.dev.imageresourceviewer.AppState;
+import statm.dev.imageresourceviewer.data.Action;
+import statm.dev.imageresourceviewer.data.ActionInfo;
 import statm.dev.imageresourceviewer.data.Element;
 import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 import statm.dev.imageresourceviewer.data.resource.ResourceLib;
+import statm.dev.imageresourceviewer.data.type.DirectionType;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
+import statm.dev.imageresourceviewer.ui.Dashboard;
+import statm.dev.imageresourceviewer.ui.skins.itemRenderers.PlaybackItemRenderer;
+import statm.dev.libs.imageplayer.ImagePlayer;
 
 private function init() : void
 {
 	//nativeWindow.maximize();
 	ResourceLib.reset();
+	this.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+}
+
+private function onKeyDown(event : KeyboardEvent) : void
+{
+	if (AppState.playing)
+	{
+		stop();
+	}
+	else
+	{
+		play();
+	}
 }
 
 protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
@@ -168,7 +190,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			setCategoryMode(ResourceType.FX);
 			break;
 	}
-	
+
 	calculateActionList();
 }
 
@@ -181,9 +203,9 @@ private function setCategoryMode(mode : String) : void
 	{
 		case ResourceType.HERO:
 			categoryPanel.setCategoryButtons(["hero", "weapon", "mount"]);
+			AppState.activeLayers.addItem(AppState.selectedMount);
 			AppState.activeLayers.addItem(AppState.selectedHero);
 			AppState.activeLayers.addItem(AppState.selectedWeapon);
-			AppState.activeLayers.addItem(AppState.selectedMount);
 			break;
 
 		case ResourceType.NPC:
@@ -210,5 +232,134 @@ private function setCategoryMode(mode : String) : void
 
 private function calculateActionList() : void
 {
-	// TODO: 根据当前零件计算动作列表（最小公倍数）
+	// 根据当前零件计算动作列表（最小公倍数）
+	var actions : ArrayCollection = AppState.currentActions;
+	var actionNames : Array = [];
+
+	actions.removeAll();
+	for each (var elem : Element in AppState.activeLayers)
+	{
+		if (!elem)
+		{
+			continue;
+		}
+
+		for each (var action : Action in elem.actionList)
+		{
+			if (actionNames.indexOf(action.name) == -1)
+			{
+				actions.addItem(action.info);
+				actionNames[actionNames.length] = action.name;
+			}
+		}
+	}
+}
+
+public function setAction(info : ActionInfo) : void
+{
+	AppState.currentAction = info.name;
+	AppState.frameTotal = info.frameCount;
+	updateActionAndDirection();
+}
+
+public function setDirection(direction : String) : void
+{
+	AppState.currentDirection = direction;
+	updateActionAndDirection();
+}
+
+private function updateActionAndDirection() : void
+{
+	var needMirroring : Boolean =
+		(AppState.currentDirection == DirectionType.NW
+		|| AppState.currentDirection == DirectionType.W
+		|| AppState.currentDirection == DirectionType.SW);
+
+	switch (AppState.categoryMode)
+	{
+		case ResourceType.HERO:
+			AppState.selectedHero && categoryPanel.hero.player.setImageBatch(AppState.selectedHero.getCurrentBatch());
+			AppState.selectedWeapon && categoryPanel.weapon.player.setImageBatch(AppState.selectedWeapon.getCurrentBatch());
+			AppState.selectedMount && categoryPanel.mount.player.setImageBatch(AppState.selectedMount.getCurrentBatch());
+
+			categoryPanel.hero.player.horizontalMirroring
+				= categoryPanel.weapon.player.horizontalMirroring
+				= categoryPanel.mount.player.horizontalMirroring
+				= needMirroring;
+			break;
+
+		case ResourceType.NPC:
+			AppState.selectedNPC && categoryPanel.npc.player.setImageBatch(AppState.selectedNPC.getCurrentBatch());
+			categoryPanel.npc.player.horizontalMirroring = needMirroring;
+			break;
+
+		case ResourceType.MOB:
+			AppState.selectedMob && categoryPanel.mob.player.setImageBatch(AppState.selectedMob.getCurrentBatch());
+			categoryPanel.mob.player.horizontalMirroring = needMirroring;
+			break;
+
+		case ResourceType.PET:
+			AppState.selectedPet && categoryPanel.pet.player.setImageBatch(AppState.selectedPet.getCurrentBatch());
+			categoryPanel.pet.player.horizontalMirroring = needMirroring;
+			break;
+
+		case ResourceType.FX:
+			AppState.selectedFX && categoryPanel.fx.player.setImageBatch(AppState.selectedFX.getCurrentBatch());
+			categoryPanel.fx.player.horizontalMirroring = needMirroring;
+			break;
+	}
+
+	for each (var elem : Element in AppState.activeLayers)
+	{
+		if (!elem)
+		{
+			continue;
+		}
+		AppState.activeLayers.itemUpdated(elem);
+	}
+}
+
+// 播放
+public function play() : void
+{
+	AppState.playing = true;
+
+	this.addEventListener(Event.ENTER_FRAME, $play);
+}
+
+private function $play(event : Event) : void
+{
+	var l : int = playbackPanel.layerDataGroup.numElements;
+	AppState.currentFrame++;
+	AppState.currentFrame %= AppState.frameTotal;
+
+	for (var i : int = 0; i < l; i++)
+	{
+		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(AppState.currentFrame);
+	}
+}
+
+public function gotoFrame(frame:int):void
+{
+	var l : int = playbackPanel.layerDataGroup.numElements;
+	AppState.currentFrame = frame % AppState.frameTotal;
+	
+	for (var i : int = 0; i < l; i++)
+	{
+		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(AppState.currentFrame);
+	}
+}
+
+public function stop() : void
+{
+	AppState.playing = false;
+	AppState.currentFrame = 0;
+
+	var l : int = playbackPanel.layerDataGroup.numElements;
+	for (var i : int = 0; i < l; i++)
+	{
+		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(0);
+	}
+
+	this.removeEventListener(Event.ENTER_FRAME, $play);
 }

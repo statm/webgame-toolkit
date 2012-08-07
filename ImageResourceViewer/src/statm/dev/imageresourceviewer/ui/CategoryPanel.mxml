@@ -9,35 +9,56 @@
 
 	<fx:Script>
 		<![CDATA[
+			import mx.core.FlexGlobals;
+			
 			import statm.dev.imageresourceviewer.AppState;
+			import statm.dev.imageresourceviewer.data.Element;
 			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 			private var buttons : Array = [hero, weapon, mount, pet, mob, npc, fx];
 
 			private function btn_clickHandler(event : MouseEvent) : void
 			{
+				var selectedElem : Element;
+
 				switch (event.currentTarget)
 				{
 					case hero:
 						AppState.selectedCategory = ResourceLib.hero;
+						selectedElem = AppState.selectedHero;
 						break;
 					case weapon:
 						AppState.selectedCategory = ResourceLib.weapon;
+						selectedElem = AppState.selectedWeapon;
 						break;
 					case mount:
 						AppState.selectedCategory = ResourceLib.mount;
+						selectedElem = AppState.selectedMount;
 						break;
 					case npc:
 						AppState.selectedCategory = ResourceLib.npc;
+						selectedElem = AppState.selectedNPC;
 						break;
 					case mob:
 						AppState.selectedCategory = ResourceLib.mob;
+						selectedElem = AppState.selectedMob;
 						break;
 					case pet:
 						AppState.selectedCategory = ResourceLib.pet;
+						selectedElem = AppState.selectedPet;
 						break;
 					case fx:
 						AppState.selectedCategory = ResourceLib.fx;
+						selectedElem = AppState.selectedFX;
 						break;
+				}
+				
+				if (selectedElem)
+				{
+					FlexGlobals.topLevelApplication.resourceList.selectedItem = selectedElem;
+				}
+				else
+				{
+					FlexGlobals.topLevelApplication.resourceList.selectedIndex = 0;
 				}
 			}
 

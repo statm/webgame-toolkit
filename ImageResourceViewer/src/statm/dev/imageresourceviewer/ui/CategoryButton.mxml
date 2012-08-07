@@ -32,7 +32,7 @@
 					return;
 				}
 
-				var imageBatch : ImageBatch = element.getCurrentBatch().loadingBatch;
+				var imageBatch : ImageBatch = element.getCurrentBatch();
 
 				player.setImageBatch(imageBatch);
 

@@ -4,12 +4,12 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 					   showStatusBar="false"
-					   title="测试"
+					   title="图片资源查看器"
 					   width="962"
 					   height="625"
 					   frameRate="15"
 					   displayStateChange="displayStateChangeHandler(event)"
-					   creationComplete="init()"
+					   addedToStage="init()"
 					   nativeDragEnter="nativeDragEnterHandler(event)"
 					   nativeDragExit="nativeDragExitHandler(event)"
 					   nativeDragDrop="nativeDragDropHandler(event)">
@@ -31,16 +31,19 @@
 			  width="100%">
 
 		<s:List id="resourceList"
+				borderVisible="false"
 				dataProvider="{AppState.selectedCategory.elements}"
 				itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.ResourceListItemRenderer"
-				requireSelection="true"
 				change="resourceList_changeHandler(event)"
+				requireSelection="true"
 				width="200"
 				height="100%"/>
 
-		<s:VGroup width="100%" height="100%">
-			<ui:PlaybackPanel/>
-			<ui:Dashboard/>
+		<s:VGroup width="100%"
+				  height="100%"
+				  horizontalAlign="center">
+			<ui:PlaybackPanel id="playbackPanel"/>
+			<ui:Dashboard id="dashboard"/>
 		</s:VGroup>
 
 	</s:HGroup>

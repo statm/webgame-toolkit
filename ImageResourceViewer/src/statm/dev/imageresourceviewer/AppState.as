@@ -1,9 +1,9 @@
 package statm.dev.imageresourceviewer
 {
 	import flash.events.EventDispatcher;
-	
+
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
@@ -31,6 +31,7 @@ package statm.dev.imageresourceviewer
 		/**
 		 * 当前选择的动作。
 		 */
+		[Bindable]
 		public static var currentAction : String = "攻击";
 
 		/**
@@ -58,9 +59,16 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public static var activeLayers : ArrayCollection = new ArrayCollection();
 
-		// 播放控制 
-		public static var playingBatches : Array = [];
+		[Bindable]
+		public static var currentActions : ArrayCollection = new ArrayCollection();
 
-		// TODO
+		// 播放控制 
+		public static var playing : Boolean = false;
+
+		[Bindable]
+		public static var currentFrame : int = 0;
+
+		[Bindable]
+		public static var frameTotal : int = 0;
 	}
 }

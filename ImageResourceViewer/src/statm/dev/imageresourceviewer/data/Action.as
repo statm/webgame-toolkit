@@ -5,6 +5,7 @@ package statm.dev.imageresourceviewer.data
 	import mx.collections.ArrayCollection;
 
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
+	import statm.dev.imageresourceviewer.data.type.DirectionType;
 
 	/**
 	 * 动画元素的动作。
@@ -19,6 +20,11 @@ package statm.dev.imageresourceviewer.data
 		public function get info() : ActionInfo
 		{
 			return _info;
+		}
+
+		public function get name() : String
+		{
+			return _info.name;
 		}
 
 		private var _directionDic : Dictionary;
@@ -38,7 +44,24 @@ package statm.dev.imageresourceviewer.data
 
 		public function getBatch(direction : String) : ResourceBatch
 		{
-			return _directionDic[direction];
+			var actualDirection : String = direction;
+
+			if (actualDirection == DirectionType.NW)
+			{
+				actualDirection = DirectionType.NE;
+			}
+
+			if (actualDirection == DirectionType.W)
+			{
+				actualDirection = DirectionType.E;
+			}
+
+			if (actualDirection == DirectionType.SW)
+			{
+				actualDirection = DirectionType.SE;
+			}
+
+			return _directionDic[actualDirection];
 		}
 
 		public function toString() : String

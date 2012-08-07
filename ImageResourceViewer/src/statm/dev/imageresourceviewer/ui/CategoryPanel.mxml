@@ -10,7 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.Element;
 			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
@@ -51,7 +51,7 @@
 						selectedElem = AppState.selectedFX;
 						break;
 				}
-				
+
 				if (selectedElem)
 				{
 					FlexGlobals.topLevelApplication.resourceList.selectedItem = selectedElem;
@@ -64,15 +64,6 @@
 
 			public function setCategoryButtons(buttons : Array) : void
 			{
-				hero.currentState
-					= weapon.currentState
-					= mount.currentState
-					= npc.currentState
-					= mob.currentState
-					= pet.currentState
-					= fx.currentState
-					= "collapseNormal";
-
 				for each (var buttonName : String in buttons)
 				{
 					this[buttonName].currentState = "normal";
@@ -95,38 +86,31 @@
 			  gap="6">
 		<ui:CategoryButton id="hero"
 						   categoryName="角色"
-						   element="{AppState.selectedHero}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedHero.name}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="weapon"
 						   categoryName="武器"
-						   element="{AppState.selectedWeapon}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedWeapon.name}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mount"
 						   categoryName="坐骑"
-						   element="{AppState.selectedMount}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedMount.name}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="npc"
 						   categoryName="NPC"
-						   element="{AppState.selectedNPC}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedNPC.name}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mob"
 						   categoryName="怪物"
-						   element="{AppState.selectedMob}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedMob.name}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="pet"
 						   categoryName="宠物"
-						   element="{AppState.selectedPet}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedPet.name}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="fx"
 						   categoryName="特效"
-						   element="{AppState.selectedFX}"
-						   click="btn_clickHandler(event)"
-						   currentState="collapseNormal"/>
+						   itemName="{AppState.selectedFX.name}"
+						   click="btn_clickHandler(event)"/>
 	</s:VGroup>
 </s:Group>

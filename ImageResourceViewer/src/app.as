@@ -270,45 +270,6 @@ public function setDirection(direction : String) : void
 
 private function updateActionAndDirection() : void
 {
-	var needMirroring : Boolean =
-		(AppState.currentDirection == DirectionType.NW
-		|| AppState.currentDirection == DirectionType.W
-		|| AppState.currentDirection == DirectionType.SW);
-
-	switch (AppState.categoryMode)
-	{
-		case ResourceType.HERO:
-			AppState.selectedHero && categoryPanel.hero.player.setImageBatch(AppState.selectedHero.getCurrentBatch());
-			AppState.selectedWeapon && categoryPanel.weapon.player.setImageBatch(AppState.selectedWeapon.getCurrentBatch());
-			AppState.selectedMount && categoryPanel.mount.player.setImageBatch(AppState.selectedMount.getCurrentBatch());
-
-			categoryPanel.hero.player.horizontalMirroring
-				= categoryPanel.weapon.player.horizontalMirroring
-				= categoryPanel.mount.player.horizontalMirroring
-				= needMirroring;
-			break;
-
-		case ResourceType.NPC:
-			AppState.selectedNPC && categoryPanel.npc.player.setImageBatch(AppState.selectedNPC.getCurrentBatch());
-			categoryPanel.npc.player.horizontalMirroring = needMirroring;
-			break;
-
-		case ResourceType.MOB:
-			AppState.selectedMob && categoryPanel.mob.player.setImageBatch(AppState.selectedMob.getCurrentBatch());
-			categoryPanel.mob.player.horizontalMirroring = needMirroring;
-			break;
-
-		case ResourceType.PET:
-			AppState.selectedPet && categoryPanel.pet.player.setImageBatch(AppState.selectedPet.getCurrentBatch());
-			categoryPanel.pet.player.horizontalMirroring = needMirroring;
-			break;
-
-		case ResourceType.FX:
-			AppState.selectedFX && categoryPanel.fx.player.setImageBatch(AppState.selectedFX.getCurrentBatch());
-			categoryPanel.fx.player.horizontalMirroring = needMirroring;
-			break;
-	}
-
 	for each (var elem : Element in AppState.activeLayers)
 	{
 		if (!elem)

@@ -37,6 +37,7 @@ package statm.dev.imageresourceviewer
 		/**
 		 * 当前的方向。
 		 */
+		[Bindable]
 		public static var currentDirection : String = DirectionType.E;
 
 
@@ -63,6 +64,7 @@ package statm.dev.imageresourceviewer
 		public static var currentActions : ArrayCollection = new ArrayCollection();
 
 		// 播放控制 
+		[Bindable]
 		public static var playing : Boolean = false;
 
 		[Bindable]

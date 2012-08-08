@@ -3,18 +3,18 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:ui="statm.dev.imageresourceviewer.ui.*"
-		 width.normal="130"
-		 width.expanded="80%"
+		 width="130"
 		 height="100%">
 
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-
+			
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.Element;
 			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
-			private var buttons : Array = [hero, weapon, mount, pet, mob, npc, fx];
+
+			private var lastSelected : CategoryButton;
 
 			private function btn_clickHandler(event : MouseEvent) : void
 			{
@@ -52,7 +52,25 @@
 						break;
 				}
 
-				if (selectedElem)
+				if (lastSelected)
+				{
+					lastSelected.open = false;
+				}
+				
+				if (lastSelected != event.currentTarget)
+				{
+					lastSelected = CategoryButton(event.currentTarget);
+					lastSelected.open = true;
+					FlexGlobals.topLevelApplication.currentState = "list";
+				}
+				else
+				{
+					lastSelected.open = false;
+					lastSelected = null;
+					FlexGlobals.topLevelApplication.currentState = "normal";
+				}
+				
+				if (selectedElem && FlexGlobals.topLevelApplication.currentState == "list")
 				{
 					FlexGlobals.topLevelApplication.resourceList.selectedItem = selectedElem;
 				}
@@ -62,11 +80,19 @@
 				}
 			}
 
-			public function setCategoryButtons(buttons : Array) : void
+			public function setSelectedCategoryButtons(buttonNames : Array) : void
 			{
-				for each (var buttonName : String in buttons)
+				for each (var buttonName : String in buttonNames)
 				{
-					this[buttonName].currentState = "normal";
+					this[buttonName].selected = true;
+				}
+
+				for each (var button : CategoryButton in[hero, weapon, mount, pet, mob, npc, fx])
+				{
+					if (buttonNames.indexOf(button.id) == -1)
+					{
+						button.selected = false;
+					}
 				}
 			}
 		]]>
@@ -83,34 +109,41 @@
 			  width="130"
 			  paddingRight="5"
 			  paddingLeft="5"
-			  gap="6">
+			  gap="1">
 		<ui:CategoryButton id="hero"
 						   categoryName="角色"
 						   itemName="{AppState.selectedHero.name}"
+						   count="{ResourceLib.hero.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="weapon"
 						   categoryName="武器"
 						   itemName="{AppState.selectedWeapon.name}"
+						   count="{ResourceLib.weapon.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mount"
 						   categoryName="坐骑"
 						   itemName="{AppState.selectedMount.name}"
+						   count="{ResourceLib.mount.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="npc"
 						   categoryName="NPC"
 						   itemName="{AppState.selectedNPC.name}"
+						   count="{ResourceLib.npc.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mob"
 						   categoryName="怪物"
 						   itemName="{AppState.selectedMob.name}"
+						   count="{ResourceLib.mob.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="pet"
 						   categoryName="宠物"
 						   itemName="{AppState.selectedPet.name}"
+						   count="{ResourceLib.pet.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="fx"
 						   categoryName="特效"
 						   itemName="{AppState.selectedFX.name}"
+						   count="{ResourceLib.fx.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 	</s:VGroup>
 </s:Group>

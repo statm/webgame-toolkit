@@ -3,7 +3,12 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:imageplayer="statm.dev.libs.imageplayer.*"
-		 minWidth="200">
+		 rollOver="rollOverHandler(event)"
+		 rollOut="rollOutHandler(event)"
+		 width="160"
+		 clipAndEnableScrolling="true"
+		 height.normalStates="35"
+		 height.selectedStates="52">
 
 	<fx:Script>
 		<![CDATA[
@@ -16,28 +21,161 @@
 			{
 				lblItemName.text = value;
 			}
+
+			public function set count(value : int) : void
+			{
+				lblCount.text = value.toString();
+			}
+
+			private var _selected : Boolean = false;
+
+			public function get selected() : Boolean
+			{
+				return _selected;
+			}
+
+			public function set selected(value : Boolean) : void
+			{
+				if (value != _selected)
+				{
+					_selected = value;
+					switch (currentState)
+					{
+						case "out":
+							currentState = "selectedOut";
+							break;
+
+						case "over":
+							currentState = "selectedOver";
+							break;
+
+						case "open":
+							currentState = "selectedOpen";
+							break;
+
+						case "selectedOut":
+							currentState = "out";
+							break;
+
+						case "selectedOver":
+							currentState = "over";
+							break;
+
+						case "selectedOpen":
+							currentState = "open";
+							break;
+					}
+				}
+			}
+
+			private var _open : Boolean = false;
+
+			public function get open() : Boolean
+			{
+				return _open;
+			}
+
+			public function set open(value : Boolean) : void
+			{
+				if (value != _open)
+				{
+					_open = value;
+					this.currentState = (_selected ? (_open ? "selectedOpen" : "selectedOut") : (_open ? "open" : "out"));
+				}
+			}
+
+			protected function rollOverHandler(event : MouseEvent) : void
+			{
+				if (_open)
+				{
+					return;
+				}
+				this.currentState = (_selected ? "selectedOver" : "over");
+			}
+
+			protected function rollOutHandler(event : MouseEvent) : void
+			{
+				this.currentState = (_selected ? (_open ? "selectedOpen" : "selectedOut") : (_open ? "open" : "out"));
+			}
 		]]>
 	</fx:Script>
 
 	<s:states>
-		<s:State name="normal"/>
-		<s:State name="over"/>
+		<s:State name="out"
+				 stateGroups="normalStates, outStates"/>
+		<s:State name="over"
+				 stateGroups="normalStates, overStates"/>
+		<s:State name="open"
+				 stateGroups="normalStates, openStates"/>
+		<s:State name="selectedOut"
+				 stateGroups="selectedStates, outStates"/>
+		<s:State name="selectedOver"
+				 stateGroups="selectedStates, overStates"/>
+		<s:State name="selectedOpen"
+				 stateGroups="selectedStates, openStates"/>
 	</s:states>
-	
-	<s:layout>
-		<s:HorizontalLayout/>
-	</s:layout>
+
+	<s:transitions>
+		<s:Transition fromState="*"
+					  toState="*">
+			<s:Parallel suspendBackgroundProcessing="true">
+				<s:Resize targets="{[this]}"
+						  duration="400"/>
+				<s:Move targets="{[cursor, grpCategoryLabel, lblCount]}"
+						duration="200"/>
+				<s:AnimateColor targets="{[background, cursorFill]}"
+								duration="400"/>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+
+	<s:Rect top="0"
+			bottom="0"
+			left="0"
+			right="0">
+		<s:fill>
+			<s:SolidColor id="background"
+						  color.normalStates="#EEEEEE"
+						  color.selectedStates="#4EA6EA"/>
+		</s:fill>
+	</s:Rect>
 
 	<s:VGroup id="grpCategoryLabel"
-			  paddingTop="8"
-			  gap="2">
+			  gap="0"
+			  verticalCenter="0"
+			  left.outStates="6"
+			  left.overStates="11"
+			  left.openStates="17">
 		<s:Label id="lblCategoryName"
-				 fontSize="18"
-				 color="#3C3C3C"
-				 fontWeight="bold"/>
+				 fontSize="16"
+				 color.out="#999999"
+				 color.over="#333333"
+				 color.open="#333333"
+				 color.selectedStates="#FFFFFF"/>
 		<s:Label id="lblItemName"
-				 color="#999999"
-				 includeIn="over"/>
+				 color.normalStates="#999999"
+				 color.selectedStates="#FFFFFF"
+				 fontSize="12"
+				 includeIn="selectedStates"/>
 	</s:VGroup>
 
+	<s:Label id="lblCount"
+			 right="6"
+			 top="11"
+			 fontSize="12"
+			 color.normalStates="#999999"
+			 color.selectedStates="#FFFFFF"/>
+
+	<s:Path id="cursor"
+			left.outStates="-10"
+			left.overStates="-6"
+			left.openStates="0"
+			verticalCenter="0"
+			data="M 0 0 L 5 0 L 5 21 L 10 26 L 5 31 L 5 52 L 0 52 Z">
+		<s:fill>
+			<s:SolidColor id="cursorFill"
+						  color.normalStates="#4EA6EA"
+						  color.selectedStates="#CCCCCC"/>
+		</s:fill>
+	</s:Path>
 </s:Group>

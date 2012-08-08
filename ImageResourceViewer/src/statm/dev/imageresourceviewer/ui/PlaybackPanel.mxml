@@ -1,36 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-		  xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:mx="library://ns.adobe.com/flex/mx"
-		  width="500"
-		  height="100%"
-		  horizontalAlign="center"
-		  verticalAlign="middle">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%"
+		 height="100%"
+		 xmlns:ui="statm.dev.imageresourceviewer.ui.*"
+		 xmlns:skins="statm.dev.imageresourceviewer.ui.skins.*">
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
 
 			import statm.dev.imageresourceviewer.AppState;
-
-			protected function changeHandler(event : Event) : void
-			{
-				FlexGlobals.topLevelApplication.gotoFrame(playbackSlider.value);
-			}
+			import statm.dev.imageresourceviewer.data.type.DirectionType;
 		]]>
 	</fx:Script>
+
 	<s:DataGroup id="layerDataGroup"
-				 dataProvider="{AppState.activeLayers}"
 				 horizontalCenter="0"
 				 verticalCenter="0"
+				 dataProvider="{AppState.activeLayers}"
 				 itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.PlaybackItemRenderer"/>
 
-	<s:HGroup width="100%" verticalAlign="middle">
-		<s:Button/>
-		<s:HSlider id="playbackSlider"
-				   width="100%"
-				   maximum="{AppState.frameTotal - 1}"
-				   value="{AppState.currentFrame}"
-				   change="changeHandler(event)"
-				   dataTipPrecision="0"/>
-	</s:HGroup>
-</s:VGroup>
+	<s:TileGroup columnWidth="30"
+				 horizontalGap="1"
+				 verticalGap="1"
+				 right="0"
+				 top="0">
+		<ui:DirectionButton skinClass="statm.dev.imageresourceviewer.ui.skins.DirectionButtonSkin"
+							defaultIcon="{UIResource.NW_ICON}"
+							highlightIcon="{UIResource.NW_ICON_OVER}"
+							selected="{AppState.currentDirection == DirectionType.NW}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.NW}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.NW)"/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.N}"
+							defaultIcon="{UIResource.N_ICON}"
+							highlightIcon="{UIResource.N_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.N}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.N)"/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.NE}"
+							defaultIcon="{UIResource.NE_ICON}"
+							highlightIcon="{UIResource.NE_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.NE}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.NE)"/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.W}"
+							defaultIcon="{UIResource.W_ICON}"
+							highlightIcon="{UIResource.W_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.W}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.W)"/>
+		<s:Spacer/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.E}"
+							defaultIcon="{UIResource.E_ICON}"
+							highlightIcon="{UIResource.E_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.E}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.E)"/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.SW}"
+							defaultIcon="{UIResource.SW_ICON}"
+							highlightIcon="{UIResource.SW_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.SW}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.SW)"/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.S}"
+							defaultIcon="{UIResource.S_ICON}"
+							highlightIcon="{UIResource.S_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.S}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.S)"/>
+		<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.SE}"
+							defaultIcon="{UIResource.SE_ICON}"
+							highlightIcon="{UIResource.SE_ICON_OVER}"
+							mouseEnabled="{AppState.currentDirection != DirectionType.SE}"
+							click="FlexGlobals.topLevelApplication.setDirection(DirectionType.SE)"/>
+	</s:TileGroup>
+
+	<ui:PlaybackBar bottom="0"
+					left="0"
+					right="0"/>
+</s:Group>

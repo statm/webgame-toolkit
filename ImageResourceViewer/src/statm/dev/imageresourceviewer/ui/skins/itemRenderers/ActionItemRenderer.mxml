@@ -27,7 +27,14 @@
 		]]>
 	</fx:Script>
 
-	<s:Button id="btnAction"
-			  click="btnAction_clickHandler(event)"
-			  enabled="{AppState.currentAction!=data.name}"/>
+	<s:ToggleButton id="btnAction"
+					top="0"
+					bottom="0"
+					left="0"
+					right="0"
+					fontSize="14"
+					skinClass="statm.dev.imageresourceviewer.ui.skins.ActionButtonSkin"
+					click="btnAction_clickHandler(event)"
+					mouseEnabled="{AppState.currentAction!=data.name}"
+					selected="{AppState.currentAction==data.name}"/>
 </s:ItemRenderer>

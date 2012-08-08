@@ -30,19 +30,6 @@ private function init() : void
 {
 	//nativeWindow.maximize();
 	ResourceLib.reset();
-	this.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-}
-
-private function onKeyDown(event : KeyboardEvent) : void
-{
-	if (AppState.playing)
-	{
-		stop();
-	}
-	else
-	{
-		play();
-	}
 }
 
 protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
@@ -151,6 +138,8 @@ private function traverseFolders(folders : Array) : void
 
 private function resourceList_changeHandler(event : IndexChangeEvent) : void
 {
+	playingGroup.visible = true;
+
 	var selectedItem : Element = resourceList.selectedItem;
 
 	switch (selectedItem.type)
@@ -182,7 +171,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 
 		case ResourceType.PET:
 			AppState.selectedPet = selectedItem;
-			setCategoryMode(ResourceType.NPC);
+			setCategoryMode(ResourceType.PET);
 			break;
 
 		case ResourceType.FX:
@@ -202,29 +191,29 @@ private function setCategoryMode(mode : String) : void
 	switch (mode)
 	{
 		case ResourceType.HERO:
-			categoryPanel.setCategoryButtons(["hero", "weapon", "mount"]);
+			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
 			AppState.activeLayers.addItem(AppState.selectedMount);
 			AppState.activeLayers.addItem(AppState.selectedHero);
 			AppState.activeLayers.addItem(AppState.selectedWeapon);
 			break;
 
 		case ResourceType.NPC:
-			categoryPanel.setCategoryButtons(["npc"]);
+			categoryPanel.setSelectedCategoryButtons(["npc"]);
 			AppState.activeLayers.addItem(AppState.selectedNPC);
 			break;
 
 		case ResourceType.MOB:
-			categoryPanel.setCategoryButtons(["mob"]);
+			categoryPanel.setSelectedCategoryButtons(["mob"]);
 			AppState.activeLayers.addItem(AppState.selectedMob);
 			break;
 
 		case ResourceType.PET:
-			categoryPanel.setCategoryButtons(["pet"]);
+			categoryPanel.setSelectedCategoryButtons(["pet"]);
 			AppState.activeLayers.addItem(AppState.selectedPet);
 			break;
 
 		case ResourceType.FX:
-			categoryPanel.setCategoryButtons(["fx"]);
+			categoryPanel.setSelectedCategoryButtons(["fx"]);
 			AppState.activeLayers.addItem(AppState.selectedPet);
 			break;
 	}
@@ -300,11 +289,11 @@ private function $play(event : Event) : void
 	}
 }
 
-public function gotoFrame(frame:int):void
+public function gotoFrame(frame : int) : void
 {
 	var l : int = playbackPanel.layerDataGroup.numElements;
 	AppState.currentFrame = frame % AppState.frameTotal;
-	
+
 	for (var i : int = 0; i < l; i++)
 	{
 		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(AppState.currentFrame);
@@ -323,4 +312,16 @@ public function stop() : void
 	}
 
 	this.removeEventListener(Event.ENTER_FRAME, $play);
+}
+
+public function togglePlay() : void
+{
+	if (AppState.playing)
+	{
+		stop();
+	}
+	else
+	{
+		play();
+	}
 }

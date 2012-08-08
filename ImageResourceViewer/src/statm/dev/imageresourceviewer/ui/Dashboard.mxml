@@ -1,35 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="100%"
-		 height="100%">
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  height="150"
+		  clipAndEnableScrolling="true"
+		  width="100%">
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.type.DirectionType;
 		]]>
 	</fx:Script>
-	<s:DataGroup id="layers"
+	<s:List id="layers"
 			width="100%"
 			height="100%"
 			itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.ActionItemRenderer"
-			dataProvider="{AppState.currentActions}">
+			dataProvider="{AppState.currentActions}"
+			borderVisible="false">
 		<s:layout>
 			<s:TileLayout columnWidth="110"/>
 		</s:layout>
-	</s:DataGroup>
-	<s:TileGroup columnWidth="30" horizontalGap="0" verticalGap="0">
-		<s:Button label="7" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.NW)"/>
-		<s:Button label="8" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.N)"/>
-		<s:Button label="9" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.NE)"/>
-		<s:Button label="4" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.W)"/>
-		<s:Button label="5" visible="false"/>
-		<s:Button label="6" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.E)"/>
-		<s:Button label="1" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.SW)"/>
-		<s:Button label="2" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.S)"/>
-		<s:Button label="3" click="FlexGlobals.topLevelApplication.setDirection(DirectionType.SE)"/>
-	</s:TileGroup>
+	</s:List>
 </s:HGroup>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+	ADOBE SYSTEMS INCORPORATED
+	Copyright 2008 Adobe Systems Incorporated
+	All Rights Reserved.
+
+	NOTICE: Adobe permits you to use, modify, and distribute this file
+	in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the Spark Button component.
+
+	   @see spark.components.Button
+
+	  @langversion 3.0
+	  @playerversion Flash 10
+	  @playerversion AIR 1.5
+	  @productversion Flex 4
+-->
+<s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+				   minWidth="21"
+				   minHeight="30"
+				   alpha.disabled="0.5">
+
+	<fx:Metadata>
+		<![CDATA[ 
+        /** 
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("spark.components.Button")]
+        ]]>
+	</fx:Metadata>
+
+	<!-- states -->
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+		<fx:Script>
+			<![CDATA[
+				import statm.dev.imageresourceviewer.AppState;
+			]]>
+		</fx:Script>
+		<fx:Script>
+			<![CDATA[
+				import statm.dev.imageresourceviewer.ui.UIResource;
+			]]>
+		</fx:Script>
+	</s:states>
+
+	<!-- layer 1: shadow -->
+	<!--- @private -->
+	<s:Rect id="shadow"
+			left="-1"
+			right="-1"
+			top="-1"
+			bottom="-1"
+			radiusX="2">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x000000"
+								 color.down="0xFFFFFF"
+								 alpha="0.01"
+								 alpha.down="0"/>
+				<s:GradientEntry color="0x000000"
+								 color.down="0xFFFFFF"
+								 alpha="0.07"
+								 alpha.down="0.5"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+
+	<!-- layer 2: fill -->
+	<!--- @private -->
+	<s:Rect id="fill"
+			left="1"
+			right="1"
+			top="1"
+			bottom="1">
+		<s:fill>
+			<s:SolidColor color="#eeeeee"
+						  color.down="#333333"
+						  color.over="#666666"/>
+		</s:fill>
+	</s:Rect>
+
+	<!-- layer 7: border - put on top of the fill so it doesn't disappear when scale is less than 1 -->
+	<!--- @private -->
+	<s:Rect id="border"
+			width="69"
+			height="20"
+			left="0"
+			right="0"
+			top="0"
+			bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="#cccccc"
+								color.down="#333333"
+								color.over="#666666"
+								weight="1"/>
+		</s:stroke>
+	</s:Rect>
+
+	<s:BitmapImage horizontalCenter="0"
+				   verticalCenter="0"
+				   source.up="{AppState.playing ? UIResource.PAUSE_ICON : UIResource.PLAY_ICON}"
+				   source="{AppState.playing ? UIResource.PAUSE_ICON_OVER : UIResource.PLAY_ICON_OVER}"/>
+
+</s:SparkButtonSkin>

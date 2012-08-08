@@ -126,7 +126,7 @@
 
     <!-- layer 2: titlebar + content + status bar -->
     <s:Group 
-        left="21" left.maximized="10" right="21" right.maximized="10" top="21" top.maximized="10" bottom="21" bottom.maximized="1"
+        left="21" left.maximized="10" right="26" right.maximized="10" top="21" top.maximized="10" bottom="26" bottom.maximized="1"
         minHeight="24"
         minWidth="0">
         <s:layout>
@@ -137,7 +137,7 @@
         <!--- @copy spark.components.WindowedApplication#titleBar -->
         <s:TitleBar id="titleBar"
             width="100%"
-            minHeight="24"
+			height="38"
             skinClass="statm.dev.imageresourceviewer.ui.skins.MetroTitleBarSkin"
             alpha.inactiveGroup="0.5"/>
 

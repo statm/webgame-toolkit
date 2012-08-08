@@ -1,5 +1,6 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
+@namespace ui "statm.dev.imageresourceviewer.ui.*";
 
 s|Application 
 {
@@ -14,4 +15,8 @@ s|WindowedApplication
 s|Button
 {
 	skinClass:ClassReference("statm.dev.imageresourceviewer.ui.skins.MetroButtonSkin");
+}
+ui|DirectionButton
+{
+	skinClass:ClassReference("statm.dev.imageresourceviewer.ui.skins.DirectionButtonSkin");
 }

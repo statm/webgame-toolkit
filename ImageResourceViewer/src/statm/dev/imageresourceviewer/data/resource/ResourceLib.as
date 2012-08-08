@@ -15,13 +15,13 @@ package statm.dev.imageresourceviewer.data.resource
 	 */
 	public class ResourceLib
 	{
-		public static var hero : ResourceCategory;
-		public static var weapon : ResourceCategory;
-		public static var mount : ResourceCategory;
-		public static var npc : ResourceCategory;
-		public static var mob : ResourceCategory;
-		public static var pet : ResourceCategory;
-		public static var fx : ResourceCategory;
+		[Bindable] public static var hero : ResourceCategory;
+		[Bindable] public static var weapon : ResourceCategory;
+		[Bindable] public static var mount : ResourceCategory;
+		[Bindable] public static var npc : ResourceCategory;
+		[Bindable] public static var mob : ResourceCategory;
+		[Bindable] public static var pet : ResourceCategory;
+		[Bindable] public static var fx : ResourceCategory;
 
 		public static var unknown : ArrayCollection;
 

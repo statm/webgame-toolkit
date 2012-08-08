@@ -6,7 +6,7 @@
 					   showStatusBar="false"
 					   title="图片资源查看器"
 					   width="962"
-					   height="625"
+					   height="700"
 					   frameRate="15"
 					   displayStateChange="displayStateChangeHandler(event)"
 					   addedToStage="init()"
@@ -17,18 +17,44 @@
 	<fx:Style source="styles/styles.css"/>
 	<fx:Script>
 		<![CDATA[
+			import spark.effects.easing.Sine;
+
 			import statm.dev.imageresourceviewer.AppState;
 		]]>
 	</fx:Script>
 
 	<fx:Script source="app.as"/>
 
-	<s:HGroup left="135"
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="list"/>
+	</s:states>
+
+	<s:transitions>
+		<s:Transition fromState="normal"
+					  toState="list">
+			<s:Resize target="{resourceList}"
+					  widthFrom="0"
+					  duration="300"
+					  easer="{new Sine(.1)}"/>
+		</s:Transition>
+		<s:Transition fromState="list"
+					  toState="normal">
+			<s:Sequence>
+				<s:Resize target="{resourceList}"
+						  widthTo="0"
+						  duration="200"
+						  easer="{new Sine(.1)}"/>
+				<s:RemoveAction target="{resourceList}"/>
+			</s:Sequence>
+		</s:Transition>
+	</s:transitions>
+
+	<s:HGroup left="175"
 			  right="0"
-			  gap="5"
+			  gap="10"
 			  top="0"
-			  bottom="0"
-			  width="100%">
+			  bottom="0">
 
 		<s:List id="resourceList"
 				borderVisible="false"
@@ -36,11 +62,20 @@
 				itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.ResourceListItemRenderer"
 				change="resourceList_changeHandler(event)"
 				requireSelection="true"
+				includeIn="list"
 				width="200"
-				height="100%"/>
+				height="100%"
+				horizontalScrollPolicy="off">
+			<s:layout>
+				<s:VerticalLayout gap="1"/>
+			</s:layout>
+		</s:List>
 
-		<s:VGroup width="100%"
+		<s:VGroup id="playingGroup"
+				  visible="false"
+				  width="100%"
 				  height="100%"
+				  gap="15"
 				  horizontalAlign="center">
 			<ui:PlaybackPanel id="playbackPanel"/>
 			<ui:Dashboard id="dashboard"/>

@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="400"
-		 height="300">
-	<fx:Declarations>
-		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
-	</fx:Declarations>
-</s:Group>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  verticalAlign="middle">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			
+			import statm.dev.imageresourceviewer.AppState;
+
+			protected function changeHandler(event : Event) : void
+			{
+				FlexGlobals.topLevelApplication.gotoFrame(playbackSlider.value);
+			}
+
+			protected function btnPlay_clickHandler(event : MouseEvent) : void
+			{
+				FlexGlobals.topLevelApplication.togglePlay();
+			}
+		]]>
+	</fx:Script>
+	<s:Button id="btnPlay"
+			  skinClass="statm.dev.imageresourceviewer.ui.skins.PlayButtonSkin"
+			  click="btnPlay_clickHandler(event)"/>
+	<s:HSlider id="playbackSlider"
+			   width="100%"
+			   maximum="{AppState.frameTotal - 1}"
+			   value="{AppState.currentFrame}"
+			   change="changeHandler(event)"
+			   dataTipPrecision="0"/>
+</s:HGroup>

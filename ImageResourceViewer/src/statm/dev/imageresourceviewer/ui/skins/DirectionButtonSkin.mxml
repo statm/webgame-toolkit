@@ -25,7 +25,7 @@
 				   xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 				   minWidth="30"
 				   minHeight="30"
-				   alpha.disabledStates="0.5"
+				   alpha.selectedStates="1"
 				   creationComplete="init()">
 
 	<!-- host component -->
@@ -104,6 +104,7 @@
 
 	<s:BitmapImage source="{_hostComponent.getStyle('defaultIcon')}"
 				   source.over="{_hostComponent.getStyle('highlightIcon')}"
+				   source.down="{_hostComponent.getStyle('highlightIcon')}"
 				   source.disabled="{_hostComponent.getStyle('highlightIcon')}"
 				   source.selectedStates="{_hostComponent.getStyle('highlightIcon')}"
 				   horizontalCenter="0"

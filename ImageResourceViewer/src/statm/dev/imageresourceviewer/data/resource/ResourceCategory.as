@@ -23,7 +23,7 @@ package statm.dev.imageresourceviewer.data.resource
 		public function ResourceCategory(type : String)
 		{
 			_type = type;
-			elements = new ArrayCollection([new Element("无", type)]);
+			elements = new ArrayCollection();
 		}
 
 		[Bindable]

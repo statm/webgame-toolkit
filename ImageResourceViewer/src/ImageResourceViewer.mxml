@@ -4,7 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 					   showStatusBar="false"
-					   title="图片资源查看器"
+					   title="图片资源查看器 v1.0"
 					   width="962"
 					   height="700"
 					   frameRate="15"
@@ -17,8 +17,9 @@
 	<fx:Style source="styles/styles.css"/>
 	<fx:Script>
 		<![CDATA[
+			import spark.effects.Move;
 			import spark.effects.easing.Sine;
-
+			
 			import statm.dev.imageresourceviewer.AppState;
 		]]>
 	</fx:Script>

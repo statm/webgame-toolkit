@@ -4,6 +4,7 @@ package statm.dev.imageresourceviewer.data.resource
 	
 	import mx.collections.ArrayCollection;
 	
+	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
@@ -42,6 +43,14 @@ package statm.dev.imageresourceviewer.data.resource
 			mob = new ResourceCategory(ResourceType.MOB);
 			pet = new ResourceCategory(ResourceType.PET);
 			fx = new ResourceCategory(ResourceType.FX);
+			
+			hero.elements.addItem(AppState.selectedHero);
+			weapon.elements.addItem(AppState.selectedWeapon);
+			mount.elements.addItem(AppState.selectedMount);
+			npc.elements.addItem(AppState.selectedNPC);
+			mob.elements.addItem(AppState.selectedMob);
+			pet.elements.addItem(AppState.selectedPet);
+			fx.elements.addItem(AppState.selectedFX);
 
 			unknown = new ArrayCollection();
 

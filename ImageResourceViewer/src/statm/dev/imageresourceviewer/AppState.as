@@ -6,6 +6,7 @@ package statm.dev.imageresourceviewer
 
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
+	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
 
 	/**
@@ -32,30 +33,30 @@ package statm.dev.imageresourceviewer
 		 * 当前选择的动作。
 		 */
 		[Bindable]
-		public static var currentAction : String = "攻击";
+		public static var currentAction : String;
 
 		/**
 		 * 当前的方向。
 		 */
 		[Bindable]
-		public static var currentDirection : String = DirectionType.E;
+		public static var currentDirection : String = DirectionType.S;
 
 
 		// 各层选中内容
 		[Bindable]
-		public static var selectedHero : Element;
+		public static var selectedHero : Element = new Element("无", ResourceType.HERO);
 		[Bindable]
-		public static var selectedWeapon : Element;
+		public static var selectedWeapon : Element = new Element("无", ResourceType.WEAPON);
 		[Bindable]
-		public static var selectedMount : Element;
+		public static var selectedMount : Element = new Element("无", ResourceType.MOUNT);
 		[Bindable]
-		public static var selectedNPC : Element;
+		public static var selectedNPC : Element = new Element("无", ResourceType.NPC);
 		[Bindable]
-		public static var selectedMob : Element;
+		public static var selectedMob : Element = new Element("无", ResourceType.MOB);
 		[Bindable]
-		public static var selectedPet : Element;
+		public static var selectedPet : Element = new Element("无", ResourceType.PET);
 		[Bindable]
-		public static var selectedFX : Element;
+		public static var selectedFX : Element = new Element("无", ResourceType.FX);
 
 		[Bindable]
 		public static var activeLayers : ArrayCollection = new ArrayCollection();

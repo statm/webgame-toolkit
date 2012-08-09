@@ -114,7 +114,7 @@
         <s:Button id="minimizeButton"
             top="2" bottom="2"
             verticalCenter="0"
-            skinClass="spark.skins.spark.windowChrome.MinimizeButtonSkin"/>
+            skinClass="statm.dev.imageresourceviewer.ui.skins.MinimizeButtonSkin"/>
 
         <!-- maximize button -->
         <!---
@@ -127,8 +127,8 @@
         -->
         <s:Button id="maximizeButton"
             verticalCenter="0"
-            skinClass="spark.skins.spark.windowChrome.MaximizeButtonSkin"
-            skinClass.maximizedGroup="spark.skins.spark.windowChrome.RestoreButtonSkin"/>
+            skinClass="statm.dev.imageresourceviewer.ui.skins.MaximizeButtonSkin"
+            skinClass.maximizedGroup="statm.dev.imageresourceviewer.ui.skins.RestoreButtonSkin"/>
 
         <!-- close button -->
         <!---
@@ -141,7 +141,7 @@
         -->
         <s:Button id="closeButton"
             verticalCenter="0"
-            skinClass="spark.skins.spark.windowChrome.CloseButtonSkin"/>
+            skinClass="statm.dev.imageresourceviewer.ui.skins.CloseButtonSkin"/>
 
     </s:Group>
 

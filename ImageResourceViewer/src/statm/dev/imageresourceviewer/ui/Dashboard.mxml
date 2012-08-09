@@ -17,6 +17,7 @@
 			width="100%"
 			height="100%"
 			itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.ActionItemRenderer"
+			skinClass="statm.dev.imageresourceviewer.ui.skins.LiteListSkin"
 			dataProvider="{AppState.currentActions}"
 			borderVisible="false">
 		<s:layout>

@@ -1,6 +1,10 @@
+import air.update.ApplicationUpdaterUI;
+import air.update.events.UpdateEvent;
+
 import flash.desktop.ClipboardFormats;
 import flash.desktop.NativeDragManager;
 import flash.display.NativeWindowDisplayState;
+import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.NativeDragEvent;
@@ -28,8 +32,22 @@ import statm.dev.libs.imageplayer.ImagePlayer;
 
 private function init() : void
 {
-	//nativeWindow.maximize();
 	ResourceLib.reset();
+}
+
+private var appUpdater : ApplicationUpdaterUI = new ApplicationUpdaterUI();
+
+private function checkUpdate() : void
+{
+	// TODO: 升级URL
+	appUpdater.updateURL = "xxxx";
+	appUpdater.isCheckForUpdateVisible = false;
+	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
+	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void
+	{
+		appUpdater.checkNow();
+	});
+	appUpdater.initialize();
 }
 
 protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
@@ -140,83 +158,69 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 {
 	playingGroup.visible = true;
 
+	AppState.activeLayers.removeAll();
+
 	var selectedItem : Element = resourceList.selectedItem;
 
 	switch (selectedItem.type)
 	{
 		case ResourceType.HERO:
+			AppState.categoryMode = ResourceType.HERO;
+			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
 			AppState.selectedHero = selectedItem;
-			setCategoryMode(ResourceType.HERO);
+			AppState.activeLayers.addItem(AppState.selectedMount);
+			AppState.activeLayers.addItem(AppState.selectedHero);
+			AppState.activeLayers.addItem(AppState.selectedWeapon);
 			break;
 
 		case ResourceType.WEAPON:
+			AppState.categoryMode = ResourceType.HERO;
+			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
 			AppState.selectedWeapon = selectedItem;
-			setCategoryMode(ResourceType.HERO);
+			AppState.activeLayers.addItem(AppState.selectedMount);
+			AppState.activeLayers.addItem(AppState.selectedHero);
+			AppState.activeLayers.addItem(AppState.selectedWeapon);
 			break;
 
 		case ResourceType.MOUNT:
-			AppState.selectedMount = selectedItem;
-			setCategoryMode(ResourceType.HERO);
-			break;
-
-		case ResourceType.NPC:
-			AppState.selectedNPC = selectedItem;
-			setCategoryMode(ResourceType.NPC);
-			break;
-
-		case ResourceType.MOB:
-			AppState.selectedMob = selectedItem;
-			setCategoryMode(ResourceType.MOB);
-			break;
-
-		case ResourceType.PET:
-			AppState.selectedPet = selectedItem;
-			setCategoryMode(ResourceType.PET);
-			break;
-
-		case ResourceType.FX:
-			AppState.selectedFX = selectedItem;
-			setCategoryMode(ResourceType.FX);
-			break;
-	}
-
-	calculateActionList();
-}
-
-private function setCategoryMode(mode : String) : void
-{
-	AppState.categoryMode = mode;
-	AppState.activeLayers.removeAll();
-
-	switch (mode)
-	{
-		case ResourceType.HERO:
+			AppState.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
+			AppState.selectedMount = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedMount);
 			AppState.activeLayers.addItem(AppState.selectedHero);
 			AppState.activeLayers.addItem(AppState.selectedWeapon);
 			break;
 
 		case ResourceType.NPC:
+			AppState.categoryMode = ResourceType.NPC;
 			categoryPanel.setSelectedCategoryButtons(["npc"]);
+			AppState.selectedNPC = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedNPC);
 			break;
 
 		case ResourceType.MOB:
+			AppState.categoryMode = ResourceType.MOB;
 			categoryPanel.setSelectedCategoryButtons(["mob"]);
+			AppState.selectedMob = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedMob);
 			break;
 
 		case ResourceType.PET:
+			AppState.categoryMode = ResourceType.PET;
 			categoryPanel.setSelectedCategoryButtons(["pet"]);
+			AppState.selectedPet = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedPet);
 			break;
 
 		case ResourceType.FX:
+			AppState.categoryMode = ResourceType.FX;
 			categoryPanel.setSelectedCategoryButtons(["fx"]);
+			AppState.selectedFX = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedPet);
 			break;
 	}
+
+	calculateActionList();
 }
 
 private function calculateActionList() : void
@@ -241,6 +245,12 @@ private function calculateActionList() : void
 				actionNames[actionNames.length] = action.name;
 			}
 		}
+	}
+
+	if (actionNames.indexOf(AppState.currentAction) == -1
+		&& actions.length > 0)
+	{
+		setAction(actions[0]);
 	}
 }
 

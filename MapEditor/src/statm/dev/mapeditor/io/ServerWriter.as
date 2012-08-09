@@ -68,7 +68,7 @@ package statm.dev.mapeditor.io
 				return "";
 			}
 
-			return "image/" + new File(map.bgLayer.bgPath).name.split(".")[0] + ".jpg";
+			return "image/" + map.mapName + ".jpg";
 		}
 
 		private function generateTileAndPlanLists() : XMLList

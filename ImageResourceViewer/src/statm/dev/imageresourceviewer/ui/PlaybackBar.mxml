@@ -2,10 +2,12 @@
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
-		  verticalAlign="middle">
+		  verticalAlign="middle"
+		  gap="0">
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
 			
 			import statm.dev.imageresourceviewer.AppState;
 
@@ -18,15 +20,36 @@
 			{
 				FlexGlobals.topLevelApplication.togglePlay();
 			}
+			
+			protected function fpsInput_enterHandler(event:FlexEvent):void
+			{
+				stage.focus = null;
+				AppState.frameRate = parseInt(fpsInput.text);
+			}
+			
 		]]>
 	</fx:Script>
 	<s:Button id="btnPlay"
 			  skinClass="statm.dev.imageresourceviewer.ui.skins.PlayButtonSkin"
 			  click="btnPlay_clickHandler(event)"/>
+	<s:Spacer width="10"/>
 	<s:HSlider id="playbackSlider"
 			   width="100%"
 			   maximum="{AppState.frameTotal - 1}"
 			   value="{AppState.currentFrame}"
 			   change="changeHandler(event)"
 			   dataTipPrecision="0"/>
+	<s:Spacer width="10"/>
+	<s:TextInput id="fpsInput"
+				 width="50"
+				 focusEnabled="false"
+				 textAlign="center"
+				 maxChars="2"
+				 borderColor="#4EA6EA"
+				 text="{AppState.frameRate}"
+				 enter="fpsInput_enterHandler(event)"
+				 restrict="0-9"/>
+	<s:Spacer width="5"/>
+	<s:Label text="fps"
+			 color="#333333"/>
 </s:HGroup>

@@ -6,8 +6,8 @@ package statm.dev.imageresourceviewer
 
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
-	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
+	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 	/**
 	 * 应用程序状态。
@@ -73,5 +73,8 @@ package statm.dev.imageresourceviewer
 
 		[Bindable]
 		public static var frameTotal : int = 0;
+
+		[Bindable]
+		public static var frameRate : int = 15;
 	}
 }

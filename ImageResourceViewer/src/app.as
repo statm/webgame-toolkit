@@ -19,6 +19,7 @@ import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
 import flash.ui.Keyboard;
 import flash.utils.getTimer;
+import flash.utils.setTimeout;
 
 import mx.collections.ArrayCollection;
 import mx.controls.Alert;
@@ -51,7 +52,7 @@ private function checkUpdate() : void
 	appUpdater.updateURL = "http://www.fol.com/fol/tools/ImageResourceViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
 	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
-	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void 
+	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void
 	{
 		Alert.show(event.subErrorID.toString());
 	});
@@ -76,11 +77,6 @@ override protected function getCurrentSkinState() : String
 	return super.getCurrentSkinState();
 }
 
-override protected function keyDownHandler(event : KeyboardEvent) : void
-{
-	categoryPanel.currentState = "expanded";
-}
-
 protected function nativeDragEnterHandler(event : NativeDragEvent) : void
 {
 	if (event.target != this)
@@ -93,7 +89,7 @@ protected function nativeDragEnterHandler(event : NativeDragEvent) : void
 		return;
 	}
 
-	categoryPanel.currentState = "expanded";
+	lblDragHere.setStyle("color", 0x666666);
 	NativeDragManager.acceptDragDrop(this);
 }
 
@@ -104,19 +100,28 @@ protected function nativeDragExitHandler(event : NativeDragEvent) : void
 		return;
 	}
 
-	categoryPanel.currentState = "normal";
+	lblDragHere.setStyle("color", 0xAAAAAA);
 }
 
 protected function nativeDragDropHandler(event : NativeDragEvent) : void
 {
 	var fileArray : Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
-	var c : int = fileArray.length;
 
-	if (c == 0)
+	if (fileArray.length == 0)
 	{
 		throw new Error("拖了空文件？");
 		return;
 	}
+
+	lblDragHere.setStyle("color", 0xAAAAAA);
+
+	this.currentState = "processing";
+	setTimeout(startProcessing, 250, fileArray);
+}
+
+private function startProcessing(fileArray : Array) : void
+{
+	var c : int = fileArray.length;
 
 	while (--c > -1)
 	{
@@ -127,13 +132,6 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 		}
 	}
 
-	// ？
-	if (fileArray.length == 0)
-	{
-		categoryPanel.currentState = "normal";
-	}
-	// =
-
 	var t : int = getTimer();
 	traverseFolders(fileArray);
 	trace("耗时" + (getTimer() - t) + "ms");
@@ -141,6 +139,8 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 	ResourceLib.print();
 
 	DragManager.acceptDragDrop(this);
+
+	currentState = "normal";
 }
 
 private function traverseFolders(folders : Array) : void
@@ -299,10 +299,28 @@ public function play() : void
 	this.addEventListener(Event.ENTER_FRAME, $play);
 }
 
+private var lastFrameTime : int = int.MIN_VALUE;
+
 private function $play(event : Event) : void
 {
 	var l : int = playbackPanel.layerDataGroup.numElements;
-	AppState.currentFrame++;
+	var currentTime : int = getTimer();
+	if (lastFrameTime == int.MIN_VALUE)
+	{
+		AppState.currentFrame++;
+		lastFrameTime = currentTime;
+	}
+	else
+	{
+		var delta : int = currentTime - lastFrameTime;
+		var deltaRatio : Number = delta * AppState.frameRate * 0.001;
+		if (deltaRatio > .75)
+		{
+			lastFrameTime = currentTime;
+			AppState.currentFrame += Math.round(deltaRatio);
+//			trace("actual fps=" + (1000 / delta));
+		}
+	}
 	AppState.currentFrame %= AppState.frameTotal;
 
 	for (var i : int = 0; i < l; i++)

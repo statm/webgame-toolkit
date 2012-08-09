@@ -50,8 +50,9 @@ package statm.dev.mapeditor.commands
 				fileStream.open(fileToOpen, FileMode.READ);
 
 				var fileXML : XML = new XML(fileStream.readMultiByte(fileStream.bytesAvailable, "utf-8"));
-				var map : Map = MapFileUtils.XMLToMap(fileXML);
+				var map : Map = new Map();
 				map.filePath = fileToOpen.nativePath;
+				MapFileUtils.XMLToMap(fileXML, map);
 
 				fileStream.close();
 

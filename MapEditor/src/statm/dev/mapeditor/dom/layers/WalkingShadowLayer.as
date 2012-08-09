@@ -1,6 +1,10 @@
 package statm.dev.mapeditor.dom.layers
 {
+	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomNode;
+	import statm.dev.mapeditor.dom.Map;
+	import statm.dev.mapeditor.dom.brush.Brush;
+	import statm.dev.mapeditor.dom.brush.BrushType;
 
 
 	/**
@@ -25,6 +29,24 @@ package statm.dev.mapeditor.dom.layers
 			result.setName("walkingShadowLayer");
 
 			return result;
+		}
+
+		override public function setMask(gridX : int, gridY : int, mask : Brush) : void
+		{
+			// 只有当行走层已有标记时，才允许设置半透明。
+			if (mask.type == BrushType.ERASE)
+			{
+				super.setMask(gridX, gridY, mask);
+				return;
+			}
+
+			var map : Map = AppState.getCurrentMap();
+			var walkingState : Brush = map.grids.walkingLayer.getMask(gridX, gridY);
+
+			if (walkingState)
+			{
+				super.setMask(gridX, gridY, mask);
+			}
 		}
 	}
 }

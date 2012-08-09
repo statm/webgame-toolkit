@@ -7,7 +7,7 @@
 					   title="角色图片查看器 v1.0"
 					   width="962"
 					   height="700"
-					   frameRate="15"
+					   frameRate="30"
 					   displayStateChange="displayStateChangeHandler(event)"
 					   addedToStage="init()"
 					   nativeDragEnter="nativeDragEnterHandler(event)"
@@ -19,7 +19,7 @@
 		<![CDATA[
 			import spark.effects.Move;
 			import spark.effects.easing.Sine;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 		]]>
 	</fx:Script>
@@ -27,11 +27,22 @@
 	<fx:Script source="app.as"/>
 
 	<s:states>
+		<s:State name="hidden"/>
+		<s:State name="processing"/>
 		<s:State name="normal"/>
 		<s:State name="list"/>
 	</s:states>
 
 	<s:transitions>
+		<s:Transition fromState="hidden"
+					  toState="processing">
+			<s:Parallel duration="200">
+				<s:Fade target="{lblDragHere}"
+						alphaTo="0"/>
+				<s:Fade target="{lblProcessing}"
+						alphaTo="1"/>
+			</s:Parallel>
+		</s:Transition>
 		<s:Transition fromState="normal"
 					  toState="list">
 			<s:Resize target="{resourceList}"
@@ -73,11 +84,11 @@
 		</s:List>
 
 		<s:VGroup id="playingGroup"
-				  visible="false"
 				  width="100%"
 				  height="100%"
 				  gap="15"
-				  horizontalAlign="center">
+				  horizontalAlign="center"
+				  visible="false">
 			<ui:PlaybackPanel id="playbackPanel"/>
 			<ui:Dashboard id="dashboard"/>
 		</s:VGroup>
@@ -86,6 +97,23 @@
 
 	<ui:CategoryPanel id="categoryPanel"
 					  top="0"
-					  bottom="0"/>
+					  bottom="0"
+					  includeIn="normal,list"/>
+
+	<s:Label id="lblDragHere"
+			 text="将文件夹拖到这里"
+			 fontSize="35"
+			 horizontalCenter="0"
+			 verticalCenter="0"
+			 color="#AAAAAA"
+			 includeIn="hidden"/>
+
+	<s:Label id="lblProcessing"
+			 text="正在处理..."
+			 fontSize="35"
+			 horizontalCenter="0"
+			 verticalCenter="0"
+			 color="#AAAAAA"
+			 includeIn="processing"/>
 
 </s:WindowedApplication>

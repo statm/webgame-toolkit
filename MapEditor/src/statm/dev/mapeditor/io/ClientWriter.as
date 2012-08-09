@@ -2,7 +2,7 @@ package statm.dev.mapeditor.io
 {
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-	
+
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
@@ -118,6 +118,14 @@ package statm.dev.mapeditor.io
 					walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
 					walkingShadowBrushID = (walkingShadowBrush ? walkingShadowBrush.id : -1);
 					combatBrushID = (combatBrush ? combatBrush.id : -1);
+
+					// 特殊逻辑：如果阴影层有标记，而行走层无标记，则阴影层的标记无效。
+					if (walkingBrushID == -1
+						&& walkingShadowBrushID != -1)
+					{
+						walkingBrush = null;
+						walkingBrushID = -1;
+					}
 
 					if (regionBrushID == -1
 						&& walkingBrushID == -1

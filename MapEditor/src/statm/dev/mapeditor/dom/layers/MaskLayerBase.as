@@ -68,7 +68,7 @@ package statm.dev.mapeditor.dom.layers
 				{
 					for (j = rect.y; j < rect.bottom; j++)
 					{
-						maskDic[i + "," + j] = mask;
+						setMask(i, j, mask);
 					}
 				}
 			}
@@ -81,9 +81,8 @@ package statm.dev.mapeditor.dom.layers
 						delete maskDic[i + "," + j];
 					}
 				}
+				GridUtils.drawMaskRect(BigBitmap(_display), rect, mask, mask.type == BrushType.ERASE);
 			}
-
-			GridUtils.drawMaskRect(BigBitmap(_display), rect, mask, mask.type == BrushType.ERASE);
 
 			notifyChange(MapEditingActions.DRAW_MASK);
 		}

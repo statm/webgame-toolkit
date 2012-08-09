@@ -90,7 +90,25 @@ package statm.dev.mapeditor.dom.brush
 			this._name = xml.@name;
 			this._data = xml.data.toString();
 			this._type = xml.type;
-			this._icon = BitmapCODECUtils.decode(xml.icon.toString(), BRUSH_WIDTH, BRUSH_HEIGHT);
+
+			var iconString : String = xml.icon.toString();
+
+			// TODO：一些图标变化。为了照顾现有文件只能写在这里。
+			// 要写一个 Patch 类，或者做文件版本控制。
+
+			// 可行走：v1.2 将绿色变浅了一些
+			if (iconString == "eNrtzTENAEAMw8Cwef4IiqzSs2iWs+T5km6Tfdez2Ww2m81ms9lsNrtrt/oQOTMW")
+			{
+				iconString = "eNrtzTERADAMAzGTKZvwp5OyiBf93c9Kuk32Xc9ms9lsNpvNZrPZ7K7d6gMWt7kt";
+			}
+			// 行走半透明：v1.2 将灰色换成了浅蓝色
+			else if (iconString == "eNrtzbENAAAIwzB+Zu/tfEEXR8rsmW6b5Hs2m81ms9lsNpvNZnftVgdQD1Pw"
+				|| iconString == "eNrtzTERADAIBEHEYgoDURJhuOCbvZmrtyrb9PvXs9lsNpvNZrPZbDY7a6dayz7kyQ==")
+			{
+				iconString = "eNpjYBhY8OafCIPbfyGsciDxUXnayr/+Jzrs5XEBetiPD4Dkf/4XoZk8Me4A6ael/Gj+G83fo/l7NH+Pyo/m79H8PZq/qZ2+R7r9tJYnlH5pmb/pBQAwgdjb";
+			}
+
+			this._icon = BitmapCODECUtils.decode(iconString, BRUSH_WIDTH, BRUSH_HEIGHT);
 		}
 	}
 }

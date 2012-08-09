@@ -41,7 +41,7 @@
 				var file : File = File.desktopDirectory;
 				file.addEventListener(Event.SELECT, function(event : Event) : void
 				{
-					tiMapBgPath.text = event.target.nativePath;
+					tiMapBgPath.text = (event.target as File).nativePath;
 					submit();
 				});
 				file.browseForOpen("选择地图背景", [new FileFilter("图片文件(*.jpg)", "*.jpg")]);

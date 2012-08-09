@@ -15,12 +15,9 @@ package statm.dev.mapeditor.utils
 			return map.toXML();
 		}
 
-		public static function XMLToMap(xml : XML) : Map
+		public static function XMLToMap(xml : XML, map : Map) : void
 		{
-			var map : Map = new Map();
 			map.readXML(xml);
-
-			return map;
 		}
 	}
 }

@@ -101,11 +101,11 @@ package statm.dev.mapeditor.mediators
 			{
 				title += (map.isDirty ? "*" : "");
 				title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
-				title += " - 地图编辑器";
+				title += " - 地图编辑器 v1.2";
 			}
 			else
 			{
-				title = "地图编辑器";
+				title = "地图编辑器 v1.2";
 			}
 
 			viewComponent.stage.nativeWindow.title = title;

@@ -98,11 +98,6 @@
 		]]>
 	</fx:Script>
 
-	<s:states>
-		<s:State name="normal"/>
-		<s:State name="expanded"/>
-	</s:states>
-
 	<s:VGroup bottom="0"
 			  top="0"
 			  left="0"

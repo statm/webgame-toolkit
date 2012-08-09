@@ -43,6 +43,8 @@ package statm.dev.mapeditor.commands
 
 			var fileToSave : File = new File();
 			var fileName : String;
+			var fileNameBody : String;
+			var mapImageFile : File;
 
 			var overwrite : Boolean;
 
@@ -51,6 +53,7 @@ package statm.dev.mapeditor.commands
 			{
 				fileToSave.nativePath = map.filePath;
 				fileName = fileToSave.name;
+				fileNameBody = fileToSave.name.split(".")[0];
 				overwrite = true;
 			}
 			else
@@ -58,6 +61,12 @@ package statm.dev.mapeditor.commands
 				fileToSave = File.desktopDirectory;
 				fileName = map.mapName + ".xml";
 				overwrite = false;
+			}
+
+			// 确定是否有图片文件
+			if (map.bgLayer.bgPath)
+			{
+				mapImageFile = new File(map.bgLayer.bgPath);
 			}
 
 			var mapXML : XML = MapFileUtils.mapToXML(map);
@@ -70,6 +79,10 @@ package statm.dev.mapeditor.commands
 				fileStream.close();
 
 				map.filePath = fileToSave.nativePath;
+				if (mapImageFile)
+				{
+					mapImageFile.copyTo(fileToSave.resolvePath(".." + File.separator + fileNameBody + "." + mapImageFile.extension), true);
+				}
 
 				sendNotification(AppNotificationCode.MAP_FILE_SAVED);
 
@@ -95,6 +108,12 @@ package statm.dev.mapeditor.commands
 					fileStream.close();
 
 					map.filePath = fileToSave.nativePath;
+
+					fileNameBody = fileToSave.name.split(".")[0];
+					if (mapImageFile)
+					{
+						mapImageFile.copyTo(fileToSave.resolvePath(".." + File.separator + fileNameBody + "." + mapImageFile.extension), true);
+					}
 
 					sendNotification(AppNotificationCode.MAP_FILE_SAVED);
 

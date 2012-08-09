@@ -90,7 +90,7 @@
 			[Bindable]
 			public var currentFrame : int;
 			private var playEnabled : Boolean = false;
-
+			
 			private function enterFrameHandler(event : Event) : void
 			{
 				if (!playEnabled || !imageBatch)

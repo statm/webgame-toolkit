@@ -1,4 +1,5 @@
 import air.update.ApplicationUpdaterUI;
+import air.update.events.StatusUpdateErrorEvent;
 import air.update.events.UpdateEvent;
 
 import flash.desktop.ClipboardFormats;
@@ -6,14 +7,21 @@ import flash.desktop.NativeDragManager;
 import flash.display.NativeWindowDisplayState;
 import flash.events.ErrorEvent;
 import flash.events.Event;
+import flash.events.HTTPStatusEvent;
+import flash.events.IOErrorEvent;
 import flash.events.KeyboardEvent;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
+import flash.events.SecurityErrorEvent;
 import flash.filesystem.File;
+import flash.net.URLLoader;
+import flash.net.URLLoaderDataFormat;
+import flash.net.URLRequest;
 import flash.ui.Keyboard;
 import flash.utils.getTimer;
 
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 import mx.managers.DragManager;
 
 import spark.events.IndexChangeEvent;
@@ -33,16 +41,19 @@ import statm.dev.libs.imageplayer.ImagePlayer;
 private function init() : void
 {
 	ResourceLib.reset();
+	checkUpdate();
 }
 
 private var appUpdater : ApplicationUpdaterUI = new ApplicationUpdaterUI();
 
 private function checkUpdate() : void
 {
-	// TODO: 升级URL
-	appUpdater.updateURL = "xxxx";
+	appUpdater.updateURL = "http://www.fol.com/fol/tools/ImageResourceViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
 	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
+	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void {
+		Alert.show(event.subErrorID.toString());
+	});
 	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void
 	{
 		appUpdater.checkNow();

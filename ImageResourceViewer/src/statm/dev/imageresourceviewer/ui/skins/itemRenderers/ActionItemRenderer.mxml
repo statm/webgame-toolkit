@@ -33,6 +33,7 @@
 					left="0"
 					right="0"
 					fontSize="14"
+					focusEnabled="false"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.ActionButtonSkin"
 					click="btnAction_clickHandler(event)"
 					mouseEnabled="{AppState.currentAction!=data.name}"

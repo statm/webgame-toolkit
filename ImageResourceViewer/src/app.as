@@ -51,7 +51,8 @@ private function checkUpdate() : void
 	appUpdater.updateURL = "http://www.fol.com/fol/tools/ImageResourceViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
 	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
-	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void {
+	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void 
+	{
 		Alert.show(event.subErrorID.toString());
 	});
 	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void

@@ -115,14 +115,12 @@
 
 			private function imageBatch_progressHandler(event : ImageBatchEvent) : void
 			{
-//				trace("loaded: " + imageBatch.loadedCount + "/" + imageBatch.length);
 				image.source = imageBatch.getImage(0);
 				progBar.percentWidth = imageBatch.loadedCount / imageBatch.length * 100;
 			}
 
 			private function imageBatch_completeHandler(event : ImageBatchEvent) : void
 			{
-//				trace("complete");
 				playEnabled = true;
 				progBarGroup.visible = false;
 			}

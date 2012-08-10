@@ -43,6 +43,11 @@ package statm.dev.imageresourceviewer.data.type
 		 * 特效模型。
 		 */
 		public static const FX : String = "特效";
+		
+		/**
+		 * 未知。
+		 */		
+		public static const UNKNOWN:String = "未知";
 
 		public static const typeList : Array = [HERO, WEAPON, NPC, MOB, MOUNT, PET, FX];
 	}

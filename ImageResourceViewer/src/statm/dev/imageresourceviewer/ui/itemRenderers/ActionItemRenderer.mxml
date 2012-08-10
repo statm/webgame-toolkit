@@ -9,6 +9,7 @@
 			import mx.core.FlexGlobals;
 
 			import statm.dev.imageresourceviewer.AppState;
+			import statm.dev.imageresourceviewer.data.Element;
 
 			override public function set data(value : Object) : void
 			{
@@ -17,8 +18,21 @@
 				if (value)
 				{
 					btnAction.label = value.name + "(" + value.frameCount + ")";
+
+//					incompleteElements = AppState.activeLayers.toArray();
+//					var c : int = incompleteElements.length;
+//					while (--c > -1)
+//					{
+//						var elem : Element = incompleteElements[c];
+//						if (elem && (elem.hasAction(value.name) || elem.name == "无"))
+//						{
+//							incompleteElements.splice(c, 1);
+//						}
+//					}
 				}
 			}
+
+//			private var incompleteElements : Array;
 
 			protected function btnAction_clickHandler(event : MouseEvent) : void
 			{

@@ -177,14 +177,14 @@
 					</s:layout>
 					<!-- TODO: bug: 当选中NS内容，按空格，然后消除焦点时，值会变为NaN。 -->
 					<s:NumericStepper id="nsGridBlockR"
-									  maximum="50"
+									  maximum="99"
 									  minimum="1"
 									  change="submit();"/>
 					<s:Label text="列 x "
 							 height="100%"
 							 verticalAlign="middle"/>
 					<s:NumericStepper id="nsGridBlockC"
-									  maximum="50"
+									  maximum="99"
 									  minimum="1"
 									  change="submit();"/>
 					<s:Label text="行"

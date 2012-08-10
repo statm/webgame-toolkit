@@ -25,7 +25,7 @@ package statm.dev.imageresourceviewer
 
 		/**
 		 * 当前的列表模式，
-		 * 只允许为 ResourceType.HERO、ResourceType.NPC、ResourceType.MOB、ResourceType.PET、ResourceType.FX。
+		 * 只允许为 ResourceType.HERO、ResourceType.NPC、ResourceType.MOB、ResourceType.PET、ResourceType.FX、ResourceType.UNKNOWN。
 		 */
 		public static var categoryMode : String;
 
@@ -57,6 +57,8 @@ package statm.dev.imageresourceviewer
 		public static var selectedPet : Element = new Element("无", ResourceType.PET);
 		[Bindable]
 		public static var selectedFX : Element = new Element("无", ResourceType.FX);
+		[Bindable]
+		public static var selectedUnknown : Element;
 
 		[Bindable]
 		public static var activeLayers : ArrayCollection = new ArrayCollection();

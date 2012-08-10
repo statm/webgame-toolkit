@@ -37,6 +37,13 @@ package statm.dev.mapeditor.dom
 			_itemDefinitionList = new ItemDefinitionList();
 		}
 
+		private var _version : String = MapEditor.VERSION;
+
+		public function get version() : String
+		{
+			return _version;
+		}
+
 		private var _bgLayer : BgLayer;
 
 		public function get bgLayer() : BgLayer
@@ -162,7 +169,7 @@ package statm.dev.mapeditor.dom
 
 		override public function toXML() : XML
 		{
-			var result : XML = <map id={this.mapID} name={this.mapName} levelLimit={this.levelLimit}/>;
+			var result : XML = <map id={this.mapID} name={this.mapName} levelLimit={this.levelLimit} version={MapEditor.VERSION}/>;
 
 			var layers : XML = <layers/>;
 			layers.appendChild(_bgLayer.toXML())
@@ -179,6 +186,7 @@ package statm.dev.mapeditor.dom
 
 		override public function readXML(xml : XML) : void
 		{
+			this._version = xml.@version;
 			this._mapID = parseInt(xml.@id);
 			this._mapName = xml.@name;
 			this._levelLimit = xml.@levelLimit;

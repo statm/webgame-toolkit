@@ -20,17 +20,17 @@
 			import air.update.ApplicationUpdaterUI;
 			import air.update.events.StatusUpdateErrorEvent;
 			import air.update.events.UpdateEvent;
-			
+
 			import flash.text.engine.TextLine;
-			
+
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.managers.IFocusManagerComponent;
-			
+
 			import spark.components.Label;
 			import spark.components.RichEditableText;
 			import spark.components.TextInput;
-			
+
 			import statm.dev.mapeditor.app.AppFacade;
 			import statm.dev.mapeditor.app.AppNotificationCode;
 			import statm.dev.mapeditor.app.AppState;
@@ -40,6 +40,8 @@
 			import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 			import statm.dev.mapeditor.dom.objects.LinkPoint;
 			import statm.dev.mapeditor.io.ServerWriter;
+
+			public static const VERSION : String = "1.2.4";
 
 			protected function applicationCompleteHandler(event : FlexEvent) : void
 			{
@@ -62,10 +64,7 @@
 				appUpdater.updateURL = "http://www.fol.com/fol/tools/MapEditor/update.xml";
 				appUpdater.isCheckForUpdateVisible = false;
 				appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
-				appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void 
-				{
-					Alert.show(event.subErrorID.toString());
-				});
+				appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void {});
 				appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void
 				{
 					appUpdater.checkNow();

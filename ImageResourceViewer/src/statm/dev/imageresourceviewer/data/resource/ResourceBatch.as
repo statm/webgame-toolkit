@@ -2,7 +2,7 @@ package statm.dev.imageresourceviewer.data.resource
 {
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
-	
+
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.libs.imageplayer.loader.ImageBatch;
 	import statm.dev.libs.imageplayer.loader.ImageBatchEvent;
@@ -20,7 +20,7 @@ package statm.dev.imageresourceviewer.data.resource
 		public function ResourceBatch(folder : File) : void
 		{
 			super(folder);
-			
+
 			_folder = folder;
 			_path = folder.nativePath;
 
@@ -72,6 +72,7 @@ package statm.dev.imageresourceviewer.data.resource
 
 			// 提取类型(type)
 			var l : int = pathParts.length;
+			result.type = ResourceType.UNKNOWN;
 			for (var i : int = l - 1; i >= 0; i--)
 			{
 				var part : String = pathParts[i]

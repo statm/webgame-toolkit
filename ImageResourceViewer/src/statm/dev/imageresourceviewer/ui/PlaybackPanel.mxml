@@ -19,7 +19,7 @@
 				 horizontalCenter="0"
 				 verticalCenter="0"
 				 dataProvider="{AppState.activeLayers}"
-				 itemRenderer="statm.dev.imageresourceviewer.ui.skins.itemRenderers.PlaybackItemRenderer"/>
+				 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
 
 	<s:TileGroup columnWidth="30"
 				 horizontalGap="1"

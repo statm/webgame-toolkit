@@ -9,6 +9,8 @@
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
+			import spark.events.TextOperationEvent;
+			
 			import statm.dev.imageresourceviewer.AppState;
 
 			protected function changeHandler(event : Event) : void
@@ -19,6 +21,11 @@
 			protected function btnPlay_clickHandler(event : MouseEvent) : void
 			{
 				FlexGlobals.topLevelApplication.togglePlay();
+			}
+
+			protected function fpsInput_changeHandler(event : TextOperationEvent) : void
+			{
+				AppState.frameRate = parseInt(fpsInput.text);
 			}
 			
 			protected function fpsInput_enterHandler(event:FlexEvent):void
@@ -38,8 +45,10 @@
 			   maximum="{AppState.frameTotal - 1}"
 			   value="{AppState.currentFrame}"
 			   change="changeHandler(event)"
-			   dataTipPrecision="0"/>
-	<s:Spacer width="10"/>
+			   dataTipPrecision="0"
+			   skinClass="statm.dev.imageresourceviewer.ui.skins.MetroPlayerProgressBarSkin"/>
+	<s:Label text="{(AppState.currentFrame + 1) + '/' + AppState.frameTotal + ' @'}" color="#333333" width="68" textAlign="right"/>
+	<s:Spacer width="5"/>
 	<s:TextInput id="fpsInput"
 				 width="50"
 				 focusEnabled="false"
@@ -47,6 +56,7 @@
 				 maxChars="2"
 				 borderColor="#4EA6EA"
 				 text="{AppState.frameRate}"
+				 change="fpsInput_changeHandler(event)"
 				 enter="fpsInput_enterHandler(event)"
 				 restrict="0-9"/>
 	<s:Spacer width="5"/>

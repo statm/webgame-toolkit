@@ -23,7 +23,7 @@ package statm.dev.mapeditor.utils
 
 		public static const GRID_HEIGHT : int = 30;
 
-		public static const BLOCK_DIMENSION : int = 20;
+		public static const BLOCK_DIMENSION : int = 10;
 
 		public static const WAYPOINT_DIST_THRESHOLD : int = 12;
 

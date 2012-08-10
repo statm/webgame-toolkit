@@ -2,14 +2,16 @@ package statm.dev.mapeditor.dom.layers
 {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
+	
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.mapeditor.app.AppFacade;
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.DomNode;
+	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.utils.GridUtils;
+	import statm.dev.mapeditor.utils.VersionUtils;
 
 	/**
 	 * DOM 对象：网格组。
@@ -74,8 +76,8 @@ package statm.dev.mapeditor.dom.layers
 			{
 				_gridSize = size;
 
-				_gridRange.width = _gridSize.y * GridUtils.BLOCK_DIMENSION;
-				_gridRange.height = _gridSize.x * GridUtils.BLOCK_DIMENSION;
+				_gridRange.width = _gridSize.x * GridUtils.BLOCK_DIMENSION;
+				_gridRange.height = _gridSize.y * GridUtils.BLOCK_DIMENSION;
 
 				this.notifyChange(MapEditingActions.GRID_SIZE);
 			}
@@ -118,7 +120,15 @@ package statm.dev.mapeditor.dom.layers
 
 		override public function readXML(xml : XML) : void
 		{
-			this.gridSize = new Point(parseInt(xml.@col), parseInt(xml.@row));
+			// v1.2.4 将网格单元变为了 10x10，读取以前的文件时要做修改。
+			if (VersionUtils.compareVersion(Map(root).version, "1.2.4") < 0)
+			{
+				this.gridSize = new Point(parseInt(xml.@col) * 2, parseInt(xml.@row) * 2);
+			}
+			else
+			{
+				this.gridSize = new Point(parseInt(xml.@col), parseInt(xml.@row));
+			}
 			this.gridAnchor = new Point(parseInt(xml.@x), parseInt(xml.@y));
 
 			this.regionLayer.readXML(xml.regionLayer[0]);

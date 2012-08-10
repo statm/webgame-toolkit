@@ -10,6 +10,8 @@
 		<![CDATA[
 			import mx.core.FlexGlobals;
 			
+			import spark.events.IndexChangeEvent;
+			
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.Element;
 			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
@@ -50,6 +52,9 @@
 						AppState.selectedCategory = ResourceLib.fx;
 						selectedElem = AppState.selectedFX;
 						break;
+					case unknown:
+						AppState.selectedCategory = ResourceLib.unknown;
+						break;
 				}
 
 				if (lastSelected)
@@ -77,6 +82,7 @@
 				else
 				{
 					FlexGlobals.topLevelApplication.resourceList.selectedIndex = 0;
+					FlexGlobals.topLevelApplication.resourceList.dispatchEvent(new IndexChangeEvent(IndexChangeEvent.CHANGE));
 				}
 			}
 
@@ -87,7 +93,7 @@
 					this[buttonName].selected = true;
 				}
 
-				for each (var button : CategoryButton in[hero, weapon, mount, pet, mob, npc, fx])
+				for each (var button : CategoryButton in[hero, weapon, mount, pet, mob, npc, fx, unknown])
 				{
 					if (buttonNames.indexOf(button.id) == -1)
 					{
@@ -139,6 +145,11 @@
 						   categoryName="特效"
 						   itemName="{AppState.selectedFX.name}"
 						   count="{ResourceLib.fx.elements.length - 1}"
+						   click="btn_clickHandler(event)"/>
+		<s:Spacer/>
+		<ui:CategoryButton id="unknown"
+						   categoryName="未知"
+						   count="{ResourceLib.unknown.elements.length}"
 						   click="btn_clickHandler(event)"/>
 	</s:VGroup>
 </s:Group>

@@ -36,7 +36,7 @@ import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 import statm.dev.imageresourceviewer.data.type.DirectionType;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
 import statm.dev.imageresourceviewer.ui.Dashboard;
-import statm.dev.imageresourceviewer.ui.skins.itemRenderers.PlaybackItemRenderer;
+import statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer;
 import statm.dev.libs.imageplayer.ImagePlayer;
 
 private function init() : void
@@ -54,7 +54,7 @@ private function checkUpdate() : void
 	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
 	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void
 	{
-		Alert.show(event.subErrorID.toString());
+		//Alert.show(event.subErrorID.toString());
 	});
 	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void
 	{
@@ -70,7 +70,8 @@ protected function displayStateChangeHandler(event : NativeWindowDisplayStateEve
 
 override protected function getCurrentSkinState() : String
 {
-	if (nativeWindow.displayState == NativeWindowDisplayState.MAXIMIZED)
+	if (!this.nativeWindow.closed
+		&& this.nativeWindow.displayState == NativeWindowDisplayState.MAXIMIZED)
 	{
 		return "maximized";
 	}
@@ -115,8 +116,15 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 
 	lblDragHere.setStyle("color", 0xAAAAAA);
 
-	this.currentState = "processing";
-	setTimeout(startProcessing, 250, fileArray);
+	if (this.currentState == "hidden")
+	{
+		this.currentState = "processing";
+		setTimeout(startProcessing, 250, fileArray);
+	}
+	else
+	{
+		startProcessing(fileArray);
+	}
 }
 
 private function startProcessing(fileArray : Array) : void
@@ -140,7 +148,10 @@ private function startProcessing(fileArray : Array) : void
 
 	DragManager.acceptDragDrop(this);
 
-	currentState = "normal";
+	if (this.currentState == "processing")
+	{
+		this.currentState = "normal";
+	}
 }
 
 private function traverseFolders(folders : Array) : void
@@ -230,6 +241,13 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.selectedFX = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedPet);
 			break;
+		
+		case ResourceType.UNKNOWN:
+			AppState.categoryMode = ResourceType.UNKNOWN;
+			categoryPanel.setSelectedCategoryButtons(["unknown"]);
+			AppState.selectedUnknown = selectedItem;
+			AppState.activeLayers.addItem(AppState.selectedUnknown);
+			break;
 	}
 
 	calculateActionList();
@@ -269,6 +287,7 @@ private function calculateActionList() : void
 public function setAction(info : ActionInfo) : void
 {
 	AppState.currentAction = info.name;
+	AppState.currentFrame = 0;
 	AppState.frameTotal = info.frameCount;
 	updateActionAndDirection();
 }

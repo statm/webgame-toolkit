@@ -16,15 +16,22 @@ package statm.dev.imageresourceviewer.data.resource
 	 */
 	public class ResourceLib
 	{
-		[Bindable] public static var hero : ResourceCategory;
-		[Bindable] public static var weapon : ResourceCategory;
-		[Bindable] public static var mount : ResourceCategory;
-		[Bindable] public static var npc : ResourceCategory;
-		[Bindable] public static var mob : ResourceCategory;
-		[Bindable] public static var pet : ResourceCategory;
-		[Bindable] public static var fx : ResourceCategory;
-
-		public static var unknown : ArrayCollection;
+		[Bindable]
+		public static var hero : ResourceCategory;
+		[Bindable]
+		public static var weapon : ResourceCategory;
+		[Bindable]
+		public static var mount : ResourceCategory;
+		[Bindable]
+		public static var npc : ResourceCategory;
+		[Bindable]
+		public static var mob : ResourceCategory;
+		[Bindable]
+		public static var pet : ResourceCategory;
+		[Bindable]
+		public static var fx : ResourceCategory;
+		[Bindable]
+		public static var unknown : ResourceCategory;
 
 		private static var heroDic : Dictionary;
 		private static var weaponDic : Dictionary;
@@ -33,6 +40,7 @@ package statm.dev.imageresourceviewer.data.resource
 		private static var mobDic : Dictionary;
 		private static var petDic : Dictionary;
 		private static var fxDic : Dictionary;
+		private static var unknownDic : Dictionary;
 
 		public static function reset() : void
 		{
@@ -43,7 +51,8 @@ package statm.dev.imageresourceviewer.data.resource
 			mob = new ResourceCategory(ResourceType.MOB);
 			pet = new ResourceCategory(ResourceType.PET);
 			fx = new ResourceCategory(ResourceType.FX);
-			
+			unknown = new ResourceCategory(ResourceType.UNKNOWN);
+
 			hero.elements.addItem(AppState.selectedHero);
 			weapon.elements.addItem(AppState.selectedWeapon);
 			mount.elements.addItem(AppState.selectedMount);
@@ -52,8 +61,6 @@ package statm.dev.imageresourceviewer.data.resource
 			pet.elements.addItem(AppState.selectedPet);
 			fx.elements.addItem(AppState.selectedFX);
 
-			unknown = new ArrayCollection();
-
 			heroDic = new Dictionary();
 			weaponDic = new Dictionary();
 			mountDic = new Dictionary();
@@ -61,16 +68,19 @@ package statm.dev.imageresourceviewer.data.resource
 			mobDic = new Dictionary();
 			petDic = new Dictionary();
 			fxDic = new Dictionary();
+			unknownDic = new Dictionary();
 		}
 
 		public static function addResource(resourceBatch : ResourceBatch) : void
 		{
+			var element : Element;
+
 			if (resourceBatch.batchInfo.isComplete)
 			{
 				var type : String = resourceBatch.batchInfo.type;
 				var category : ResourceCategory = getCategory(type);
 
-				var element : Element = getElement(resourceBatch);
+				element = getElement(resourceBatch);
 				element.addBatch(resourceBatch);
 
 				if (category.elements.getItemIndex(element) == -1)
@@ -80,7 +90,22 @@ package statm.dev.imageresourceviewer.data.resource
 			}
 			else
 			{
-				unknown.addItem(resourceBatch);
+				var info : ResourceBatchInfo = resourceBatch.batchInfo;
+
+				if (info.name && info.action && info.direction)
+				{
+					element = getElement(resourceBatch);
+					element.addBatch(resourceBatch);
+					
+					if (unknown.elements.getItemIndex(element) == -1)
+					{
+						unknown.elements.addItem(element);
+					}
+				}
+				else
+				{
+					// TODO: 抛弃
+				}
 			}
 		}
 
@@ -121,6 +146,9 @@ package statm.dev.imageresourceviewer.data.resource
 
 				case ResourceType.FX:
 					return fx;
+
+				case ResourceType.UNKNOWN:
+					return unknown;
 			}
 
 			throw new ArgumentError("Type 错误");
@@ -150,6 +178,9 @@ package statm.dev.imageresourceviewer.data.resource
 
 				case ResourceType.FX:
 					return fxDic;
+
+				case ResourceType.UNKNOWN:
+					return unknownDic;
 			}
 
 			throw new ArgumentError("Type 错误");
@@ -157,13 +188,14 @@ package statm.dev.imageresourceviewer.data.resource
 
 		public static function print() : void
 		{
-			trace(hero.elements.source.join());
-			trace(weapon.elements.source.join());
-			trace(mount.elements.source.join());
-			trace(npc.elements.source.join());
-			trace(mob.elements.source.join());
-			trace(pet.elements.source.join());
-			trace(fx.elements.source.join());
+//			trace(hero.elements.source.join());
+//			trace(weapon.elements.source.join());
+//			trace(mount.elements.source.join());
+//			trace(npc.elements.source.join());
+//			trace(mob.elements.source.join());
+//			trace(pet.elements.source.join());
+//			trace(fx.elements.source.join());
+//			trace(unknown.elements.join());
 		}
 	}
 }

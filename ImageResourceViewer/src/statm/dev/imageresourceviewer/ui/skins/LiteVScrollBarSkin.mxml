@@ -78,6 +78,7 @@ VScrollBarThumbSkin and VScrollBarTrackSkin classes, respectively.
 			  height="54"
 			  focusEnabled="false"
 			  tabEnabled="false"
+			  visible="false"
 			  skinClass="statm.dev.imageresourceviewer.ui.skins.LiteVScrollBarTrackSkin"/>
 
 	<!--- The default skin class is VScrollBarThumbSkin.

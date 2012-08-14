@@ -2,7 +2,7 @@ package statm.dev.imageresourceviewer.data.resource
 {
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
-
+	
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.libs.imageplayer.loader.ImageBatch;
 	import statm.dev.libs.imageplayer.loader.ImageBatchEvent;
@@ -57,6 +57,7 @@ package statm.dev.imageresourceviewer.data.resource
 		}
 
 		// 静态方法：通过路径猜测 ResourceBatch 的信息
+		// NOTE：“特效”的目录结构与其他不同，需要特殊处理。
 		public static function getResourceBatchInfo(path : String) : ResourceBatchInfo
 		{
 			var result : ResourceBatchInfo = new ResourceBatchInfo();
@@ -75,7 +76,7 @@ package statm.dev.imageresourceviewer.data.resource
 			result.type = ResourceType.UNKNOWN;
 			for (var i : int = l - 1; i >= 0; i--)
 			{
-				var part : String = pathParts[i]
+				var part : String = pathParts[i];
 				var found : Boolean = false;
 
 				for each (searchStr in ResourceType.typeList)
@@ -88,21 +89,30 @@ package statm.dev.imageresourceviewer.data.resource
 					}
 				}
 
-				if (found)
+				if (found && result.type != ResourceType.FX)
 				{
 					pathParts.splice(i, 1);
 				}
 			}
 
-			// 提取动作(action)
-			result.action = pathParts[0];
-
-			// 提取方向(direction)
-			result.direction = pathParts[1];
-
-			// 提取名称(name)
-			result.name = pathParts[2];
-
+			if (result.type != ResourceType.FX)
+			{
+				// 提取动作(action)
+				result.action = pathParts[0];
+	
+				// 提取方向(direction)
+				result.direction = pathParts[1];
+	
+				// 提取名称(name)
+				result.name = pathParts[2];
+			}
+			else
+			{
+				result.action = "特效";
+				result.direction = pathParts[0];
+				result.name = pathParts[1];
+			}
+			
 			return result;
 		}
 	}

@@ -20,43 +20,6 @@
 
 			private function btn_clickHandler(event : MouseEvent) : void
 			{
-				var selectedElem : Element;
-
-				switch (event.currentTarget)
-				{
-					case hero:
-						AppState.selectedCategory = ResourceLib.hero;
-						selectedElem = AppState.selectedHero;
-						break;
-					case weapon:
-						AppState.selectedCategory = ResourceLib.weapon;
-						selectedElem = AppState.selectedWeapon;
-						break;
-					case mount:
-						AppState.selectedCategory = ResourceLib.mount;
-						selectedElem = AppState.selectedMount;
-						break;
-					case npc:
-						AppState.selectedCategory = ResourceLib.npc;
-						selectedElem = AppState.selectedNPC;
-						break;
-					case mob:
-						AppState.selectedCategory = ResourceLib.mob;
-						selectedElem = AppState.selectedMob;
-						break;
-					case pet:
-						AppState.selectedCategory = ResourceLib.pet;
-						selectedElem = AppState.selectedPet;
-						break;
-					case fx:
-						AppState.selectedCategory = ResourceLib.fx;
-						selectedElem = AppState.selectedFX;
-						break;
-					case unknown:
-						AppState.selectedCategory = ResourceLib.unknown;
-						break;
-				}
-
 				if (lastSelected)
 				{
 					lastSelected.open = false;
@@ -67,6 +30,43 @@
 					lastSelected = CategoryButton(event.currentTarget);
 					lastSelected.open = true;
 					FlexGlobals.topLevelApplication.currentState = "list";
+					
+					var selectedElem : Element;
+					
+					switch (event.currentTarget)
+					{
+						case hero:
+							AppState.selectedCategory = ResourceLib.hero;
+							selectedElem = AppState.selectedHero;
+							break;
+						case weapon:
+							AppState.selectedCategory = ResourceLib.weapon;
+							selectedElem = AppState.selectedWeapon;
+							break;
+						case mount:
+							AppState.selectedCategory = ResourceLib.mount;
+							selectedElem = AppState.selectedMount;
+							break;
+						case npc:
+							AppState.selectedCategory = ResourceLib.npc;
+							selectedElem = AppState.selectedNPC;
+							break;
+						case mob:
+							AppState.selectedCategory = ResourceLib.mob;
+							selectedElem = AppState.selectedMob;
+							break;
+						case pet:
+							AppState.selectedCategory = ResourceLib.pet;
+							selectedElem = AppState.selectedPet;
+							break;
+						case fx:
+							AppState.selectedCategory = ResourceLib.fx;
+							selectedElem = AppState.selectedFX;
+							break;
+						case unknown:
+							AppState.selectedCategory = ResourceLib.unknown;
+							break;
+					}
 				}
 				else
 				{
@@ -75,14 +75,16 @@
 					FlexGlobals.topLevelApplication.currentState = "normal";
 				}
 				
-				if (selectedElem && FlexGlobals.topLevelApplication.currentState == "list")
+				if (FlexGlobals.topLevelApplication.currentState == "list")
 				{
-					FlexGlobals.topLevelApplication.resourceList.selectedItem = selectedElem;
-				}
-				else
-				{
-					FlexGlobals.topLevelApplication.resourceList.selectedIndex = 0;
-					FlexGlobals.topLevelApplication.resourceList.dispatchEvent(new IndexChangeEvent(IndexChangeEvent.CHANGE));
+					if (selectedElem)
+					{
+						FlexGlobals.topLevelApplication.resourceList.selectedItem = selectedElem;
+					}
+					else
+					{
+						FlexGlobals.topLevelApplication.resourceList.selectedIndex = 0;
+					}
 				}
 			}
 

@@ -66,6 +66,9 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public static var currentActions : ArrayCollection = new ArrayCollection();
 
+		[Bindable]
+		public static var fxEnabled : Boolean = true;
+
 		// 播放控制 
 		[Bindable]
 		public static var playing : Boolean = false;

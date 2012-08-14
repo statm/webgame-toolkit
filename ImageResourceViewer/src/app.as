@@ -3,26 +3,19 @@ import air.update.events.StatusUpdateErrorEvent;
 import air.update.events.UpdateEvent;
 
 import flash.desktop.ClipboardFormats;
+import flash.desktop.NativeApplication;
 import flash.desktop.NativeDragManager;
 import flash.display.NativeWindowDisplayState;
 import flash.events.ErrorEvent;
 import flash.events.Event;
-import flash.events.HTTPStatusEvent;
-import flash.events.IOErrorEvent;
-import flash.events.KeyboardEvent;
+import flash.events.FileListEvent;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
-import flash.events.SecurityErrorEvent;
 import flash.filesystem.File;
-import flash.net.URLLoader;
-import flash.net.URLLoaderDataFormat;
-import flash.net.URLRequest;
-import flash.ui.Keyboard;
 import flash.utils.getTimer;
 import flash.utils.setTimeout;
 
 import mx.collections.ArrayCollection;
-import mx.controls.Alert;
 import mx.managers.DragManager;
 
 import spark.events.IndexChangeEvent;
@@ -33,16 +26,19 @@ import statm.dev.imageresourceviewer.data.ActionInfo;
 import statm.dev.imageresourceviewer.data.Element;
 import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 import statm.dev.imageresourceviewer.data.resource.ResourceLib;
-import statm.dev.imageresourceviewer.data.type.DirectionType;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
-import statm.dev.imageresourceviewer.ui.Dashboard;
 import statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer;
-import statm.dev.libs.imageplayer.ImagePlayer;
+
+public static var VERSION : String;
 
 private function init() : void
 {
 	ResourceLib.reset();
 	checkUpdate();
+
+	var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
+	var appNS : Namespace = appXML.namespace();
+	VERSION = appXML.appNS::versionNumber[0];
 }
 
 private var appUpdater : ApplicationUpdaterUI = new ApplicationUpdaterUI();
@@ -140,40 +136,74 @@ private function startProcessing(fileArray : Array) : void
 		}
 	}
 
-	var t : int = getTimer();
-	traverseFolders(fileArray);
-	trace("耗时" + (getTimer() - t) + "ms");
+	folderList = new Vector.<File>();
+	for each (var folder : File in fileArray)
+	{
+		folderList.push(folder);
+	}
+	processingIndex = 0;
 
-	ResourceLib.print();
+//	t = getTimer();
+	this.addEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
 
 	DragManager.acceptDragDrop(this);
-
-	if (this.currentState == "processing")
-	{
-		this.currentState = "normal";
-	}
 }
 
-private function traverseFolders(folders : Array) : void
+//private var t:int;
+
+private var folderList : Vector.<File>;
+
+private var processingIndex : int = 0;
+
+private var processingCount : int = 0;
+
+private function traverse_enterFrameHandler(event : Event) : void
 {
-	for each (var folder : File in folders)
+	processingCount = 0;
+
+	while (processingIndex < folderList.length
+		&& processingCount < 2)
 	{
-		// 建立一个 batch
+		var folder : File = folderList[processingIndex];
 		var batch : ResourceBatch = new ResourceBatch(folder);
+
 		if (batch.length > 0)
 		{
 			ResourceLib.addResource(batch);
 		}
 
-		// 遍历目录内容，递归	
 		var folderContent : Array = folder.getDirectoryListing();
 		for each (var folderItem : File in folderContent)
 		{
 			if (folderItem.isDirectory)
 			{
-				traverseFolders([folderItem]);
+				folderList.push(folderItem);
 			}
 		}
+
+		processingIndex++;
+		processingCount++;
+	}
+	
+//	trace("pI=" + processingIndex + ", fL=" + folderList.length);
+	
+	if (processingIndex > folderList.length - 1)
+	{
+		$traverseComplete();
+	}
+}
+
+private function $traverseComplete() : void
+{
+	this.removeEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
+	
+//	trace("耗时" + (getTimer() - t) + "ms");
+	
+	ResourceLib.print();
+
+	if (this.currentState == "processing")
+	{
+		this.currentState = "normal";
 	}
 }
 
@@ -189,43 +219,48 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 	{
 		case ResourceType.HERO:
 			AppState.categoryMode = ResourceType.HERO;
-			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
+			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.selectedHero = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedMount);
 			AppState.activeLayers.addItem(AppState.selectedHero);
 			AppState.activeLayers.addItem(AppState.selectedWeapon);
+			AppState.activeLayers.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.WEAPON:
 			AppState.categoryMode = ResourceType.HERO;
-			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
+			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.selectedWeapon = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedMount);
 			AppState.activeLayers.addItem(AppState.selectedHero);
 			AppState.activeLayers.addItem(AppState.selectedWeapon);
+			AppState.activeLayers.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.MOUNT:
 			AppState.categoryMode = ResourceType.HERO;
-			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount"]);
+			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.selectedMount = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedMount);
 			AppState.activeLayers.addItem(AppState.selectedHero);
 			AppState.activeLayers.addItem(AppState.selectedWeapon);
+			AppState.activeLayers.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.NPC:
 			AppState.categoryMode = ResourceType.NPC;
-			categoryPanel.setSelectedCategoryButtons(["npc"]);
+			categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
 			AppState.selectedNPC = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedNPC);
+			AppState.activeLayers.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.MOB:
 			AppState.categoryMode = ResourceType.MOB;
-			categoryPanel.setSelectedCategoryButtons(["mob"]);
+			categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
 			AppState.selectedMob = selectedItem;
 			AppState.activeLayers.addItem(AppState.selectedMob);
+			AppState.activeLayers.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.PET:
@@ -236,12 +271,35 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			break;
 
 		case ResourceType.FX:
-			AppState.categoryMode = ResourceType.FX;
-			categoryPanel.setSelectedCategoryButtons(["fx"]);
-			AppState.selectedFX = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedPet);
+			if (AppState.categoryMode == null
+				|| AppState.categoryMode == ResourceType.HERO)
+			{
+				categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
+				AppState.selectedFX = selectedItem;
+				AppState.activeLayers.addItem(AppState.selectedMount);
+				AppState.activeLayers.addItem(AppState.selectedHero);
+				AppState.activeLayers.addItem(AppState.selectedWeapon);
+			}
+			else if (AppState.categoryMode == ResourceType.NPC)
+			{
+				categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
+				AppState.selectedFX = selectedItem;
+				AppState.activeLayers.addItem(AppState.selectedNPC);
+			}
+			else if (AppState.categoryMode == ResourceType.MOB)
+			{
+				categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
+				AppState.selectedFX = selectedItem;
+				AppState.activeLayers.addItem(AppState.selectedMob);
+			}
+
+			if (AppState.fxEnabled)
+			{
+				AppState.activeLayers.addItem(AppState.selectedFX);
+			}
+
 			break;
-		
+
 		case ResourceType.UNKNOWN:
 			AppState.categoryMode = ResourceType.UNKNOWN;
 			categoryPanel.setSelectedCategoryButtons(["unknown"]);
@@ -262,7 +320,9 @@ private function calculateActionList() : void
 	actions.removeAll();
 	for each (var elem : Element in AppState.activeLayers)
 	{
-		if (!elem)
+		if (!elem ||
+			(elem.type == ResourceType.FX
+			&& AppState.categoryMode != ResourceType.FX))
 		{
 			continue;
 		}
@@ -310,6 +370,26 @@ private function updateActionAndDirection() : void
 	}
 }
 
+public function setFXVisibility(value : Boolean) : void
+{
+	if (value != AppState.fxEnabled)
+	{
+		AppState.fxEnabled = value;
+		if (value)
+		{
+			AppState.activeLayers.addItem(AppState.selectedFX);
+		}
+		else
+		{
+			var index : int = AppState.activeLayers.getItemIndex(AppState.selectedFX);
+			if (index > -1)
+			{
+				AppState.activeLayers.removeItemAt(index);
+			}
+		}
+	}
+}
+
 // 播放
 public function play() : void
 {
@@ -322,7 +402,7 @@ private var lastFrameTime : int = int.MIN_VALUE;
 
 private function $play(event : Event) : void
 {
-	var l : int = playbackPanel.layerDataGroup.numElements;
+	var l : int = AppState.activeLayers.length;
 	var currentTime : int = getTimer();
 	if (lastFrameTime == int.MIN_VALUE)
 	{
@@ -344,7 +424,12 @@ private function $play(event : Event) : void
 
 	for (var i : int = 0; i < l; i++)
 	{
-		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(AppState.currentFrame);
+		var itemRenderer : PlaybackItemRenderer = PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i));
+		if (!itemRenderer)
+		{
+			continue;
+		}
+		itemRenderer.player.gotoFrame(AppState.currentFrame);
 	}
 }
 

@@ -11,6 +11,7 @@ package statm.dev.imageresourceviewer.data
 	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatchInfo;
+	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 	/**
 	 * 动画元素，如角色、武器、NPC 等。
@@ -82,7 +83,17 @@ package statm.dev.imageresourceviewer.data
 
 		public function getCurrentBatch() : ResourceBatch
 		{
-			var action : Action = getAction(AppState.currentAction);
+			var action : Action;
+
+			if (_type != ResourceType.FX)
+			{
+				action = getAction(AppState.currentAction);
+			}
+			else
+			{
+				action = getAction("特效");
+			}
+
 			if (!action)
 			{
 				return null;

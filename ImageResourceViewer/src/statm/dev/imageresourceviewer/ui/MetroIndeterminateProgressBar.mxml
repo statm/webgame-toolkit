@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%"
+		 height="4"
+		 addedToStage="p.play();">
+	<fx:Script>
+		<![CDATA[
+			import spark.effects.easing.Linear;
+			import spark.effects.easing.Sine;
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<s:Parallel id="p"
+					duration="4200"
+					repeatCount="0"
+					suspendBackgroundProcessing="true">
+			<s:Animate target="{d1}"
+					   easer="{new Linear()}">
+				<s:MotionPath property="percentWidth">
+					<s:Keyframe time="0"
+								value="0"/>
+					<s:Keyframe time="500"
+								value="42"
+								easer="{new Sine(.5)}"/>
+					<s:Keyframe time="2000"
+								value="58"/>
+					<s:Keyframe time="2500"
+								value="100"
+								easer="{new Sine(.5)}"/>
+				</s:MotionPath>
+				<s:MotionPath property="alpha">
+					<s:Keyframe time="0"
+								value="1"/>
+					<s:Keyframe time="2200"
+								value="1"/>
+					<s:Keyframe time="2500"
+								value="0"/>
+				</s:MotionPath>
+			</s:Animate>
+			<s:Animate target="{d2}"
+					   easer="{new Linear()}"
+					   startDelay="200">
+				<s:MotionPath property="percentWidth">
+					<s:Keyframe time="0"
+								value="0"/>
+					<s:Keyframe time="500"
+								value="42"
+								easer="{new Sine(.5)}"/>
+					<s:Keyframe time="2000"
+								value="58"/>
+					<s:Keyframe time="2500"
+								value="100"
+								easer="{new Sine(.5)}"/>
+				</s:MotionPath>
+				<s:MotionPath property="alpha">
+					<s:Keyframe time="0"
+								value="1"/>
+					<s:Keyframe time="2200"
+								value="1"/>
+					<s:Keyframe time="2500"
+								value="0"/>
+				</s:MotionPath>
+			</s:Animate>
+			<s:Animate target="{d3}"
+					   easer="{new Linear()}"
+					   startDelay="400">
+				<s:MotionPath property="percentWidth">
+					<s:Keyframe time="0"
+								value="0"/>
+					<s:Keyframe time="500"
+								value="42"
+								easer="{new Sine(.5)}"/>
+					<s:Keyframe time="2000"
+								value="58"/>
+					<s:Keyframe time="2500"
+								value="100"
+								easer="{new Sine(.5)}"/>
+				</s:MotionPath>
+				<s:MotionPath property="alpha">
+					<s:Keyframe time="0"
+								value="1"/>
+					<s:Keyframe time="2200"
+								value="1"/>
+					<s:Keyframe time="2500"
+								value="0"/>
+				</s:MotionPath>
+			</s:Animate>
+			<s:Animate target="{d4}"
+					   easer="{new Linear()}"
+					   startDelay="600">
+				<s:MotionPath property="percentWidth">
+					<s:Keyframe time="0"
+								value="0"/>
+					<s:Keyframe time="500"
+								value="42"
+								easer="{new Sine(.5)}"/>
+					<s:Keyframe time="2000"
+								value="58"/>
+					<s:Keyframe time="2500"
+								value="100"
+								easer="{new Sine(.5)}"/>
+				</s:MotionPath>
+				<s:MotionPath property="alpha">
+					<s:Keyframe time="0"
+								value="1"/>
+					<s:Keyframe time="2200"
+								value="1"/>
+					<s:Keyframe time="2500"
+								value="0"/>
+				</s:MotionPath>
+			</s:Animate>
+			<s:Animate target="{d5}"
+					   easer="{new Linear()}"
+					   startDelay="800">
+				<s:MotionPath property="percentWidth">
+					<s:Keyframe time="0"
+								value="0"/>
+					<s:Keyframe time="500"
+								value="42"
+								easer="{new Sine(.5)}"/>
+					<s:Keyframe time="2000"
+								value="58"/>
+					<s:Keyframe time="2500"
+								value="100"
+								easer="{new Sine(.5)}"/>
+				</s:MotionPath>
+				<s:MotionPath property="alpha">
+					<s:Keyframe time="0"
+								value="1"/>
+					<s:Keyframe time="2200"
+								value="1"/>
+					<s:Keyframe time="2500"
+								value="0"/>
+				</s:MotionPath>
+			</s:Animate>
+		</s:Parallel>
+	</fx:Declarations>
+
+	<s:Group id="d1"
+			 alpha="0">
+		<s:Ellipse width="4"
+				   height="4"
+				   right="0"
+				   verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#4EA6EA"/>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	<s:Group id="d2"
+			 alpha="0">
+		<s:Ellipse width="4"
+				   height="4"
+				   right="0"
+				   verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#4EA6EA"/>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	<s:Group id="d3"
+			 alpha="0">
+		<s:Ellipse width="4"
+				   height="4"
+				   right="0"
+				   verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#4EA6EA"/>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	<s:Group id="d4"
+			 alpha="0">
+		<s:Ellipse width="4"
+				   height="4"
+				   right="0"
+				   verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#4EA6EA"/>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+	<s:Group id="d5"
+			 alpha="0">
+		<s:Ellipse width="4"
+				   height="4"
+				   right="0"
+				   verticalCenter="0">
+			<s:fill>
+				<s:SolidColor color="#4EA6EA"/>
+			</s:fill>
+		</s:Ellipse>
+	</s:Group>
+</s:Group>

@@ -7,7 +7,7 @@
 					   title="角色图片查看器 v1.0"
 					   minWidth="930"
 					   minHeight="700"
-					   frameRate="30"
+					   frameRate="60"
 					   displayStateChange="displayStateChangeHandler(event)"
 					   addedToStage="init()"
 					   nativeDragEnter="nativeDragEnterHandler(event)"
@@ -104,16 +104,19 @@
 			 text="将文件夹拖到这里"
 			 fontSize="35"
 			 horizontalCenter="0"
-			 verticalCenter="0"
-			 color="#AAAAAA"
+			 verticalCenter="-17"
+			 color="#CCCCCC"
 			 includeIn="hidden"/>
 
 	<s:Label id="lblProcessing"
-			 text="正在处理..."
+			 text="正在处理"
 			 fontSize="35"
 			 horizontalCenter="0"
-			 verticalCenter="0"
-			 color="#AAAAAA"
+			 verticalCenter="-17"
+			 color="#CCCCCC"
 			 includeIn="processing"/>
+	<ui:MetroIndeterminateProgressBar id="progBar"
+									  includeIn="processing"
+									  verticalCenter="18"/>
 
 </s:WindowedApplication>

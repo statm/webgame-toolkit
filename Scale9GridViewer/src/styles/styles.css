@@ -1,0 +1,14 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace ui "statm.dev.scale9gridviewer.ui.*";
+
+s|Application 
+{
+	fontFamily: "Microsoft YaHei";
+	fontSize: 15;
+	backgroundColor: #EFEFEF;
+}
+s|WindowedApplication
+{
+	skinClass:ClassReference("statm.dev.scale9gridviewer.ui.skins.MetroChromeWindowedApplicationSkin");
+}

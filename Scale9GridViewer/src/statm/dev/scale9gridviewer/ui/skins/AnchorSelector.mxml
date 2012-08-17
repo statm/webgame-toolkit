@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   borderColor="#999999"
+				   mouseChildren="false"
+				   mouseMove="mouseMoveHandler(event)"
+				   click="clickHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+
+			protected function mouseMoveHandler(event : MouseEvent) : void
+			{
+				horizontalCrosshair.y = event.localY;
+				verticalCrosshair.x = event.localX;
+			}
+
+			protected function clickHandler(event : MouseEvent) : void
+			{
+				FlexGlobals.topLevelApplication.setScalingCenter(new Point(int(imageDisplay.mouseX / actualRatio), int(imageDisplay.mouseY / actualRatio)));
+			}
+			
+			private var actualRatio:int = 1;
+
+			public function setImage(image : BitmapData) : void
+			{
+				imageDisplay.source = image;
+
+				var potentialRatio : Number = Math.min(this.width / image.width, this.height / image.height);
+				actualRatio = 1;
+				if (potentialRatio >= 2.)
+				{
+					actualRatio = int(potentialRatio);
+				}
+				imageDisplay.width = image.width * actualRatio;
+				imageDisplay.height = image.height * actualRatio;
+			}
+		]]>
+	</fx:Script>
+
+	<s:Group left="0"
+			 right="0"
+			 top="0"
+			 bottom="0"
+			 clipAndEnableScrolling="true">
+		<s:Image id="imageDisplay"
+				 skinClass="statm.dev.scale9gridviewer.ui.skins.AnchorSelectorImageSkin"
+				 fillMode="scale"
+				 scaleMode="stretch"
+				 horizontalCenter="0"
+				 verticalCenter="0"/>
+
+		<s:Line id="horizontalCrosshair"
+				width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FF0000"/>
+			</s:stroke>
+		</s:Line>
+
+		<s:Line id="verticalCrosshair"
+				height="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#FF0000"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+
+</s:BorderContainer>

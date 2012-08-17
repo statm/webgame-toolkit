@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   resize="do9GridScaling()"
+				   borderColor="#999999">
+
+	<fx:Script>
+		<![CDATA[
+			public function setImage(image : BitmapData) : void
+			{
+				imageData = image;
+				do9GridScaling();
+			}
+
+			public function setScalingCenter(point : Point) : void
+			{
+				scalingCenter = point.clone();
+				lblScalingCenterCoord.text = "拉伸点: (" + scalingCenter.x + "," + scalingCenter.y + ")";
+				do9GridScaling();
+			}
+
+			private var imageData : BitmapData;
+
+			private var scalingCenter : Point;
+
+			private function do9GridScaling() : void
+			{
+				cleanUp();
+
+				if (!imageData || !scalingCenter)
+				{
+					return;
+				}
+
+				var scX : int = scalingCenter.x;
+				var scY : int = scalingCenter.y;
+				var w : int = imageData.width;
+				var h : int = imageData.height;
+				var s : BitmapData = imageData;
+
+				(scX > 0 && scY > 0)
+					&& (g1 = new BitmapData(scX, scY, true, 0x00FFFFFF),
+					g1.copyPixels(s, new Rectangle(0, 0, scX, scY), new Point()));
+
+				(scY > 0)
+					&& (g2 = new BitmapData(1, scY, true, 0x00FFFFFF),
+					g2.copyPixels(s, new Rectangle(scX, 0, 1, scY), new Point()));
+
+				(scX < w - 1 && scY > 0)
+					&& (g3 = new BitmapData(w - scX - 1, scY, true, 0x00FFFFFF),
+					g3.copyPixels(s, new Rectangle(scX + 1, 0, w - scX - 1, scY), new Point()));
+
+				(scX > 0)
+					&& (g4 = new BitmapData(scX, 1, true, 0x00FFFFFF),
+					g4.copyPixels(s, new Rectangle(0, scY, scX, 1), new Point()));
+
+				(g5 = new BitmapData(1, 1, true, 0x00FFFFFF),
+					g5.copyPixels(s, new Rectangle(scX, scY, 1, 1), new Point()));
+
+				(scX < w - 1)
+					&& (g6 = new BitmapData(w - scX - 1, 1, true, 0x00FFFFFF),
+					g6.copyPixels(s, new Rectangle(scX + 1, scY, w - scX - 1, 1), new Point()));
+
+				(scX > 0 && scY < h - 1)
+					&& (g7 = new BitmapData(scX, h - scY - 1, true, 0x00FFFFFF),
+					g7.copyPixels(s, new Rectangle(0, scY + 1, scX, h - scY - 1), new Point()));
+
+				(scY < h - 1)
+					&& (g8 = new BitmapData(1, h - scY - 1, true, 0x00FFFFFF),
+					g8.copyPixels(s, new Rectangle(scX, scY + 1, 1, h - scY - 1), new Point()));
+
+				(scX < w - 1 && scY < h - 1)
+					&& (g9 = new BitmapData(w - scX - 1, h - scY - 1, true, 0x00FFFFFF),
+					g9.copyPixels(s, new Rectangle(scX + 1, scY + 1, w - scX - 1, h - scY - 1), new Point()));
+
+				const SIZE_INCREMENT : int = 200;
+
+				scaledImageData = new BitmapData(s.width + SIZE_INCREMENT, s.height + SIZE_INCREMENT, true, 0x00FFFFFF);
+
+				var g1w : int = 0;
+				var g1h : int = 0;
+				if (g1)
+				{
+					g1w = g1.width;
+					g1h = g1.height;
+				}
+
+				var mtx : Matrix = new Matrix();
+				g1 && (scaledImageData.draw(g1, mtx));
+
+				g2 && (mtx.identity(),
+					mtx.scale(SIZE_INCREMENT, 1),
+					mtx.translate(g1w, 0),
+					scaledImageData.draw(g2, mtx));
+
+				g3 && (mtx.identity(),
+					mtx.scale(1, 1),
+					mtx.translate(g1w + SIZE_INCREMENT, 0),
+					scaledImageData.draw(g3, mtx));
+
+				g4 && (mtx.identity(),
+					mtx.scale(1, SIZE_INCREMENT),
+					mtx.translate(0, g1h),
+					scaledImageData.draw(g4, mtx));
+
+				g5 && (mtx.identity(),
+					mtx.scale(SIZE_INCREMENT, SIZE_INCREMENT),
+					mtx.translate(g1w, g1h),
+					scaledImageData.draw(g5, mtx));
+
+				g6 && (mtx.identity(),
+					mtx.scale(1, SIZE_INCREMENT),
+					mtx.translate(g1w + SIZE_INCREMENT, g1h),
+					scaledImageData.draw(g6, mtx));
+
+				g7 && (mtx.identity(),
+					mtx.scale(1, 1),
+					mtx.translate(0, g1h + SIZE_INCREMENT),
+					scaledImageData.draw(g7, mtx));
+
+				g8 && (mtx.identity(),
+					mtx.scale(SIZE_INCREMENT, 1),
+					mtx.translate(g1w, g1h + SIZE_INCREMENT),
+					scaledImageData.draw(g8, mtx));
+
+				g9 && (mtx.identity(),
+					mtx.scale(1, 1),
+					mtx.translate(g1w + SIZE_INCREMENT, g1h + SIZE_INCREMENT),
+					scaledImageData.draw(g9, mtx));
+			}
+
+			private var g1 : BitmapData;
+			private var g2 : BitmapData;
+			private var g3 : BitmapData;
+			private var g4 : BitmapData;
+			private var g5 : BitmapData;
+			private var g6 : BitmapData;
+			private var g7 : BitmapData;
+			private var g8 : BitmapData;
+			private var g9 : BitmapData;
+
+			private function cleanUp() : void
+			{
+				g1 && (g1.dispose(), g1 = null);
+				g2 && (g2.dispose(), g2 = null);
+				g3 && (g3.dispose(), g3 = null);
+				g4 && (g4.dispose(), g4 = null);
+				g5 && (g5.dispose(), g5 = null);
+				g6 && (g6.dispose(), g6 = null);
+				g7 && (g7.dispose(), g7 = null);
+				g8 && (g8.dispose(), g8 = null);
+				g9 && (g9.dispose(), g9 = null);
+				scaledImageData && (scaledImageData.dispose(), scaledImageData = null);
+			}
+
+			[Bindable]
+			private var scaledImageData : BitmapData;
+		]]>
+	</fx:Script>
+
+	<s:Image id="imageDisplay"
+			 backgroundColor="#FF9900"
+			 backgroundAlpha=".05"
+			 horizontalCenter="0"
+			 verticalCenter="0"
+			 source="{scaledImageData}"
+			 fillMode="scale"/>
+
+	<s:Label id="lblScalingCenterCoord"
+			 color="#333333"
+			 top="10"
+			 left="10"/>
+</s:BorderContainer>

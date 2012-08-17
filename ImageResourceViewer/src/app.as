@@ -145,8 +145,6 @@ private function startProcessing(fileArray : Array) : void
 
 //	t = getTimer();
 	this.addEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
-
-	DragManager.acceptDragDrop(this);
 }
 
 //private var t:int;

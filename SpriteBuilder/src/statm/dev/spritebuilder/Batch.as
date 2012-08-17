@@ -8,15 +8,18 @@ package statm.dev.spritebuilder
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.utils.ByteArray;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.graphics.codec.PNGEncoder;
-	
+
 	import statm.dev.spritebuilder.utils.FileUtils;
 
 	/**
@@ -185,12 +188,13 @@ package statm.dev.spritebuilder
 			{
 				frame = croppedBitmaps[i];
 				assembledSprite.copyPixels(frame, frame.rect, framePos[i]);
-					//		var tf : TextField = new TextField();
-					//		tf.text = i.toString();
-					//		tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
-					//		var mtx : Matrix = new Matrix();
-					//		mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
-					//		result.draw(tf, mtx);
+				
+				var tf : TextField = new TextField();
+				tf.text = i.toString();
+				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
+				var mtx : Matrix = new Matrix();
+				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
+				assembledSprite.draw(tf, mtx);
 			}
 
 			// 输出

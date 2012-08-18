@@ -7,17 +7,23 @@
 		 xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 		 xmlns:skins="statm.dev.imageresourceviewer.ui.skins.*"
 		 rollOver="currentState='hovered'"
-		 rollOut="currentState='normal'">
+		 rollOut="currentState='normal'"
+		 clipAndEnableScrolling="true">
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.type.DirectionType;
 
 			protected function cbxShowFX_changeHandler(event : Event) : void
 			{
 				FlexGlobals.topLevelApplication.setFXVisibility(cbxShowFX.selected);
+			}
+
+			protected function cbxShowBackground_changeHandler(event : Event) : void
+			{
+
 			}
 		]]>
 	</fx:Script>
@@ -30,10 +36,26 @@
 	<s:transitions>
 		<s:Transition fromState="*"
 					  toState="*">
-			<s:Fade target="{cbxShowFX}"
-					duration="150"/>
+			<s:Parallel>
+				<s:Fade target="{cbxShowFX}"
+						duration="150"/>
+				<s:Fade target="{cbxShowBackground}"
+						duration="150"/>
+			</s:Parallel>
 		</s:Transition>
 	</s:transitions>
+
+	<s:Group id="grpPlaybackBg"
+			 clipAndEnableScrolling="true"
+			 left="100"
+			 right="100"
+			 top="0"
+			 bottom="60">
+		<s:Image id="playbackBg"
+				 source="{UIResource.PLAYBACK_BG}"
+				 horizontalCenter="0"
+				 verticalCenter="0"/>
+	</s:Group>
 
 	<s:DataGroup id="layerDataGroup"
 				 horizontalCenter="0"
@@ -42,7 +64,8 @@
 				 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
 
 	<s:VGroup right="0"
-			  top="0">
+			  top="0"
+			  gap="8">
 		<s:TileGroup columnWidth="30"
 					 horizontalGap="1"
 					 verticalGap="1">
@@ -94,6 +117,13 @@
 					label="显示特效"
 					selected="{AppState.fxEnabled}"
 					change="cbxShowFX_changeHandler(event)"
+					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"
+					includeIn="hovered"/>
+
+		<s:CheckBox id="cbxShowBackground"
+					label="显示背景"
+					selected="@{grpPlaybackBg.visible}"
+					change="cbxShowBackground_changeHandler(event)"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"
 					includeIn="hovered"/>
 	</s:VGroup>

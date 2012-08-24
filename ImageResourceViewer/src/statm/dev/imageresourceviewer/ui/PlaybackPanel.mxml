@@ -21,9 +21,78 @@
 				FlexGlobals.topLevelApplication.setFXVisibility(cbxShowFX.selected);
 			}
 
-			protected function cbxShowBackground_changeHandler(event : Event) : void
+			public function updateBackground() : void
 			{
+				var bgX : int = playbackBg.x;
+				var bgY : int = playbackBg.y;
 
+				if (AppState.currentAction == "跑动" || AppState.currentAction == "乘骑移动")
+				{
+					var pxSpeed : int = Math.ceil(AppState.movingSpeed * .05);
+					var pxDiagSpeed : int = Math.ceil(pxSpeed / Math.SQRT2);
+
+					switch (AppState.currentDirection)
+					{
+						case DirectionType.N:
+							bgY += pxSpeed;
+							break;
+
+						case DirectionType.NE:
+							bgX -= pxDiagSpeed;
+							bgY += pxDiagSpeed;
+							break;
+
+						case DirectionType.E:
+							bgX -= pxSpeed;
+							break;
+
+						case DirectionType.SE:
+							bgX -= pxDiagSpeed;
+							bgY -= pxDiagSpeed;
+							break;
+
+						case DirectionType.S:
+							bgY -= pxSpeed;
+							break;
+
+						case DirectionType.SW:
+							bgX += pxDiagSpeed;
+							bgY -= pxDiagSpeed;
+							break;
+
+						case DirectionType.W:
+							bgX += pxSpeed;
+							break;
+
+						case DirectionType.NW:
+							bgX += pxDiagSpeed;
+							bgY += pxDiagSpeed;
+							break;
+					}
+					
+					var maxScrollX : int = playbackBg.width - grpPlaybackBg.width;
+					var maxScrollY : int = playbackBg.height - grpPlaybackBg.height;
+					
+					if (bgX < -maxScrollX)
+					{
+						bgX += maxScrollX;
+					}
+					if (bgX > 0)
+					{
+						bgX -= maxScrollX;
+					}
+					if (bgY < -maxScrollY)
+					{
+						bgY += maxScrollY;
+					}
+					if (bgY > 0)
+					{
+						bgY -= maxScrollY;
+					}
+					
+					playbackBg.x = bgX;
+					playbackBg.y = bgY;
+				}
 			}
 		]]>
 	</fx:Script>
@@ -47,14 +116,12 @@
 
 	<s:Group id="grpPlaybackBg"
 			 clipAndEnableScrolling="true"
-			 left="100"
+			 left="0"
 			 right="100"
 			 top="0"
 			 bottom="60">
 		<s:Image id="playbackBg"
-				 source="{UIResource.PLAYBACK_BG}"
-				 horizontalCenter="0"
-				 verticalCenter="0"/>
+				 source="{UIResource.PLAYBACK_BG}"/>
 	</s:Group>
 
 	<s:DataGroup id="layerDataGroup"
@@ -123,7 +190,6 @@
 		<s:CheckBox id="cbxShowBackground"
 					label="显示背景"
 					selected="@{grpPlaybackBg.visible}"
-					change="cbxShowBackground_changeHandler(event)"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"
 					includeIn="hovered"/>
 	</s:VGroup>

@@ -81,5 +81,8 @@ package statm.dev.imageresourceviewer
 
 		[Bindable]
 		public static var frameRate : int = 15;
+
+		[Bindable]
+		public static var movingSpeed : int = 30;
 	}
 }

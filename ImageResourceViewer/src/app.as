@@ -47,7 +47,9 @@ private function checkUpdate() : void
 {
 	appUpdater.updateURL = "http://www.fol.com/fol/tools/ImageResourceViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
-	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
+	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void
+	{
+	});
 	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void
 	{
 		//Alert.show(event.subErrorID.toString());
@@ -66,8 +68,7 @@ protected function displayStateChangeHandler(event : NativeWindowDisplayStateEve
 
 override protected function getCurrentSkinState() : String
 {
-	if (!this.nativeWindow.closed
-		&& this.nativeWindow.displayState == NativeWindowDisplayState.MAXIMIZED)
+	if (!this.nativeWindow.closed && this.nativeWindow.displayState == NativeWindowDisplayState.MAXIMIZED)
 	{
 		return "maximized";
 	}
@@ -112,15 +113,8 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 
 	lblDragHere.setStyle("color", 0xAAAAAA);
 
-	if (this.currentState == "hidden")
-	{
-		this.currentState = "processing";
-		setTimeout(startProcessing, 250, fileArray);
-	}
-	else
-	{
-		startProcessing(fileArray);
-	}
+	this.currentState = "processing";
+	startProcessing(fileArray);
 }
 
 private function startProcessing(fileArray : Array) : void
@@ -129,8 +123,7 @@ private function startProcessing(fileArray : Array) : void
 
 	while (--c > -1)
 	{
-		if (!(fileArray[c] is File)
-			|| !(fileArray[c].isDirectory))
+		if (!(fileArray[c] is File) || !(fileArray[c].isDirectory))
 		{
 			fileArray.splice(c, 1);
 		}
@@ -159,8 +152,7 @@ private function traverse_enterFrameHandler(event : Event) : void
 {
 	processingCount = 0;
 
-	while (processingIndex < folderList.length
-		&& processingCount < 2)
+	while (processingIndex < folderList.length && processingCount < 2)
 	{
 		var folder : File = folderList[processingIndex];
 		var batch : ResourceBatch = new ResourceBatch(folder);
@@ -182,9 +174,9 @@ private function traverse_enterFrameHandler(event : Event) : void
 		processingIndex++;
 		processingCount++;
 	}
-	
+
 //	trace("pI=" + processingIndex + ", fL=" + folderList.length);
-	
+
 	if (processingIndex > folderList.length - 1)
 	{
 		$traverseComplete();
@@ -194,9 +186,9 @@ private function traverse_enterFrameHandler(event : Event) : void
 private function $traverseComplete() : void
 {
 	this.removeEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
-	
+
 //	trace("耗时" + (getTimer() - t) + "ms");
-	
+
 	ResourceLib.print();
 
 	if (this.currentState == "processing")
@@ -269,8 +261,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			break;
 
 		case ResourceType.FX:
-			if (AppState.categoryMode == null
-				|| AppState.categoryMode == ResourceType.HERO)
+			if (AppState.categoryMode == null || AppState.categoryMode == ResourceType.HERO)
 			{
 				categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 				AppState.selectedFX = selectedItem;
@@ -318,9 +309,7 @@ private function calculateActionList() : void
 	actions.removeAll();
 	for each (var elem : Element in AppState.activeLayers)
 	{
-		if (!elem ||
-			(elem.type == ResourceType.FX
-			&& AppState.categoryMode != ResourceType.FX))
+		if (!elem || (elem.type == ResourceType.FX && AppState.categoryMode != ResourceType.FX))
 		{
 			continue;
 		}
@@ -335,8 +324,7 @@ private function calculateActionList() : void
 		}
 	}
 
-	if (actionNames.indexOf(AppState.currentAction) == -1
-		&& actions.length > 0)
+	if (actionNames.indexOf(AppState.currentAction) == -1 && actions.length > 0)
 	{
 		setAction(actions[0]);
 	}
@@ -429,6 +417,8 @@ private function $play(event : Event) : void
 		}
 		itemRenderer.player.gotoFrame(AppState.currentFrame);
 	}
+	
+	playbackPanel.updateBackground();
 }
 
 public function gotoFrame(frame : int) : void

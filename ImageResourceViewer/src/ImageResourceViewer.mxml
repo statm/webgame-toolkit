@@ -17,9 +17,8 @@
 	<fx:Style source="styles/styles.css"/>
 	<fx:Script>
 		<![CDATA[
-			import spark.effects.Move;
 			import spark.effects.easing.Sine;
-
+			
 			import statm.dev.imageresourceviewer.AppState;
 		]]>
 	</fx:Script>

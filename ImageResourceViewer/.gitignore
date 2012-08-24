@@ -2,6 +2,7 @@
 bin-debug
 bin
 releases
+html-template
 .actionScriptProperties
 .flexProperties
 .project

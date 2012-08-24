@@ -21,7 +21,7 @@ package statm.dev.imageresourceviewer.ui
 		[Embed(source = "../../../../assets/pause_over.png")]
 		public static const PAUSE_ICON_OVER : Class;
 
-		[Embed(source = "../../../../assets/playback_bg.png")]
+		[Embed(source = "../../../../assets/background.jpg")]
 		public static const PLAYBACK_BG : Class;
 
 		// arrows

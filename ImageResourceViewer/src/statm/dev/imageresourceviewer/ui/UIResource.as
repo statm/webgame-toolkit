@@ -24,6 +24,9 @@ package statm.dev.imageresourceviewer.ui
 		[Embed(source = "../../../../assets/background.jpg")]
 		public static const PLAYBACK_BG : Class;
 
+		[Embed(source = "../../../../assets/export.png")]
+		public static const EXPORT_ICON : Class;
+
 		// arrows
 		[Embed(source = "../../../../assets/arrows/N.png")]
 		public static const N_ICON : Class;

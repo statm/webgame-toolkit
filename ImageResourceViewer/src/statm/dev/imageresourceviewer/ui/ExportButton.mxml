@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 rollOver="currentState = 'over'"
+		 rollOut="currentState = 'normal'"
+		 mouseDown="currentState = 'down'"
+		 mouseUp="currentState = 'over'"
+		 height="22">
+
+	<fx:Script>
+		<![CDATA[
+			import statm.dev.imageresourceviewer.AppState;
+		]]>
+	</fx:Script>
+
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+	</s:states>
+
+	<s:Rect left="0"
+			top="0"
+			right="0"
+			bottom="0">
+		<s:fill>
+			<s:SolidColor color.normal="#EEEEEE"
+						  color.over="#DDDDDD"
+						  color.down="#CCCCCC"/>
+		</s:fill>
+	</s:Rect>
+
+	<s:HGroup top="0"
+			  bottom="0"
+			  left="3"
+			  right="3"
+			  gap="3"
+			  horizontalCenter="0"
+			  verticalAlign="middle">
+		<s:Image source="{UIResource.EXPORT_ICON}"/>
+
+		<s:Label text="{AppState.actionCount}"
+				 minWidth="20"
+				 color="#333333"
+				 fontSize="12"/>
+	</s:HGroup>
+</s:Group>

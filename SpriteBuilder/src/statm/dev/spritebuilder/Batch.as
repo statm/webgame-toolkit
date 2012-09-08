@@ -155,7 +155,7 @@ package statm.dev.spritebuilder
 		{
 			var MAX_WIDTH : int = Math.sqrt(totalSize);
 			var nextX : int = 0, nextY : int = 0, lineHeight : int = 0, maxX : int = 0, maxY : int = 0;
-			var framePos : Vector.<Point> = framePos = new Vector.<Point>(fileCount, true);
+			var framePos : Vector.<Point> = new Vector.<Point>(fileCount, true);
 
 			var i : int;
 			var l : int = fileCount;

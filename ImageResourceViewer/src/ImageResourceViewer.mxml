@@ -4,7 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 					   showStatusBar="false"
-					   title="角色图片查看器 v1.0"
+					   title="角色图片查看器 v2.0"
 					   minWidth="1000"
 					   minHeight="700"
 					   frameRate="60"
@@ -18,7 +18,7 @@
 	<fx:Script>
 		<![CDATA[
 			import spark.effects.easing.Sine;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 		]]>
 	</fx:Script>
@@ -118,4 +118,8 @@
 									  includeIn="processing"
 									  verticalCenter="18"/>
 
+	<ui:ExportButton right="62"
+					 top="-30"
+					 click="writeSprites()"
+					 includeIn="normal,list"/>
 </s:WindowedApplication>

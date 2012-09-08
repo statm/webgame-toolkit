@@ -8,15 +8,13 @@ import flash.desktop.NativeDragManager;
 import flash.display.NativeWindowDisplayState;
 import flash.events.ErrorEvent;
 import flash.events.Event;
-import flash.events.FileListEvent;
+import flash.events.KeyboardEvent;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.utils.getTimer;
-import flash.utils.setTimeout;
 
 import mx.collections.ArrayCollection;
-import mx.managers.DragManager;
 
 import spark.events.IndexChangeEvent;
 
@@ -24,7 +22,9 @@ import statm.dev.imageresourceviewer.AppState;
 import statm.dev.imageresourceviewer.data.Action;
 import statm.dev.imageresourceviewer.data.ActionInfo;
 import statm.dev.imageresourceviewer.data.Element;
+import statm.dev.imageresourceviewer.data.io.SpriteWriter;
 import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
+import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
 import statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer;
@@ -113,7 +113,10 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 
 	lblDragHere.setStyle("color", 0xAAAAAA);
 
-	this.currentState = "processing";
+	if (this.currentState == "hidden")
+	{
+		this.currentState = "processing";
+	}
 	startProcessing(fileArray);
 }
 
@@ -376,6 +379,44 @@ public function setFXVisibility(value : Boolean) : void
 	}
 }
 
+public function writeSprites() : void
+{
+	var folderPath : File = File.desktopDirectory;
+	folderPath.addEventListener(Event.SELECT, $writeSprites);
+	folderPath.browseForDirectory("选择输出目录");
+}
+
+private function $writeSprites(event : Event) : void
+{
+	var folder : File = event.currentTarget as File;
+
+	for each (var typeName : String in ResourceType.typeList)
+	{
+		var category : ResourceCategory = ResourceLib.getCategory(typeName);
+		if (category.elements.length > 1) // 至少有一个“无”
+		{
+			var path : File = folder.resolvePath(typeName);
+			path.createDirectory();
+
+			for each (var elem : Element in category.elements)
+			{
+				if (elem.name == "无")
+				{
+					continue;
+				}
+
+				var elemPath : File = path.resolvePath(elem.name);
+				elemPath.createDirectory();
+
+				for each (var action:Action in elem.actionList)
+				{
+					new SpriteWriter().writeActionSprite(action, elemPath);
+				}
+			}
+		}
+	}
+}
+
 // 播放
 public function play() : void
 {
@@ -417,7 +458,7 @@ private function $play(event : Event) : void
 		}
 		itemRenderer.player.gotoFrame(AppState.currentFrame);
 	}
-	
+
 	playbackPanel.updateBackground();
 }
 

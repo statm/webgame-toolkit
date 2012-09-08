@@ -8,16 +8,16 @@ package statm.dev.libs.imageplayer.loader
 	import flash.filesystem.File;
 	import flash.net.URLRequest;
 	import flash.utils.setTimeout;
-
+	
 	import mx.collections.ArrayCollection;
-
+	
 	import spark.collections.Sort;
-
+	
 	import statm.dev.libs.imageplayer.utils.FileUtils;
 
-	[Event(name="progress", type="statm.dev.libs.imageplayer.loader.ImageBatchEvent")]
-	[Event(name="complete", type="statm.dev.libs.imageplayer.loader.ImageBatchEvent")]
-	[Event(name="error", type="statm.dev.libs.imageplayer.loader.ImageBatchEvent")]
+	[Event(name = "progress", type = "statm.dev.libs.imageplayer.loader.ImageBatchEvent")]
+	[Event(name = "complete", type = "statm.dev.libs.imageplayer.loader.ImageBatchEvent")]
+	[Event(name = "error", type = "statm.dev.libs.imageplayer.loader.ImageBatchEvent")]
 
 	/**
 	 * 图片组。
@@ -91,6 +91,11 @@ package statm.dev.libs.imageplayer.loader
 			return loadedImages[index];
 		}
 
+		public function getImages() : Vector.<BitmapData>
+		{
+			return loadedImages;
+		}
+
 		public function get length() : int
 		{
 			return count;
@@ -116,6 +121,17 @@ package statm.dev.libs.imageplayer.loader
 			loadingIndex = -1;
 			next();
 			_state = ImageBatchState.LOADING;
+		}
+		
+		public function unload():void
+		{
+			for each (var bd:BitmapData in loadedImages)
+			{
+				bd.dispose();
+				bd = null;
+			}
+			loadedImages = null;
+			_state = ImageBatchState.READY;
 		}
 
 		private function next(event : Event = null) : void

@@ -1,9 +1,9 @@
 package statm.dev.imageresourceviewer
 {
 	import flash.events.EventDispatcher;
-
+	
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
@@ -68,6 +68,9 @@ package statm.dev.imageresourceviewer
 
 		[Bindable]
 		public static var fxEnabled : Boolean = true;
+		
+		[Bindable]
+		public static var actionCount:int = 0;
 
 		// 播放控制 
 		[Bindable]

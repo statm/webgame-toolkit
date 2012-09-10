@@ -1,7 +1,5 @@
 package statm.dev.imageresourceviewer
 {
-	import flash.events.EventDispatcher;
-	
 	import mx.collections.ArrayCollection;
 	
 	import statm.dev.imageresourceviewer.data.Element;

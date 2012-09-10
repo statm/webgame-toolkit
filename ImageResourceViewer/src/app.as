@@ -1,14 +1,9 @@
-import air.update.ApplicationUpdaterUI;
-import air.update.events.StatusUpdateErrorEvent;
-import air.update.events.UpdateEvent;
-
 import flash.desktop.ClipboardFormats;
 import flash.desktop.NativeApplication;
 import flash.desktop.NativeDragManager;
 import flash.display.NativeWindowDisplayState;
 import flash.events.ErrorEvent;
 import flash.events.Event;
-import flash.events.KeyboardEvent;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
@@ -17,6 +12,10 @@ import flash.utils.getTimer;
 import mx.collections.ArrayCollection;
 
 import spark.events.IndexChangeEvent;
+
+import air.update.ApplicationUpdaterUI;
+import air.update.events.StatusUpdateErrorEvent;
+import air.update.events.UpdateEvent;
 
 import statm.dev.imageresourceviewer.AppState;
 import statm.dev.imageresourceviewer.data.Action;

@@ -7,6 +7,10 @@ import flash.events.Event;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
+import flash.net.registerClassAlias;
+import flash.system.MessageChannel;
+import flash.system.Worker;
+import flash.system.WorkerDomain;
 import flash.utils.getTimer;
 
 import mx.collections.ArrayCollection;
@@ -21,20 +25,26 @@ import statm.dev.imageresourceviewer.AppState;
 import statm.dev.imageresourceviewer.data.Action;
 import statm.dev.imageresourceviewer.data.ActionInfo;
 import statm.dev.imageresourceviewer.data.Element;
-import statm.dev.imageresourceviewer.data.io.SpriteWriter;
+import statm.dev.imageresourceviewer.data.io.SpritesheetWriter;
 import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
 import statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer;
+import statm.dev.imageresourceviewer.workers.WorkerManager;
 
 public static var VERSION : String;
 
 private function init() : void
 {
 	ResourceLib.reset();
+	readVersion();
 	checkUpdate();
+}
 
+// 版本/升级
+private function readVersion() : void
+{
 	var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
 	var appNS : Namespace = appXML.namespace();
 	VERSION = appXML.appNS::versionNumber[0];
@@ -51,7 +61,6 @@ private function checkUpdate() : void
 	});
 	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void
 	{
-		//Alert.show(event.subErrorID.toString());
 	});
 	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void
 	{
@@ -60,6 +69,7 @@ private function checkUpdate() : void
 	appUpdater.initialize();
 }
 
+// 窗口皮肤
 protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
 {
 	this.invalidateSkinState();
@@ -74,6 +84,7 @@ override protected function getCurrentSkinState() : String
 	return super.getCurrentSkinState();
 }
 
+// 文件拖放和读取
 protected function nativeDragEnterHandler(event : NativeDragEvent) : void
 {
 	if (event.target != this)
@@ -116,9 +127,53 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 	{
 		this.currentState = "processing";
 	}
+	
+//	var filePathArray:Array = [];
+//	for each (var file:File in fileArray)
+//	{
+//		filePathArray.push(file.nativePath);
+//	}
+//	startProcessing(filePathArray);
 	startProcessing(fileArray);
 }
 
+//private var fileLoadingWorker:Worker;
+//private var fileLoadingWorker_inChannel:MessageChannel;
+//private var fileLoadingWorker_outChannel:MessageChannel;
+//
+//private function startProcessing(filePathArray : Array) : void
+//{
+//	fileLoadingWorker = WorkerDomain.current.createWorker(WorkerManager.statm_dev_imageresourceviewer_workers_FileLoadingWorker, true);
+//	
+//	fileLoadingWorker_inChannel = Worker.current.createMessageChannel(fileLoadingWorker);
+//	fileLoadingWorker_outChannel = fileLoadingWorker.createMessageChannel(Worker.current);
+//	
+//	fileLoadingWorker.setSharedProperty("statm.dev.imageresourceviewer.msgchannels.fileloadingworker_in", fileLoadingWorker_inChannel);
+//	fileLoadingWorker.setSharedProperty("statm.dev.imageresourceviewer.msgchannels.fileloadingworker_out", fileLoadingWorker_outChannel);
+//	
+//	fileLoadingWorker_outChannel.addEventListener(Event.CHANNEL_MESSAGE, fileLoadingWorker_messageHandler);
+//	fileLoadingWorker.start();
+//	
+//	fileLoadingWorker_inChannel.send(filePathArray);
+//}
+//
+//private function fileLoadingWorker_messageHandler(event : Event) : void
+//{
+//	var batches : Array = MessageChannel(event.currentTarget).receive() as Array;
+//	for each (var batch : ResourceBatch in batches)
+//	{
+//		ResourceLib.addResource(batch);
+//	}
+//	
+//	ResourceLib.print();
+//	
+//	if (this.currentState == "processing")
+//	{
+//		this.currentState = "normal";
+//	}
+//}
+
+// 文件读取
 private function startProcessing(fileArray : Array) : void
 {
 	var c : int = fileArray.length;
@@ -199,6 +254,7 @@ private function $traverseComplete() : void
 	}
 }
 
+// UI 动作
 private function resourceList_changeHandler(event : IndexChangeEvent) : void
 {
 	playingGroup.visible = true;
@@ -378,14 +434,15 @@ public function setFXVisibility(value : Boolean) : void
 	}
 }
 
-public function writeSprites() : void
+// 输出
+public function writeSpritesheet() : void
 {
 	var folderPath : File = File.desktopDirectory;
-	folderPath.addEventListener(Event.SELECT, $writeSprites);
+	folderPath.addEventListener(Event.SELECT, $writeSpritesheet);
 	folderPath.browseForDirectory("选择输出目录");
 }
 
-private function $writeSprites(event : Event) : void
+private function $writeSpritesheet(event : Event) : void
 {
 	var folder : File = event.currentTarget as File;
 
@@ -407,9 +464,9 @@ private function $writeSprites(event : Event) : void
 				var elemPath : File = path.resolvePath(elem.name);
 				elemPath.createDirectory();
 
-				for each (var action:Action in elem.actionList)
+				for each (var action : Action in elem.actionList)
 				{
-					new SpriteWriter().writeActionSprite(action, elemPath);
+					new SpritesheetWriter().writeActionSpritesheet(action, elemPath);
 				}
 			}
 		}

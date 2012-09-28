@@ -42,10 +42,8 @@
 	</fx:Script>
 
 	<imageplayer:ImagePlayer id="player"
-							 top="0"
-							 bottom="0"
-							 left="0"
-							 right="0"
+							 horizontalCenter="0"
+							 verticalCenter="0"
 							 showProgressBar="false"
 							 showBorder="false"/>
 

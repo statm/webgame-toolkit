@@ -1,11 +1,9 @@
 package statm.dev.imageresourceviewer.data.resource
 {
-	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
 	
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.libs.imageplayer.loader.ImageBatch;
-	import statm.dev.libs.imageplayer.loader.ImageBatchEvent;
 
 	/**
 	 * 资源组。
@@ -97,11 +95,11 @@ package statm.dev.imageresourceviewer.data.resource
 
 			if (result.type != ResourceType.FX)
 			{
-				// 提取动作(action)
-				result.action = pathParts[0];
-	
 				// 提取方向(direction)
-				result.direction = pathParts[1];
+				result.direction = pathParts[0];
+	
+				// 提取动作(action)
+				result.action = pathParts[1];
 	
 				// 提取名称(name)
 				result.name = pathParts[2];

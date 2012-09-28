@@ -120,6 +120,6 @@
 
 	<ui:ExportButton right="62"
 					 top="-30"
-					 click="writeSprites()"
+					 click="writeSpritesheet()"
 					 includeIn="normal,list"/>
 </s:WindowedApplication>

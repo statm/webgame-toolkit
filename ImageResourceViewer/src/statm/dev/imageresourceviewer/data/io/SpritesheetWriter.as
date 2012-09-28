@@ -20,14 +20,14 @@ package statm.dev.imageresourceviewer.data.io
 	import statm.dev.libs.imageplayer.loader.ImageBatchState;
 
 	/**
-	 * Sprite 拼合输出工具类。
+	 * Spritesheet 拼合输出工具类。
 	 *
 	 * @author statm
 	 *
 	 */
-	public class SpriteWriter
+	public class SpritesheetWriter
 	{
-		public function writeActionSprite(action : Action, path : File) : void
+		public function writeActionSpritesheet(action : Action, path : File) : void
 		{
 			var originalImages : Vector.<BitmapData>;
 
@@ -59,7 +59,7 @@ package statm.dev.imageresourceviewer.data.io
 									.concat(action.getBatch(DirectionType.SE).getImages())
 									.concat(action.getBatch(DirectionType.S).getImages());
 
-								$writeActionSprite(originalImages, action.name, path);
+								$writeActionSpritesheet(originalImages, action.name, path);
 								for each (var batch : ResourceBatch in unloadedBatches)
 								{
 									batch.unload();
@@ -80,13 +80,13 @@ package statm.dev.imageresourceviewer.data.io
 					.concat(action.getBatch(DirectionType.SE).getImages())
 					.concat(action.getBatch(DirectionType.S).getImages());
 
-				$writeActionSprite(originalImages, action.name, path);
+				$writeActionSpritesheet(originalImages, action.name, path);
 			}
 		}
 
-		private function $writeActionSprite(originalImages : Vector.<BitmapData>, actionName : String, path : File) : void
+		private function $writeActionSpritesheet(originalImages : Vector.<BitmapData>, actionName : String, path : File) : void
 		{
-			var assembledSprite : BitmapData;
+			var assembledSpritesheet : BitmapData;
 			var configXML : XML;
 
 			var l : int = originalImages.length;
@@ -112,7 +112,7 @@ package statm.dev.imageresourceviewer.data.io
 				totalSize += bound.width * bound.height;
 			}
 
-			// Sprite 拼合
+			// Spritesheet 拼合
 			var MAX_WIDTH : int = Math.sqrt(totalSize);
 			var nextX : int = 0, nextY : int = 0, lineHeight : int = 0, maxX : int = 0, maxY : int = 0;
 			var framePos : Vector.<Point> = new Vector.<Point>(croppedImages.length, true);
@@ -140,31 +140,31 @@ package statm.dev.imageresourceviewer.data.io
 				(nextX > maxX) && (maxX = nextX);
 			}
 
-			assembledSprite = new BitmapData(maxX, maxY, true, 0x00000000);
+			assembledSpritesheet = new BitmapData(maxX, maxY, true, 0x00000000);
 
 			for (i = 0; i < l; i++)
 			{
 				frame = croppedImages[i];
-				assembledSprite.copyPixels(frame, frame.rect, framePos[i]);
+				assembledSpritesheet.copyPixels(frame, frame.rect, framePos[i]);
 
 				// DBG
-				var tf : TextField = new TextField();
-				tf.text = i.toString();
-				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
-				var mtx : Matrix = new Matrix();
-				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
-				assembledSprite.draw(tf, mtx);
+//				var tf : TextField = new TextField();
+//				tf.text = i.toString();
+//				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
+//				var mtx : Matrix = new Matrix();
+//				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
+//				assembledSpritesheet.draw(tf, mtx);
 			}
 
-			var spriteImageByteArray : ByteArray = new PNGEncoder().encode(assembledSprite);
+			var spritesheetImageByteArray : ByteArray = new PNGEncoder().encode(assembledSpritesheet);
 			var fs : FileStream = new FileStream();
 			fs.open(path.resolvePath(actionName + ".png"), FileMode.WRITE);
-			fs.writeBytes(spriteImageByteArray);
+			fs.writeBytes(spritesheetImageByteArray);
 			fs.close();
 
 			// 输出配置 XML
 			configXML = <anime-desc>
-					<size>{assembledSprite.width},{assembledSprite.height}</size>
+					<size>{assembledSpritesheet.width},{assembledSpritesheet.height}</size>
 					<frameRate>15</frameRate>
 					<frames/>
 				</anime-desc>;
@@ -191,7 +191,7 @@ package statm.dev.imageresourceviewer.data.io
 			fs.close();
 
 
-			assembledSprite.dispose();
+			assembledSpritesheet.dispose();
 			for each (var bd : BitmapData in croppedImages)
 			{
 				bd.dispose();

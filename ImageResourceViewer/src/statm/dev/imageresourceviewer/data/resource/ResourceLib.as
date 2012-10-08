@@ -1,11 +1,12 @@
 package statm.dev.imageresourceviewer.data.resource
 {
 	import flash.utils.Dictionary;
-	
+
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.Element;
+	import statm.dev.imageresourceviewer.data.FXElement;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 	/**
@@ -96,7 +97,7 @@ package statm.dev.imageresourceviewer.data.resource
 				{
 					element = getElement(resourceBatch);
 					element.addBatch(resourceBatch);
-					
+
 					if (unknown.elements.getItemIndex(element) == -1)
 					{
 						unknown.elements.addItem(element);
@@ -115,7 +116,14 @@ package statm.dev.imageresourceviewer.data.resource
 
 			if (!result)
 			{
-				result = new Element(resourceBatch.batchInfo.name, resourceBatch.batchInfo.type);
+				if (resourceBatch.batchInfo.type != ResourceType.FX)
+				{
+					result = new Element(resourceBatch.batchInfo.name, resourceBatch.batchInfo.type);
+				}
+				else
+				{
+					result = new FXElement(resourceBatch.batchInfo.name);
+				}
 				getDic(resourceBatch.batchInfo.type)[resourceBatch.batchInfo.name] = result;
 			}
 

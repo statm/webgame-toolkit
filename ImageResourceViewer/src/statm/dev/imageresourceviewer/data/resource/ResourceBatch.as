@@ -107,8 +107,7 @@ package statm.dev.imageresourceviewer.data.resource
 			else
 			{
 				result.action = "特效";
-				result.direction = pathParts[0];
-				result.name = pathParts[1];
+				result.name = pathParts[0];
 			}
 			
 			return result;

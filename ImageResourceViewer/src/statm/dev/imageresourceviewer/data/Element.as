@@ -21,14 +21,14 @@ package statm.dev.imageresourceviewer.data
 	 */
 	public class Element extends EventDispatcher
 	{
-		private var _type : String;
+		protected var _type : String;
 
 		public function get type() : String
 		{
 			return _type;
 		}
 
-		private var _name : String;
+		protected var _name : String;
 
 		public function get name() : String
 		{
@@ -87,16 +87,7 @@ package statm.dev.imageresourceviewer.data
 
 		public function getCurrentBatch() : ResourceBatch
 		{
-			var action : Action;
-
-			if (_type != ResourceType.FX)
-			{
-				action = getAction(AppState.currentAction);
-			}
-			else
-			{
-				action = getAction("特效");
-			}
+			var action : Action = getAction(AppState.currentAction);
 
 			if (!action)
 			{

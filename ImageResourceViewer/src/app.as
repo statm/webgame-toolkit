@@ -8,6 +8,7 @@ import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
 import flash.utils.getTimer;
+import flash.utils.setTimeout;
 
 import mx.collections.ArrayCollection;
 
@@ -21,6 +22,7 @@ import statm.dev.imageresourceviewer.AppState;
 import statm.dev.imageresourceviewer.data.Action;
 import statm.dev.imageresourceviewer.data.ActionInfo;
 import statm.dev.imageresourceviewer.data.Element;
+import statm.dev.imageresourceviewer.data.FXElement;
 import statm.dev.imageresourceviewer.data.io.SpritesheetWriter;
 import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
@@ -122,7 +124,7 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 	{
 		this.currentState = "normal";
 	}
-	
+
 //	var filePathArray:Array = [];
 //	for each (var file:File in fileArray)
 //	{
@@ -248,11 +250,14 @@ private function $traverseComplete() : void
 private function resourceList_changeHandler(event : IndexChangeEvent) : void
 {
 	var selectedItem : Element = resourceList.selectedItem;
-	
+
 	if (selectedItem.type != ResourceType.UNKNOWN)
 	{
-		playingGroup.visible = true;
-		AppState.activeLayers.removeAll();
+		setTimeout(function() : void
+		{
+			playingGroup.visible = true;
+		}, 500);
+		AppState.selectedElements.removeAll();
 	}
 
 	switch (selectedItem.type)
@@ -261,85 +266,85 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.selectedHero = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedMount);
-			AppState.activeLayers.addItem(AppState.selectedHero);
-			AppState.activeLayers.addItem(AppState.selectedWeapon);
-			AppState.activeLayers.addItem(AppState.selectedFX);
+			AppState.selectedElements.addItem(AppState.selectedMount);
+			AppState.selectedElements.addItem(AppState.selectedHero);
+			AppState.selectedElements.addItem(AppState.selectedWeapon);
+			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.WEAPON:
 			AppState.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.selectedWeapon = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedMount);
-			AppState.activeLayers.addItem(AppState.selectedHero);
-			AppState.activeLayers.addItem(AppState.selectedWeapon);
-			AppState.activeLayers.addItem(AppState.selectedFX);
+			AppState.selectedElements.addItem(AppState.selectedMount);
+			AppState.selectedElements.addItem(AppState.selectedHero);
+			AppState.selectedElements.addItem(AppState.selectedWeapon);
+			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.MOUNT:
 			AppState.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.selectedMount = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedMount);
-			AppState.activeLayers.addItem(AppState.selectedHero);
-			AppState.activeLayers.addItem(AppState.selectedWeapon);
-			AppState.activeLayers.addItem(AppState.selectedFX);
+			AppState.selectedElements.addItem(AppState.selectedMount);
+			AppState.selectedElements.addItem(AppState.selectedHero);
+			AppState.selectedElements.addItem(AppState.selectedWeapon);
+			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.NPC:
 			AppState.categoryMode = ResourceType.NPC;
 			categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
 			AppState.selectedNPC = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedNPC);
-			AppState.activeLayers.addItem(AppState.selectedFX);
+			AppState.selectedElements.addItem(AppState.selectedNPC);
+			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.MOB:
 			AppState.categoryMode = ResourceType.MOB;
 			categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
 			AppState.selectedMob = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedMob);
-			AppState.activeLayers.addItem(AppState.selectedFX);
+			AppState.selectedElements.addItem(AppState.selectedMob);
+			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
 
 		case ResourceType.PET:
 			AppState.categoryMode = ResourceType.PET;
 			categoryPanel.setSelectedCategoryButtons(["pet"]);
 			AppState.selectedPet = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedPet);
+			AppState.selectedElements.addItem(AppState.selectedPet);
 			break;
 
 		case ResourceType.FX:
 			if (AppState.categoryMode == null || AppState.categoryMode == ResourceType.HERO)
 			{
 				categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
-				AppState.selectedFX = selectedItem;
-				AppState.activeLayers.addItem(AppState.selectedMount);
-				AppState.activeLayers.addItem(AppState.selectedHero);
-				AppState.activeLayers.addItem(AppState.selectedWeapon);
+				AppState.selectedFX = selectedItem as FXElement;
+				AppState.selectedElements.addItem(AppState.selectedMount);
+				AppState.selectedElements.addItem(AppState.selectedHero);
+				AppState.selectedElements.addItem(AppState.selectedWeapon);
 			}
 			else if (AppState.categoryMode == ResourceType.NPC)
 			{
 				categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
-				AppState.selectedFX = selectedItem;
-				AppState.activeLayers.addItem(AppState.selectedNPC);
+				AppState.selectedFX = selectedItem as FXElement;
+				AppState.selectedElements.addItem(AppState.selectedNPC);
 			}
 			else if (AppState.categoryMode == ResourceType.MOB)
 			{
 				categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
-				AppState.selectedFX = selectedItem;
-				AppState.activeLayers.addItem(AppState.selectedMob);
+				AppState.selectedFX = selectedItem as FXElement;
+				AppState.selectedElements.addItem(AppState.selectedMob);
 			}
 
 			if (AppState.fxEnabled)
 			{
-				AppState.activeLayers.addItem(AppState.selectedFX);
+				AppState.selectedElements.addItem(AppState.selectedFX);
 			}
 
 			break;
 	}
-	
+
 	if (selectedItem.type != ResourceType.UNKNOWN)
 	{
 		calculateActionList();
@@ -349,11 +354,11 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 private function calculateActionList() : void
 {
 	// 根据当前零件计算动作列表（最小公倍数）
-	var actions : ArrayCollection = AppState.currentActions;
+	var actionInfo : ArrayCollection = AppState.currentActions;
 	var actionNames : Array = [];
 
-	actions.removeAll();
-	for each (var elem : Element in AppState.activeLayers)
+	actionInfo.removeAll();
+	for each (var elem : Element in AppState.selectedElements)
 	{
 		if (!elem || (elem.type == ResourceType.FX && AppState.categoryMode != ResourceType.FX))
 		{
@@ -364,15 +369,19 @@ private function calculateActionList() : void
 		{
 			if (actionNames.indexOf(action.name) == -1)
 			{
-				actions.addItem(action.info);
+				actionInfo.addItem(action.info);
 				actionNames[actionNames.length] = action.name;
 			}
 		}
 	}
 
-	if (actionNames.indexOf(AppState.currentAction) == -1 && actions.length > 0)
+	if (actionNames.indexOf(AppState.currentAction) == -1 && actionInfo.length > 0)
 	{
-		setAction(actions[0]);
+		setAction(actionInfo[0]);
+	}
+	else if (AppState.selectedFX && AppState.selectedElements.contains(AppState.selectedFX))
+	{
+		setAction(AppState.selectedFX.getFXAction().info);
 	}
 }
 
@@ -392,13 +401,13 @@ public function setDirection(direction : String) : void
 
 private function updateActionAndDirection() : void
 {
-	for each (var elem : Element in AppState.activeLayers)
+	for each (var elem : Element in AppState.selectedElements)
 	{
 		if (!elem)
 		{
 			continue;
 		}
-		AppState.activeLayers.itemUpdated(elem);
+		AppState.selectedElements.itemUpdated(elem);
 	}
 }
 
@@ -409,14 +418,14 @@ public function setFXVisibility(value : Boolean) : void
 		AppState.fxEnabled = value;
 		if (value)
 		{
-			AppState.activeLayers.addItem(AppState.selectedFX);
+			AppState.selectedElements.addItem(AppState.selectedFX);
 		}
 		else
 		{
-			var index : int = AppState.activeLayers.getItemIndex(AppState.selectedFX);
+			var index : int = AppState.selectedElements.getItemIndex(AppState.selectedFX);
 			if (index > -1)
 			{
-				AppState.activeLayers.removeItemAt(index);
+				AppState.selectedElements.removeItemAt(index);
 			}
 		}
 	}
@@ -473,7 +482,7 @@ private var lastFrameTime : int = int.MIN_VALUE;
 
 private function $play(event : Event) : void
 {
-	var l : int = AppState.activeLayers.length;
+	var l : int = AppState.selectedElements.length;
 	var currentTime : int = getTimer();
 	if (lastFrameTime == int.MIN_VALUE)
 	{

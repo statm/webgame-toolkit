@@ -120,11 +120,11 @@
 					  toState="*">
 			<s:Parallel suspendBackgroundProcessing="true">
 				<s:Resize targets="{[this]}"
-						  duration="200"/>
+						  duration="300"/>
 				<s:Move targets="{[cursor, grpCategoryLabel, lblCount]}"
-						duration="200"/>
+						duration="300"/>
 				<s:AnimateColor targets="{[background, cursorFill]}"
-								duration="200"/>
+								duration="300"/>
 			</s:Parallel>
 		</s:Transition>
 	</s:transitions>

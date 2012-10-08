@@ -3,6 +3,7 @@ package statm.dev.imageresourceviewer
 	import mx.collections.ArrayCollection;
 	
 	import statm.dev.imageresourceviewer.data.Element;
+	import statm.dev.imageresourceviewer.data.FXElement;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
@@ -54,10 +55,10 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public static var selectedPet : Element = new Element("无", ResourceType.PET);
 		[Bindable]
-		public static var selectedFX : Element = new Element("无", ResourceType.FX);
+		public static var selectedFX : FXElement = new FXElement("无");
 
 		[Bindable]
-		public static var activeLayers : ArrayCollection = new ArrayCollection();
+		public static var selectedElements : ArrayCollection = new ArrayCollection();
 
 		[Bindable]
 		public static var currentActions : ArrayCollection = new ArrayCollection();

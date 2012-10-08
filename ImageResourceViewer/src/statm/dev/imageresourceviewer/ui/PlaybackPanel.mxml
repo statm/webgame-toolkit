@@ -6,8 +6,6 @@
 		 height="100%"
 		 xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 		 xmlns:skins="statm.dev.imageresourceviewer.ui.skins.*"
-		 rollOver="currentState='hovered'"
-		 rollOut="currentState='normal'"
 		 clipAndEnableScrolling="true">
 	<fx:Script>
 		<![CDATA[
@@ -97,23 +95,6 @@
 		]]>
 	</fx:Script>
 
-	<s:states>
-		<s:State name="normal"/>
-		<s:State name="hovered"/>
-	</s:states>
-
-	<s:transitions>
-		<s:Transition fromState="*"
-					  toState="*">
-			<s:Parallel>
-				<s:Fade target="{cbxShowFX}"
-						duration="150"/>
-				<s:Fade target="{cbxShowBackground}"
-						duration="150"/>
-			</s:Parallel>
-		</s:Transition>
-	</s:transitions>
-
 	<s:Group id="grpPlaybackBg"
 			 clipAndEnableScrolling="true"
 			 left="0"
@@ -127,7 +108,7 @@
 	<s:DataGroup id="layerDataGroup"
 				 horizontalCenter="0"
 				 verticalCenter="0"
-				 dataProvider="{AppState.activeLayers}"
+				 dataProvider="{AppState.selectedElements}"
 				 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
 
 	<s:VGroup right="0"
@@ -184,14 +165,12 @@
 					label="显示特效"
 					selected="{AppState.fxEnabled}"
 					change="cbxShowFX_changeHandler(event)"
-					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"
-					includeIn="hovered"/>
+					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
 
 		<s:CheckBox id="cbxShowBackground"
 					label="显示背景"
 					selected="@{grpPlaybackBg.visible}"
-					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"
-					includeIn="hovered"/>
+					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
 	</s:VGroup>
 
 	<ui:PlaybackBar id="playbackBar"

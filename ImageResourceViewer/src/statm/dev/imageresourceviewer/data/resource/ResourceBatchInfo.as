@@ -1,5 +1,6 @@
 package statm.dev.imageresourceviewer.data.resource
 {
+	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 	/**
 	 * 资源组信息。
@@ -19,13 +20,15 @@ package statm.dev.imageresourceviewer.data.resource
 
 		public function get isComplete() : Boolean
 		{
-			return (type != null)
+			return ((type != null)
 				&& (name != null)
 				&& (action != null)
-				&& (direction != null);
+				&& (direction != null))
+				|| ((type == ResourceType.FX)
+					&& (name != null));
 		}
-		
-		public function toString():String
+
+		public function toString() : String
 		{
 			return "类型:" + type + ", 名称:" + name + ", 动作:" + action + ", 方向:" + direction;
 		}

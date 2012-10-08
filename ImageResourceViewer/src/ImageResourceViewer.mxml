@@ -4,10 +4,11 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 					   showStatusBar="false"
-					   title="角色图片查看器 v2.2"
+					   title="图片资源查看器 v2.2"
 					   minWidth="1000"
 					   minHeight="700"
 					   frameRate="60"
+					   creationPolicy="all"
 					   displayStateChange="displayStateChangeHandler(event)"
 					   addedToStage="init()"
 					   nativeDragEnter="nativeDragEnterHandler(event)"
@@ -18,8 +19,10 @@
 	<fx:Script>
 		<![CDATA[
 			import spark.effects.easing.Sine;
-
+			
 			import statm.dev.imageresourceviewer.AppState;
+			import statm.dev.imageresourceviewer.ui.itemRenderers.ActionItemRenderer;
+			import statm.dev.imageresourceviewer.ui.skins.LiteListSkin;
 		]]>
 	</fx:Script>
 
@@ -27,21 +30,11 @@
 
 	<s:states>
 		<s:State name="hidden"/>
-		<s:State name="processing"/>
 		<s:State name="normal"/>
 		<s:State name="list"/>
 	</s:states>
 
 	<s:transitions>
-		<s:Transition fromState="hidden"
-					  toState="processing">
-			<s:Parallel duration="200">
-				<s:Fade target="{lblDragHere}"
-						alphaTo="0"/>
-				<s:Fade target="{lblProcessing}"
-						alphaTo="1"/>
-			</s:Parallel>
-		</s:Transition>
 		<s:Transition fromState="normal"
 					  toState="list">
 			<s:Resize target="{resourceList}"
@@ -71,6 +64,7 @@
 				borderVisible="false"
 				dataProvider="{AppState.selectedCategory.elements}"
 				itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.ResourceListItemRenderer"
+				skinClass="statm.dev.imageresourceviewer.ui.skins.LiteListSkin"
 				change="resourceList_changeHandler(event)"
 				requireSelection="true"
 				includeIn="list"
@@ -89,7 +83,17 @@
 				  visible="false"
 				  horizontalAlign="center">
 			<ui:PlaybackPanel id="playbackPanel"/>
-			<ui:Dashboard id="dashboard"/>
+			<s:List id="layers"
+					width="100%"
+					height="150"
+					itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.ActionItemRenderer"
+					skinClass="statm.dev.imageresourceviewer.ui.skins.LiteListSkin"
+					dataProvider="{AppState.currentActions}"
+					borderVisible="false">
+				<s:layout>
+					<s:TileLayout columnWidth="110"/>
+				</s:layout>
+			</s:List>
 		</s:VGroup>
 
 	</s:HGroup>
@@ -106,17 +110,6 @@
 			 verticalCenter="-17"
 			 color="#CCCCCC"
 			 includeIn="hidden"/>
-
-	<s:Label id="lblProcessing"
-			 text="正在处理"
-			 fontSize="35"
-			 horizontalCenter="0"
-			 verticalCenter="-17"
-			 color="#CCCCCC"
-			 includeIn="processing"/>
-	<ui:MetroIndeterminateProgressBar id="progBar"
-									  includeIn="processing"
-									  verticalCenter="18"/>
 
 	<ui:ExportButton right="62"
 					 top="-30"

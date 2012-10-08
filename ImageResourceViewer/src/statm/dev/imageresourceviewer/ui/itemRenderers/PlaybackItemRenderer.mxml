@@ -44,7 +44,6 @@
 	<imageplayer:ImagePlayer id="player"
 							 horizontalCenter="0"
 							 verticalCenter="0"
-							 showProgressBar="false"
 							 showBorder="false"/>
 
 </s:ItemRenderer>

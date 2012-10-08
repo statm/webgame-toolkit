@@ -62,7 +62,10 @@ package statm.dev.imageresourceviewer.data
 				action = new Action(actionName);
 				_actionDic[actionName] = action;
 				_actions.addItem(action);
-				AppState.actionCount++;
+				if (type != ResourceType.UNKNOWN)
+				{
+					AppState.actionCount++;
+				}
 			}
 			return action;
 		}

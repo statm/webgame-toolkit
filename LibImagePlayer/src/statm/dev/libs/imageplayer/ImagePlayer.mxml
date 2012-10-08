@@ -56,10 +56,6 @@
 					return;
 				}
 
-				if (_showProgressBar)
-				{
-					progBarGroup.visible = true;
-				}
 				imageBatch.load();
 			}
 
@@ -114,13 +110,11 @@
 			private function imageBatch_progressHandler(event : ImageBatchEvent) : void
 			{
 				image.source = imageBatch.getImage(0);
-				progBar.percentWidth = imageBatch.loadedCount / imageBatch.length * 100;
 			}
 
 			private function imageBatch_completeHandler(event : ImageBatchEvent) : void
 			{
 				playEnabled = true;
-				progBarGroup.visible = false;
 			}
 
 			private var _playOnRollOver : Boolean = false;
@@ -176,17 +170,6 @@
 					image.scaleX = 1;
 				}
 			}
-			
-			private var _showProgressBar:Boolean = true;
-			
-			public function set showProgressBar(value:Boolean):void
-			{
-				_showProgressBar = value;
-				if (!value && progBarGroup)
-				{
-					progBarGroup.visible = false;
-				}
-			}
 		]]>
 	</fx:Script>
 
@@ -197,28 +180,4 @@
 			 bottom="0"
 			 scaleMode="letterbox"
 			 fillMode="scale"/>
-	<s:Group id="progBarGroup"
-			 height="4"
-			 left="0"
-			 right="0"
-			 bottom="0"
-			 visible="false">
-		<s:Rect id="progBarBackground"
-				left="0"
-				right="0"
-				top="0"
-				bottom="0">
-			<s:fill>
-				<s:SolidColor color="#DFDFDF"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect id="progBar"
-				left="0"
-				top="1"
-				bottom="0">
-			<s:fill>
-				<s:SolidColor color="#278AD6"/>
-			</s:fill>
-		</s:Rect>
-	</s:Group>
 </s:BorderContainer>

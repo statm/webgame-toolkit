@@ -7,10 +7,6 @@ import flash.events.Event;
 import flash.events.NativeDragEvent;
 import flash.events.NativeWindowDisplayStateEvent;
 import flash.filesystem.File;
-import flash.net.registerClassAlias;
-import flash.system.MessageChannel;
-import flash.system.Worker;
-import flash.system.WorkerDomain;
 import flash.utils.getTimer;
 
 import mx.collections.ArrayCollection;
@@ -31,7 +27,6 @@ import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
 import statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer;
-import statm.dev.imageresourceviewer.workers.WorkerManager;
 
 public static var VERSION : String;
 
@@ -125,7 +120,7 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 
 	if (this.currentState == "hidden")
 	{
-		this.currentState = "processing";
+		this.currentState = "normal";
 	}
 	
 //	var filePathArray:Array = [];
@@ -247,21 +242,18 @@ private function $traverseComplete() : void
 //	trace("耗时" + (getTimer() - t) + "ms");
 
 	ResourceLib.print();
-
-	if (this.currentState == "processing")
-	{
-		this.currentState = "normal";
-	}
 }
 
 // UI 动作
 private function resourceList_changeHandler(event : IndexChangeEvent) : void
 {
-	playingGroup.visible = true;
-
-	AppState.activeLayers.removeAll();
-
 	var selectedItem : Element = resourceList.selectedItem;
+	
+	if (selectedItem.type != ResourceType.UNKNOWN)
+	{
+		playingGroup.visible = true;
+		AppState.activeLayers.removeAll();
+	}
 
 	switch (selectedItem.type)
 	{
@@ -346,16 +338,12 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			}
 
 			break;
-
-		case ResourceType.UNKNOWN:
-			AppState.categoryMode = ResourceType.UNKNOWN;
-			categoryPanel.setSelectedCategoryButtons(["unknown"]);
-			AppState.selectedUnknown = selectedItem;
-			AppState.activeLayers.addItem(AppState.selectedUnknown);
-			break;
 	}
-
-	calculateActionList();
+	
+	if (selectedItem.type != ResourceType.UNKNOWN)
+	{
+		calculateActionList();
+	}
 }
 
 private function calculateActionList() : void

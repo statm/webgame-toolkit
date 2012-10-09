@@ -19,7 +19,7 @@
 				{
 					btnAction.label = value.name + "(" + value.frameCount + ")";
 
-//					incompleteElements = AppState.activeLayers.toArray();
+//					incompleteElements = AppState.instance.activeLayers.toArray();
 //					var c : int = incompleteElements.length;
 //					while (--c > -1)
 //					{
@@ -50,6 +50,6 @@
 					focusEnabled="false"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.ActionButtonSkin"
 					click="btnAction_clickHandler(event)"
-					mouseEnabled="{AppState.currentAction!=data.name}"
-					selected="{AppState.currentAction==data.name}"/>
+					mouseEnabled="{AppState.instance.currentAction!=data.name}"
+					selected="{AppState.instance.currentAction==data.name}"/>
 </s:ItemRenderer>

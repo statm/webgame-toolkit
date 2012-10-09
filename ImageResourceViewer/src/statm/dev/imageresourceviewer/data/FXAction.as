@@ -24,7 +24,7 @@ package statm.dev.imageresourceviewer.data
 		{
 			if (!_batch)
 			{
-				AppState.actionCount++;
+				AppState.instance.actionCount++;
 			}
 			_batch = value;
 			_info.frameCount = _batch.length;

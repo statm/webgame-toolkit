@@ -64,7 +64,7 @@ package statm.dev.imageresourceviewer.data
 				_actions.addItem(action);
 				if (type != ResourceType.UNKNOWN)
 				{
-					AppState.actionCount++;
+					AppState.instance.actionCount++;
 				}
 			}
 			return action;
@@ -87,14 +87,14 @@ package statm.dev.imageresourceviewer.data
 
 		public function getCurrentBatch() : ResourceBatch
 		{
-			var action : Action = getAction(AppState.currentAction);
+			var action : Action = getAction(AppState.instance.currentAction);
 
 			if (!action)
 			{
 				return null;
 			}
 
-			return action.getBatch(AppState.currentDirection);
+			return action.getBatch(AppState.instance.currentDirection);
 		}
 
 		public function addBatch(batch : ResourceBatch) : void

@@ -24,12 +24,12 @@
 				var bgX : int = playbackBg.x;
 				var bgY : int = playbackBg.y;
 
-				if (AppState.currentAction == "跑动" || AppState.currentAction == "乘骑移动")
+				if (AppState.instance.currentAction == "跑动" || AppState.instance.currentAction == "乘骑移动")
 				{
-					var pxSpeed : int = Math.ceil(AppState.movingSpeed * .05);
+					var pxSpeed : int = Math.ceil(AppState.instance.movingSpeed * .05);
 					var pxDiagSpeed : int = Math.ceil(pxSpeed / Math.SQRT2);
 
-					switch (AppState.currentDirection)
+					switch (AppState.instance.currentDirection)
 					{
 						case DirectionType.N:
 							bgY += pxSpeed;
@@ -108,7 +108,7 @@
 	<s:DataGroup id="layerDataGroup"
 				 horizontalCenter="0"
 				 verticalCenter="0"
-				 dataProvider="{AppState.selectedElements}"
+				 dataProvider="{AppState.instance.selectedElements}"
 				 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
 
 	<s:VGroup right="0"
@@ -120,50 +120,50 @@
 			<ui:DirectionButton skinClass="statm.dev.imageresourceviewer.ui.skins.DirectionButtonSkin"
 								defaultIcon="{UIResource.NW_ICON}"
 								highlightIcon="{UIResource.NW_ICON_OVER}"
-								selected="{AppState.currentDirection == DirectionType.NW}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.NW}"
+								selected="{AppState.instance.currentDirection == DirectionType.NW}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.NW}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.NW)"/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.N}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.N}"
 								defaultIcon="{UIResource.N_ICON}"
 								highlightIcon="{UIResource.N_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.N}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.N}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.N)"/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.NE}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.NE}"
 								defaultIcon="{UIResource.NE_ICON}"
 								highlightIcon="{UIResource.NE_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.NE}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.NE}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.NE)"/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.W}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.W}"
 								defaultIcon="{UIResource.W_ICON}"
 								highlightIcon="{UIResource.W_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.W}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.W}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.W)"/>
 			<s:Spacer/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.E}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.E}"
 								defaultIcon="{UIResource.E_ICON}"
 								highlightIcon="{UIResource.E_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.E}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.E}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.E)"/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.SW}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.SW}"
 								defaultIcon="{UIResource.SW_ICON}"
 								highlightIcon="{UIResource.SW_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.SW}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.SW}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.SW)"/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.S}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.S}"
 								defaultIcon="{UIResource.S_ICON}"
 								highlightIcon="{UIResource.S_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.S}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.S}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.S)"/>
-			<ui:DirectionButton selected="{AppState.currentDirection == DirectionType.SE}"
+			<ui:DirectionButton selected="{AppState.instance.currentDirection == DirectionType.SE}"
 								defaultIcon="{UIResource.SE_ICON}"
 								highlightIcon="{UIResource.SE_ICON_OVER}"
-								mouseEnabled="{AppState.currentDirection != DirectionType.SE}"
+								mouseEnabled="{AppState.instance.currentDirection != DirectionType.SE}"
 								click="FlexGlobals.topLevelApplication.setDirection(DirectionType.SE)"/>
 		</s:TileGroup>
 
 		<s:CheckBox id="cbxShowFX"
 					label="显示特效"
-					selected="{AppState.fxEnabled}"
+					selected="{AppState.instance.fxEnabled}"
 					change="cbxShowFX_changeHandler(event)"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
 

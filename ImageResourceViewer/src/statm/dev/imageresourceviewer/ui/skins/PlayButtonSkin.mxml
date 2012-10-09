@@ -109,7 +109,7 @@
 
 	<s:BitmapImage horizontalCenter="0"
 				   verticalCenter="0"
-				   source.up="{AppState.playing ? UIResource.PAUSE_ICON : UIResource.PLAY_ICON}"
-				   source="{AppState.playing ? UIResource.PAUSE_ICON_OVER : UIResource.PLAY_ICON_OVER}"/>
+				   source.up="{AppState.instance.playing ? UIResource.PAUSE_ICON : UIResource.PLAY_ICON}"
+				   source="{AppState.instance.playing ? UIResource.PAUSE_ICON_OVER : UIResource.PLAY_ICON_OVER}"/>
 
 </s:SparkButtonSkin>

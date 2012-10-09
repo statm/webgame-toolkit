@@ -54,13 +54,13 @@ package statm.dev.imageresourceviewer.data.resource
 			fx = new ResourceCategory(ResourceType.FX);
 			unknown = new ResourceCategory(ResourceType.UNKNOWN);
 
-			hero.elements.addItem(AppState.selectedHero);
-			weapon.elements.addItem(AppState.selectedWeapon);
-			mount.elements.addItem(AppState.selectedMount);
-			npc.elements.addItem(AppState.selectedNPC);
-			mob.elements.addItem(AppState.selectedMob);
-			pet.elements.addItem(AppState.selectedPet);
-			fx.elements.addItem(AppState.selectedFX);
+			hero.elements.addItem(AppState.instance.selectedHero);
+			weapon.elements.addItem(AppState.instance.selectedWeapon);
+			mount.elements.addItem(AppState.instance.selectedMount);
+			npc.elements.addItem(AppState.instance.selectedNPC);
+			mob.elements.addItem(AppState.instance.selectedMob);
+			pet.elements.addItem(AppState.instance.selectedPet);
+			fx.elements.addItem(AppState.instance.selectedFX);
 
 			heroDic = new Dictionary();
 			weaponDic = new Dictionary();

@@ -30,7 +30,7 @@
 						  color.down="#CCCCCC"/>
 		</s:fill>
 	</s:Rect>
-
+	
 	<s:HGroup top="0"
 			  bottom="0"
 			  left="3"
@@ -40,13 +40,9 @@
 			  verticalAlign="middle">
 		<s:Image source="{UIResource.EXPORT_ICON}"/>
 
-		<s:Label text="{AppState.actionCount}"
+		<s:Label text="{AppState.instance.actionCount}"
 				 minWidth="20"
 				 color="#333333"
 				 fontSize="12"/>
 	</s:HGroup>
-	<!-- 解决绑定问题。原理不明。 -->
-	<s:Label text="{AppState.actionCount}"
-			 alpha="0"
-			 mouseEnabled="false"/>
 </s:Group>

@@ -61,7 +61,7 @@
 
 		<s:List id="resourceList"
 				borderVisible="false"
-				dataProvider="{AppState.selectedCategory.elements}"
+				dataProvider="{AppState.instance.selectedCategory.elements}"
 				itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.ResourceListItemRenderer"
 				skinClass="statm.dev.imageresourceviewer.ui.skins.LiteListSkin"
 				change="resourceList_changeHandler(event)"
@@ -87,7 +87,7 @@
 					height="150"
 					itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.ActionItemRenderer"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.LiteListSkin"
-					dataProvider="{AppState.currentActions}"
+					dataProvider="{AppState.instance.currentActions}"
 					borderVisible="false">
 				<s:layout>
 					<s:TileLayout columnWidth="110"/>

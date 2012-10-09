@@ -34,35 +34,35 @@
 					switch (event.currentTarget)
 					{
 						case hero:
-							AppState.selectedCategory = ResourceLib.hero;
-							selectedElem = AppState.selectedHero;
+							AppState.instance.selectedCategory = ResourceLib.hero;
+							selectedElem = AppState.instance.selectedHero;
 							break;
 						case weapon:
-							AppState.selectedCategory = ResourceLib.weapon;
-							selectedElem = AppState.selectedWeapon;
+							AppState.instance.selectedCategory = ResourceLib.weapon;
+							selectedElem = AppState.instance.selectedWeapon;
 							break;
 						case mount:
-							AppState.selectedCategory = ResourceLib.mount;
-							selectedElem = AppState.selectedMount;
+							AppState.instance.selectedCategory = ResourceLib.mount;
+							selectedElem = AppState.instance.selectedMount;
 							break;
 						case npc:
-							AppState.selectedCategory = ResourceLib.npc;
-							selectedElem = AppState.selectedNPC;
+							AppState.instance.selectedCategory = ResourceLib.npc;
+							selectedElem = AppState.instance.selectedNPC;
 							break;
 						case mob:
-							AppState.selectedCategory = ResourceLib.mob;
-							selectedElem = AppState.selectedMob;
+							AppState.instance.selectedCategory = ResourceLib.mob;
+							selectedElem = AppState.instance.selectedMob;
 							break;
 						case pet:
-							AppState.selectedCategory = ResourceLib.pet;
-							selectedElem = AppState.selectedPet;
+							AppState.instance.selectedCategory = ResourceLib.pet;
+							selectedElem = AppState.instance.selectedPet;
 							break;
 						case fx:
-							AppState.selectedCategory = ResourceLib.fx;
-							selectedElem = AppState.selectedFX;
+							AppState.instance.selectedCategory = ResourceLib.fx;
+							selectedElem = AppState.instance.selectedFX;
 							break;
 						case unknown:
-							AppState.selectedCategory = ResourceLib.unknown;
+							AppState.instance.selectedCategory = ResourceLib.unknown;
 							break;
 					}
 				}
@@ -103,7 +103,7 @@
 			}
 		]]>
 	</fx:Script>
-
+	
 	<s:VGroup bottom="0"
 			  top="0"
 			  left="0"
@@ -113,37 +113,37 @@
 			  gap="1">
 		<ui:CategoryButton id="hero"
 						   categoryName="角色"
-						   itemName="{AppState.selectedHero.name}"
+						   itemName="{AppState.instance.selectedHero.name}"
 						   count="{ResourceLib.hero.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="weapon"
 						   categoryName="武器"
-						   itemName="{AppState.selectedWeapon.name}"
+						   itemName="{AppState.instance.selectedWeapon.name}"
 						   count="{ResourceLib.weapon.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mount"
 						   categoryName="坐骑"
-						   itemName="{AppState.selectedMount.name}"
+						   itemName="{AppState.instance.selectedMount.name}"
 						   count="{ResourceLib.mount.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="npc"
 						   categoryName="NPC"
-						   itemName="{AppState.selectedNPC.name}"
+						   itemName="{AppState.instance.selectedNPC.name}"
 						   count="{ResourceLib.npc.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mob"
 						   categoryName="怪物"
-						   itemName="{AppState.selectedMob.name}"
+						   itemName="{AppState.instance.selectedMob.name}"
 						   count="{ResourceLib.mob.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="pet"
 						   categoryName="宠物"
-						   itemName="{AppState.selectedPet.name}"
+						   itemName="{AppState.instance.selectedPet.name}"
 						   count="{ResourceLib.pet.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="fx"
 						   categoryName="特效"
-						   itemName="{AppState.selectedFX.name}"
+						   itemName="{AppState.instance.selectedFX.name}"
 						   count="{ResourceLib.fx.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
 		<s:Spacer/>
@@ -152,8 +152,4 @@
 						   count="{ResourceLib.unknown.elements.length}"
 						   click="btn_clickHandler(event)"/>
 	</s:VGroup>
-	<!-- 解决绑定问题。原理不明。 -->
-	<s:Label text="{AppState.selectedHero.name}"
-			 alpha="0"
-			 mouseEnabled="false"/>
 </s:Group>

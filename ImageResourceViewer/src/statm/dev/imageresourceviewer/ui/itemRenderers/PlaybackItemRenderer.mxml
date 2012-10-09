@@ -21,7 +21,7 @@
 				{
 					player.setImageBatch((value as Element).getCurrentBatch());
 
-					var direction : String = AppState.currentDirection;
+					var direction : String = AppState.instance.currentDirection;
 					if (direction == DirectionType.NW
 						|| direction == DirectionType.W
 						|| direction == DirectionType.SW)

@@ -25,24 +25,24 @@
 
 			protected function fpsInput_changeHandler(event : TextOperationEvent) : void
 			{
-				AppState.frameRate = parseInt(fpsInput.text);
+				AppState.instance.frameRate = parseInt(fpsInput.text);
 			}
 
 			protected function fpsInput_enterHandler(event : FlexEvent) : void
 			{
 				stage.focus = null;
-				AppState.frameRate = parseInt(fpsInput.text);
+				AppState.instance.frameRate = parseInt(fpsInput.text);
 			}
 			
 			protected function speedInput_changeHandler(event:TextOperationEvent):void
 			{
-				AppState.movingSpeed = parseInt(speedInput.text);
+				AppState.instance.movingSpeed = parseInt(speedInput.text);
 			}
 			
 			protected function speedInput_enterHandler(event:FlexEvent):void
 			{
 				stage.focus = null;
-				AppState.movingSpeed = parseInt(speedInput.text);
+				AppState.instance.movingSpeed = parseInt(speedInput.text);
 			}
 			
 		]]>
@@ -50,14 +50,14 @@
 	<s:Button id="btnPlay"
 			  skinClass="statm.dev.imageresourceviewer.ui.skins.PlayButtonSkin"
 			  click="btnPlay_clickHandler(event)"/>
-	<s:Label text="{(AppState.currentFrame + 1) + '/' + AppState.frameTotal}"
+	<s:Label text="{(AppState.instance.currentFrame + 1) + '/' + AppState.instance.frameTotal}"
 			 color="#333333"
 			 width="50"
 			 textAlign="center"/>
 	<s:HSlider id="playbackSlider"
 			   width="100%"
-			   maximum="{AppState.frameTotal - 1}"
-			   value="{AppState.currentFrame}"
+			   maximum="{AppState.instance.frameTotal - 1}"
+			   value="{AppState.instance.currentFrame}"
 			   change="changeHandler(event)"
 			   dataTipPrecision="0"
 			   skinClass="statm.dev.imageresourceviewer.ui.skins.MetroPlayerProgressBarSkin"/>
@@ -69,7 +69,7 @@
 				 textAlign="center"
 				 maxChars="2"
 				 borderColor="#4EA6EA"
-				 text="{AppState.frameRate == 0 ? '' : AppState.frameRate}"
+				 text="{AppState.instance.frameRate == 0 ? '' : AppState.instance.frameRate}"
 				 change="fpsInput_changeHandler(event)"
 				 enter="fpsInput_enterHandler(event)"
 				 restrict="0-9"/>
@@ -81,7 +81,7 @@
 				 textAlign="center"
 				 maxChars="3"
 				 borderColor="#4EA6EA"
-				 text="{AppState.movingSpeed == 0 ? '' : AppState.movingSpeed}"
+				 text="{AppState.instance.movingSpeed == 0 ? '' : AppState.instance.movingSpeed}"
 				 change="speedInput_changeHandler(event)"
 				 enter="speedInput_enterHandler(event)"
 				 restrict="0-9"/>

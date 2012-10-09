@@ -15,6 +15,7 @@ package statm.dev.imageresourceviewer.data
 	public class Action
 	{
 		protected var _info : ActionInfo;
+		protected var _batchCount : int = 0;
 
 		public function get info() : ActionInfo
 		{
@@ -24,6 +25,11 @@ package statm.dev.imageresourceviewer.data
 		public function get name() : String
 		{
 			return _info.name;
+		}
+
+		public function get batchCount() : int
+		{
+			return _batchCount;
 		}
 
 		protected var _directionDic : Dictionary;
@@ -37,6 +43,10 @@ package statm.dev.imageresourceviewer.data
 
 		public function addBatch(direction : String, batch : ResourceBatch) : void
 		{
+			if (!_directionDic[direction])
+			{
+				_batchCount++;
+			}
 			_directionDic[direction] = batch;
 			_info.frameCount = batch.length;
 		}

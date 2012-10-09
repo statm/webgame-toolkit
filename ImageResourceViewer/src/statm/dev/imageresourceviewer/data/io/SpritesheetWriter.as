@@ -31,7 +31,7 @@ package statm.dev.imageresourceviewer.data.io
 		{
 			var originalImages : Vector.<BitmapData>;
 
-			var unloadedBatchCount : int = 5;
+			var unloadedBatchCount : int = action.batchCount;
 			var unloadedBatches : Array = [];
 
 			for each (var direction : String in DirectionType.directionList)

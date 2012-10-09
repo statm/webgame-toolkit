@@ -9,9 +9,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-			
-			import spark.events.IndexChangeEvent;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.Element;
 			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
@@ -24,15 +22,15 @@
 				{
 					lastSelected.open = false;
 				}
-				
+
 				if (lastSelected != event.currentTarget)
 				{
 					lastSelected = CategoryButton(event.currentTarget);
 					lastSelected.open = true;
 					FlexGlobals.topLevelApplication.currentState = "list";
-					
+
 					var selectedElem : Element;
-					
+
 					switch (event.currentTarget)
 					{
 						case hero:
@@ -74,7 +72,7 @@
 					lastSelected = null;
 					FlexGlobals.topLevelApplication.currentState = "normal";
 				}
-				
+
 				if (FlexGlobals.topLevelApplication.currentState == "list")
 				{
 					if (selectedElem)
@@ -154,4 +152,8 @@
 						   count="{ResourceLib.unknown.elements.length}"
 						   click="btn_clickHandler(event)"/>
 	</s:VGroup>
+	<!-- 解决绑定问题。原理不明。 -->
+	<s:Label text="{AppState.selectedHero.name}"
+			 alpha="0"
+			 mouseEnabled="false"/>
 </s:Group>

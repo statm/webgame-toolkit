@@ -88,12 +88,12 @@ protected function nativeDragEnterHandler(event : NativeDragEvent) : void
 	{
 		return;
 	}
-	
+
 	if (!event.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT))
 	{
 		return;
 	}
-	
+
 	lblDragHere.setStyle("color", 0x666666);
 	NativeDragManager.acceptDragDrop(this);
 }
@@ -104,27 +104,27 @@ protected function nativeDragExitHandler(event : NativeDragEvent) : void
 	{
 		return;
 	}
-	
+
 	lblDragHere.setStyle("color", 0xAAAAAA);
 }
 
 protected function nativeDragDropHandler(event : NativeDragEvent) : void
 {
 	var fileArray : Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
-	
+
 	if (fileArray.length == 0)
 	{
 		throw new Error("拖了空文件？");
 		return;
 	}
-	
+
 	lblDragHere.setStyle("color", 0xAAAAAA);
-	
+
 	if (this.currentState == "hidden")
 	{
 		this.currentState = "normal";
 	}
-	
+
 	//	var filePathArray:Array = [];
 	//	for each (var file:File in fileArray)
 	//	{
@@ -174,7 +174,7 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 private function startProcessing(fileArray : Array) : void
 {
 	var c : int = fileArray.length;
-	
+
 	while (--c > -1)
 	{
 		if (!(fileArray[c] is File) || !(fileArray[c].isDirectory))
@@ -182,14 +182,14 @@ private function startProcessing(fileArray : Array) : void
 			fileArray.splice(c, 1);
 		}
 	}
-	
+
 	folderList = new Vector.<File>();
 	for each (var folder : File in fileArray)
 	{
 		folderList.push(folder);
 	}
 	processingIndex = 0;
-	
+
 	//	t = getTimer();
 	this.addEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
 }
@@ -205,17 +205,17 @@ private var processingCount : int = 0;
 private function traverse_enterFrameHandler(event : Event) : void
 {
 	processingCount = 0;
-	
+
 	while (processingIndex < folderList.length && processingCount < 2)
 	{
 		var folder : File = folderList[processingIndex];
 		var batch : ResourceBatch = new ResourceBatch(folder);
-		
+
 		if (batch.length > 0)
 		{
 			ResourceLib.addResource(batch);
 		}
-		
+
 		var folderContent : Array = folder.getDirectoryListing();
 		for each (var folderItem : File in folderContent)
 		{
@@ -224,13 +224,13 @@ private function traverse_enterFrameHandler(event : Event) : void
 				folderList.push(folderItem);
 			}
 		}
-		
+
 		processingIndex++;
 		processingCount++;
 	}
-	
+
 	//	trace("pI=" + processingIndex + ", fL=" + folderList.length);
-	
+
 	if (processingIndex > folderList.length - 1)
 	{
 		$traverseComplete();
@@ -240,9 +240,9 @@ private function traverse_enterFrameHandler(event : Event) : void
 private function $traverseComplete() : void
 {
 	this.removeEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
-	
+
 	//	trace("耗时" + (getTimer() - t) + "ms");
-	
+
 	ResourceLib.print();
 }
 
@@ -250,7 +250,7 @@ private function $traverseComplete() : void
 private function resourceList_changeHandler(event : IndexChangeEvent) : void
 {
 	var selectedItem : Element = resourceList.selectedItem;
-	
+
 	if (selectedItem.type != ResourceType.UNKNOWN)
 	{
 		setTimeout(function() : void
@@ -259,7 +259,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 		}, 500);
 		AppState.selectedElements.removeAll();
 	}
-	
+
 	switch (selectedItem.type)
 	{
 		case ResourceType.HERO:
@@ -271,7 +271,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.selectedElements.addItem(AppState.selectedWeapon);
 			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
-		
+
 		case ResourceType.WEAPON:
 			AppState.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
@@ -281,7 +281,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.selectedElements.addItem(AppState.selectedWeapon);
 			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
-		
+
 		case ResourceType.MOUNT:
 			AppState.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
@@ -291,7 +291,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.selectedElements.addItem(AppState.selectedWeapon);
 			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
-		
+
 		case ResourceType.NPC:
 			AppState.categoryMode = ResourceType.NPC;
 			categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
@@ -299,7 +299,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.selectedElements.addItem(AppState.selectedNPC);
 			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
-		
+
 		case ResourceType.MOB:
 			AppState.categoryMode = ResourceType.MOB;
 			categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
@@ -307,14 +307,14 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.selectedElements.addItem(AppState.selectedMob);
 			AppState.selectedElements.addItem(AppState.selectedFX);
 			break;
-		
+
 		case ResourceType.PET:
 			AppState.categoryMode = ResourceType.PET;
 			categoryPanel.setSelectedCategoryButtons(["pet"]);
 			AppState.selectedPet = selectedItem;
 			AppState.selectedElements.addItem(AppState.selectedPet);
 			break;
-		
+
 		case ResourceType.FX:
 			if (AppState.categoryMode == null || AppState.categoryMode == ResourceType.HERO)
 			{
@@ -336,15 +336,15 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 				AppState.selectedFX = selectedItem as FXElement;
 				AppState.selectedElements.addItem(AppState.selectedMob);
 			}
-			
+
 			if (AppState.fxEnabled)
 			{
 				AppState.selectedElements.addItem(AppState.selectedFX);
 			}
-			
+
 			break;
 	}
-	
+
 	if (selectedItem.type != ResourceType.UNKNOWN)
 	{
 		calculateActionList();
@@ -356,7 +356,7 @@ private function calculateActionList() : void
 	// 根据当前零件计算动作列表（最小公倍数）
 	var actionInfo : ArrayCollection = AppState.currentActions;
 	var actionNames : Array = [];
-	
+
 	actionInfo.removeAll();
 	for each (var elem : Element in AppState.selectedElements)
 	{
@@ -364,7 +364,7 @@ private function calculateActionList() : void
 		{
 			continue;
 		}
-		
+
 		for each (var action : Action in elem.actionList)
 		{
 			if (actionNames.indexOf(action.name) == -1)
@@ -374,7 +374,7 @@ private function calculateActionList() : void
 			}
 		}
 	}
-	
+
 	if (actionNames.indexOf(AppState.currentAction) == -1)
 	{
 		if (actionInfo.length > 0)
@@ -445,7 +445,7 @@ public function writeSpritesheet() : void
 private function $writeSpritesheet(event : Event) : void
 {
 	var folder : File = event.currentTarget as File;
-	
+
 	for each (var typeName : String in ResourceType.typeList)
 	{
 		var category : ResourceCategory = ResourceLib.getCategory(typeName);
@@ -453,17 +453,21 @@ private function $writeSpritesheet(event : Event) : void
 		{
 			var path : File = folder.resolvePath(typeName);
 			path.createDirectory();
-			
+
 			for each (var elem : Element in category.elements)
 			{
 				if (elem.name == "无")
 				{
 					continue;
 				}
-				
-				var elemPath : File = path.resolvePath(elem.name);
-				elemPath.createDirectory();
-				
+
+				var elemPath : File = path;
+				if (!(elem is FXElement))
+				{
+					elemPath = path.resolvePath(elem.name);
+					elemPath.createDirectory();
+				}
+
 				for each (var action : Action in elem.actionList)
 				{
 					new SpritesheetWriter().writeActionSpritesheet(action, elemPath);
@@ -477,7 +481,7 @@ private function $writeSpritesheet(event : Event) : void
 public function play() : void
 {
 	AppState.playing = true;
-	
+
 	this.addEventListener(Event.ENTER_FRAME, $play);
 }
 
@@ -500,11 +504,11 @@ private function $play(event : Event) : void
 		{
 			lastFrameTime = currentTime;
 			AppState.currentFrame += Math.round(deltaRatio);
-			//			trace("actual fps=" + (1000 / delta));
+				//			trace("actual fps=" + (1000 / delta));
 		}
 	}
 	AppState.currentFrame %= AppState.frameTotal;
-	
+
 	for (var i : int = 0; i < l; i++)
 	{
 		var itemRenderer : PlaybackItemRenderer = PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i));
@@ -513,9 +517,9 @@ private function $play(event : Event) : void
 			continue;
 		}
 		itemRenderer.player.gotoFrame(AppState.currentFrame);
-		// TODO: 特效帧数和动作帧数不一定一致，需要单独处理播放
+			// TODO: 特效帧数和动作帧数不一定一致，需要单独处理播放
 	}
-	
+
 	playbackPanel.updateBackground();
 }
 
@@ -523,7 +527,7 @@ public function gotoFrame(frame : int) : void
 {
 	var l : int = playbackPanel.layerDataGroup.numElements;
 	AppState.currentFrame = frame % AppState.frameTotal;
-	
+
 	for (var i : int = 0; i < l; i++)
 	{
 		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(AppState.currentFrame);
@@ -534,13 +538,13 @@ public function stop() : void
 {
 	AppState.playing = false;
 	AppState.currentFrame = 0;
-	
+
 	var l : int = playbackPanel.layerDataGroup.numElements;
 	for (var i : int = 0; i < l; i++)
 	{
 		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(0);
 	}
-	
+
 	this.removeEventListener(Event.ENTER_FRAME, $play);
 }
 

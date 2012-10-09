@@ -1,10 +1,8 @@
 package statm.dev.imageresourceviewer.data
 {
 	import mx.collections.ArrayCollection;
-
-	import statm.dev.imageresourceviewer.AppState;
+	
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
-	import statm.dev.imageresourceviewer.data.type.DirectionType;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 
 	/**
@@ -24,16 +22,9 @@ package statm.dev.imageresourceviewer.data
 			_rawName = name;
 		}
 
-		override public function getCurrentBatch() : ResourceBatch
+		override public function getAction(actionName : String) : Action
 		{
-			if (_fxAction)
-			{
-				return _fxAction.batch;
-			}
-			else
-			{
-				return null;
-			}
+			return _fxAction;
 		}
 
 		override public function get actionList() : ArrayCollection

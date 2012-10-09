@@ -45,4 +45,8 @@
 				 color="#333333"
 				 fontSize="12"/>
 	</s:HGroup>
+	<!-- 解决绑定问题。原理不明。 -->
+	<s:Label text="{AppState.actionCount}"
+			 alpha="0"
+			 mouseEnabled="false"/>
 </s:Group>

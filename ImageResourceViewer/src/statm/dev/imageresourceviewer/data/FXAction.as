@@ -15,14 +15,9 @@ package statm.dev.imageresourceviewer.data
 	{
 		private var _batch : ResourceBatch;
 
-		public function FXAction(name : String)
+		override public function get batchCount() : int
 		{
-			super(name);
-		}
-
-		public function get batch() : ResourceBatch
-		{
-			return _batch;
+			return 5;
 		}
 
 		public function set batch(value : ResourceBatch) : void
@@ -33,6 +28,16 @@ package statm.dev.imageresourceviewer.data
 			}
 			_batch = value;
 			_info.frameCount = _batch.length;
+		}
+		
+		override public function getBatch(direction : String) : ResourceBatch
+		{
+			return _batch;
+		}
+
+		public function FXAction(name : String)
+		{
+			super(name);
 		}
 
 		override public function getAllImages() : Vector.<BitmapData>

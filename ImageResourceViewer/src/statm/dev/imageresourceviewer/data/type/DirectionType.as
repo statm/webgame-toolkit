@@ -26,6 +26,6 @@ package statm.dev.imageresourceviewer.data.type
 
 		public static const SW : String = "朝左下";
 
-		public static const directionList : Array = [N, S, E, NE, SE];
+		public static const directionList : Array = [N, NE, E, SE, S];
 	}
 }

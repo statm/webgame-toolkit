@@ -1,5 +1,7 @@
 package statm.dev.imageresourceviewer.data
 {
+	import mx.collections.ArrayCollection;
+
 	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
@@ -13,43 +15,43 @@ package statm.dev.imageresourceviewer.data
 	 */
 	public class FXElement extends Element
 	{
-		private var batch : ResourceBatch;
-		private var rawName : String;
-		private var pseudoAction : Action;
+		private var _rawName : String;
+		private var _fxAction : FXAction;
 
 		public function FXElement(name : String)
 		{
 			super(name, ResourceType.FX);
-			rawName = name;
+			_rawName = name;
 		}
 
 		override public function getCurrentBatch() : ResourceBatch
 		{
-			return batch;
+			if (_fxAction)
+			{
+				return _fxAction.batch;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		override public function get actionList() : ArrayCollection
+		{
+			return new ArrayCollection([_fxAction]);
 		}
 
 		override public function addBatch(batch : ResourceBatch) : void
 		{
-			if (!batch)
-			{
-				AppState.actionCount++;
-			}
-			
-			this.batch = batch;
-			
-			_name = rawName + "(" + batch.length + ")";
-			
-			pseudoAction = new Action("特效");
-			pseudoAction.addBatch(DirectionType.N, batch);
-			pseudoAction.addBatch(DirectionType.NE, batch);
-			pseudoAction.addBatch(DirectionType.E, batch);
-			pseudoAction.addBatch(DirectionType.SE, batch);
-			pseudoAction.addBatch(DirectionType.S, batch);
+			_name = _rawName + "(" + batch.length + ")";
+
+			_fxAction = new FXAction(_rawName);
+			_fxAction.batch = batch;
 		}
 
-		public function getFXAction() : Action
+		public function get fxAction() : FXAction
 		{
-			return pseudoAction;
+			return _fxAction;
 		}
 	}
 }

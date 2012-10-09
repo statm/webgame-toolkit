@@ -39,7 +39,8 @@ package statm.dev.imageresourceviewer.data.io
 				var batch : ResourceBatch = action.getBatch(direction);
 
 				if (!batch
-					|| batch.batchState == ImageBatchState.COMPLETE)
+					|| batch.batchState == ImageBatchState.COMPLETE
+					|| batch.batchState == ImageBatchState.LOADING)
 				{
 					unloadedBatchCount--;
 				}
@@ -53,11 +54,7 @@ package statm.dev.imageresourceviewer.data.io
 
 							if (unloadedBatchCount == 0)
 							{
-								originalImages = action.getBatch(DirectionType.N).getImages()
-									.concat(action.getBatch(DirectionType.NE).getImages())
-									.concat(action.getBatch(DirectionType.E).getImages())
-									.concat(action.getBatch(DirectionType.SE).getImages())
-									.concat(action.getBatch(DirectionType.S).getImages());
+								originalImages = action.getAllImages();
 
 								$writeActionSpritesheet(originalImages, action.name, path);
 								for each (var batch : ResourceBatch in unloadedBatches)
@@ -74,11 +71,7 @@ package statm.dev.imageresourceviewer.data.io
 
 			if (unloadedBatchCount == 0)
 			{
-				originalImages = action.getBatch(DirectionType.N).getImages()
-					.concat(action.getBatch(DirectionType.NE).getImages())
-					.concat(action.getBatch(DirectionType.E).getImages())
-					.concat(action.getBatch(DirectionType.SE).getImages())
-					.concat(action.getBatch(DirectionType.S).getImages());
+				originalImages = action.getAllImages();
 
 				$writeActionSpritesheet(originalImages, action.name, path);
 			}
@@ -102,14 +95,19 @@ package statm.dev.imageresourceviewer.data.io
 			{
 				var image : BitmapData = originalImages[i];
 
-				var bound : Rectangle = image.getColorBoundsRect(0xFF000000, 0x000000, false);
-				cropBounds[i] = bound;
-
-				var cropped : BitmapData = new BitmapData(bound.width, bound.height, true, 0x00000000);
-				cropped.copyPixels(image, bound, new Point(0, 0));
-				croppedImages[i] = cropped;
-
-				totalSize += bound.width * bound.height;
+				if (image)
+				{
+					var bound : Rectangle = image.getColorBoundsRect(0xFF000000, 0x000000, false);
+					cropBounds[i] = bound;
+	
+					if (!bound.isEmpty())
+					{
+						var cropped : BitmapData = new BitmapData(bound.width, bound.height, true, 0x00000000);
+						cropped.copyPixels(image, bound, new Point(0, 0));
+						croppedImages[i] = cropped;
+					}
+					totalSize += bound.width * bound.height;
+				}
 			}
 
 			// Spritesheet 拼合
@@ -122,32 +120,34 @@ package statm.dev.imageresourceviewer.data.io
 			{
 				frame = croppedImages[i];
 
-				if (nextX + frame.width <= MAX_WIDTH)
+				if (frame)
 				{
-					framePos[i] = new Point(nextX, nextY);
-					(frame.height > lineHeight) && (lineHeight = frame.height) && (maxY = nextY + frame.height);
-				}
-				else // 折行
-				{
-					nextX = 0;
-					nextY += lineHeight;
-					lineHeight = frame.height;
-					framePos[i] = new Point(nextX, nextY);
-					maxY = nextY + lineHeight;
-				}
+					if (nextX + frame.width <= MAX_WIDTH)
+					{
+						framePos[i] = new Point(nextX, nextY);
+						(frame.height > lineHeight) && (lineHeight = frame.height) && (maxY = nextY + frame.height);
+					}
+					else // 折行
+					{
+						nextX = 0;
+						nextY += lineHeight;
+						lineHeight = frame.height;
+						framePos[i] = new Point(nextX, nextY);
+						maxY = nextY + lineHeight;
+					}
 
-				nextX += frame.width;
-				(nextX > maxX) && (maxX = nextX);
+					nextX += frame.width;
+					(nextX > maxX) && (maxX = nextX);
+				}
 			}
 
 			assembledSpritesheet = new BitmapData(maxX, maxY, true, 0x00000000);
 
 			for (i = 0; i < l; i++)
 			{
-				frame = croppedImages[i];
-				assembledSpritesheet.copyPixels(frame, frame.rect, framePos[i]);
+				(frame = croppedImages[i]) && assembledSpritesheet.copyPixels(frame, frame.rect, framePos[i]);
 
-				// DBG
+					// DBG
 //				var tf : TextField = new TextField();
 //				tf.text = i.toString();
 //				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
@@ -171,18 +171,32 @@ package statm.dev.imageresourceviewer.data.io
 
 			for (i = 0; i < l; i++)
 			{
-				var originalSize : Rectangle = originalImages[i].rect;
-				var cropBound : Rectangle = cropBounds[i];
-
-				var frameBound : Rectangle = new Rectangle();
-				frameBound.topLeft = framePos[i];
-				frameBound.size = cropBound.size;
-
-				var frameXML : XML = <frame/>;
-				frameXML.appendChild(<reg-point>{Math.floor(originalSize.width / 2) - cropBound.x},{Math.floor(originalSize.height / 2) - cropBound.y}</reg-point>)
-					.appendChild(<rect>{frameBound.x},{frameBound.y},{frameBound.width},{frameBound.height}</rect>);
-
-				configXML.frames.appendChild(frameXML);
+				if (originalImages[i])
+				{
+					var originalSize : Rectangle = originalImages[i].rect;
+					var cropBound : Rectangle = cropBounds[i];
+	
+					if (!cropBound.isEmpty())
+					{
+						var frameBound : Rectangle = new Rectangle();
+						frameBound.topLeft = framePos[i];
+						frameBound.size = cropBound.size;
+		
+						var frameXML : XML = <frame/>;
+						frameXML.appendChild(<reg-point>{Math.floor(originalSize.width / 2) - cropBound.x},{Math.floor(originalSize.height / 2) - cropBound.y}</reg-point>)
+							.appendChild(<rect>{frameBound.x},{frameBound.y},{frameBound.width},{frameBound.height}</rect>);
+		
+						configXML.frames.appendChild(frameXML);
+					}
+					else
+					{
+						configXML.frames.appendChild(<frame empty="true"/>);
+					}
+				}
+				else
+				{
+					configXML.frames.appendChild(<frame empty="true"/>);
+				}
 			}
 
 			fs.open(path.resolvePath(actionName + ".xml"), FileMode.WRITE);
@@ -190,11 +204,10 @@ package statm.dev.imageresourceviewer.data.io
 				+ configXML.toXMLString(), "utf-8");
 			fs.close();
 
-
 			assembledSpritesheet.dispose();
 			for each (var bd : BitmapData in croppedImages)
 			{
-				bd.dispose();
+				bd && bd.dispose();
 			}
 		}
 

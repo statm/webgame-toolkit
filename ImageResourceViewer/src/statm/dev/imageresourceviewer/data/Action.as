@@ -1,8 +1,7 @@
 package statm.dev.imageresourceviewer.data
 {
+	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
-
-	import mx.collections.ArrayCollection;
 
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
@@ -15,7 +14,7 @@ package statm.dev.imageresourceviewer.data
 	 */
 	public class Action
 	{
-		private var _info : ActionInfo;
+		protected var _info : ActionInfo;
 
 		public function get info() : ActionInfo
 		{
@@ -27,7 +26,7 @@ package statm.dev.imageresourceviewer.data
 			return _info.name;
 		}
 
-		private var _directionDic : Dictionary;
+		protected var _directionDic : Dictionary;
 
 		public function Action(name : String) : void
 		{
@@ -62,6 +61,24 @@ package statm.dev.imageresourceviewer.data
 			}
 
 			return _directionDic[actualDirection];
+		}
+
+		public function getAllImages() : Vector.<BitmapData>
+		{
+			var result : Vector.<BitmapData> = new Vector.<BitmapData>();
+			for each (var direction : String in DirectionType.directionList)
+			{
+				var batch : ResourceBatch = getBatch(direction);
+				if (batch)
+				{
+					result = result.concat(batch.getImages());
+				}
+				else
+				{
+					result = result.concat(new Vector.<BitmapData>(_info.frameCount, true));
+				}
+			}
+			return result;
 		}
 
 		public function toString() : String

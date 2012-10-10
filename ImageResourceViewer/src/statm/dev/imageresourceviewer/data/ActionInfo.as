@@ -1,5 +1,6 @@
 package statm.dev.imageresourceviewer.data
 {
+	import flash.events.EventDispatcher;
 
 	/**
 	 * 动作信息。
@@ -7,8 +8,9 @@ package statm.dev.imageresourceviewer.data
 	 * @author statm
 	 *
 	 */
-	public class ActionInfo
+	public class ActionInfo extends EventDispatcher
 	{
+		[Bindable]
 		public var name : String;
 
 		public var frameCount : int;
@@ -18,7 +20,7 @@ package statm.dev.imageresourceviewer.data
 			return info.name == name;
 		}
 
-		public function toString() : String
+		override public function toString() : String
 		{
 			return "[" + name + ":" + frameCount + "]";
 		}

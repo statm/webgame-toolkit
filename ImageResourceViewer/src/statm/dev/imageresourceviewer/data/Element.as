@@ -30,6 +30,7 @@ package statm.dev.imageresourceviewer.data
 
 		protected var _name : String;
 
+		[Bindable(event="_nonDispatchedEvent")]
 		public function get name() : String
 		{
 			return _name;

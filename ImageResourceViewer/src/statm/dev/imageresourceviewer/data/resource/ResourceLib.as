@@ -1,9 +1,8 @@
 package statm.dev.imageresourceviewer.data.resource
 {
+	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
-
-	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.FXElement;

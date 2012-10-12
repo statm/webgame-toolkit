@@ -2,7 +2,12 @@
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
 
+s|Application 
+{
+	fontFamily: "Microsoft YaHei";
+	backgroundColor: #EFEFEF;
+}
 s|WindowedApplication
 {
-	fontFamily: "微软雅黑, 宋体";
+	skinClass:ClassReference("statm.dev.mapeditor.ui.skins.MetroChromeWindowedApplicationSkin");
 }

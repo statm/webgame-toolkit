@@ -28,7 +28,7 @@
       /** 
         * @copy spark.skins.spark.ApplicationSkin#hostComponent
         */
-      [HostComponent("spark.components.windowClasses.TitleBar")]
+      [HostComponent("statm.dev.mapeditor.ui.MetroTitleBar")]
     </fx:Metadata>
 
     <fx:Script fb:purpose="styling">
@@ -99,6 +99,14 @@
             fontSize="12"
             minWidth="0"
             maxDisplayedLines="1"/>
+		
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:SolidColor color="#FF9900"/>
+			</s:fill>
+		</s:Rect>
+		
+		<s:Group id="titleBarGroup"/>
 
         <!-- minimize button -->
         <!---

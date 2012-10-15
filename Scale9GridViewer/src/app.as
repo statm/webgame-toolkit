@@ -38,7 +38,7 @@ private var appUpdater : ApplicationUpdaterUI = new ApplicationUpdaterUI();
 
 private function checkUpdate() : void
 {
-	appUpdater.updateURL = "http://www.fol.com/fol/tools/Scale9GridViewer/update.xml";
+	appUpdater.updateURL = "http://www.sdgs.com/fol/tools/Scale9GridViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
 	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void {});
 	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void

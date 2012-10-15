@@ -51,7 +51,7 @@ private var appUpdater : ApplicationUpdaterUI = new ApplicationUpdaterUI();
 
 private function checkUpdate() : void
 {
-	appUpdater.updateURL = "http://www.fol.com/fol/tools/ImageResourceViewer/update.xml";
+	appUpdater.updateURL = "http://www.sdgs.com/fol/tools/ImageResourceViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
 	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void
 	{

@@ -18,7 +18,7 @@
       @see spark.skins.spark.SparkChromeWindowedApplicationSkin
 -->
 <s:SparkSkin 
-    minHeight="24"
+    minHeight="38"
     xmlns:fx="http://ns.adobe.com/mxml/2009"
     xmlns:s="library://ns.adobe.com/flex/spark"
     xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
@@ -100,13 +100,11 @@
             minWidth="0"
             maxDisplayedLines="1"/>
 		
-		<s:Rect width="100%" height="100%">
-			<s:fill>
-				<s:SolidColor color="#FF9900"/>
-			</s:fill>
-		</s:Rect>
-		
-		<s:Group id="titleBarGroup"/>
+		<s:Group id="titleBarGroup">
+			<s:layout>
+				<s:HorizontalLayout verticalAlign="middle"/>
+			</s:layout>
+		</s:Group>
 
         <!-- minimize button -->
         <!---
@@ -150,5 +148,4 @@
             skinClass="statm.dev.mapeditor.ui.skins.CloseButtonSkin"/>
 
     </s:Group>
-
 </s:SparkSkin>

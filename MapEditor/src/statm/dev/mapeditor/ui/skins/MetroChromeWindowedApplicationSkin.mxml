@@ -31,7 +31,7 @@
       /** 
         * @copy spark.skins.spark.ApplicationSkin#hostComponent
         */
-      [HostComponent("spark.components.WindowedApplication")]
+      [HostComponent("statm.dev.mapeditor.ui.MetroChromeWindowedApplication")]
     </fx:Metadata>
 
 	<fx:Script fb:purpose="styling">
@@ -155,7 +155,6 @@
 		<!--- @copy spark.components.WindowedApplication#titleBar -->
 		<ui:MetroTitleBar id="titleBar"
 						  width="100%"
-						  height="38"
 						  skinClass="statm.dev.mapeditor.ui.skins.MetroTitleBarSkin"
 						  alpha.inactiveGroup=".5"/>
 

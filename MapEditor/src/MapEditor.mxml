@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+<ui:MetroChromeWindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:modules="statm.dev.mapeditor.modules.*"
@@ -24,9 +24,9 @@
 				  duration="250"/>
 	</fx:Declarations>
 	
-	<s:layout>
+	<ui:layout>
 		<s:VerticalLayout/>
-	</s:layout>
+	</ui:layout>
 	
 	<modules:ControlBar id="ctrlBar"/>
 
@@ -51,4 +51,4 @@
 			</s:VGroup>
 		</s:Scroller>
 	</s:HGroup>
-</s:WindowedApplication>
+</ui:MetroChromeWindowedApplication>

@@ -2,11 +2,11 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationCompleteHandler(event)">
-
-	<s:layout>
-		<s:HorizontalLayout/>
-	</s:layout>
+		 creationComplete="creationCompleteHandler(event)"
+		 top="0"
+		 bottom="0"
+		 width="100%"
+		 minHeight="36">
 
 	<fx:Script>
 		<![CDATA[
@@ -22,21 +22,36 @@
 		]]>
 	</fx:Script>
 
-	<s:Button id="btnNewMapFile"
-			  label="创建地图"
-			  focusEnabled="false"/>
-	<s:Button id="btnBrowseMapFile"
-			  label="打开地图"
-			  focusEnabled="false"/>
-	<s:Button id="btnSaveMapFile"
-			  label="保存地图"
-			  focusEnabled="false"/>
-	<s:Button id="btnCloseMapFile"
-			  label="关闭地图"
-			  focusEnabled="false"/>
-	<s:Button id="btnExportXML"
-			  label="导出数据..."
-			  focusEnabled="false"/>
-	<s:Spacer width="100%"/>
-	<s:Label id="lblCurrentCoord"/>
+	<s:Rect width="100%"
+			height="100%">
+		<s:fill>
+			<s:SolidColor color="#DEDEDE"/>
+		</s:fill>
+	</s:Rect>
+
+	<s:Group left="0"
+			 right="0"
+			 top="0"
+			 bottom="0">
+		<s:layout>
+			<s:HorizontalLayout verticalAlign="middle"/>
+		</s:layout>
+		<s:Button id="btnNewMapFile"
+				  label="创建地图"
+				  focusEnabled="false"/>
+		<s:Button id="btnBrowseMapFile"
+				  label="打开地图"
+				  focusEnabled="false"/>
+		<s:Button id="btnSaveMapFile"
+				  label="保存地图"
+				  focusEnabled="false"/>
+		<s:Button id="btnCloseMapFile"
+				  label="关闭地图"
+				  focusEnabled="false"/>
+		<s:Button id="btnExportXML"
+				  label="导出数据..."
+				  focusEnabled="false"/>
+		<s:Spacer width="100%"/>
+		<s:Label id="lblCurrentCoord"/>
+	</s:Group>
 </s:Group>

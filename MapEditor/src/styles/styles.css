@@ -1,13 +1,14 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
+@namespace ui "statm.dev.mapeditor.ui.*";
 
 s|Application 
 {
 	fontFamily: "Microsoft YaHei";
 	backgroundColor: #EFEFEF;
 }
-s|WindowedApplication
+ui|MetroChromeWindowedApplication
 {
 	skinClass:ClassReference("statm.dev.mapeditor.ui.skins.MetroChromeWindowedApplicationSkin");
 }

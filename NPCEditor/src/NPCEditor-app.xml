@@ -5,7 +5,7 @@
 
 	Specifies parameters for identifying, installing, and launching AIR applications.
 
-	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/2.6
+	xmlns - The Adobe AIR namespace: http://ns.adobe.com/air/application/3.4
 			The last segment of the namespace specifies the version 
 			of the AIR runtime required for this application to run.
 			
@@ -15,22 +15,22 @@
 
 	<!-- A universally unique application identifier. Must be unique across all AIR applications.
 	Using a reverse DNS-style name as the id is recommended. (Eg. com.example.ExampleApplication.) Required. -->
-	<id>statm.dev.scale9gridviewer</id>
+	<id>statm.dev.npceditor</id>
 
 	<!-- Used as the filename for the application. Required. -->
-	<filename>九宫格查看器</filename>
+	<filename>NPC编辑器</filename>
 
 	<!-- The name that is displayed in the AIR application installer. 
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
-	<name>九宫格查看器</name>
+	<name>NPC编辑器</name>
 	
 	<!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade. 
 	Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
 	An updated version of application must have a versionNumber value higher than the previous version. Required for namespace >= 2.5 . -->
-	<versionNumber>1.0.1</versionNumber>
+	<versionNumber>1.0.0</versionNumber>
 		         
 	<!-- A string value (such as "v1", "2.5", or "Alpha 1") that represents the version of the application, as it should be shown to users. Optional. -->
-	<versionLabel>v1.0.1</versionLabel>
+	<versionLabel>v1.0.0</versionLabel>
 
 	<!-- Description, displayed in the AIR application installer.
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
@@ -52,10 +52,10 @@
 		<!-- <title></title> -->
 
 		<!-- The type of system chrome to use (either "standard" or "none"). Optional. Default standard. -->
-		<systemChrome>none</systemChrome>
+		<!-- <systemChrome></systemChrome> -->
 
 		<!-- Whether the window is transparent. Only applicable when systemChrome is none. Optional. Default false. -->
-		<transparent>true</transparent>
+		<!-- <transparent></transparent> -->
 
 		<!-- Whether the window is initially visible. Optional. Default false. -->
 		<!-- <visible></visible> -->
@@ -87,7 +87,7 @@
 		<!-- The window's initial maximum size, specified as a width/height pair in pixels, such as "1600 1200". Optional. -->
 		<!-- <maxSize></maxSize> -->
 
-        <!-- The initial aspect ratio of the app when launched (either "portrait" or "landscape"). Optional. Mobile only. Default is the natural orientation of the device -->
+        <!-- The aspect ratio of the app ("portrait" or "landscape" or "any"). Optional. Mobile only. Default is the natural orientation of the device -->
 
         <!-- <aspectRatio></aspectRatio> -->
 
@@ -99,12 +99,16 @@
 
         <!-- <fullScreen></fullScreen> -->
 
-        <!-- The render mode for the app (either auto, cpu, or gpu). Optional. Mobile only. Default auto -->
+        <!-- The render mode for the app (either auto, cpu, gpu, or direct). Optional. Default auto -->
 
         <!-- <renderMode></renderMode> -->
 
+        <!-- Whether the default direct mode rendering context allocates storage for depth and stencil buffers.  Optional.  Default false. -->
+        <!-- <depthAndStencil></depthAndStencil> -->
+
 		<!-- Whether or not to pan when a soft keyboard is raised or lowered (either "pan" or "none").  Optional.  Defaults "pan." -->
 		<!-- <softKeyboardBehavior></softKeyboardBehavior> -->
+
 	<autoOrients>false</autoOrients>
         <fullScreen>false</fullScreen>
         <visible>false</visible>
@@ -117,6 +121,10 @@
 	<!-- only the profiles which your application does support. -->
 	<!-- <supportedProfiles>desktop extendedDesktop mobileDevice extendedMobileDevice</supportedProfiles> -->
 
+	<!-- Languages supported by application -->
+	<!-- Only these languages can be specified -->
+	<!-- <supportedLanguages>en de cs es fr it ja ko nl pl pt ru sv tr zh</supportedLanguages> -->
+
 	<!-- The subpath of the standard default installation location to use. Optional. -->
 	<!-- <installFolder></installFolder> -->
 
@@ -127,12 +135,20 @@
 	specify the path to a PNG file included in the AIR package. Optional. -->
 	<!-- <icon>
 		<image16x16></image16x16>
+		<image29x29></image29x29>
 		<image32x32></image32x32>
 		<image36x36></image36x36>
 		<image48x48></image48x48>
+		<image50x50></image50x50>
+		<image57x57></image57x57>
+		<image58x58></image58x58>
 		<image72x72></image72x72>
+		<image100x100></image100x100>
 		<image114x114></image114x114>
 		<image128x128></image128x128>
+		<image144x144></image144x144>
+		<image512x512></image512x512>
+		<image1024x1024></image1024x1024>
 	</icon> -->
 
 	<!-- Whether the application handles the update when a user double-clicks an update version
@@ -189,19 +205,28 @@
                 <string>YES</string>
             ]]>
         </InfoAdditions> -->
-        <!-- <requestedDisplayResolution></requestedDisplayResolution> -->
+        <!-- A list of plist key/value pairs to be added to the application Entitlements.plist -->
+		<!-- <Entitlements>
+            <![CDATA[
+                <key>keychain-access-groups</key>
+                <array>
+                    <string></string>
+                    <string></string>
+                </array>
+            ]]>
+        </Entitlements> -->
+	<!-- Display Resolution for the app (either "standard" or "high"). Optional. Default "standard" -->
+	<!-- <requestedDisplayResolution></requestedDisplayResolution> -->
 	<!-- </iPhone> -->
 
 	<!-- Specify Android specific tags that get passed to AndroidManifest.xml file. -->
-	<!--<android> 
-		<manifestAdditions>
+    <!--<android> -->
+    <!--	<manifestAdditions>
 		<![CDATA[
 			<manifest android:installLocation="auto">
 				<uses-permission android:name="android.permission.INTERNET"/>
 				<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 				<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-				<uses-configuration android:reqFiveWayNav="true"/>
-				<supports-screens android:normalScreens="true"/>
 				<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>
 				<application android:enabled="true">
 					<activity android:excludeFromRecents="false">
@@ -211,10 +236,12 @@
 						</intent-filter>
 					</activity>
 				</application>
-			</manifest>
+            </manifest>
 		]]>
-		</manifestAdditions> 
-	</android> -->
+        </manifestAdditions> -->
+	    <!-- Color depth for the app (either "32bit" or "16bit"). Optional. Default 16bit before namespace 3.0, 32bit after -->
+        <!-- <colorDepth></colorDepth> -->
+    <!-- </android> -->
 	<!-- End of the schema for adding the android specific tags in AndroidManifest.xml file -->
 
 </application>

@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.layers
 {
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.item.ItemFactory;
@@ -9,6 +9,7 @@ package statm.dev.mapeditor.dom.layers
 	import statm.dev.mapeditor.dom.objects.Item;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
+	import statm.dev.mapeditor.dom.objects.NPC;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 	import statm.dev.mapeditor.dom.objects.Waypoint;
 
@@ -92,6 +93,10 @@ package statm.dev.mapeditor.dom.layers
 			{
 				waypoints.addWaypoint(Waypoint(item));
 			}
+			else if (item is NPC)
+			{
+				npcLayer.addItem(item);
+			}
 		}
 
 		override public function deselect() : void
@@ -116,6 +121,7 @@ package statm.dev.mapeditor.dom.layers
 			ItemFactory.domRoot = root;
 			this.transportPoints.readXML(xml.transportLayer[0]);
 			this.waypoints.readXML(xml.waypointLayer[0]);
+			this.npcLayer.readXML(xml.NPCLayer[0]);
 		}
 	}
 }

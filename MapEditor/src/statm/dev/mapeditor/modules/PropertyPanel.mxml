@@ -12,7 +12,9 @@
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.collections.ArrayList;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
 			
 			import statm.dev.mapeditor.app.AppFacade;
 			import statm.dev.mapeditor.dom.item.ItemType;
@@ -82,6 +84,25 @@
 						data.refresh();
 						break;
 				}
+			}
+			
+			private var newNPCWindow:NewNPCPanel;
+
+			protected function btnNewNPC_clickHandler(event : MouseEvent) : void
+			{
+				if (newNPCWindow)
+				{
+					PopUpManager.removePopUp(newNPCWindow);
+					newNPCWindow.reset();
+				}
+				else
+				{
+					newNPCWindow = new NewNPCPanel();
+				}
+				
+				PopUpManager.addPopUp(newNPCWindow, FlexGlobals.topLevelApplication as DisplayObject, true);
+				PopUpManager.centerPopUp(newNPCWindow);
+				
 			}
 		]]>
 	</fx:Script>
@@ -277,6 +298,7 @@
 					<s:TabBar id="itemsListFilterBar"
 							  dataProvider="{new ArrayList(['NPC', '怪物', '地图元素'])}"
 							  change="filterItems();"
+							  selectedIndex="2"
 							  cornerRadius="0"/>
 					<s:List id="itemsList"
 							width="100%"
@@ -290,6 +312,9 @@
 										  verticalGap="1"/>
 						</s:layout>
 					</s:List>
+					<s:Button id="btnNewNPC"
+							  label="新建NPC"
+							  click="btnNewNPC_clickHandler(event)"/>
 				</s:FormItem>
 				<!-- 传送点属性 -->
 				<s:FormItem includeIn="teleportPointProps"

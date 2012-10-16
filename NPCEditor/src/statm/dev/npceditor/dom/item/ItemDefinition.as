@@ -1,8 +1,8 @@
-package statm.dev.mapeditor.dom.item
+package statm.dev.npceditor.dom.item
 {
 	import flash.display.BitmapData;
 
-	import statm.dev.mapeditor.io.IXMLSerializable;
+	import statm.dev.npceditor.io.IXMLSerializable;
 
 	/**
 	 * 物件定义。

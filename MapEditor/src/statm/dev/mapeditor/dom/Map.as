@@ -1,9 +1,7 @@
 package statm.dev.mapeditor.dom
 {
 	import mx.collections.ArrayCollection;
-
-	import statm.dev.mapeditor.app.AppFacade;
-	import statm.dev.mapeditor.app.AppNotificationCode;
+	
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.brush.Brush;
 	import statm.dev.mapeditor.dom.brush.BrushList;
@@ -11,8 +9,6 @@ package statm.dev.mapeditor.dom
 	import statm.dev.mapeditor.dom.layers.BgLayer;
 	import statm.dev.mapeditor.dom.layers.Grids;
 	import statm.dev.mapeditor.dom.layers.Items;
-	import statm.dev.mapeditor.dom.layers.TransportPoints;
-	import statm.dev.mapeditor.dom.layers.WaypointLayer;
 	import statm.dev.mapeditor.dom.objects.IconList;
 
 	/**

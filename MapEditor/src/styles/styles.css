@@ -3,12 +3,12 @@
 @namespace mx "library://ns.adobe.com/flex/mx";
 @namespace ui "statm.dev.mapeditor.ui.*";
 
-s|Application 
-{
-	fontFamily: "Microsoft YaHei";
-	backgroundColor: #EFEFEF;
-}
 ui|MetroChromeWindowedApplication
 {
+	fontFamily: "Microsoft YaHei";
 	skinClass:ClassReference("statm.dev.mapeditor.ui.skins.MetroChromeWindowedApplicationSkin");
+}
+s|Button
+{
+	skinClass:ClassReference("statm.dev.mapeditor.ui.skins.MetroButtonSkin");
 }

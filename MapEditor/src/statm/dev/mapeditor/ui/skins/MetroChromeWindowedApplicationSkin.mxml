@@ -114,35 +114,13 @@
 		</s:fill>
 	</s:Rect>
 
-
-
-
-	<!-- title bar background fill for when the title bar is inactive -->
-	<!--- Defines the background color of the title bar. -->
-	<s:Rect id="titleBarBackgroundRect"
-			height="24"
-			left="20"
-			left.maximized="0"
-			right="20"
-			right.maximized="0"
-			top="20"
-			top.maximized="0"
-			visible="{titleBar.visible}">
-		<s:fill>
-			<!--- @private -->
-			<s:SolidColor id="titleBarBgFill"
-						  color="0xFFFFFF"/>
-		</s:fill>
-	</s:Rect>
-
-
 	<!-- layer 2: titlebar + content + status bar -->
 	<s:Group left="21"
 			 left.maximized="10"
-			 right="26"
-			 right.maximized="10"
+			 right="21"
+			 right.maximized="8"
 			 top="21"
-			 top.maximized="10"
+			 top.maximized="8"
 			 bottom="26"
 			 bottom.maximized="1"
 			 minHeight="24"
@@ -259,13 +237,10 @@
 
 	<!-- the border -->
 	<s:Rect left="20"
-			left.maximized="0"
 			right="20"
-			right.maximized="0"
 			top="20"
-			top.maximized="0"
 			bottom="20"
-			bottom.maximized="0">
+			excludeFrom="maximized">
 		<s:stroke>
 			<s:SolidColorStroke color="0xA6A6A6"
 								alpha.inactiveGroup="0.5"

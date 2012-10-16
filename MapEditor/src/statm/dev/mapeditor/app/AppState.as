@@ -6,7 +6,7 @@ package statm.dev.mapeditor.app
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.brush.Brush;
-	import statm.dev.mapeditor.dom.item.ItemDefinition;
+	import statm.dev.mapeditor.dom.item.ItemDefinitionBase;
 	import statm.dev.mapeditor.dom.layers.MaskLayerBase;
 
 	/**
@@ -148,7 +148,7 @@ package statm.dev.mapeditor.app
 
 		private static var drawingItem : Boolean = false;
 
-		public static function startDrawingItem(itemDef : ItemDefinition) : void
+		public static function startDrawingItem(itemDef : ItemDefinitionBase) : void
 		{
 			drawingItem = true;
 			setCurrentItemDef(itemDef);
@@ -205,14 +205,14 @@ package statm.dev.mapeditor.app
 			currentBrush = brush;
 		}
 
-		private static var currentItem : ItemDefinition;
+		private static var currentItem : ItemDefinitionBase;
 
-		public static function getCurrentItemDef() : ItemDefinition
+		public static function getCurrentItemDef() : ItemDefinitionBase
 		{
 			return currentItem;
 		}
 
-		public static function setCurrentItemDef(itemDef : ItemDefinition) : void
+		public static function setCurrentItemDef(itemDef : ItemDefinitionBase) : void
 		{
 			currentItem = itemDef;
 		}

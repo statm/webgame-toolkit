@@ -1,18 +1,8 @@
 package statm.dev.mapeditor.dom.objects
 {
-	import flash.display.Bitmap;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-
-	import spark.components.Image;
-	import spark.primitives.BitmapImage;
-
-	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.DomNode;
-	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
-	import statm.dev.mapeditor.ui.UIResource;
 
 	/**
 	 * DOM 对象：传送点。

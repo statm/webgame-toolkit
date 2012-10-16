@@ -6,17 +6,16 @@ package statm.dev.mapeditor.commands
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.setTimeout;
-
+	
 	import mx.controls.Alert;
-
+	
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.command.SimpleCommand;
-
+	
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.utils.MapFileUtils;
-	import statm.dev.mapeditor.utils.assert;
 
 
 	/**
@@ -81,7 +80,11 @@ package statm.dev.mapeditor.commands
 				map.filePath = fileToSave.nativePath;
 				if (mapImageFile)
 				{
-					mapImageFile.copyTo(fileToSave.resolvePath(".." + File.separator + fileNameBody + "." + mapImageFile.extension), true);
+					var newImageFile:File = fileToSave.resolvePath(".." + File.separator + fileNameBody + "." + mapImageFile.extension);
+					if (mapImageFile.nativePath != newImageFile.nativePath)
+					{
+						mapImageFile.copyTo(newImageFile, true);
+					}
 				}
 
 				sendNotification(AppNotificationCode.MAP_FILE_SAVED);
@@ -137,7 +140,7 @@ package statm.dev.mapeditor.commands
 
 				// 先取到合适的文件名
 				// 这里要进行两次写入，实际的写入在 COMPLETE 里完成，是用 FileStream 同步做的
-				// AIR 的 API 不完善导致文件保存体验很差
+				// AIR 的 API 不完善导致文件保存流程很差
 				fileToSave.save("", fileName);
 			}
 		}

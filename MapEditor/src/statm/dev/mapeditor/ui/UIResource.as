@@ -43,5 +43,8 @@ package statm.dev.mapeditor.ui
 
 		[Embed(source = "../../../../assets/transportIcons/W.png")]
 		public static const WAYPOINT_ICON : Class;
+		
+		[Embed(source = "../../../../assets/transportIcons/W.png")]
+		public static const NPC_ICON : Class;
 	}
 }

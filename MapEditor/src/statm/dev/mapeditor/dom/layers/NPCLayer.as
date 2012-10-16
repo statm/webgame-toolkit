@@ -3,6 +3,7 @@ package statm.dev.mapeditor.dom.layers
 	import mx.collections.ArrayCollection;
 
 	import statm.dev.mapeditor.dom.DomNode;
+	import statm.dev.mapeditor.dom.item.ItemFactory;
 
 	/**
 	 * DOM 对象：NPC 层。
@@ -30,7 +31,11 @@ package statm.dev.mapeditor.dom.layers
 
 		override public function readXML(xml : XML) : void
 		{
-			// TODO: NYI
+			ItemFactory.domRoot = root;
+			for each (var npcXML : XML in xml.children())
+			{
+				this.addItem(ItemFactory.createItemFromXML(npcXML));
+			}
 		}
 	}
 }

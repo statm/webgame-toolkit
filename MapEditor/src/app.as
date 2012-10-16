@@ -30,7 +30,7 @@ import statm.dev.mapeditor.dom.objects.LinkPoint;
 
 public static var VERSION : String;
 
-protected function applicationCompleteHandler(event : FlexEvent) : void
+private function init() : void
 {
 	var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;
 	var appNS:Namespace = appXML.namespace();

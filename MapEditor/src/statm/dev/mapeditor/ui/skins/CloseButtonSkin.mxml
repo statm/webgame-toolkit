@@ -26,7 +26,7 @@
       @see spark.components.Window
       @see spark.skins.spark.SparkChromeWindowedApplicationSkin
 -->
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" minWidth="16" minHeight="16" >
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" minWidth="34" minHeight="30" >
 
     <!-- host component -->
     <fx:Metadata>
@@ -46,7 +46,7 @@
         <s:State name="disabled" />
     </s:states>
     
-    <s:BitmapImage source="@Embed('../../../../../assets/window/close.png')" includeIn="up" fillMode="clip" />
+    <s:BitmapImage source="@Embed('../../../../../assets/window/close_up.png')" includeIn="up" fillMode="clip" />
     
     <s:BitmapImage source="@Embed('../../../../../assets/window/close_over.png')" includeIn="over" fillMode="clip"/>
 

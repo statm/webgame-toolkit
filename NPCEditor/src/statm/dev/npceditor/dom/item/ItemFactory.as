@@ -1,0 +1,94 @@
+package statm.dev.npceditor.dom.item
+{
+	import flash.display.BitmapData;
+
+	import statm.dev.npceditor.dom.DomNode;
+	import statm.dev.npceditor.dom.Map;
+	import statm.dev.npceditor.dom.objects.BornPoint;
+	import statm.dev.npceditor.dom.objects.Item;
+	import statm.dev.npceditor.dom.objects.LinkDestPoint;
+	import statm.dev.npceditor.dom.objects.LinkPoint;
+	import statm.dev.npceditor.dom.objects.TeleportPoint;
+	import statm.dev.npceditor.dom.objects.Waypoint;
+
+	/**
+	 * 物件工厂类。
+	 *
+	 * @author statm
+	 *
+	 */
+	public class ItemFactory
+	{
+		public static var domRoot : DomNode;
+
+		public static function createItemFromXML(itemXML : XML) : Item
+		{
+			var item : Item;
+
+			switch (itemXML.name().localName)
+			{
+				case "teleportPoint":
+					item = new TeleportPoint(domRoot);
+					item.iconImage.source = Map(domRoot).iconList.getIcon(0);
+					break;
+
+				case "linkPoint":
+					item = new LinkPoint(domRoot);
+					item.iconImage.source = Map(domRoot).iconList.getIcon(1);
+					break;
+
+				case "linkDestPoint":
+					item = new LinkDestPoint(domRoot);
+					item.iconImage.source = Map(domRoot).iconList.getIcon(2);
+					break;
+
+				case "bornPoint":
+					item = new BornPoint(domRoot);
+					item.iconImage.source = Map(domRoot).iconList.getIcon(3);
+					break;
+
+				case "waypoint":
+					item = new Waypoint(domRoot);
+					item.iconImage.source = Map(domRoot).iconList.getIcon(4);
+					break;
+			}
+
+			item.readXML(itemXML);
+
+			return item;
+		}
+
+		public static function createItemFromDefinition(itemDef : ItemDefinition) : Item
+		{
+			var item : Item;
+			var iconBitmapData : BitmapData = Map(domRoot).iconList.getIcon(itemDef.iconID);
+
+			switch (itemDef.type)
+			{
+				case ItemType.TELEPORT_POINT:
+					item = new TeleportPoint(domRoot);
+					break;
+
+				case ItemType.LINK_POINT:
+					item = new LinkPoint(domRoot);
+					break;
+
+				case ItemType.LINK_DEST_POINT:
+					item = new LinkDestPoint(domRoot);
+					break;
+
+				case ItemType.BORN_POINT:
+					item = new BornPoint(domRoot);
+					break;
+
+				case ItemType.WAYPOINT:
+					item = new Waypoint(domRoot);
+					break;
+			}
+
+			item.iconImage.source = iconBitmapData;
+
+			return item;
+		}
+	}
+}

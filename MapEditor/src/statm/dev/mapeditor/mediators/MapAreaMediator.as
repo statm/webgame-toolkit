@@ -21,7 +21,7 @@ package statm.dev.mapeditor.mediators
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.brush.Brush;
-	import statm.dev.mapeditor.dom.item.ItemDefinition;
+	import statm.dev.mapeditor.dom.item.ItemDefinitionBase;
 	import statm.dev.mapeditor.dom.item.ItemFactory;
 	import statm.dev.mapeditor.dom.objects.Item;
 	import statm.dev.mapeditor.modules.MapArea;
@@ -252,7 +252,7 @@ package statm.dev.mapeditor.mediators
 			{
 				if (AppState.getCurrentMap().grids.gridRange.contains(gridCoord.x, gridCoord.y))
 				{
-					var itemDef : ItemDefinition = AppState.getCurrentItemDef();
+					var itemDef : ItemDefinitionBase = AppState.getCurrentItemDef();
 
 					var previewPos : Point = GridUtils.gridToGlobal(gridCoord);
 					var itemPreview : BitmapImage = new BitmapImage();
@@ -413,7 +413,7 @@ package statm.dev.mapeditor.mediators
 					}
 					else
 					{
-						var itemDef : ItemDefinition = AppState.getCurrentItemDef();
+						var itemDef : ItemDefinitionBase = AppState.getCurrentItemDef();
 
 						var itemPreview : BitmapImage = new BitmapImage();
 						itemPreview.source = currentMap.iconList.getIcon(itemDef.iconID);

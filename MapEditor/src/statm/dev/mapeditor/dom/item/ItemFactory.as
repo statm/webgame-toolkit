@@ -1,13 +1,14 @@
 package statm.dev.mapeditor.dom.item
 {
 	import flash.display.BitmapData;
-
+	
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.Item;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
+	import statm.dev.mapeditor.dom.objects.NPC;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 	import statm.dev.mapeditor.dom.objects.Waypoint;
 
@@ -51,6 +52,11 @@ package statm.dev.mapeditor.dom.item
 					item = new Waypoint(domRoot);
 					item.iconImage.source = Map(domRoot).iconList.getIcon(4);
 					break;
+				
+				case "NPC":
+					item = new NPC(domRoot);
+					item.iconImage.source = Map(domRoot).iconList.getIcon(5);
+					break;
 			}
 
 			item.readXML(itemXML);
@@ -58,7 +64,7 @@ package statm.dev.mapeditor.dom.item
 			return item;
 		}
 
-		public static function createItemFromDefinition(itemDef : ItemDefinition) : Item
+		public static function createItemFromDefinition(itemDef : ItemDefinitionBase) : Item
 		{
 			var item : Item;
 			var iconBitmapData : BitmapData = Map(domRoot).iconList.getIcon(itemDef.iconID);
@@ -83,6 +89,10 @@ package statm.dev.mapeditor.dom.item
 
 				case ItemType.WAYPOINT:
 					item = new Waypoint(domRoot);
+					break;
+				
+				case ItemType.NPC:
+					item = new NPC(domRoot, NPCItemDefinition(itemDef));
 					break;
 			}
 

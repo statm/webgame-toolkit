@@ -1,6 +1,8 @@
 package statm.dev.imageresourceviewer.data.resource
 {
 	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 	
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.libs.imageplayer.loader.ImageBatch;
@@ -52,6 +54,46 @@ package statm.dev.imageresourceviewer.data.resource
 		public function get batchInfo() : ResourceBatchInfo
 		{
 			return _batchInfo;
+		}
+		
+		private var _frameRate:int = -1;
+		
+		[Bindable]
+		public function get frameRate():int
+		{
+			return _frameRate;
+		}
+		
+		public function set frameRate(value:int):void
+		{
+			_frameRate = value;
+			writeConfigFile();
+		}
+		
+		override public function load():void
+		{
+			super.load();
+			readConfigFile();
+		}
+		
+		private function readConfigFile():void
+		{
+			var configFile:File = _folder.resolvePath(".config");
+			if (configFile.exists)
+			{
+				var configFileStream:FileStream = new FileStream();
+				configFileStream.open(configFile, FileMode.READ);
+				_frameRate = configFileStream.readShort();
+				configFileStream.close();
+			}
+		}
+		
+		private function writeConfigFile():void
+		{
+			var configFileStream:FileStream = new FileStream();
+			configFileStream.open(_folder.resolvePath(".config"), FileMode.WRITE);
+			configFileStream.writeShort(_frameRate);
+			configFileStream.close();
 		}
 
 		// 静态方法：通过路径猜测 ResourceBatch 的信息

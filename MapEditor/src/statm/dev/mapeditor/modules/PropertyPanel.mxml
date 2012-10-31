@@ -20,12 +20,12 @@
 			import statm.dev.mapeditor.dom.item.ItemType;
 			import statm.dev.mapeditor.mediators.PropertyPanelMediator;
 
-			protected function creationCompleteHandler(event:FlexEvent):void
+			protected function creationCompleteHandler(event : FlexEvent) : void
 			{
 				AppFacade.getInstance().registerMediator(new PropertyPanelMediator(PropertyPanelMediator.NAME, this));
 			}
 
-			private function submit(target:EventDispatcher=null):void
+			private function submit(target : EventDispatcher = null) : void
 			{
 				if (!target)
 				{
@@ -37,30 +37,30 @@
 				}
 			}
 
-			protected function btnBrowseMapBg_clickHandler(event:MouseEvent):void
+			protected function btnBrowseMapBg_clickHandler(event : MouseEvent) : void
 			{
-				var file:File=File.desktopDirectory;
-				file.addEventListener(Event.SELECT, function(event:Event):void
+				var file : File = File.desktopDirectory;
+				file.addEventListener(Event.SELECT, function(event : Event) : void
 				{
-					tiMapBgPath.text=(event.target as File).nativePath;
+					tiMapBgPath.text = (event.target as File).nativePath;
 					submit();
 				});
 				file.browseForOpen("选择地图背景", [new FileFilter("图片文件(*.jpg)", "*.jpg")]);
 			}
 
-			public function filterItems():void
+			public function filterItems() : void
 			{
 				if (!itemsList.dataProvider)
 				{
 					return;
 				}
 
-				var data:ArrayCollection=ArrayCollection(itemsList.dataProvider);
+				var data : ArrayCollection = ArrayCollection(itemsList.dataProvider);
 
 				switch (itemsListFilterBar.selectedIndex)
 				{
 					case 0:
-						data.filterFunction=function(o:Object):Boolean
+						data.filterFunction = function(o : Object) : Boolean
 						{
 							return (o.type == ItemType.NPC);
 						};
@@ -68,7 +68,7 @@
 						break;
 
 					case 1:
-						data.filterFunction=function(o:Object):Boolean
+						data.filterFunction = function(o : Object) : Boolean
 						{
 							return (o.type == ItemType.MOB);
 						};
@@ -76,7 +76,7 @@
 						break;
 
 					case 2:
-						data.filterFunction=function(o:Object):Boolean
+						data.filterFunction = function(o : Object) : Boolean
 						{
 							return (o.type != ItemType.NPC) && (o.type != ItemType.MOB);
 						};
@@ -85,9 +85,9 @@
 				}
 			}
 
-			private var newNPCWindow:NewNPCPanel;
+			private var newNPCWindow : NewNPCPanel;
 
-			protected function btnNewNPC_clickHandler(event:MouseEvent):void
+			protected function btnNewNPC_clickHandler(event : MouseEvent) : void
 			{
 				if (newNPCWindow)
 				{
@@ -96,7 +96,7 @@
 				}
 				else
 				{
-					newNPCWindow=new NewNPCPanel();
+					newNPCWindow = new NewNPCPanel();
 				}
 
 				PopUpManager.addPopUp(newNPCWindow, FlexGlobals.topLevelApplication as DisplayObject, true);
@@ -328,18 +328,11 @@
 										  verticalGap="1"/>
 						</s:layout>
 					</s:List>
-					<s:Button id="btnNewNPC"
+<!--					<s:Button id="btnNewNPC"
 							  label="新建NPC"
-							  click="btnNewNPC_clickHandler(event)"/>
+							  click="btnNewNPC_clickHandler(event)"/>-->
 				</s:FormItem>
 				<!-- 传送点属性 -->
-				<s:FormItem includeIn="teleportPointProps"
-							label="地图ID:">
-					<s:TextInput id="tiTeleportPointMapID"
-								 enter="submit();"
-								 focusOut="submit();"
-								 restrict="0-9"/>
-				</s:FormItem>
 				<s:FormItem includeIn="teleportPointProps"
 							label="坐标:">
 					<ui:CoordText id="ctTeleportPointCoord"
@@ -355,9 +348,6 @@
 							label="坐标:">
 					<ui:CoordText id="ctLinkPointCoord"
 								  coordChanged="submit();"/>
-					<!--					<s:Button id="btnAddLinkDestination"
-												  label="添加连接终点"
-												  click="submit(btnAddLinkDestination);"/>-->
 				</s:FormItem>
 				<!-- 出生点属性 -->
 				<s:FormItem includeIn="bornPointProps"

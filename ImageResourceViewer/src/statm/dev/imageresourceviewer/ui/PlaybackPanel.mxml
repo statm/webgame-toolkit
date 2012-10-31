@@ -108,7 +108,7 @@
 	<s:DataGroup id="layerDataGroup"
 				 horizontalCenter="0"
 				 verticalCenter="0"
-				 dataProvider="{AppState.instance.selectedElements}"
+				 dataProvider="{AppState.instance.playingElements}"
 				 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
 
 	<s:VGroup right="0"

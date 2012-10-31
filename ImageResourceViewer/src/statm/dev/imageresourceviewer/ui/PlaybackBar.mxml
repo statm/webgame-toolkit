@@ -69,7 +69,7 @@
 				 textAlign="center"
 				 maxChars="2"
 				 borderColor="#4EA6EA"
-				 text="{AppState.instance.frameRate == 0 ? '' : AppState.instance.frameRate}"
+				 text="{(AppState.instance.frameRate == -1) ? '15' : AppState.instance.frameRate}"
 				 change="fpsInput_changeHandler(event)"
 				 enter="fpsInput_enterHandler(event)"
 				 restrict="0-9"/>

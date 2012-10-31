@@ -148,7 +148,6 @@ package statm.dev.mapeditor.mediators
 				panel.currentState = "teleportPointProps";
 				panel.ctTeleportPointCoord.setCoord(TeleportPoint(selection).x, TeleportPoint(selection).y);
 				panel.nsTeleportPoint.setNations(TeleportPoint(selection).allowNations);
-				panel.tiTeleportPointMapID.text = TeleportPoint(selection).mapID.toString();
 			}
 			else if (selection is LinkPoint)
 			{
@@ -228,7 +227,6 @@ package statm.dev.mapeditor.mediators
 					break;
 
 				case "teleportPointProps":
-					TeleportPoint(selection).mapID = parseInt(panel.tiTeleportPointMapID.text);
 					TeleportPoint(selection).allowNations = panel.nsTeleportPoint.getNations();
 					TeleportPoint(selection).x = panel.ctTeleportPointCoord.getCoord().x;
 					TeleportPoint(selection).y = panel.ctTeleportPointCoord.getCoord().y;

@@ -6,7 +6,7 @@
 		 rollOut="currentState = 'normal'"
 		 mouseDown="currentState = 'down'"
 		 mouseUp="currentState = 'over'"
-		 height="22">
+		 height="30">
 
 	<fx:Script>
 		<![CDATA[
@@ -25,12 +25,12 @@
 			right="0"
 			bottom="0">
 		<s:fill>
-			<s:SolidColor color.normal="#EEEEEE"
-						  color.over="#DDDDDD"
-						  color.down="#CCCCCC"/>
+			<s:SolidColor color.normal="#FFFFFF"
+						  color.over="#EEEEEE"
+						  color.down="#4EA6EA"/>
 		</s:fill>
 	</s:Rect>
-	
+
 	<s:HGroup top="0"
 			  bottom="0"
 			  left="3"
@@ -42,7 +42,9 @@
 
 		<s:Label text="{AppState.instance.actionCount}"
 				 minWidth="20"
-				 color="#333333"
+				 color.normal="#999999"
+				 color.over="#999999"
+				 color.down="#FFFFFF"
 				 fontSize="12"/>
 	</s:HGroup>
 </s:Group>

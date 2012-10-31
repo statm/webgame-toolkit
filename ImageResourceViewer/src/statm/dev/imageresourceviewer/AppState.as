@@ -1,11 +1,12 @@
 package statm.dev.imageresourceviewer
 {
 	import flash.events.EventDispatcher;
-
+	
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.FXElement;
+	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
@@ -60,10 +61,10 @@ package statm.dev.imageresourceviewer
 		public var selectedFX : FXElement = new FXElement("无");
 
 		[Bindable]
-		public var selectedElements : ArrayCollection = new ArrayCollection();
+		public var playingElements : ArrayCollection = new ArrayCollection();
 
 		[Bindable]
-		public var currentActions : ArrayCollection = new ArrayCollection();
+		public var currentActionList : ArrayCollection = new ArrayCollection();
 
 		[Bindable]
 		public var fxEnabled : Boolean = true;
@@ -81,8 +82,29 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public var frameTotal : int = 0;
 
+		private var _frameRate : int = -1;
+
 		[Bindable]
-		public var frameRate : int = 15;
+		public function get frameRate() : int
+		{
+			return _frameRate;
+		}
+
+		public function set frameRate(value : int) : void
+		{
+			if (value != _frameRate)
+			{
+				_frameRate = value;
+				for each (var elem:Element in playingElements)
+				{
+					var currentBatch:ResourceBatch = elem.getCurrentBatch();
+					if (currentBatch)
+					{
+						currentBatch.frameRate = value;
+					}
+				}
+			}
+		}
 
 		[Bindable]
 		public var movingSpeed : int = 30;

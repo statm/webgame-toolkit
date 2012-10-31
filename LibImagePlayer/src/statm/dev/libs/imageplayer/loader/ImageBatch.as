@@ -7,7 +7,6 @@ package statm.dev.libs.imageplayer.loader
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
 	import flash.net.URLRequest;
-	import flash.utils.setTimeout;
 	
 	import mx.collections.ArrayCollection;
 	

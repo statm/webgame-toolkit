@@ -257,7 +257,7 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 		{
 			playingGroup.visible = true;
 		}, 500);
-		AppState.instance.selectedElements.removeAll();
+		AppState.instance.playingElements.removeAll();
 	}
 
 	switch (selectedItem.type)
@@ -266,53 +266,53 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			AppState.instance.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.instance.selectedHero = selectedItem;
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedMount);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedHero);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedWeapon);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 			break;
 
 		case ResourceType.WEAPON:
 			AppState.instance.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.instance.selectedWeapon = selectedItem;
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedMount);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedHero);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedWeapon);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 			break;
 
 		case ResourceType.MOUNT:
 			AppState.instance.categoryMode = ResourceType.HERO;
 			categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 			AppState.instance.selectedMount = selectedItem;
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedMount);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedHero);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedWeapon);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 			break;
 
 		case ResourceType.NPC:
 			AppState.instance.categoryMode = ResourceType.NPC;
 			categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
 			AppState.instance.selectedNPC = selectedItem;
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedNPC);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedNPC);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 			break;
 
 		case ResourceType.MOB:
 			AppState.instance.categoryMode = ResourceType.MOB;
 			categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
 			AppState.instance.selectedMob = selectedItem;
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedMob);
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMob);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 			break;
 
 		case ResourceType.PET:
 			AppState.instance.categoryMode = ResourceType.PET;
 			categoryPanel.setSelectedCategoryButtons(["pet"]);
 			AppState.instance.selectedPet = selectedItem;
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedPet);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedPet);
 			break;
 
 		case ResourceType.FX:
@@ -320,45 +320,45 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 			{
 				categoryPanel.setSelectedCategoryButtons(["hero", "weapon", "mount", "fx"]);
 				AppState.instance.selectedFX = selectedItem as FXElement;
-				AppState.instance.selectedElements.addItem(AppState.instance.selectedMount);
-				AppState.instance.selectedElements.addItem(AppState.instance.selectedHero);
-				AppState.instance.selectedElements.addItem(AppState.instance.selectedWeapon);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
 			}
 			else if (AppState.instance.categoryMode == ResourceType.NPC)
 			{
 				categoryPanel.setSelectedCategoryButtons(["npc", "fx"]);
 				AppState.instance.selectedFX = selectedItem as FXElement;
-				AppState.instance.selectedElements.addItem(AppState.instance.selectedNPC);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedNPC);
 			}
 			else if (AppState.instance.categoryMode == ResourceType.MOB)
 			{
 				categoryPanel.setSelectedCategoryButtons(["mob", "fx"]);
 				AppState.instance.selectedFX = selectedItem as FXElement;
-				AppState.instance.selectedElements.addItem(AppState.instance.selectedMob);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedMob);
 			}
 
 			if (AppState.instance.fxEnabled)
 			{
-				AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 			}
-
 			break;
 	}
 
 	if (selectedItem.type != ResourceType.UNKNOWN)
 	{
 		calculateActionList();
+		calculateFrameRate();
 	}
 }
 
 private function calculateActionList() : void
 {
 	// 根据当前零件计算动作列表（最小公倍数）
-	var actionInfo : ArrayCollection = AppState.instance.currentActions;
+	var actionInfo : ArrayCollection = AppState.instance.currentActionList;
 	var actionNames : Array = [];
 
 	actionInfo.removeAll();
-	for each (var elem : Element in AppState.instance.selectedElements)
+	for each (var elem : Element in AppState.instance.playingElements)
 	{
 		if (!elem || (elem.type == ResourceType.FX && AppState.instance.categoryMode != ResourceType.FX))
 		{
@@ -381,10 +381,32 @@ private function calculateActionList() : void
 		{
 			setAction(actionInfo[0]);
 		}
-		else if (AppState.instance.selectedFX && AppState.instance.selectedElements.contains(AppState.instance.selectedFX))
+		else if (AppState.instance.selectedFX && AppState.instance.playingElements.contains(AppState.instance.selectedFX))
 		{
 			setAction(AppState.instance.selectedFX.fxAction.info);
 		}
+	}
+}
+
+private function calculateFrameRate() : void
+{
+	var frameRate : int = -1;
+	for each (var elem : Element in AppState.instance.playingElements)
+	{
+		var currentBatch : ResourceBatch = elem.getCurrentBatch();
+		if (!currentBatch)
+		{
+			continue;
+		}
+		frameRate = elem.getCurrentBatch().frameRate;
+		if (frameRate != -1)
+		{
+			break;
+		}
+	}
+	if (frameRate != -1)
+	{
+		AppState.instance.frameRate = frameRate;
 	}
 }
 
@@ -404,13 +426,13 @@ public function setDirection(direction : String) : void
 
 private function updateActionAndDirection() : void
 {
-	for each (var elem : Element in AppState.instance.selectedElements)
+	for each (var elem : Element in AppState.instance.playingElements)
 	{
 		if (!elem)
 		{
 			continue;
 		}
-		AppState.instance.selectedElements.itemUpdated(elem);
+		AppState.instance.playingElements.itemUpdated(elem);
 	}
 }
 
@@ -421,14 +443,14 @@ public function setFXVisibility(value : Boolean) : void
 		AppState.instance.fxEnabled = value;
 		if (value)
 		{
-			AppState.instance.selectedElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
 		}
 		else
 		{
-			var index : int = AppState.instance.selectedElements.getItemIndex(AppState.instance.selectedFX);
+			var index : int = AppState.instance.playingElements.getItemIndex(AppState.instance.selectedFX);
 			if (index > -1)
 			{
-				AppState.instance.selectedElements.removeItemAt(index);
+				AppState.instance.playingElements.removeItemAt(index);
 			}
 		}
 	}
@@ -489,7 +511,7 @@ private var lastFrameTime : int = int.MIN_VALUE;
 
 private function $play(event : Event) : void
 {
-	var l : int = AppState.instance.selectedElements.length;
+	var l : int = AppState.instance.playingElements.length;
 	var currentTime : int = getTimer();
 	if (lastFrameTime == int.MIN_VALUE)
 	{

@@ -209,7 +209,7 @@ package statm.dev.mapeditor.io
 		private function generateTeleportPoint(tp : TeleportPoint) : XML
 		{
 			var result : XML = <teleporter>
-					<mapID>{tp.mapID}</mapID>
+					<mapID>{map.mapID}</mapID>
 					<position col={tp.x} row={tp.y}/>
 				</teleporter>;
 

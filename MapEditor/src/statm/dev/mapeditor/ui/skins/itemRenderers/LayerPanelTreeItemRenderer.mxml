@@ -118,10 +118,6 @@
 				{
 					var tp : TeleportPoint = TeleportPoint(node);
 					result = "(" + tp.x + "," + tp.y + ")";
-					if (tp.mapID != AppState.getCurrentMap().mapID)
-					{
-						result += ", 地图: " + tp.mapID;
-					}
 					if (tp.allowNations.length != 3)
 					{
 						result += ", " + getNationString(tp.allowNations);

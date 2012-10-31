@@ -16,7 +16,6 @@ package statm.dev.mapeditor.dom.objects
 		{
 			super(root);
 			_name = "传送点";
-			_mapID = Map(root).mapID;
 		}
 
 		private var _allowNations : Array = ["WU", "SHU", "WEI"];
@@ -35,26 +34,9 @@ package statm.dev.mapeditor.dom.objects
 			}
 		}
 
-		private var _mapID : int;
-
-		public function get mapID() : int
-		{
-			return _mapID;
-		}
-
-		public function set mapID(value : int) : void
-		{
-			if (value != _mapID)
-			{
-				_mapID = value;
-				_display.visible = (value == Map(root).mapID);
-				this.notifyChange(MapEditingActions.OBJECT_PROPS);
-			}
-		}
-
 		override public function toXML() : XML
 		{
-			var result : XML = <teleportPoint x={x} y={y} mapID={mapID}>
+			var result : XML = <teleportPoint x={x} y={y}>
 					<allowNations/>
 				</teleportPoint>;
 
@@ -70,9 +52,6 @@ package statm.dev.mapeditor.dom.objects
 		{
 			this.x = xml.@x;
 			this.y = xml.@y;
-			this.mapID = xml.@mapID;
-
-			_display.visible = (this.mapID == Map(root).mapID);
 
 			var nations : Array = [];
 			for each (var nation : XML in xml.allowNations.children())

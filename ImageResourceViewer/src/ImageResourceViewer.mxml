@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+<ui:MetroChromeWindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
@@ -27,13 +27,13 @@
 
 	<fx:Script source="app.as"/>
 
-	<s:states>
+	<ui:states>
 		<s:State name="hidden"/>
 		<s:State name="normal"/>
 		<s:State name="list"/>
-	</s:states>
+	</ui:states>
 
-	<s:transitions>
+	<ui:transitions>
 		<s:Transition fromState="normal"
 					  toState="list">
 			<s:Resize target="{resourceList}"
@@ -51,7 +51,12 @@
 				<s:RemoveAction target="{resourceList}"/>
 			</s:Sequence>
 		</s:Transition>
-	</s:transitions>
+	</ui:transitions>
+	
+	<ui:titleBarContent>
+		<ui:ExportButton click="writeSpritesheet()"
+						 includeIn="normal,list"/>
+	</ui:titleBarContent>
 
 	<s:HGroup left="175"
 			  right="0"
@@ -87,7 +92,7 @@
 					height="150"
 					itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.ActionItemRenderer"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.LiteListSkin"
-					dataProvider="{AppState.instance.currentActions}"
+					dataProvider="{AppState.instance.currentActionList}"
 					borderVisible="false">
 				<s:layout>
 					<s:TileLayout columnWidth="110"/>
@@ -109,9 +114,4 @@
 			 verticalCenter="-17"
 			 color="#CCCCCC"
 			 includeIn="hidden"/>
-
-	<ui:ExportButton right="62"
-					 top="-30"
-					 click="writeSpritesheet()"
-					 includeIn="normal,list"/>
-</s:WindowedApplication>
+</ui:MetroChromeWindowedApplication>

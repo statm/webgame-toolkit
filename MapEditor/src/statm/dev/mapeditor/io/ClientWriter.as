@@ -56,6 +56,8 @@ package statm.dev.mapeditor.io
 					<gridX>{map.grids.gridAnchor.x}</gridX>
 					<gridY>{map.grids.gridAnchor.y}</gridY>
 					<image>{getImageName()}</image>
+					<imageSize width={map.bgLayer.display.width} height={map.bgLayer.display.height}/>
+					<smallImageSize width={map.smallMapWidth} height={map.smallMapHeight}/>
 					<levelLimit>{map.levelLimit}</levelLimit>
 					{generateTileAndPlanLists()}
 					{generateTransportPoints()}

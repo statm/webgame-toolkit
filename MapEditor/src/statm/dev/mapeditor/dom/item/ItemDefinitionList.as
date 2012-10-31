@@ -77,8 +77,6 @@ package statm.dev.mapeditor.dom.item
 			{
 				var itemDef : ItemDefinitionBase = new ItemDefinitionBase();
 
-				var itemDef : ItemDefinitionBase;
-
 				switch (itemDef.type)
 				{
 					case ItemType.NPC:

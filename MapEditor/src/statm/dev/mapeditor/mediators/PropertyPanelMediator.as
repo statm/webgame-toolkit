@@ -98,6 +98,8 @@ package statm.dev.mapeditor.mediators
 				panel.tiMapID.text = currentMap.mapID.toString();
 				panel.tiMapName.text = currentMap.mapName;
 				panel.tiMapLevel.text = currentMap.levelLimit.toString();
+				panel.tiSmallMapSizeW.text = currentMap.smallMapWidth.toString();
+				panel.tiSmallMapSizeH.text = currentMap.smallMapHeight.toString();
 			}
 			else if (selection is BgLayer)
 			{
@@ -184,6 +186,8 @@ package statm.dev.mapeditor.mediators
 					currentMap.mapID = int(panel.tiMapID.text);
 					currentMap.mapName = panel.tiMapName.text;
 					currentMap.levelLimit = int(panel.tiMapLevel.text);
+					currentMap.smallMapWidth = int(panel.tiSmallMapSizeW.text);
+					currentMap.smallMapHeight = int(panel.tiSmallMapSizeH.text);
 					break;
 
 				case "bgProps":

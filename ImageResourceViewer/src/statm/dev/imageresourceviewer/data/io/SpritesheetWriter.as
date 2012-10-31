@@ -148,12 +148,14 @@ package statm.dev.imageresourceviewer.data.io
 				(frame = croppedImages[i]) && assembledSpritesheet.copyPixels(frame, frame.rect, framePos[i]);
 
 					// DBG
-//				var tf : TextField = new TextField();
-//				tf.text = i.toString();
-//				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
-//				var mtx : Matrix = new Matrix();
-//				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
-//				assembledSpritesheet.draw(tf, mtx);
+				if (!frame) continue;
+				
+				var tf : TextField = new TextField();
+				tf.text = i.toString();
+				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
+				var mtx : Matrix = new Matrix();
+				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
+				assembledSpritesheet.draw(tf, mtx);
 			}
 
 			var spritesheetImageByteArray : ByteArray = new PNGEncoder().encode(assembledSpritesheet);

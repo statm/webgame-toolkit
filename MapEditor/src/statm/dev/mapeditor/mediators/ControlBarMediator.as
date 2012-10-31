@@ -20,9 +20,9 @@ package statm.dev.mapeditor.mediators
 	 */
 	public class ControlBarMediator extends Mediator
 	{
-		public static const NAME : String = "ControlBarMediator";
+		public static const NAME:String="ControlBarMediator";
 
-		public function ControlBarMediator(mediatorName : String = null, viewComponent : Object = null)
+		public function ControlBarMediator(mediatorName:String=null, viewComponent:Object=null)
 		{
 			super(mediatorName, viewComponent);
 
@@ -34,18 +34,14 @@ package statm.dev.mapeditor.mediators
 		}
 
 
-		override public function listNotificationInterests() : Array
+		override public function listNotificationInterests():Array
 		{
-			return [AppNotificationCode.MAP_DATA_READY,
-				AppNotificationCode.MAP_FILE_SAVED,
-				AppNotificationCode.MAP_DATA_CHANGED,
-				AppNotificationCode.MAP_FILE_CLOSED
-				];
+			return [AppNotificationCode.MAP_DATA_READY, AppNotificationCode.MAP_FILE_SAVED, AppNotificationCode.MAP_DATA_CHANGED, AppNotificationCode.MAP_FILE_CLOSED];
 		}
 
-		override public function handleNotification(notification : INotification) : void
+		override public function handleNotification(notification:INotification):void
 		{
-			var map : Map = AppState.getCurrentMap();
+			var map:Map=AppState.getCurrentMap();
 
 			if (!map)
 			{
@@ -68,47 +64,47 @@ package statm.dev.mapeditor.mediators
 			setWindowTitle(map);
 		}
 
-		private function btnNewMapFile_clickHandler(event : MouseEvent) : void
+		private function btnNewMapFile_clickHandler(event:MouseEvent):void
 		{
 			sendNotification(AppNotificationCode.CREATE_MAP_FILE);
 		}
 
-		private function btnBrowseMapFile_clickHandler(event : MouseEvent) : void
+		private function btnBrowseMapFile_clickHandler(event:MouseEvent):void
 		{
 			sendNotification(AppNotificationCode.BROWSE_MAP_FILE);
 		}
 
-		private function btnSaveMapFile_clickHandler(event : MouseEvent) : void
+		private function btnSaveMapFile_clickHandler(event:MouseEvent):void
 		{
 			sendNotification(AppNotificationCode.SAVE_MAP_FILE);
 		}
 
-		private function btnCloseMapFile_clickHandler(event : MouseEvent) : void
+		private function btnCloseMapFile_clickHandler(event:MouseEvent):void
 		{
 			sendNotification(AppNotificationCode.CLOSE_MAP_FILE);
 		}
 
-		private function btnExportXML_clickHandler(event : MouseEvent) : void
+		private function btnExportXML_clickHandler(event:MouseEvent):void
 		{
 			sendNotification(AppNotificationCode.EXPORT_XML);
 		}
 
-		private function setWindowTitle(map : Map = null) : void
+		private function setWindowTitle(map:Map=null):void
 		{
-			var title : String = "";
+			var title:String="";
 
 			if (map)
 			{
-				title += (map.isDirty ? "*" : "");
-				title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
-				title += " - 地图编辑器 v1.2";
+				title+=(map.isDirty ? "*" : "");
+				title+=(map.filePath ? map.filePath : (map.mapName + ".xml"));
+				title+=" - 地图编辑器 v1.2";
 			}
 			else
 			{
-				title = "地图编辑器 v1.2";
+				title="地图编辑器 v1.2";
 			}
 
-			viewComponent.stage.nativeWindow.title = title;
+			viewComponent.stage.nativeWindow.title=title;
 		}
 	}
 }

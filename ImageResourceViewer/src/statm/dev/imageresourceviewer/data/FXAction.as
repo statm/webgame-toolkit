@@ -13,14 +13,14 @@ package statm.dev.imageresourceviewer.data
 	 */
 	public class FXAction extends Action
 	{
-		private var _batch : ResourceBatch;
+		private var _batch:ResourceBatch;
 
-		override public function get batchCount() : int
+		override public function get batchCount():int
 		{
 			return 5;
 		}
 
-		public function set batch(value : ResourceBatch) : void
+		public function set batch(value:ResourceBatch):void
 		{
 			if (!_batch)
 			{
@@ -29,18 +29,18 @@ package statm.dev.imageresourceviewer.data
 			_batch = value;
 			_info.frameCount = _batch.length;
 		}
-		
-		override public function getBatch(direction : String) : ResourceBatch
+
+		override public function getBatch(direction:String):ResourceBatch
 		{
 			return _batch;
 		}
 
-		public function FXAction(name : String)
+		public function FXAction(name:String)
 		{
 			super(name);
 		}
 
-		override public function getAllImages() : Vector.<BitmapData>
+		override public function getAllImages():Vector.<BitmapData>
 		{
 			if (_batch)
 			{
@@ -50,6 +50,16 @@ package statm.dev.imageresourceviewer.data
 			{
 				return null;
 			}
+		}
+
+		override public function get frameRate():int
+		{
+			return _batch.frameRate;
+		}
+
+		override public function set frameRate(value:int):void
+		{
+			_batch.frameRate = value;
 		}
 	}
 }

@@ -4,6 +4,7 @@ package statm.dev.imageresourceviewer
 	
 	import mx.collections.ArrayCollection;
 	
+	import statm.dev.imageresourceviewer.data.Action;
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.FXElement;
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
@@ -82,7 +83,7 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public var frameTotal : int = 0;
 
-		private var _frameRate : int = -1;
+		private var _frameRate : int = 15;
 
 		[Bindable]
 		public function get frameRate() : int
@@ -97,10 +98,10 @@ package statm.dev.imageresourceviewer
 				_frameRate = value;
 				for each (var elem:Element in playingElements)
 				{
-					var currentBatch:ResourceBatch = elem.getCurrentBatch();
-					if (currentBatch)
+					var action:Action = elem.getAction(currentAction);
+					if (action)
 					{
-						currentBatch.frameRate = value;
+						action.frameRate = value;
 					}
 				}
 			}

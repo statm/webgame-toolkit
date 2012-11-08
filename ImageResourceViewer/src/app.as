@@ -390,7 +390,7 @@ private function calculateActionList() : void
 
 private function calculateFrameRate() : void
 {
-	var frameRate : int = -1;
+	var frameRate : int = 15;
 	for each (var elem : Element in AppState.instance.playingElements)
 	{
 		var currentBatch : ResourceBatch = elem.getCurrentBatch();
@@ -399,15 +399,12 @@ private function calculateFrameRate() : void
 			continue;
 		}
 		frameRate = elem.getCurrentBatch().frameRate;
-		if (frameRate != -1)
+		if (frameRate != 15)
 		{
 			break;
 		}
 	}
-	if (frameRate != -1)
-	{
-		AppState.instance.frameRate = frameRate;
-	}
+	AppState.instance.frameRate = frameRate;
 }
 
 public function setAction(info : ActionInfo) : void
@@ -416,6 +413,7 @@ public function setAction(info : ActionInfo) : void
 	AppState.instance.currentFrame = 0;
 	AppState.instance.frameTotal = info.frameCount;
 	updateActionAndDirection();
+	calculateFrameRate();
 }
 
 public function setDirection(direction : String) : void

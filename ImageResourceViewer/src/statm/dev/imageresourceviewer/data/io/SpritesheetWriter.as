@@ -4,11 +4,8 @@ package statm.dev.imageresourceviewer.data.io
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
-	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
 	import flash.utils.ByteArray;
 	
 	import mx.graphics.codec.PNGEncoder;
@@ -56,7 +53,7 @@ package statm.dev.imageresourceviewer.data.io
 							{
 								originalImages = action.getAllImages();
 
-								$writeActionSpritesheet(originalImages, action.name, path);
+								$writeActionSpritesheet(originalImages, action, path);
 								for each (var batch : ResourceBatch in unloadedBatches)
 								{
 									batch.unload();
@@ -73,11 +70,11 @@ package statm.dev.imageresourceviewer.data.io
 			{
 				originalImages = action.getAllImages();
 
-				$writeActionSpritesheet(originalImages, action.name, path);
+				$writeActionSpritesheet(originalImages, action, path);
 			}
 		}
 
-		private function $writeActionSpritesheet(originalImages : Vector.<BitmapData>, actionName : String, path : File) : void
+		private function $writeActionSpritesheet(originalImages : Vector.<BitmapData>, action:Action, path : File) : void
 		{
 			var assembledSpritesheet : BitmapData;
 			var configXML : XML;
@@ -150,24 +147,24 @@ package statm.dev.imageresourceviewer.data.io
 					// DBG
 				if (!frame) continue;
 				
-				var tf : TextField = new TextField();
-				tf.text = i.toString();
-				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
-				var mtx : Matrix = new Matrix();
-				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
-				assembledSpritesheet.draw(tf, mtx);
+//				var tf : TextField = new TextField();
+//				tf.text = i.toString();
+//				tf.setTextFormat(new TextFormat("Arial", 20, 0xFF0000, true));
+//				var mtx : Matrix = new Matrix();
+//				mtx.translate(framePos[i].x + 2, framePos[i].y + 2);
+//				assembledSpritesheet.draw(tf, mtx);
 			}
 
 			var spritesheetImageByteArray : ByteArray = new PNGEncoder().encode(assembledSpritesheet);
 			var fs : FileStream = new FileStream();
-			fs.open(path.resolvePath(actionName + ".png"), FileMode.WRITE);
+			fs.open(path.resolvePath(action.name + ".png"), FileMode.WRITE);
 			fs.writeBytes(spritesheetImageByteArray);
 			fs.close();
 
 			// 输出配置 XML
 			configXML = <anime-desc>
 					<size>{assembledSpritesheet.width},{assembledSpritesheet.height}</size>
-					<frameRate>15</frameRate>
+					<frameRate>{action.frameRate}</frameRate>
 					<frames/>
 				</anime-desc>;
 
@@ -201,7 +198,7 @@ package statm.dev.imageresourceviewer.data.io
 				}
 			}
 
-			fs.open(path.resolvePath(actionName + ".xml"), FileMode.WRITE);
+			fs.open(path.resolvePath(action.name + ".xml"), FileMode.WRITE);
 			fs.writeMultiByte('<?xml version="1.0" encoding="utf-8"?>\n'
 				+ configXML.toXMLString(), "utf-8");
 			fs.close();

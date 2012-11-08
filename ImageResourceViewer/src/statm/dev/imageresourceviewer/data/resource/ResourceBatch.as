@@ -56,7 +56,7 @@ package statm.dev.imageresourceviewer.data.resource
 			return _batchInfo;
 		}
 		
-		private var _frameRate:int = -1;
+		private var _frameRate:int = 15;
 		
 		[Bindable]
 		public function get frameRate():int
@@ -78,7 +78,15 @@ package statm.dev.imageresourceviewer.data.resource
 		
 		private function readConfigFile():void
 		{
-			var configFile:File = _folder.resolvePath(".config");
+			var configFile:File;
+			if (_batchInfo.type == ResourceType.FX)
+			{
+				configFile= _folder.resolvePath(".config");
+			}
+			else
+			{
+				configFile= _folder.resolvePath("..\\.config");
+			}
 			if (configFile.exists)
 			{
 				var configFileStream:FileStream = new FileStream();
@@ -90,8 +98,17 @@ package statm.dev.imageresourceviewer.data.resource
 		
 		private function writeConfigFile():void
 		{
+			var configFile:File;
+			if (_batchInfo.type == ResourceType.FX)
+			{
+				configFile= _folder.resolvePath(".config");
+			}
+			else
+			{
+				configFile= _folder.resolvePath("..\\.config");
+			}
 			var configFileStream:FileStream = new FileStream();
-			configFileStream.open(_folder.resolvePath(".config"), FileMode.WRITE);
+			configFileStream.open(configFile, FileMode.WRITE);
 			configFileStream.writeShort(_frameRate);
 			configFileStream.close();
 		}

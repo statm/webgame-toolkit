@@ -2,7 +2,7 @@ package statm.dev.imageresourceviewer.data
 {
 	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
-
+	
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
 
@@ -14,34 +14,34 @@ package statm.dev.imageresourceviewer.data
 	 */
 	public class Action
 	{
-		protected var _info : ActionInfo;
-		protected var _batchCount : int = 0;
+		protected var _info:ActionInfo;
+		protected var _batchCount:int = 0;
 
-		public function get info() : ActionInfo
+		public function get info():ActionInfo
 		{
 			return _info;
 		}
 
-		public function get name() : String
+		public function get name():String
 		{
 			return _info.name;
 		}
 
-		public function get batchCount() : int
+		public function get batchCount():int
 		{
 			return _batchCount;
 		}
 
-		protected var _directionDic : Dictionary;
+		protected var _directionDic:Dictionary;
 
-		public function Action(name : String) : void
+		public function Action(name:String):void
 		{
 			_info = new ActionInfo();
 			_info.name = name;
 			_directionDic = new Dictionary();
 		}
 
-		public function addBatch(direction : String, batch : ResourceBatch) : void
+		public function addBatch(direction:String, batch:ResourceBatch):void
 		{
 			if (!_directionDic[direction])
 			{
@@ -51,9 +51,9 @@ package statm.dev.imageresourceviewer.data
 			_info.frameCount = batch.length;
 		}
 
-		public function getBatch(direction : String) : ResourceBatch
+		public function getBatch(direction:String):ResourceBatch
 		{
-			var actualDirection : String = direction;
+			var actualDirection:String = direction;
 
 			if (actualDirection == DirectionType.NW)
 			{
@@ -73,12 +73,12 @@ package statm.dev.imageresourceviewer.data
 			return _directionDic[actualDirection];
 		}
 
-		public function getAllImages() : Vector.<BitmapData>
+		public function getAllImages():Vector.<BitmapData>
 		{
-			var result : Vector.<BitmapData> = new Vector.<BitmapData>();
-			for each (var direction : String in DirectionType.directionList)
+			var result:Vector.<BitmapData> = new Vector.<BitmapData>();
+			for each (var direction:String in DirectionType.directionList)
 			{
-				var batch : ResourceBatch = getBatch(direction);
+				var batch:ResourceBatch = getBatch(direction);
 				if (batch)
 				{
 					result = result.concat(batch.getImages());
@@ -90,8 +90,25 @@ package statm.dev.imageresourceviewer.data
 			}
 			return result;
 		}
+		
+		public function get frameRate():int
+		{
+			for (var key:String in _directionDic)
+			{
+				return (_directionDic[key] as ResourceBatch).frameRate;
+			}
+			return 15;
+		}
+		
+		public function set frameRate(value:int):void
+		{
+			for (var key:String in _directionDic)
+			{
+				(_directionDic[key] as ResourceBatch).frameRate = value;
+			}
+		}
 
-		public function toString() : String
+		public function toString():String
 		{
 			return _info.name + "(" + _info.frameCount + ")";
 		}

@@ -24,7 +24,10 @@
 				var bgX : int = playbackBg.x;
 				var bgY : int = playbackBg.y;
 
-				if (AppState.instance.currentAction == "跑动" || AppState.instance.currentAction == "乘骑移动")
+				if (AppState.instance.currentAction == "跑动"
+					|| AppState.instance.currentAction == "乘骑移动"
+					|| AppState.instance.currentAction == "running"
+					|| AppState.instance.currentAction == "mount_running")
 				{
 					var pxSpeed : int = Math.ceil(AppState.instance.movingSpeed * .05);
 					var pxDiagSpeed : int = Math.ceil(pxSpeed / Math.SQRT2);

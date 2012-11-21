@@ -8,9 +8,9 @@
 	<fx:Script>
 		<![CDATA[
 			import com.sparkTree.Tree;
-
+			
 			import mx.events.FlexEvent;
-
+			
 			import statm.dev.mapeditor.app.AppState;
 			import statm.dev.mapeditor.dom.DomNode;
 			import statm.dev.mapeditor.dom.Map;
@@ -20,6 +20,8 @@
 			import statm.dev.mapeditor.dom.objects.BornPoint;
 			import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 			import statm.dev.mapeditor.dom.objects.LinkPoint;
+			import statm.dev.mapeditor.dom.objects.Mob;
+			import statm.dev.mapeditor.dom.objects.NPC;
 			import statm.dev.mapeditor.dom.objects.TeleportPoint;
 			import statm.dev.mapeditor.dom.objects.Waypoint;
 
@@ -150,6 +152,16 @@
 				{
 					var wp : Waypoint = Waypoint(node);
 					result = "(" + wp.x + "," + wp.y + ")";
+				}
+				else if (node is NPC)
+				{
+					var npc:NPC = NPC(node);
+					result = npc.name + " (" + npc.x + "," + npc.y + ")";
+				}
+				else if (node is Mob)
+				{
+					var mob:Mob = Mob(node);
+					result = mob.name + " (" + mob.x + "," + mob.y + ")";
 				}
 
 				if (result.length > 0)

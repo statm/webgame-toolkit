@@ -11,19 +11,20 @@
 			import statm.dev.mapeditor.app.AppState;
 			import statm.dev.mapeditor.dom.Map;
 
-			override public function set data(value : Object) : void
+			override public function set data(value:Object):void
 			{
 				super.data = value;
 
-				var currentMap : Map = AppState.getCurrentMap();
+				var currentMap:Map = AppState.getCurrentMap();
 				iconImage.source = currentMap.iconList.getIcon(data.iconID);
 				itemLabel.text = data.name;
 			}
 		]]>
 	</fx:Script>
 
-	<s:Group width="100%"
-			 verticalCenter="0">
+	<s:Group width="80"
+			 verticalCenter="0"
+			 clipAndEnableScrolling="true">
 		<s:layout>
 			<s:VerticalLayout horizontalAlign="center"/>
 		</s:layout>
@@ -34,6 +35,7 @@
 					   scaleMode="letterbox"
 					   fillMode="scale"/>
 		<s:Label id="itemLabel"
+				 width="80"
 				 textAlign="center"/>
 	</s:Group>
 </s:ItemRenderer>

@@ -1,7 +1,5 @@
 package statm.dev.mapeditor.dom.layers
 {
-	import mx.collections.ArrayCollection;
-
 	import statm.dev.mapeditor.dom.DomNode;
 	import statm.dev.mapeditor.dom.item.ItemFactory;
 

@@ -20,12 +20,12 @@
 			import statm.dev.mapeditor.dom.item.ItemType;
 			import statm.dev.mapeditor.mediators.PropertyPanelMediator;
 
-			protected function creationCompleteHandler(event : FlexEvent) : void
+			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				AppFacade.getInstance().registerMediator(new PropertyPanelMediator(PropertyPanelMediator.NAME, this));
 			}
 
-			private function submit(target : EventDispatcher = null) : void
+			private function submit(target:EventDispatcher = null):void
 			{
 				if (!target)
 				{
@@ -37,10 +37,10 @@
 				}
 			}
 
-			protected function btnBrowseMapBg_clickHandler(event : MouseEvent) : void
+			protected function btnBrowseMapBg_clickHandler(event:MouseEvent):void
 			{
-				var file : File = File.desktopDirectory;
-				file.addEventListener(Event.SELECT, function(event : Event) : void
+				var file:File = File.desktopDirectory;
+				file.addEventListener(Event.SELECT, function(event:Event):void
 				{
 					tiMapBgPath.text = (event.target as File).nativePath;
 					submit();
@@ -48,19 +48,19 @@
 				file.browseForOpen("选择地图背景", [new FileFilter("图片文件(*.jpg)", "*.jpg")]);
 			}
 
-			public function filterItems() : void
+			public function filterItems():void
 			{
 				if (!itemsList.dataProvider)
 				{
 					return;
 				}
 
-				var data : ArrayCollection = ArrayCollection(itemsList.dataProvider);
+				var data:ArrayCollection = ArrayCollection(itemsList.dataProvider);
 
 				switch (itemsListFilterBar.selectedIndex)
 				{
 					case 0:
-						data.filterFunction = function(o : Object) : Boolean
+						data.filterFunction = function(o:Object):Boolean
 						{
 							return (o.type == ItemType.NPC);
 						};
@@ -68,7 +68,7 @@
 						break;
 
 					case 1:
-						data.filterFunction = function(o : Object) : Boolean
+						data.filterFunction = function(o:Object):Boolean
 						{
 							return (o.type == ItemType.MOB);
 						};
@@ -76,7 +76,7 @@
 						break;
 
 					case 2:
-						data.filterFunction = function(o : Object) : Boolean
+						data.filterFunction = function(o:Object):Boolean
 						{
 							return (o.type != ItemType.NPC) && (o.type != ItemType.MOB);
 						};
@@ -85,9 +85,9 @@
 				}
 			}
 
-			private var newNPCWindow : NewNPCPanel;
+			private var newNPCWindow:NewNPCPanel;
 
-			protected function btnNewNPC_clickHandler(event : MouseEvent) : void
+			protected function btnNewNPC_clickHandler(event:MouseEvent):void
 			{
 				if (newNPCWindow)
 				{
@@ -120,6 +120,8 @@
 		<s:State name="linkPointProps"/>
 		<s:State name="bornPointProps"/>
 		<s:State name="linkDestPointProps"/>
+		<s:State name="npcProps"/>
+		<s:State name="mobProps"/>
 	</ui:states>
 
 	<s:Scroller width="100%"
@@ -146,10 +148,12 @@
 					<s:label.combatLayerEditing>战斗模式</s:label.combatLayerEditing>
 					<s:label.itemLayerEditing>添加物件</s:label.itemLayerEditing>
 					<s:label.transportLayerProps>传送</s:label.transportLayerProps>
-					<s:label.teleportPointProps>传送</s:label.teleportPointProps>
-					<s:label.linkPointProps>传送</s:label.linkPointProps>
-					<s:label.bornPointProps>传送</s:label.bornPointProps>
-					<s:label.linkDestPointProps>传送</s:label.linkDestPointProps>
+					<s:label.teleportPointProps>传送点</s:label.teleportPointProps>
+					<s:label.linkPointProps>连接点</s:label.linkPointProps>
+					<s:label.bornPointProps>出生点</s:label.bornPointProps>
+					<s:label.linkDestPointProps>连接目标点</s:label.linkDestPointProps>
+					<s:label.npcProps>NPC</s:label.npcProps>
+					<s:label.mobProps>怪物</s:label.mobProps>
 				</s:FormHeading>
 				<!-- 地图属性 -->
 				<s:FormItem includeIn="mapProps"
@@ -328,9 +332,9 @@
 										  verticalGap="1"/>
 						</s:layout>
 					</s:List>
-<!--					<s:Button id="btnNewNPC"
-							  label="新建NPC"
-							  click="btnNewNPC_clickHandler(event)"/>-->
+					<!--					<s:Button id="btnNewNPC"
+												  label="新建NPC"
+												  click="btnNewNPC_clickHandler(event)"/>-->
 				</s:FormItem>
 				<!-- 传送点属性 -->
 				<s:FormItem includeIn="teleportPointProps"
@@ -377,6 +381,61 @@
 							label="国家:">
 					<ui:NationSelector id="nsLinkDestPoint"
 									   nationChanged="submit();"/>
+				</s:FormItem>
+				<!-- NPC 属性 -->
+				<s:FormItem includeIn="npcProps"
+							label="坐标:">
+					<ui:CoordText id="ctNPCCoord"
+								  coordChanged="submit();"/>
+				</s:FormItem>
+				<!-- 怪物属性 -->
+				<s:FormItem includeIn="mobProps"
+							label="坐标:">
+					<ui:CoordText id="ctMobCoord"
+								  coordChanged="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="放置行动延迟:">
+					<s:TextInput id="tiMobDelay"
+								 restrict="0-9"
+								 enter="submit();"
+								 focusOut="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="可战斗:">
+					<s:CheckBox id="cbxMobBattleEnabled"
+								change="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="主动攻击:">
+					<s:CheckBox id="cbxMobAutoBattle"
+								change="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="自动移动:">
+					<s:CheckBox id="cbxMobAutoMove"
+								change="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="刷新时间:">
+					<s:TextInput id="tiMobRespawnTime"
+								 restrict="0-9"
+								 enter="submit();"
+								 focusOut="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="等待时间:">
+					<s:TextInput id="tiMobStandByTime"
+								 restrict="0-9"
+								 enter="submit();"
+								 focusOut="submit();"/>
+				</s:FormItem>
+				<s:FormItem includeIn="mobProps"
+							label="移动速度:">
+					<s:TextInput id="tiMobMoveSpeed"
+								 restrict="0-9"
+								 enter="submit();"
+								 focusOut="submit();"/>
 				</s:FormItem>
 			</s:Form>
 		</s:Group>

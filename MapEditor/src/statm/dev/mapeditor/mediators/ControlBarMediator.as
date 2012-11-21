@@ -2,10 +2,10 @@ package statm.dev.mapeditor.mediators
 {
 	import flash.events.MouseEvent;
 
+	import spark.components.Button;
+
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-
-	import spark.components.Button;
 
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
@@ -20,9 +20,9 @@ package statm.dev.mapeditor.mediators
 	 */
 	public class ControlBarMediator extends Mediator
 	{
-		public static const NAME:String="ControlBarMediator";
+		public static const NAME:String = "ControlBarMediator";
 
-		public function ControlBarMediator(mediatorName:String=null, viewComponent:Object=null)
+		public function ControlBarMediator(mediatorName:String = null, viewComponent:Object = null)
 		{
 			super(mediatorName, viewComponent);
 
@@ -31,6 +31,8 @@ package statm.dev.mapeditor.mediators
 			Button(viewComponent.btnSaveMapFile).addEventListener(MouseEvent.CLICK, btnSaveMapFile_clickHandler);
 			Button(viewComponent.btnCloseMapFile).addEventListener(MouseEvent.CLICK, btnCloseMapFile_clickHandler);
 			Button(viewComponent.btnExportXML).addEventListener(MouseEvent.CLICK, btnExportXML_clickHandler);
+			Button(viewComponent.btnImportNPC).addEventListener(MouseEvent.CLICK, btnImportNPC_clickHandler);
+			Button(viewComponent.btnImportMob).addEventListener(MouseEvent.CLICK, btnImportMob_clickHandler);
 		}
 
 
@@ -41,7 +43,7 @@ package statm.dev.mapeditor.mediators
 
 		override public function handleNotification(notification:INotification):void
 		{
-			var map:Map=AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
 
 			if (!map)
 			{
@@ -89,22 +91,32 @@ package statm.dev.mapeditor.mediators
 			sendNotification(AppNotificationCode.EXPORT_XML);
 		}
 
-		private function setWindowTitle(map:Map=null):void
+		private function btnImportNPC_clickHandler(event:MouseEvent):void
 		{
-			var title:String="";
+			sendNotification(AppNotificationCode.IMPORT_NPC);
+		}
+
+		private function btnImportMob_clickHandler(event:MouseEvent):void
+		{
+			sendNotification(AppNotificationCode.IMPORT_MOB);
+		}
+
+		private function setWindowTitle(map:Map = null):void
+		{
+			var title:String = "";
 
 			if (map)
 			{
-				title+=(map.isDirty ? "*" : "");
-				title+=(map.filePath ? map.filePath : (map.mapName + ".xml"));
-				title+=" - 地图编辑器 v1.2";
+				title += (map.isDirty ? "*" : "");
+				title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
+				title += " - 地图编辑器 v1.2";
 			}
 			else
 			{
-				title="地图编辑器 v1.2";
+				title = "地图编辑器 v1.2";
 			}
 
-			viewComponent.stage.nativeWindow.title=title;
+			viewComponent.stage.nativeWindow.title = title;
 		}
 	}
 }

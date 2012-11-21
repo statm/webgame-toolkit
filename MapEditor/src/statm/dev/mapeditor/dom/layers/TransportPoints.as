@@ -1,10 +1,7 @@
 package statm.dev.mapeditor.dom.layers
 {
 	import statm.dev.mapeditor.dom.DomNode;
-	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.item.ItemFactory;
-	import statm.dev.mapeditor.dom.objects.LinkPoint;
-	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 
 
 	/**

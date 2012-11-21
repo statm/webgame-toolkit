@@ -1,8 +1,7 @@
 package statm.dev.mapeditor.dom.layers
 {
-	import mx.collections.ArrayCollection;
-
 	import statm.dev.mapeditor.dom.DomNode;
+	import statm.dev.mapeditor.dom.item.ItemFactory;
 
 	/**
 	 * DOM 对象：怪物层。
@@ -12,16 +11,16 @@ package statm.dev.mapeditor.dom.layers
 	 */
 	public class MobLayer extends PlacementLayerBase
 	{
-		public function MobLayer(root : DomNode)
+		public function MobLayer(root:DomNode)
 		{
 			super(root);
 
 			_name = "怪物";
 		}
 
-		override public function toXML() : XML
+		override public function toXML():XML
 		{
-			var result : XML = super.toXML();
+			var result:XML = super.toXML();
 
 			result.setName("mobLayer");
 
@@ -29,9 +28,13 @@ package statm.dev.mapeditor.dom.layers
 		}
 
 
-		override public function readXML(xml : XML) : void
+		override public function readXML(xml:XML):void
 		{
-			// TODO: NYI
+			ItemFactory.domRoot = root;
+			for each (var mobXML:XML in xml.children())
+			{
+				this.addItem(ItemFactory.createItemFromXML(mobXML));
+			}
 		}
 	}
 }

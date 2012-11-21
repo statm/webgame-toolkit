@@ -7,6 +7,8 @@ package statm.dev.mapeditor.app
 	import statm.dev.mapeditor.commands.CloseMapFileCommand;
 	import statm.dev.mapeditor.commands.CreateMapFileCommand;
 	import statm.dev.mapeditor.commands.ExportXMLCommand;
+	import statm.dev.mapeditor.commands.ImportMobCommand;
+	import statm.dev.mapeditor.commands.ImportNPCCommand;
 	import statm.dev.mapeditor.commands.OpenMapFileCommand;
 	import statm.dev.mapeditor.commands.SaveMapFileCommand;
 
@@ -43,7 +45,9 @@ package statm.dev.mapeditor.app
 			this.registerCommand(AppNotificationCode.SAVE_MAP_FILE, SaveMapFileCommand);
 			this.registerCommand(AppNotificationCode.CLOSE_MAP_FILE, CloseMapFileCommand);
 			this.registerCommand(AppNotificationCode.CLOSE_APP, AppExitCommand);
-			this.registerCommand(AppNotificationCode.EXPORT_XML, ExportXMLCommand); 
+			this.registerCommand(AppNotificationCode.EXPORT_XML, ExportXMLCommand);
+			this.registerCommand(AppNotificationCode.IMPORT_NPC, ImportNPCCommand);
+			this.registerCommand(AppNotificationCode.IMPORT_MOB, ImportMobCommand);
 		}
 	}
 }

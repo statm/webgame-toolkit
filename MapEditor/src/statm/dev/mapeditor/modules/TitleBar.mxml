@@ -42,6 +42,12 @@
 		<s:Button id="btnExportXML"
 				  label="导出数据..."
 				  focusEnabled="false"/>
+		<s:Button id="btnImportNPC"
+				  label="导入NPC数据..."
+				  focusEnabled="false"/>
+		<s:Button id="btnImportMob"
+				  label="导入怪物数据..."
+				  focusEnabled="false"/>
 		<s:Spacer width="100%"/>
 		<s:Label id="lblCurrentCoord"/>
 	</s:Group>

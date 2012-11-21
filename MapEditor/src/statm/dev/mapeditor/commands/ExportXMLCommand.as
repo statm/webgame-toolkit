@@ -67,7 +67,7 @@ package statm.dev.mapeditor.commands
 			writer.read(map);
 			var fileContent : String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
 
-			var fileName:String = "worldMap" + map.mapID + ".xml";
+			var fileName:String = "Map" + map.mapID + ".xml";
 
 			var fileStream : FileStream = new FileStream();
 			fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);

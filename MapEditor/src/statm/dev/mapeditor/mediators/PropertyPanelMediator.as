@@ -2,13 +2,13 @@ package statm.dev.mapeditor.mediators
 {
 	import flash.events.Event;
 	import flash.geom.Point;
-	
+
 	import mx.collections.ArrayList;
 	import mx.events.FlexEvent;
-	
+
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-	
+
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;
@@ -29,6 +29,8 @@ package statm.dev.mapeditor.mediators
 	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
+	import statm.dev.mapeditor.dom.objects.Mob;
+	import statm.dev.mapeditor.dom.objects.NPC;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 	import statm.dev.mapeditor.modules.PropertyPanel;
 
@@ -41,9 +43,9 @@ package statm.dev.mapeditor.mediators
 	 */
 	public class PropertyPanelMediator extends Mediator
 	{
-		public static const NAME : String = "PropertyPanelMediator";
+		public static const NAME:String = "PropertyPanelMediator";
 
-		public function PropertyPanelMediator(mediatorName : String = null, viewComponent : Object = null)
+		public function PropertyPanelMediator(mediatorName:String = null, viewComponent:Object = null)
 		{
 			super(mediatorName, viewComponent);
 			viewComponent.addEventListener("submit", submitProperties);
@@ -51,14 +53,12 @@ package statm.dev.mapeditor.mediators
 			viewComponent.addEventListener(FlexEvent.CONTENT_CREATION_COMPLETE, deferredSetupHandler, true);
 		}
 
-		override public function listNotificationInterests() : Array
+		override public function listNotificationInterests():Array
 		{
-			return [AppNotificationCode.MAP_DATA_READY,
-				AppNotificationCode.SELECTION_CHANGED,
-				AppNotificationCode.MAP_DATA_CHANGED];
+			return [AppNotificationCode.MAP_DATA_READY, AppNotificationCode.SELECTION_CHANGED, AppNotificationCode.MAP_DATA_CHANGED];
 		}
 
-		override public function handleNotification(notification : INotification) : void
+		override public function handleNotification(notification:INotification):void
 		{
 			switch (notification.getName())
 			{
@@ -76,11 +76,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function showSelectionProperties() : void
+		private function showSelectionProperties():void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var selection : DomNode = AppState.getCurrentSelection();
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var selection:DomNode = AppState.getCurrentSelection();
 
 			if (!selection && !currentMap)
 			{
@@ -131,11 +131,7 @@ package statm.dev.mapeditor.mediators
 			{
 				panel.currentState = "combatLayerEditing";
 			}
-			else if ((selection is Items)
-				|| (selection is NPCLayer)
-				|| (selection is MobLayer)
-				|| (selection is TransportPoints)
-				|| (selection is WaypointLayer))
+			else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is TransportPoints) || (selection is WaypointLayer))
 			{
 				panel.currentState = "itemLayerEditing";
 			}
@@ -167,17 +163,34 @@ package statm.dev.mapeditor.mediators
 				panel.tiLinkDestPointMapID.text = LinkDestPoint(selection).mapID.toString();
 				panel.nsLinkDestPoint.setNations(LinkDestPoint(selection).allowNations);
 			}
+			else if (selection is NPC)
+			{
+				panel.currentState = "npcProps";
+					// TODO NPC 属性
+			}
+			else if (selection is Mob)
+			{
+				panel.currentState = "mobProps";
+				panel.ctMobCoord.setCoord(Mob(selection).x, Mob(selection).y);
+				panel.tiMobDelay.text = Mob(selection).delay.toString();
+				panel.cbxMobBattleEnabled.selected = Mob(selection).battleEnabled;
+				panel.cbxMobAutoBattle.selected = Mob(selection).autoBattle;
+				panel.cbxMobAutoMove.selected = Mob(selection).autoMove;
+				panel.tiMobRespawnTime.text = Mob(selection).respawnTime.toString();
+				panel.tiMobStandByTime.text = Mob(selection).standByTime.toString();
+				panel.tiMobMoveSpeed.text = Mob(selection).moveSpeed.toString();
+			}
 			else
 			{
 				panel.currentState = "blank";
 			}
 		}
 
-		private function submitProperties(event : Event) : void
+		private function submitProperties(event:Event):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var selection : DomNode = AppState.getCurrentSelection();
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var selection:DomNode = AppState.getCurrentSelection();
 
 			switch (panel.currentState)
 			{
@@ -249,13 +262,28 @@ package statm.dev.mapeditor.mediators
 					LinkDestPoint(selection).x = panel.ctLinkDestPointCoord.getCoord().x;
 					LinkDestPoint(selection).y = panel.ctLinkDestPointCoord.getCoord().y;
 					break;
+
+				case "npcProps":
+					break;
+
+				case "mobProps":
+					Mob(selection).delay = int(panel.tiMobDelay.text);
+					Mob(selection).battleEnabled = panel.cbxMobBattleEnabled.selected;
+					Mob(selection).autoBattle = panel.cbxMobAutoBattle.selected;
+					Mob(selection).autoMove = panel.cbxMobAutoMove.selected;
+					Mob(selection).respawnTime = int(panel.tiMobRespawnTime.text);
+					Mob(selection).standByTime = int(panel.tiMobStandByTime.text);
+					Mob(selection).moveSpeed = int(panel.tiMobMoveSpeed.text);
+					Mob(selection).x = panel.ctMobCoord.getCoord().x;
+					Mob(selection).y = panel.ctMobCoord.getCoord().y;
+					break;
 			}
 		}
 
-		private function handlePropertyChange(type : String) : void
+		private function handlePropertyChange(type:String):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
 
 			if (!currentMap)
 			{
@@ -277,11 +305,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function setBrushList() : void
+		private function setBrushList():void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var list : Array;
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var list:Array;
 
 			if (!currentMap)
 			{
@@ -323,11 +351,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function deferredSetupHandler(event : FlexEvent) : void
+		private function deferredSetupHandler(event:FlexEvent):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var list : Array;
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var list:Array;
 
 			if (!currentMap)
 			{

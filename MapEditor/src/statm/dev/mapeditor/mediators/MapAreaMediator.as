@@ -146,6 +146,8 @@ package statm.dev.mapeditor.mediators
 					mapArea.maskDrawingLayer.clear();
 					mapArea.transportLayer.removeAllElements();
 					mapArea.waypointLayer.removeAllElements();
+					mapArea.NPCLayer.removeAllElements();
+					mapArea.mobLayer.removeAllElements();
 					AppState.stopDrawingMask();
 					AppState.stopDrawingItem();
 					break;

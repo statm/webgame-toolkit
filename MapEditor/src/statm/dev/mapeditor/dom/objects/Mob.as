@@ -18,6 +18,17 @@ package statm.dev.mapeditor.dom.objects
 			super(root);
 			_name = "怪物";
 			_mobDef = mobDef;
+			if (mobDef)
+			{
+				var props:Object = mobDef.defaultProps;
+				props.hasOwnProperty("delay") && (_delay = props.delay);
+				props.hasOwnProperty("battleEnabled") && (_battleEnabled = props.battleEnabled);
+				props.hasOwnProperty("autoBattle") && (_autoBattle = props.autoBattle);
+				props.hasOwnProperty("autoMove") && (_autoMove = props.autoMove);
+				props.hasOwnProperty("respawnTime") && (_respawnTme = props.respawnTime);
+				props.hasOwnProperty("standByTime") && (_standByTime = props.standByTime);
+				props.hasOwnProperty("moveSpeed") && (_moveSpeed = props.moveSpeed);
+			}
 		}
 
 		private var _mobDef:MobItemDefinition;
@@ -32,6 +43,18 @@ package statm.dev.mapeditor.dom.objects
 			_mobDef = value;
 		}
 
+		private var _mobID:int;
+
+		public function get mobID():int
+		{
+			return _mobID;
+		}
+
+		public function set modID(value:int):void
+		{
+			_mobID = value;
+		}
+
 		private var _delay:int = 1000;
 
 		public function get delay():int
@@ -44,6 +67,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _delay)
 			{
 				_delay = value;
+				_mobDef.defaultProps.delay = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -60,6 +84,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _battleEnabled)
 			{
 				_battleEnabled = value;
+				_mobDef.defaultProps.battleEnabled = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -76,6 +101,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _autoBattle)
 			{
 				_autoBattle = value;
+				_mobDef.defaultProps.autoBattle = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -92,6 +118,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _autoMove)
 			{
 				_autoMove = value;
+				_mobDef.defaultProps.autoMove = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -108,6 +135,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _respawnTme)
 			{
 				_respawnTme = value;
+				_mobDef.defaultProps.respawnTime = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -124,6 +152,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _standByTime)
 			{
 				_standByTime = value;
+				_mobDef.defaultProps.standByTime = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -140,12 +169,16 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _moveSpeed)
 			{
 				_moveSpeed = value;
+				_mobDef.defaultProps.moveSpeed = value;
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
 
 		override public function readXML(xml:XML):void
 		{
+			_mobID = parseInt(xml.@mobID);
+			_mobDef = Map(root).itemDefinitionList.getMobDefinitionByID(_mobID);
+
 			this.x = xml.@x;
 			this.y = xml.@y;
 			this.delay = xml.@delay;
@@ -155,13 +188,11 @@ package statm.dev.mapeditor.dom.objects
 			this.respawnTime = xml.@respawnTime;
 			this.standByTime = xml.@standByTime;
 			this.moveSpeed = xml.@moveSpeed;
-
-			_mobDef = Map(root).itemDefinitionList.getMobDefinitionByID(parseInt(xml.@mobID));
 		}
 
 		override public function toXML():XML
 		{
-			return <mob x={x} y={y} mobID={_mobDef.mobID} delay={_delay} battleEnabled={_battleEnabled} autoBattle={_autoBattle} autoMove={_autoMove} respawnTime={_respawnTme} standByTime={_standByTime} moveSpeed={_moveSpeed}/>
+			return <mob x={x} y={y} mobID={_mobID} delay={_delay} battleEnabled={_battleEnabled} autoBattle={_autoBattle} autoMove={_autoMove} respawnTime={_respawnTme} standByTime={_standByTime} moveSpeed={_moveSpeed}/>
 		}
 	}
 }

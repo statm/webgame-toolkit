@@ -13,11 +13,14 @@ package statm.dev.mapeditor.dom.item
 
 		private var _mobName:String = "怪物";
 
-		public function MobItemDefinition(mobID:int = 0, mobName:String = "")
+		private var _mobAlias:String;
+
+		public function MobItemDefinition(mobID:int = 0, mobName:String = "", mobAlias:String = "")
 		{
 			super(5, ItemType.MOB, "怪物");
 			_mobID = mobID;
 			_mobName = mobName;
+			_mobAlias = mobAlias;
 		}
 
 		public function get mobID():int
@@ -30,6 +33,11 @@ package statm.dev.mapeditor.dom.item
 			return _mobName;
 		}
 
+		public function get mobAlias():String
+		{
+			return _mobAlias;
+		}
+
 		override public function get name():String
 		{
 			return mobName + "(" + mobID + ")";
@@ -39,11 +47,12 @@ package statm.dev.mapeditor.dom.item
 		{
 			_mobID = parseInt(xml.@mobID);
 			_mobName = xml.@mobName.toString();
+			_mobAlias = xml.@mobAlias.toString();
 		}
 
 		override public function toXML():XML
 		{
-			return <itemDefinition type={_type} mobID={_mobID} mobName={_mobName} iconID={_iconID}/>;
+			return <itemDefinition type={_type} mobID={_mobID} mobName={_mobName} mobAlias={_mobAlias} iconID={_iconID}/>;
 		}
 
 		private var _defaultProps:Object = {};

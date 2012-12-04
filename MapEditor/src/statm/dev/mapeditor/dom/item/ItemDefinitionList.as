@@ -4,6 +4,10 @@ package statm.dev.mapeditor.dom.item
 
 	import mx.collections.ArrayCollection;
 
+	import statm.dev.mapeditor.app.AppState;
+	import statm.dev.mapeditor.dom.Map;
+	import statm.dev.mapeditor.dom.objects.Mob;
+	import statm.dev.mapeditor.dom.objects.NPC;
 	import statm.dev.mapeditor.io.IXMLSerializable;
 
 	/**
@@ -116,17 +120,37 @@ package statm.dev.mapeditor.dom.item
 
 		public function importNPCXML(file:XML):void
 		{
+			var map:Map = AppState.getCurrentMap();
 			for each (var xml:XML in file.NPC)
 			{
-				addItemDefinition(new NPCItemDefinition(int(xml.@id), xml.name.toString(), xml.appearanceID.toString()));
+				var npcID:int = int(xml.@id);
+				var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.appearanceID.toString());
+				addItemDefinition(npcDef);
+				for each (var npc:NPC in map.items.npcLayer.children)
+				{
+					if (npc.npcID == npcID)
+					{
+						npc.npcDef = npcDef;
+					}
+				}
 			}
 		}
 
 		public function importMobXML(file:XML):void
 		{
+			var map:Map = AppState.getCurrentMap();
 			for each (var xml:XML in file.item)
 			{
-				addItemDefinition(new MobItemDefinition(int(xml.id), xml.desc.toString()));
+				var mobID:int = int(xml.@id);
+				var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
+				addItemDefinition(mobDef);
+				for each (var mob:Mob in map.items.mobLayer.children)
+				{
+					if (mob.mobID == mobID)
+					{
+						mob.mobDef = mobDef;
+					}
+				}
 			}
 		}
 	}

@@ -2,7 +2,7 @@ package statm.dev.mapeditor.io
 {
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-	
+
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
@@ -13,6 +13,7 @@ package statm.dev.mapeditor.io
 	import statm.dev.mapeditor.dom.objects.BornPoint;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
+	import statm.dev.mapeditor.dom.objects.Mob;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 	import statm.dev.mapeditor.utils.GridUtils;
 
@@ -58,6 +59,7 @@ package statm.dev.mapeditor.io
 					<levelLimit>{map.levelLimit}</levelLimit>
 					{generateTileAndPlanLists()}
 					{generateTransportPoints()}
+					{generateRobots()}
 				</worldMapModel>;
 		}
 
@@ -113,9 +115,7 @@ package statm.dev.mapeditor.io
 					walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
 					combatBrushID = (combatBrush ? combatBrush.id : -1);
 
-					if (regionBrushID == -1
-						&& walkingBrushID == -1
-						&& combatBrushID == -1)
+					if (regionBrushID == -1 && walkingBrushID == -1 && combatBrushID == -1)
 					{
 						continue;
 					}
@@ -250,6 +250,28 @@ package statm.dev.mapeditor.io
 			for each (var nation : String in bp.allowNations)
 			{
 				result.allowNation.appendChild(<nation>{nation}</nation>);
+			}
+
+			return result;
+		}
+
+		private function generateRobots() : XML
+		{
+			var result : XML = <robotsList><robots/></robotsList>;
+
+			for each (var mob : Mob in map.items.mobLayer.children)
+			{
+				result.robots.appendChild(<robot>
+						<monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
+						<delay>{mob.delay}</delay>
+						<beBattled>{mob.battleEnabled}</beBattled>
+						<autoBattle>{mob.autoBattle}</autoBattle>
+						<autoMove>{mob.autoMove}</autoMove>
+						<refreshTime>{mob.respawnTime}</refreshTime>
+						<standByTime>{mob.standByTime}</standByTime>
+						<moveSpeed>{mob.moveSpeed}</moveSpeed>
+						<enterPosition col={mob.x} row={mob.y}/>
+					</robot>);
 			}
 
 			return result;

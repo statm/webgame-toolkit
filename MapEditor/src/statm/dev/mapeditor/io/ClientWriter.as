@@ -2,7 +2,7 @@ package statm.dev.mapeditor.io
 {
 	import flash.filesystem.File;
 	import flash.utils.Dictionary;
-
+	
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.dom.DomObject;
 	import statm.dev.mapeditor.dom.Map;
@@ -13,6 +13,7 @@ package statm.dev.mapeditor.io
 	import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
 	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
 	import statm.dev.mapeditor.dom.objects.LinkPoint;
+	import statm.dev.mapeditor.dom.objects.NPC;
 	import statm.dev.mapeditor.dom.objects.TeleportPoint;
 	import statm.dev.mapeditor.dom.objects.Waypoint;
 	import statm.dev.mapeditor.utils.GridUtils;
@@ -62,6 +63,7 @@ package statm.dev.mapeditor.io
 					{generateTileAndPlanLists()}
 					{generateTransportPoints()}
 					{generateWaypoints()}
+					{generateNPCList()}
 				</worldMap>;
 		}
 
@@ -283,6 +285,18 @@ package statm.dev.mapeditor.io
 				result.appendChild(waypointXML);
 			}
 
+			return result;
+		}
+		
+		private function generateNPCList():XML
+		{
+			var result:XML = <NPCList/>;
+			
+			for each (var npc:NPC in map.items.npcLayer.children)
+			{
+				result.appendChild(<NPC id={npc.npcDef.npcID}><position col={npc.x} row={npc.y}/></NPC>);
+			}
+			
 			return result;
 		}
 	}

@@ -4,7 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ui="statm.dev.imageresourceviewer.ui.*"
 					   showStatusBar="false"
-					   title="图片资源查看器 v2.2"
+					   title="图片资源查看器 v2.3"
 					   minWidth="1000"
 					   minHeight="700"
 					   frameRate="60"

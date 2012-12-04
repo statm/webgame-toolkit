@@ -4,16 +4,16 @@ package statm.dev.mapeditor.mediators
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
+	
 	import mx.events.EffectEvent;
 	import mx.events.FlexEvent;
-
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
-
+	
 	import spark.effects.easing.Sine;
 	import spark.primitives.BitmapImage;
-
+	
+	import org.puremvc.as3.interfaces.INotification;
+	import org.puremvc.as3.patterns.mediator.Mediator;
+	
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;

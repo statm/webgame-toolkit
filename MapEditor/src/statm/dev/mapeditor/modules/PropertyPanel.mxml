@@ -12,20 +12,18 @@
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.collections.ArrayList;
-			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
-			import mx.managers.PopUpManager;
 
 			import statm.dev.mapeditor.app.AppFacade;
 			import statm.dev.mapeditor.dom.item.ItemType;
 			import statm.dev.mapeditor.mediators.PropertyPanelMediator;
 
-			protected function creationCompleteHandler(event:FlexEvent):void
+			protected function creationCompleteHandler(event : FlexEvent) : void
 			{
 				AppFacade.getInstance().registerMediator(new PropertyPanelMediator(PropertyPanelMediator.NAME, this));
 			}
 
-			private function submit(target:EventDispatcher = null):void
+			private function submit(target : EventDispatcher = null) : void
 			{
 				if (!target)
 				{
@@ -37,10 +35,10 @@
 				}
 			}
 
-			protected function btnBrowseMapBg_clickHandler(event:MouseEvent):void
+			protected function btnBrowseMapBg_clickHandler(event : MouseEvent) : void
 			{
-				var file:File = File.desktopDirectory;
-				file.addEventListener(Event.SELECT, function(event:Event):void
+				var file : File = File.desktopDirectory;
+				file.addEventListener(Event.SELECT, function(event : Event) : void
 				{
 					tiMapBgPath.text = (event.target as File).nativePath;
 					submit();
@@ -48,19 +46,19 @@
 				file.browseForOpen("选择地图背景", [new FileFilter("图片文件(*.jpg)", "*.jpg")]);
 			}
 
-			public function filterItems():void
+			public function filterItems() : void
 			{
 				if (!itemsList.dataProvider)
 				{
 					return;
 				}
 
-				var data:ArrayCollection = ArrayCollection(itemsList.dataProvider);
+				var data : ArrayCollection = ArrayCollection(itemsList.dataProvider);
 
 				switch (itemsListFilterBar.selectedIndex)
 				{
 					case 0:
-						data.filterFunction = function(o:Object):Boolean
+						data.filterFunction = function(o : Object) : Boolean
 						{
 							return (o.type == ItemType.NPC);
 						};
@@ -68,7 +66,7 @@
 						break;
 
 					case 1:
-						data.filterFunction = function(o:Object):Boolean
+						data.filterFunction = function(o : Object) : Boolean
 						{
 							return (o.type == ItemType.MOB);
 						};
@@ -76,32 +74,18 @@
 						break;
 
 					case 2:
-						data.filterFunction = function(o:Object):Boolean
+						data.filterFunction = function(o : Object) : Boolean
 						{
-							return (o.type != ItemType.NPC) && (o.type != ItemType.MOB);
+							return (o.type != ItemType.NPC) && (o.type != ItemType.MOB) && (o.type != ItemType.LINK_DEST_POINT);
 						};
 						data.refresh();
 						break;
 				}
 			}
 
-			private var newNPCWindow:NewNPCPanel;
-
-			protected function btnNewNPC_clickHandler(event:MouseEvent):void
+			protected function btnCreateLinkDestPoint_clickHandler(event : MouseEvent) : void
 			{
-				if (newNPCWindow)
-				{
-					PopUpManager.removePopUp(newNPCWindow);
-					newNPCWindow.reset();
-				}
-				else
-				{
-					newNPCWindow = new NewNPCPanel();
-				}
-
-				PopUpManager.addPopUp(newNPCWindow, FlexGlobals.topLevelApplication as DisplayObject, true);
-				PopUpManager.centerPopUp(newNPCWindow);
-
+				this.dispatchEvent(new Event("newDestPoint"));
 			}
 		]]>
 	</fx:Script>
@@ -321,8 +305,8 @@
 							  selectedIndex="2"
 							  cornerRadius="0"/>
 					<s:List id="itemsList"
-							width="100%"
-							height="100%"
+							width="255"
+							height="190"
 							minHeight="160"
 							click="submit();"
 							itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.ItemDefinitionItemRenderer"
@@ -332,9 +316,6 @@
 										  verticalGap="1"/>
 						</s:layout>
 					</s:List>
-					<!--					<s:Button id="btnNewNPC"
-												  label="新建NPC"
-												  click="btnNewNPC_clickHandler(event)"/>-->
 				</s:FormItem>
 				<!-- 传送点属性 -->
 				<s:FormItem includeIn="teleportPointProps"
@@ -352,6 +333,8 @@
 							label="坐标:">
 					<ui:CoordText id="ctLinkPointCoord"
 								  coordChanged="submit();"/>
+					<s:Button id="btnCreateLinkDestPoint"
+							  click="btnCreateLinkDestPoint_clickHandler(event)"/>
 				</s:FormItem>
 				<!-- 出生点属性 -->
 				<s:FormItem includeIn="bornPointProps"

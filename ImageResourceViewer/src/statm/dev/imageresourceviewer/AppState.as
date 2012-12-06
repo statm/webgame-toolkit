@@ -1,13 +1,13 @@
 package statm.dev.imageresourceviewer
 {
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	
+
 	import mx.collections.ArrayCollection;
-	
+
 	import statm.dev.imageresourceviewer.data.Action;
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.FXElement;
-	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.resource.ResourceCategory;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
@@ -18,80 +18,80 @@ package statm.dev.imageresourceviewer
 	 * @author statm
 	 *
 	 */
-	public class AppState extends EventDispatcher
+	public final class AppState extends EventDispatcher
 	{
 		/**
 		 * 当前选择的列表。
 		 */
 		[Bindable]
-		public var selectedCategory : ResourceCategory;
+		public var selectedCategory:ResourceCategory;
 
 		/**
 		 * 当前的列表模式，
 		 * 只允许为 ResourceType.HERO、ResourceType.NPC、ResourceType.MOB、ResourceType.PET、ResourceType.FX。
 		 */
-		public var categoryMode : String;
+		public var categoryMode:String;
 
 		/**
 		 * 当前选择的动作。
 		 */
 		[Bindable]
-		public var currentAction : String;
+		public var currentAction:String;
 
 		/**
 		 * 当前的方向。
 		 */
 		[Bindable]
-		public var currentDirection : String = DirectionType.S;
+		public var currentDirection:String = DirectionType.S;
 
 
 		// 各层选中内容
 		[Bindable]
-		public var selectedHero : Element = new Element("无", ResourceType.HERO);
+		public var selectedHero:Element = new Element("无", ResourceType.HERO);
 		[Bindable]
-		public var selectedWeapon : Element = new Element("无", ResourceType.WEAPON);
+		public var selectedWeapon:Element = new Element("无", ResourceType.WEAPON);
 		[Bindable]
-		public var selectedMount : Element = new Element("无", ResourceType.MOUNT);
+		public var selectedMount:Element = new Element("无", ResourceType.MOUNT);
 		[Bindable]
-		public var selectedNPC : Element = new Element("无", ResourceType.NPC);
+		public var selectedNPC:Element = new Element("无", ResourceType.NPC);
 		[Bindable]
-		public var selectedMob : Element = new Element("无", ResourceType.MOB);
+		public var selectedMob:Element = new Element("无", ResourceType.MOB);
 		[Bindable]
-		public var selectedPet : Element = new Element("无", ResourceType.PET);
+		public var selectedPet:Element = new Element("无", ResourceType.PET);
 		[Bindable]
-		public var selectedFX : FXElement = new FXElement("无");
+		public var selectedFX:FXElement = new FXElement("无");
 
 		[Bindable]
-		public var playingElements : ArrayCollection = new ArrayCollection();
+		public var playingElements:ArrayCollection = new ArrayCollection();
 
 		[Bindable]
-		public var currentActionList : ArrayCollection = new ArrayCollection();
+		public var currentActionList:ArrayCollection = new ArrayCollection();
 
 		[Bindable]
-		public var fxEnabled : Boolean = true;
+		public var fxEnabled:Boolean = true;
 
 		[Bindable]
-		public var actionCount : int = 0;
+		public var actionCount:int = 0;
 
 		// 播放控制 
 		[Bindable]
-		public var playing : Boolean = false;
+		public var playing:Boolean = false;
 
 		[Bindable]
-		public var currentFrame : int = 0;
+		public var currentFrame:int = 0;
 
 		[Bindable]
-		public var frameTotal : int = 0;
+		public var frameTotal:int = 0;
 
-		private var _frameRate : int = 15;
+		private var _frameRate:int = ImageResourceViewer.DEFAULT_FRAME_RATE;
 
 		[Bindable]
-		public function get frameRate() : int
+		public function get frameRate():int
 		{
 			return _frameRate;
 		}
 
-		public function set frameRate(value : int) : void
+		public function set frameRate(value:int):void
 		{
 			if (value != _frameRate)
 			{
@@ -108,12 +108,46 @@ package statm.dev.imageresourceviewer
 		}
 
 		[Bindable]
-		public var movingSpeed : int = 30;
+		public var movingSpeed:int = 30;
+
+		private var _anchor:int = ImageResourceViewer.DEFAULT_ANCHOR;
+
+		[Bindable(event = "anchorChanged")]
+		public function get anchor():int
+		{
+			return _anchor;
+		}
+
+		public function set anchor(value:int):void
+		{
+			trace("anchor=" + value);
+			_anchor = value;
+			dispatchEvent(new Event("anchorChanged"));
+			for each (var elem:Element in playingElements)
+			{
+				elem.anchor = _anchor;
+			}
+		}
+
+		private var _primaryImageHeight:int = 0;
+
+		[Bindable(event = "primaryImageHeightChanged")]
+		public function get primaryImageHeight():int
+		{
+			return _primaryImageHeight;
+		}
+
+		public function set primaryImageHeight(value:int):void
+		{
+			trace("primaryImageHeight=" + value);
+			_primaryImageHeight = value;
+			dispatchEvent(new Event("primaryImageHeightChanged"));
+		}
 
 		// 单例
-		private static var _instance : AppState = new AppState();
+		private static var _instance:AppState = new AppState();
 
-		public static function get instance() : AppState
+		public static function get instance():AppState
 		{
 			return _instance;
 		}

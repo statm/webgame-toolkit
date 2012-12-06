@@ -17,7 +17,7 @@ package statm.dev.mapeditor.dom.objects
 		{
 			super(root);
 			_name = "NPC";
-			_npcDef = NPCDef;
+			this.npcDef = NPCDef;
 		}
 
 		private var _npcDef:NPCItemDefinition;
@@ -30,6 +30,7 @@ package statm.dev.mapeditor.dom.objects
 		public function set npcDef(value:NPCItemDefinition):void
 		{
 			_npcDef = value;
+			value && (_npcID = value.npcID);
 		}
 
 		private var _npcID:int;
@@ -42,8 +43,9 @@ package statm.dev.mapeditor.dom.objects
 		public function set npcID(value:int):void
 		{
 			_npcID = value;
+			_npcDef = Map(root).itemDefinitionList.getNPCDefinitionByID(_npcID);
 		}
-
+		
 		override public function readXML(xml:XML):void
 		{
 			_npcID = parseInt(xml.@npcID);

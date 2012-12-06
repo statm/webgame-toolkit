@@ -4,6 +4,7 @@ package statm.dev.imageresourceviewer.data.resource
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	
+	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.type.ResourceType;
 	import statm.dev.libs.imageplayer.loader.ImageBatch;
 
@@ -15,9 +16,9 @@ package statm.dev.imageresourceviewer.data.resource
 	 */
 	public class ResourceBatch extends ImageBatch
 	{
-		private var _folder : File;
+		private var _folder:File;
 
-		public function ResourceBatch(folder : File) : void
+		public function ResourceBatch(folder:File):void
 		{
 			super(folder);
 
@@ -27,114 +28,138 @@ package statm.dev.imageresourceviewer.data.resource
 			if (count > 0)
 			{
 				_batchInfo = getResourceBatchInfo(_path);
+				readConfigFile();
 			}
 		}
 
-		private var _path : String;
+		private var _path:String;
 
-		public function get path() : String
+		public function get path():String
 		{
 			return _path;
 		}
 
-		private var _type : String;
+		private var _type:String;
 
-		public function get type() : String
+		public function get type():String
 		{
 			return _type;
 		}
 
-		public function set type(value : String) : void
+		public function set type(value:String):void
 		{
 			_type = value;
 		}
 
-		private var _batchInfo : ResourceBatchInfo;
+		private var _batchInfo:ResourceBatchInfo;
 
-		public function get batchInfo() : ResourceBatchInfo
+		public function get batchInfo():ResourceBatchInfo
 		{
 			return _batchInfo;
 		}
-		
-		private var _frameRate:int = 15;
-		
+
+		private var _frameRate:int = ImageResourceViewer.DEFAULT_FRAME_RATE;
+
 		[Bindable]
 		public function get frameRate():int
 		{
 			return _frameRate;
 		}
-		
+
 		public function set frameRate(value:int):void
 		{
-			_frameRate = value;
-			writeConfigFile();
+			if (value != _frameRate)
+			{
+				_frameRate = value;
+				writeConfigFile();
+			}
 		}
-		
+
+		private var _anchor:int = ImageResourceViewer.DEFAULT_ANCHOR;
+
+		public function get anchor():int
+		{
+			return _anchor;
+		}
+
+		public function set anchor(value:int):void
+		{
+			if (value != _anchor)
+			{
+				_anchor = value;
+				writeConfigFile();
+			}
+		}
+
 		override public function load():void
 		{
 			super.load();
-			readConfigFile();
 		}
-		
+
 		private function readConfigFile():void
 		{
 			var configFile:File;
 			if (_batchInfo.type == ResourceType.FX)
 			{
-				configFile= _folder.resolvePath(".config");
+				configFile = _folder.resolvePath(".config");
 			}
 			else
 			{
-				configFile= _folder.resolvePath("..\\.config");
+				configFile = _folder.resolvePath("..\\.config");
 			}
 			if (configFile.exists)
 			{
 				var configFileStream:FileStream = new FileStream();
 				configFileStream.open(configFile, FileMode.READ);
 				_frameRate = configFileStream.readShort();
+				if (configFileStream.bytesAvailable > 0)
+				{
+					_anchor = configFileStream.readShort();
+				}
 				configFileStream.close();
 			}
 		}
-		
+
 		private function writeConfigFile():void
 		{
 			var configFile:File;
 			if (_batchInfo.type == ResourceType.FX)
 			{
-				configFile= _folder.resolvePath(".config");
+				configFile = _folder.resolvePath(".config");
 			}
 			else
 			{
-				configFile= _folder.resolvePath("..\\.config");
+				configFile = _folder.resolvePath("..\\.config");
 			}
 			var configFileStream:FileStream = new FileStream();
 			configFileStream.open(configFile, FileMode.WRITE);
 			configFileStream.writeShort(_frameRate);
+			configFileStream.writeShort(_anchor);
 			configFileStream.close();
 		}
 
 		// 静态方法：通过路径猜测 ResourceBatch 的信息
 		// NOTE：“特效”的目录结构与其他不同，需要特殊处理。
-		public static function getResourceBatchInfo(path : String) : ResourceBatchInfo
+		public static function getResourceBatchInfo(path:String):ResourceBatchInfo
 		{
-			var result : ResourceBatchInfo = new ResourceBatchInfo();
-			var pathParts : Array = path.split(File.separator).reverse();
-			var searchStr : String;
+			var result:ResourceBatchInfo = new ResourceBatchInfo();
+			var pathParts:Array = path.split(File.separator).reverse();
+			var searchStr:String;
 
 			// 删掉“动作”
-			var pos : int = pathParts.indexOf("动作");
+			var pos:int = pathParts.indexOf("动作");
 			if (pos != -1)
 			{
 				pathParts.splice(pos, 1);
 			}
 
 			// 提取类型(type)
-			var l : int = pathParts.length;
+			var l:int = pathParts.length;
 			result.type = ResourceType.UNKNOWN;
-			for (var i : int = l - 1; i >= 0; i--)
+			for (var i:int = l - 1; i >= 0; i--)
 			{
-				var part : String = pathParts[i];
-				var found : Boolean = false;
+				var part:String = pathParts[i];
+				var found:Boolean = false;
 
 				for each (searchStr in ResourceType.typeList)
 				{
@@ -156,10 +181,10 @@ package statm.dev.imageresourceviewer.data.resource
 			{
 				// 提取方向(direction)
 				result.direction = pathParts[0];
-	
+
 				// 提取动作(action)
 				result.action = pathParts[1];
-	
+
 				// 提取名称(name)
 				result.name = pathParts[2];
 			}
@@ -168,7 +193,7 @@ package statm.dev.imageresourceviewer.data.resource
 				result.action = "特效";
 				result.name = pathParts[0];
 			}
-			
+
 			return result;
 		}
 	}

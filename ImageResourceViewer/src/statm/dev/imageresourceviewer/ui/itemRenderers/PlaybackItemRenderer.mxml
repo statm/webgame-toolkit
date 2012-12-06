@@ -3,28 +3,47 @@
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx"
 				xmlns:imageplayer="statm.dev.libs.imageplayer.*"
-				width="380"
-				height="380"
+				removedFromStage="dispose()"
 				autoDrawBackground="false">
 
 	<fx:Script>
 		<![CDATA[
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.Element;
+			import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 			import statm.dev.imageresourceviewer.data.type.DirectionType;
+			import statm.dev.imageresourceviewer.data.type.ResourceType;
+			import statm.dev.libs.imageplayer.loader.ImageBatch;
+			import statm.dev.libs.imageplayer.loader.ImageBatchEvent;
+			import statm.dev.libs.imageplayer.loader.ImageBatchState;
 
-			override public function set data(value : Object) : void
+			override public function set data(value:Object):void
 			{
+				dispose();
+
 				super.data = value;
 
 				if (value)
 				{
-					player.setImageBatch((value as Element).getCurrentBatch());
+					var elem:Element = value as Element;
+					var batch:ResourceBatch = elem.getCurrentBatch();
 
-					var direction : String = AppState.instance.currentDirection;
-					if (direction == DirectionType.NW
-						|| direction == DirectionType.W
-						|| direction == DirectionType.SW)
+					if (elem.type != ResourceType.UNKNOWN && elem.type != ResourceType.FX && elem.type != ResourceType.MOUNT && batch && batch.length > 0)
+					{
+						if (batch.batchState == ImageBatchState.COMPLETE)
+						{
+							AppState.instance.primaryImageHeight = batch.getImage(0).height;
+						}
+						else if (batch.batchState != ImageBatchState.ERROR)
+						{
+							batch.addEventListener(ImageBatchEvent.COMPLETE, batch_completeHandler);
+						}
+					}
+
+					player.setImageBatch(batch);
+
+					var direction:String = AppState.instance.currentDirection;
+					if (direction == DirectionType.NW || direction == DirectionType.W || direction == DirectionType.SW)
 					{
 						player.horizontalMirroring = true;
 					}
@@ -36,6 +55,27 @@
 				else
 				{
 					player.setImageBatch(null);
+				}
+			}
+
+			private function batch_completeHandler(event:ImageBatchEvent):void
+			{
+				var batch:ImageBatch = ImageBatch(event.currentTarget);
+				AppState.instance.primaryImageHeight = batch.getImage(0).height;
+				batch.removeEventListener(ImageBatchEvent.COMPLETE, batch_completeHandler);
+			}
+
+			protected function dispose():void
+			{
+				if (!data)
+				{
+					return;
+				}
+				var elem:Element = data as Element;
+				var batch:ResourceBatch = elem.getCurrentBatch();
+				if (batch)
+				{
+					batch.removeEventListener(ImageBatchEvent.PROGRESS, batch_completeHandler);
 				}
 			}
 		]]>

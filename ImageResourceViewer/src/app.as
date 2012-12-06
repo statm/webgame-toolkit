@@ -30,36 +30,41 @@ import statm.dev.imageresourceviewer.data.resource.ResourceLib;
 import statm.dev.imageresourceviewer.data.type.ResourceType;
 import statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer;
 
-public static var VERSION : String;
-
-private function init() : void
+private function init():void
 {
 	ResourceLib.reset();
 	readVersion();
 	checkUpdate();
 }
 
+// 常量
+public static const DEFAULT_FRAME_RATE:int = 15;
+
+public static const DEFAULT_ANCHOR:int = 115;
+
 // 版本/升级
-private function readVersion() : void
+public static var VERSION:String;
+
+private function readVersion():void
 {
-	var appXML : XML = NativeApplication.nativeApplication.applicationDescriptor;
-	var appNS : Namespace = appXML.namespace();
+	var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;
+	var appNS:Namespace = appXML.namespace();
 	VERSION = appXML.appNS::versionNumber[0];
 }
 
-private var appUpdater : ApplicationUpdaterUI = new ApplicationUpdaterUI();
+private var appUpdater:ApplicationUpdaterUI = new ApplicationUpdaterUI();
 
-private function checkUpdate() : void
+private function checkUpdate():void
 {
 	appUpdater.updateURL = "http://www.sdgs.com/fol/tools/ImageResourceViewer/update.xml";
 	appUpdater.isCheckForUpdateVisible = false;
-	appUpdater.addEventListener(ErrorEvent.ERROR, function(event : ErrorEvent) : void
+	appUpdater.addEventListener(ErrorEvent.ERROR, function(event:ErrorEvent):void
 	{
 	});
-	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event : StatusUpdateErrorEvent) : void
+	appUpdater.addEventListener(StatusUpdateErrorEvent.UPDATE_ERROR, function(event:StatusUpdateErrorEvent):void
 	{
 	});
-	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event : UpdateEvent) : void
+	appUpdater.addEventListener(UpdateEvent.INITIALIZED, function(event:UpdateEvent):void
 	{
 		appUpdater.checkNow();
 	});
@@ -67,12 +72,12 @@ private function checkUpdate() : void
 }
 
 // 窗口皮肤
-protected function displayStateChangeHandler(event : NativeWindowDisplayStateEvent) : void
+protected function displayStateChangeHandler(event:NativeWindowDisplayStateEvent):void
 {
 	this.invalidateSkinState();
 }
 
-override protected function getCurrentSkinState() : String
+override protected function getCurrentSkinState():String
 {
 	if (!this.nativeWindow.closed && this.nativeWindow.displayState == NativeWindowDisplayState.MAXIMIZED)
 	{
@@ -82,7 +87,7 @@ override protected function getCurrentSkinState() : String
 }
 
 // 文件拖放和读取
-protected function nativeDragEnterHandler(event : NativeDragEvent) : void
+protected function nativeDragEnterHandler(event:NativeDragEvent):void
 {
 	if (event.target != this)
 	{
@@ -98,7 +103,7 @@ protected function nativeDragEnterHandler(event : NativeDragEvent) : void
 	NativeDragManager.acceptDragDrop(this);
 }
 
-protected function nativeDragExitHandler(event : NativeDragEvent) : void
+protected function nativeDragExitHandler(event:NativeDragEvent):void
 {
 	if (event.target != this)
 	{
@@ -108,9 +113,9 @@ protected function nativeDragExitHandler(event : NativeDragEvent) : void
 	lblDragHere.setStyle("color", 0xAAAAAA);
 }
 
-protected function nativeDragDropHandler(event : NativeDragEvent) : void
+protected function nativeDragDropHandler(event:NativeDragEvent):void
 {
-	var fileArray : Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
+	var fileArray:Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
 
 	if (fileArray.length == 0)
 	{
@@ -171,9 +176,9 @@ protected function nativeDragDropHandler(event : NativeDragEvent) : void
 //}
 
 // 文件读取
-private function startProcessing(fileArray : Array) : void
+private function startProcessing(fileArray:Array):void
 {
-	var c : int = fileArray.length;
+	var c:int = fileArray.length;
 
 	while (--c > -1)
 	{
@@ -184,7 +189,7 @@ private function startProcessing(fileArray : Array) : void
 	}
 
 	folderList = new Vector.<File>();
-	for each (var folder : File in fileArray)
+	for each (var folder:File in fileArray)
 	{
 		folderList.push(folder);
 	}
@@ -196,28 +201,28 @@ private function startProcessing(fileArray : Array) : void
 
 //private var t:int;
 
-private var folderList : Vector.<File>;
+private var folderList:Vector.<File>;
 
-private var processingIndex : int = 0;
+private var processingIndex:int = 0;
 
-private var processingCount : int = 0;
+private var processingCount:int = 0;
 
-private function traverse_enterFrameHandler(event : Event) : void
+private function traverse_enterFrameHandler(event:Event):void
 {
 	processingCount = 0;
 
 	while (processingIndex < folderList.length && processingCount < 2)
 	{
-		var folder : File = folderList[processingIndex];
-		var batch : ResourceBatch = new ResourceBatch(folder);
+		var folder:File = folderList[processingIndex];
+		var batch:ResourceBatch = new ResourceBatch(folder);
 
 		if (batch.length > 0)
 		{
 			ResourceLib.addResource(batch);
 		}
 
-		var folderContent : Array = folder.getDirectoryListing();
-		for each (var folderItem : File in folderContent)
+		var folderContent:Array = folder.getDirectoryListing();
+		for each (var folderItem:File in folderContent)
 		{
 			if (folderItem.isDirectory)
 			{
@@ -237,7 +242,7 @@ private function traverse_enterFrameHandler(event : Event) : void
 	}
 }
 
-private function $traverseComplete() : void
+private function $traverseComplete():void
 {
 	this.removeEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
 
@@ -247,13 +252,13 @@ private function $traverseComplete() : void
 }
 
 // UI 动作
-private function resourceList_changeHandler(event : IndexChangeEvent) : void
+private function resourceList_changeHandler(event:IndexChangeEvent):void
 {
-	var selectedItem : Element = resourceList.selectedItem;
+	var selectedItem:Element = resourceList.selectedItem;
 
 	if (selectedItem.type != ResourceType.UNKNOWN)
 	{
-		setTimeout(function() : void
+		setTimeout(function():void
 		{
 			playingGroup.visible = true;
 		}, 500);
@@ -348,24 +353,25 @@ private function resourceList_changeHandler(event : IndexChangeEvent) : void
 	{
 		calculateActionList();
 		calculateFrameRate();
+		calculateAnchor();
 	}
 }
 
-private function calculateActionList() : void
+private function calculateActionList():void
 {
 	// 根据当前零件计算动作列表（最小公倍数）
-	var actionInfo : ArrayCollection = AppState.instance.currentActionList;
-	var actionNames : Array = [];
+	var actionInfo:ArrayCollection = AppState.instance.currentActionList;
+	var actionNames:Array = [];
 
 	actionInfo.removeAll();
-	for each (var elem : Element in AppState.instance.playingElements)
+	for each (var elem:Element in AppState.instance.playingElements)
 	{
 		if (!elem || (elem.type == ResourceType.FX && AppState.instance.categoryMode != ResourceType.FX))
 		{
 			continue;
 		}
 
-		for each (var action : Action in elem.actionList)
+		for each (var action:Action in elem.actionList)
 		{
 			if (actionNames.indexOf(action.name) == -1)
 			{
@@ -381,25 +387,25 @@ private function calculateActionList() : void
 		{
 			setAction(actionInfo[0]);
 		}
-		else if (AppState.instance.selectedFX && AppState.instance.playingElements.contains(AppState.instance.selectedFX))
+		else if (AppState.instance.selectedFX && AppState.instance.selectedFX.fxAction && AppState.instance.playingElements.contains(AppState.instance.selectedFX))
 		{
 			setAction(AppState.instance.selectedFX.fxAction.info);
 		}
 	}
 }
 
-private function calculateFrameRate() : void
+private function calculateFrameRate():void
 {
-	var frameRate : int = 15;
-	for each (var elem : Element in AppState.instance.playingElements)
+	var frameRate:int = ImageResourceViewer.DEFAULT_FRAME_RATE;
+	for each (var elem:Element in AppState.instance.playingElements)
 	{
-		var currentBatch : ResourceBatch = elem.getCurrentBatch();
+		var currentBatch:ResourceBatch = elem.getCurrentBatch();
 		if (!currentBatch)
 		{
 			continue;
 		}
 		frameRate = elem.getCurrentBatch().frameRate;
-		if (frameRate != 15)
+		if (frameRate != ImageResourceViewer.DEFAULT_FRAME_RATE)
 		{
 			break;
 		}
@@ -407,7 +413,20 @@ private function calculateFrameRate() : void
 	AppState.instance.frameRate = frameRate;
 }
 
-public function setAction(info : ActionInfo) : void
+private function calculateAnchor():void
+{
+	var p:ArrayCollection = AppState.instance.playingElements;
+	for each (var elem:Element in AppState.instance.playingElements)
+	{
+		if (!(elem is FXElement) && (elem.type != ResourceType.MOUNT)) // 有时坐骑会放在前面，要跳过
+		{
+			AppState.instance.anchor = elem.anchor;
+			return;
+		}
+	}
+}
+
+public function setAction(info:ActionInfo):void
 {
 	AppState.instance.currentAction = info.name;
 	AppState.instance.currentFrame = 0;
@@ -416,15 +435,15 @@ public function setAction(info : ActionInfo) : void
 	calculateFrameRate();
 }
 
-public function setDirection(direction : String) : void
+public function setDirection(direction:String):void
 {
 	AppState.instance.currentDirection = direction;
 	updateActionAndDirection();
 }
 
-private function updateActionAndDirection() : void
+private function updateActionAndDirection():void
 {
-	for each (var elem : Element in AppState.instance.playingElements)
+	for each (var elem:Element in AppState.instance.playingElements)
 	{
 		if (!elem)
 		{
@@ -434,7 +453,7 @@ private function updateActionAndDirection() : void
 	}
 }
 
-public function setFXVisibility(value : Boolean) : void
+public function setFXVisibility(value:Boolean):void
 {
 	if (value != AppState.instance.fxEnabled)
 	{
@@ -445,7 +464,7 @@ public function setFXVisibility(value : Boolean) : void
 		}
 		else
 		{
-			var index : int = AppState.instance.playingElements.getItemIndex(AppState.instance.selectedFX);
+			var index:int = AppState.instance.playingElements.getItemIndex(AppState.instance.selectedFX);
 			if (index > -1)
 			{
 				AppState.instance.playingElements.removeItemAt(index);
@@ -455,40 +474,40 @@ public function setFXVisibility(value : Boolean) : void
 }
 
 // 输出
-public function writeSpritesheet() : void
+public function writeSpritesheet():void
 {
-	var folderPath : File = File.desktopDirectory;
+	var folderPath:File = File.desktopDirectory;
 	folderPath.addEventListener(Event.SELECT, $writeSpritesheet);
 	folderPath.browseForDirectory("选择输出目录");
 }
 
-private function $writeSpritesheet(event : Event) : void
+private function $writeSpritesheet(event:Event):void
 {
-	var folder : File = event.currentTarget as File;
+	var folder:File = event.currentTarget as File;
 
-	for each (var typeName : String in ResourceType.typeList)
+	for each (var typeName:String in ResourceType.typeList)
 	{
-		var category : ResourceCategory = ResourceLib.getCategory(typeName);
+		var category:ResourceCategory = ResourceLib.getCategory(typeName);
 		if (category.elements.length > 1) // 至少有一个“无”
 		{
-			var path : File = folder.resolvePath(typeName);
+			var path:File = folder.resolvePath(typeName);
 			path.createDirectory();
 
-			for each (var elem : Element in category.elements)
+			for each (var elem:Element in category.elements)
 			{
 				if (elem.name == "无")
 				{
 					continue;
 				}
 
-				var elemPath : File = path;
+				var elemPath:File = path;
 				if (!(elem is FXElement))
 				{
 					elemPath = path.resolvePath(elem.name);
 					elemPath.createDirectory();
 				}
 
-				for each (var action : Action in elem.actionList)
+				for each (var action:Action in elem.actionList)
 				{
 					new SpritesheetWriter().writeActionSpritesheet(action, elemPath);
 				}
@@ -498,19 +517,19 @@ private function $writeSpritesheet(event : Event) : void
 }
 
 // 播放
-public function play() : void
+public function play():void
 {
 	AppState.instance.playing = true;
 
 	this.addEventListener(Event.ENTER_FRAME, $play);
 }
 
-private var lastFrameTime : int = int.MIN_VALUE;
+private var lastFrameTime:int = int.MIN_VALUE;
 
-private function $play(event : Event) : void
+private function $play(event:Event):void
 {
-	var l : int = AppState.instance.playingElements.length;
-	var currentTime : int = getTimer();
+	var l:int = AppState.instance.playingElements.length;
+	var currentTime:int = getTimer();
 	if (lastFrameTime == int.MIN_VALUE)
 	{
 		AppState.instance.currentFrame++;
@@ -518,8 +537,8 @@ private function $play(event : Event) : void
 	}
 	else
 	{
-		var delta : int = currentTime - lastFrameTime;
-		var deltaRatio : Number = delta * AppState.instance.frameRate * 0.001;
+		var delta:int = currentTime - lastFrameTime;
+		var deltaRatio:Number = delta * AppState.instance.frameRate * 0.001;
 		if (deltaRatio > .75)
 		{
 			lastFrameTime = currentTime;
@@ -529,9 +548,9 @@ private function $play(event : Event) : void
 	}
 	AppState.instance.currentFrame %= AppState.instance.frameTotal;
 
-	for (var i : int = 0; i < l; i++)
+	for (var i:int = 0; i < l; i++)
 	{
-		var itemRenderer : PlaybackItemRenderer = PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i));
+		var itemRenderer:PlaybackItemRenderer = PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i));
 		if (!itemRenderer)
 		{
 			continue;
@@ -543,24 +562,24 @@ private function $play(event : Event) : void
 	playbackPanel.updateBackground();
 }
 
-public function gotoFrame(frame : int) : void
+public function gotoFrame(frame:int):void
 {
-	var l : int = playbackPanel.layerDataGroup.numElements;
+	var l:int = playbackPanel.layerDataGroup.numElements;
 	AppState.instance.currentFrame = frame % AppState.instance.frameTotal;
 
-	for (var i : int = 0; i < l; i++)
+	for (var i:int = 0; i < l; i++)
 	{
 		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(AppState.instance.currentFrame);
 	}
 }
 
-public function stop() : void
+public function stop():void
 {
 	AppState.instance.playing = false;
 	AppState.instance.currentFrame = 0;
 
-	var l : int = playbackPanel.layerDataGroup.numElements;
-	for (var i : int = 0; i < l; i++)
+	var l:int = playbackPanel.layerDataGroup.numElements;
+	for (var i:int = 0; i < l; i++)
 	{
 		PlaybackItemRenderer(playbackPanel.layerDataGroup.getElementAt(i)).player.gotoFrame(0);
 	}
@@ -568,7 +587,7 @@ public function stop() : void
 	this.removeEventListener(Event.ENTER_FRAME, $play);
 }
 
-public function togglePlay() : void
+public function togglePlay():void
 {
 	if (AppState.instance.playing)
 	{

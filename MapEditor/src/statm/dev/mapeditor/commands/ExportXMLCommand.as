@@ -30,66 +30,82 @@ package statm.dev.mapeditor.commands
 			super();
 		}
 
-		override public function execute(notification : INotification) : void
+		override public function execute(notification:INotification):void
 		{
-			var map : Map = AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
 			if (!map)
 			{
 				return;
 			}
 
-			var dirToSave : File = File.desktopDirectory;
+			var dirToSave:File = File.desktopDirectory;
 			dirToSave.addEventListener(Event.SELECT, dir_selectHandler);
 			dirToSave.browseForDirectory("选择输出目录");
 		}
 
-		private function dir_selectHandler(event : Event) : void
+		private function dir_selectHandler(event:Event):void
 		{
 			AppState.xmlUID = UIDUtil.createUID();
 
-			var dir : File = File(event.currentTarget);
+			var dir:File = File(event.currentTarget);
 
 			writeClientFile(dir);
 			writeServerFile(dir);
-			
+
 			Alert.show("导出完成。");
 		}
 
-		private function writeClientFile(dir : File) : void
+		private function writeClientFile(dir:File):void
 		{
-			var map : Map = AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
 			if (!map)
 			{
 				return;
 			}
 
-			var writer : ClientWriter = new ClientWriter();
+			var writer:ClientWriter = new ClientWriter();
 			writer.read(map);
-			var fileContent : String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
+			try
+			{
+				var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
+			}
+			catch (e:Error)
+			{
+				Alert.show("导出失败");
+				return;
+			}
 
 			var fileName:String = "Map" + map.mapID + ".xml";
 
-			var fileStream : FileStream = new FileStream();
+			var fileStream:FileStream = new FileStream();
 			fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);
 			fileStream.writeMultiByte(fileContent, "utf-8");
 			fileStream.close();
 		}
 
-		private function writeServerFile(dir : File) : void
+		private function writeServerFile(dir:File):void
 		{
-			var map : Map = AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
 			if (!map)
 			{
 				return;
 			}
 
-			var writer : ServerWriter = new ServerWriter();
+			var writer:ServerWriter = new ServerWriter();
 			writer.read(map);
-			var fileContent : String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
-			
-			var fileName : String = map.mapName + map.mapID + ".xml";
-			
-			var fileStream : FileStream = new FileStream();
+			try
+			{
+				var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
+			}
+			catch (e:Error)
+			{
+				Alert.show("导出失败");
+				return;
+			}
+
+			var fileName:String = map.mapName + map.mapID + ".xml";
+
+			var fileStream:FileStream = new FileStream();
 			fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);
 			fileStream.writeMultiByte(fileContent, "utf-8");
 			fileStream.close();

@@ -30,7 +30,7 @@ package statm.dev.imageresourceviewer.data
 
 		protected var _name:String;
 
-		[Bindable(event="_nonDispatchedEvent")]
+		[Bindable(event = "_nonDispatchedEvent")]
 		public function get name():String
 		{
 			return _name;
@@ -42,26 +42,26 @@ package statm.dev.imageresourceviewer.data
 
 		public function Element(name:String, type:String):void
 		{
-			_name=name;
-			_type=type;
-			_actions=new ArrayCollection();
+			_name = name;
+			_type = type;
+			_actions = new ArrayCollection();
 
-			var sort:Sort=new Sort();
-			var sortField:SortField=new SortField("name");
-			sort.fields=[sortField];
-			_actions.sort=sort;
+			var sort:Sort = new Sort();
+			var sortField:SortField = new SortField("name");
+			sort.fields = [sortField];
+			_actions.sort = sort;
 			_actions.refresh();
 
-			_actionDic=new Dictionary();
+			_actionDic = new Dictionary();
 		}
 
 		public function createAction(actionName:String, frame:int):Action
 		{
-			var action:Action=_actionDic[actionName];
+			var action:Action = _actionDic[actionName];
 			if (!action)
 			{
-				action=new Action(actionName);
-				_actionDic[actionName]=action;
+				action = new Action(actionName);
+				_actionDic[actionName] = action;
 				_actions.addItem(action);
 				if (type != ResourceType.UNKNOWN)
 				{
@@ -88,7 +88,7 @@ package statm.dev.imageresourceviewer.data
 
 		public function getCurrentBatch():ResourceBatch
 		{
-			var action:Action=getAction(AppState.instance.currentAction);
+			var action:Action = getAction(AppState.instance.currentAction);
 
 			if (!action)
 			{
@@ -97,11 +97,31 @@ package statm.dev.imageresourceviewer.data
 
 			return action.getBatch(AppState.instance.currentDirection);
 		}
+		
+		private var _anchor:int = ImageResourceViewer.DEFAULT_ANCHOR;
+
+		public function get anchor():int
+		{
+			for (var key:String in _actionDic)
+			{
+				return (_actionDic[key] as Action).anchor;
+			}
+			return _anchor;
+		}
+
+		public function set anchor(value:int):void
+		{
+			for (var key:String in _actionDic)
+			{
+				(_actionDic[key] as Action).anchor = value;
+			}
+			_anchor = value;
+		}
 
 		public function addBatch(batch:ResourceBatch):void
 		{
-			var info:ResourceBatchInfo=batch.batchInfo;
-			var action:Action=createAction(info.action, batch.length);
+			var info:ResourceBatchInfo = batch.batchInfo;
+			var action:Action = createAction(info.action, batch.length);
 			action.addBatch(info.direction, batch);
 		}
 

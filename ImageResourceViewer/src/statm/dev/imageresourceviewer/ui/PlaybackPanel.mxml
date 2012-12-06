@@ -14,23 +14,20 @@
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.type.DirectionType;
 
-			protected function cbxShowFX_changeHandler(event : Event) : void
+			protected function cbxShowFX_changeHandler(event:Event):void
 			{
 				FlexGlobals.topLevelApplication.setFXVisibility(cbxShowFX.selected);
 			}
 
-			public function updateBackground() : void
+			public function updateBackground():void
 			{
-				var bgX : int = playbackBg.x;
-				var bgY : int = playbackBg.y;
+				var bgX:int = playbackBg.x;
+				var bgY:int = playbackBg.y;
 
-				if (AppState.instance.currentAction == "跑动"
-					|| AppState.instance.currentAction == "乘骑移动"
-					|| AppState.instance.currentAction == "running"
-					|| AppState.instance.currentAction == "mount_running")
+				if (AppState.instance.currentAction == "跑动" || AppState.instance.currentAction == "乘骑移动" || AppState.instance.currentAction == "running" || AppState.instance.currentAction == "mount_running")
 				{
-					var pxSpeed : int = Math.ceil(AppState.instance.movingSpeed * .05);
-					var pxDiagSpeed : int = Math.ceil(pxSpeed / Math.SQRT2);
+					var pxSpeed:int = Math.ceil(AppState.instance.movingSpeed * .05);
+					var pxDiagSpeed:int = Math.ceil(pxSpeed / Math.SQRT2);
 
 					switch (AppState.instance.currentDirection)
 					{
@@ -70,10 +67,10 @@
 							bgY += pxDiagSpeed;
 							break;
 					}
-					
-					var maxScrollX : int = playbackBg.width - grpPlaybackBg.width;
-					var maxScrollY : int = playbackBg.height - grpPlaybackBg.height;
-					
+
+					var maxScrollX:int = playbackBg.width - grpPlaybackBg.width;
+					var maxScrollY:int = playbackBg.height - grpPlaybackBg.height;
+
 					if (bgX < -maxScrollX)
 					{
 						bgX += maxScrollX;
@@ -90,10 +87,61 @@
 					{
 						bgY -= maxScrollY;
 					}
-					
+
 					playbackBg.x = bgX;
 					playbackBg.y = bgY;
 				}
+			}
+
+			private var draggingAnchor:Boolean = false;
+
+			protected function playbackGroup_mouseMoveHandler(event:MouseEvent):void
+			{
+				crosshair.x = (playbackGroup.width - crosshair.width) / 2;
+				var crosshairY:int = playbackGroup.mouseY - 12;
+				if (crosshairY > playbackGroup.height - crosshair.height)
+				{
+					crosshairY = playbackGroup.height - crosshair.height;
+				}
+				if (crosshairY < 0)
+				{
+					crosshairY = 0;
+				}
+				crosshair.y = crosshairY;
+
+				if (draggingAnchor)
+				{
+					anchorPoint.bottom = playbackGroup.height - crosshair.y - 17;
+				}
+			}
+
+			protected function cbxShowCrosshair_changeHandler(event:Event):void
+			{
+				if (cbxShowCrosshair.selected)
+				{
+					playbackGroup.addEventListener(MouseEvent.MOUSE_DOWN, anchor_mouseDownHandler);
+				}
+				else
+				{
+					playbackGroup.removeEventListener(MouseEvent.MOUSE_DOWN, anchor_mouseDownHandler);
+				}
+			}
+
+			protected function anchor_mouseDownHandler(event:MouseEvent):void
+			{
+				if (event.ctrlKey)
+				{
+					draggingAnchor = true;
+					anchorPoint.bottom = playbackGroup.height - crosshair.y - 17;
+					stage.addEventListener(MouseEvent.MOUSE_UP, anchor_mouseUpHandler);
+				}
+			}
+
+			protected function anchor_mouseUpHandler(event:MouseEvent):void
+			{
+				draggingAnchor = false;
+				AppState.instance.anchor = int(anchorPoint.bottom) + 3;
+				stage.removeEventListener(MouseEvent.MOUSE_UP, anchor_mouseUpHandler);
 			}
 		]]>
 	</fx:Script>
@@ -106,13 +154,75 @@
 			 bottom="60">
 		<s:Image id="playbackBg"
 				 source="{UIResource.PLAYBACK_BG}"/>
-	</s:Group>
 
-	<s:DataGroup id="layerDataGroup"
+		<s:Group id="playbackGroup"
+				 mouseMove="playbackGroup_mouseMoveHandler(event)"
+				 minWidth="340"
+				 minHeight="340"
 				 horizontalCenter="0"
-				 verticalCenter="0"
-				 dataProvider="{AppState.instance.playingElements}"
-				 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
+				 verticalCenter="0">
+			<s:Rect id="anchorBg"
+					visible="{cbxShowCrosshair.selected}"
+					top="0"
+					bottom="0"
+					left="0"
+					right="0">
+				<s:fill>
+					<s:SolidColor color="#0066CC"
+								  alpha=".4"/>
+				</s:fill>
+			</s:Rect>
+
+			<s:DataGroup id="layerDataGroup"
+						 dataProvider="{AppState.instance.playingElements}"
+						 itemRenderer="statm.dev.imageresourceviewer.ui.itemRenderers.PlaybackItemRenderer"/>
+
+			<s:Ellipse id="anchorPoint"
+					   horizontalCenter="0"
+					   visible="{cbxShowCrosshair.selected}"
+					   bottom="{AppState.instance.anchor - 3}"
+					   width="10"
+					   height="10">
+				<s:fill>
+					<s:SolidColor color="#FF0000"
+								  alpha=".8"/>
+				</s:fill>
+			</s:Ellipse>
+
+			<s:Group id="crosshair"
+					 includeInLayout="false"
+					 visible="{cbxShowCrosshair.selected}"
+					 width="24"
+					 height="24">
+				<s:Line id="crosshairV"
+						horizontalCenter="0"
+						verticalCenter="0"
+						height="20">
+					<s:stroke>
+						<s:SolidColorStroke color="#FFFFFF"
+											weight="2"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line id="crosshairH"
+						horizontalCenter="0"
+						verticalCenter="0"
+						width="20">
+					<s:stroke>
+						<s:SolidColorStroke color="#FFFFFF"
+											weight="2"/>
+					</s:stroke>
+				</s:Line>
+				<s:Label id="crosshairCoord"
+						 x="15"
+						 y="2"
+						 color="#FFFFFF"
+						 text="{(playbackGroup.height - crosshair.y - 14).toString()}"
+						 fontWeight="bold"
+						 fontSize="8">
+				</s:Label>
+			</s:Group>
+		</s:Group>
+	</s:Group>
 
 	<s:VGroup right="0"
 			  top="0"
@@ -173,6 +283,12 @@
 		<s:CheckBox id="cbxShowBackground"
 					label="显示背景"
 					selected="@{grpPlaybackBg.visible}"
+					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
+
+		<s:CheckBox id="cbxShowCrosshair"
+					label="调整锚点"
+					selected="false"
+					change="cbxShowCrosshair_changeHandler(event)"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
 	</s:VGroup>
 

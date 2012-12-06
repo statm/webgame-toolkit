@@ -17,7 +17,7 @@ package statm.dev.mapeditor.dom.objects
 		{
 			super(root);
 			_name = "怪物";
-			_mobDef = mobDef;
+			this.mobDef = mobDef;
 			if (mobDef)
 			{
 				var props:Object = mobDef.defaultProps;
@@ -41,6 +41,7 @@ package statm.dev.mapeditor.dom.objects
 		public function set mobDef(value:MobItemDefinition):void
 		{
 			_mobDef = value;
+			value && (_mobID = value.mobID);
 		}
 
 		private var _mobID:int;
@@ -53,6 +54,7 @@ package statm.dev.mapeditor.dom.objects
 		public function set modID(value:int):void
 		{
 			_mobID = value;
+			_mobDef = Map(root).itemDefinitionList.getMobDefinitionByID(_mobID);
 		}
 
 		private var _delay:int = 1000;

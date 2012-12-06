@@ -8,43 +8,42 @@
 		<![CDATA[
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
-			
+
 			import spark.events.TextOperationEvent;
-			
+
 			import statm.dev.imageresourceviewer.AppState;
 
-			protected function changeHandler(event : Event) : void
+			protected function changeHandler(event:Event):void
 			{
 				FlexGlobals.topLevelApplication.gotoFrame(playbackSlider.value);
 			}
 
-			protected function btnPlay_clickHandler(event : MouseEvent) : void
+			protected function btnPlay_clickHandler(event:MouseEvent):void
 			{
 				FlexGlobals.topLevelApplication.togglePlay();
 			}
 
-			protected function fpsInput_changeHandler(event : TextOperationEvent) : void
+			protected function fpsInput_changeHandler(event:TextOperationEvent):void
 			{
 				AppState.instance.frameRate = parseInt(fpsInput.text);
 			}
 
-			protected function fpsInput_enterHandler(event : FlexEvent) : void
+			protected function fpsInput_enterHandler(event:FlexEvent):void
 			{
 				stage.focus = null;
 				AppState.instance.frameRate = parseInt(fpsInput.text);
 			}
-			
+
 			protected function speedInput_changeHandler(event:TextOperationEvent):void
 			{
 				AppState.instance.movingSpeed = parseInt(speedInput.text);
 			}
-			
+
 			protected function speedInput_enterHandler(event:FlexEvent):void
 			{
 				stage.focus = null;
 				AppState.instance.movingSpeed = parseInt(speedInput.text);
 			}
-			
 		]]>
 	</fx:Script>
 	<s:Button id="btnPlay"
@@ -62,19 +61,21 @@
 			   dataTipPrecision="0"
 			   skinClass="statm.dev.imageresourceviewer.ui.skins.MetroPlayerProgressBarSkin"/>
 
-	<s:Label text="帧率:" color="#333333"/>
+	<s:Label text="帧率:"
+			 color="#333333"/>
 	<s:TextInput id="fpsInput"
 				 width="50"
 				 focusEnabled="false"
 				 textAlign="center"
 				 maxChars="2"
 				 borderColor="#4EA6EA"
-				 text="{(AppState.instance.frameRate == -1) ? '15' : AppState.instance.frameRate}"
+				 text="{(AppState.instance.frameRate == -1) ? ImageResourceViewer.DEFAULT_FRAME_RATE.toString() : AppState.instance.frameRate}"
 				 change="fpsInput_changeHandler(event)"
 				 enter="fpsInput_enterHandler(event)"
 				 restrict="0-9"/>
 
-	<s:Label text="速度:" color="#333333"/>
+	<s:Label text="速度:"
+			 color="#333333"/>
 	<s:TextInput id="speedInput"
 				 width="50"
 				 focusEnabled="false"

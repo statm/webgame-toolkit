@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom
 {
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.mapeditor.app.MapEditingActions;
 	import statm.dev.mapeditor.dom.brush.Brush;
 	import statm.dev.mapeditor.dom.brush.BrushList;

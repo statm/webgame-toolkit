@@ -31,21 +31,21 @@ package statm.dev.mapeditor.commands
 			super();
 		}
 
-		override public function execute(notification : INotification) : void
+		override public function execute(notification:INotification):void
 		{
-			var map : Map = AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
 
 			if (!map)
 			{
 				return;
 			}
 
-			var fileToSave : File = new File();
-			var fileName : String;
-			var fileNameBody : String;
-			var mapImageFile : File;
+			var fileToSave:File = new File();
+			var fileName:String;
+			var fileNameBody:String;
+			var mapImageFile:File;
 
-			var overwrite : Boolean;
+			var overwrite:Boolean;
 
 			// 确定文件名
 			if (map.filePath)
@@ -68,8 +68,16 @@ package statm.dev.mapeditor.commands
 				mapImageFile = new File(map.bgLayer.bgPath);
 			}
 
-			var mapXML : XML = MapFileUtils.mapToXML(map);
-			var fileStream : FileStream = new FileStream();
+			try
+			{
+				var mapXML:XML = MapFileUtils.mapToXML(map);
+			}
+			catch (e:Error)
+			{
+				Alert.show("保存失败");
+				return;
+			}
+			var fileStream:FileStream = new FileStream();
 
 			if (overwrite)
 			{
@@ -91,10 +99,10 @@ package statm.dev.mapeditor.commands
 
 				if (notification.getBody())
 				{
-					var actionStack : Array = notification.getBody().next;
+					var actionStack:Array = notification.getBody().next;
 					if (actionStack && actionStack.length > 0)
 					{
-						setTimeout(function() : void
+						setTimeout(function():void
 						{
 							sendNotification(actionStack.pop(), {next: actionStack});
 						}, 0);
@@ -104,7 +112,7 @@ package statm.dev.mapeditor.commands
 			else
 			{
 				// 确定保存的后续动作
-				fileToSave.addEventListener(Event.COMPLETE, function(event : Event) : void
+				fileToSave.addEventListener(Event.COMPLETE, function(event:Event):void
 				{
 					fileStream.open(fileToSave, FileMode.WRITE);
 					fileStream.writeMultiByte(mapXML.toXMLString(), "utf-8");
@@ -122,10 +130,10 @@ package statm.dev.mapeditor.commands
 
 					if (notification.getBody())
 					{
-						var actionStack : Array = notification.getBody().next;
+						var actionStack:Array = notification.getBody().next;
 						if (actionStack && actionStack.length > 0)
 						{
-							setTimeout(function() : void
+							setTimeout(function():void
 							{
 								sendNotification(actionStack.pop(), {next: actionStack});
 							}, 0);
@@ -133,7 +141,7 @@ package statm.dev.mapeditor.commands
 					}
 				});
 
-				fileToSave.addEventListener(IOErrorEvent.IO_ERROR, function(event : IOErrorEvent) : void
+				fileToSave.addEventListener(IOErrorEvent.IO_ERROR, function(event:IOErrorEvent):void
 				{
 					Alert.show("文件保存失败");
 				});

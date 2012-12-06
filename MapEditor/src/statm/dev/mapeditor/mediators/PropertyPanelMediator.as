@@ -2,13 +2,13 @@ package statm.dev.mapeditor.mediators
 {
 	import flash.events.Event;
 	import flash.geom.Point;
-	
+
 	import mx.collections.ArrayList;
 	import mx.events.FlexEvent;
-	
+
 	import org.puremvc.as3.interfaces.INotification;
 	import org.puremvc.as3.patterns.mediator.Mediator;
-	
+
 	import statm.dev.mapeditor.app.AppNotificationCode;
 	import statm.dev.mapeditor.app.AppState;
 	import statm.dev.mapeditor.app.MapEditingActions;
@@ -45,9 +45,9 @@ package statm.dev.mapeditor.mediators
 	 */
 	public class PropertyPanelMediator extends Mediator
 	{
-		public static const NAME : String = "PropertyPanelMediator";
+		public static const NAME:String = "PropertyPanelMediator";
 
-		public function PropertyPanelMediator(mediatorName : String = null, viewComponent : Object = null)
+		public function PropertyPanelMediator(mediatorName:String = null, viewComponent:Object = null)
 		{
 			super(mediatorName, viewComponent);
 			viewComponent.addEventListener("submit", submitProperties);
@@ -56,12 +56,12 @@ package statm.dev.mapeditor.mediators
 			viewComponent.addEventListener("newDestPoint", newDestPointHandler);
 		}
 
-		override public function listNotificationInterests() : Array
+		override public function listNotificationInterests():Array
 		{
 			return [AppNotificationCode.MAP_DATA_READY, AppNotificationCode.SELECTION_CHANGED, AppNotificationCode.MAP_DATA_CHANGED];
 		}
 
-		override public function handleNotification(notification : INotification) : void
+		override public function handleNotification(notification:INotification):void
 		{
 			switch (notification.getName())
 			{
@@ -79,11 +79,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function showSelectionProperties() : void
+		private function showSelectionProperties():void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var selection : DomNode = AppState.getCurrentSelection();
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var selection:DomNode = AppState.getCurrentSelection();
 
 			if (!selection && !currentMap)
 			{
@@ -189,11 +189,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function submitProperties(event : Event) : void
+		private function submitProperties(event:Event):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var selection : DomNode = AppState.getCurrentSelection();
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var selection:DomNode = AppState.getCurrentSelection();
 
 			switch (panel.currentState)
 			{
@@ -285,10 +285,10 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function handlePropertyChange(type : String) : void
+		private function handlePropertyChange(type:String):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
 
 			if (!currentMap)
 			{
@@ -310,11 +310,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function setBrushList() : void
+		private function setBrushList():void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var list : Array;
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var list:Array;
 
 			if (!currentMap)
 			{
@@ -356,11 +356,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function deferredSetupHandler(event : FlexEvent) : void
+		private function deferredSetupHandler(event:FlexEvent):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var panel : PropertyPanel = PropertyPanel(viewComponent);
-			var list : Array;
+			var currentMap:Map = AppState.getCurrentMap();
+			var panel:PropertyPanel = PropertyPanel(viewComponent);
+			var list:Array;
 
 			if (!currentMap)
 			{
@@ -398,11 +398,11 @@ package statm.dev.mapeditor.mediators
 			}
 		}
 
-		private function newDestPointHandler(event : Event) : void
+		private function newDestPointHandler(event:Event):void
 		{
-			var currentMap : Map = AppState.getCurrentMap();
-			var linkPoint : LinkPoint = LinkPoint(AppState.getCurrentSelection());
-			var newDestPoint : LinkDestPoint = LinkDestPoint(ItemFactory.createItemFromDefinition(ItemDefinitionBase(currentMap.itemDefinitionList.itemDefinitions.source[2])));
+			var currentMap:Map = AppState.getCurrentMap();
+			var linkPoint:LinkPoint = LinkPoint(AppState.getCurrentSelection());
+			var newDestPoint:LinkDestPoint = LinkDestPoint(ItemFactory.createItemFromDefinition(ItemDefinitionBase(currentMap.itemDefinitionList.itemDefinitions.source[2])));
 			newDestPoint.x = linkPoint.x;
 			newDestPoint.y = linkPoint.y - 1;
 			newDestPoint.mapID = currentMap.mapID;

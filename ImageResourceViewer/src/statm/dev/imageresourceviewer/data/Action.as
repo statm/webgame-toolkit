@@ -2,7 +2,8 @@ package statm.dev.imageresourceviewer.data
 {
 	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
-	
+
+	import statm.dev.imageresourceviewer.AppState;
 	import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
 	import statm.dev.imageresourceviewer.data.type.DirectionType;
 
@@ -90,22 +91,42 @@ package statm.dev.imageresourceviewer.data
 			}
 			return result;
 		}
-		
+
 		public function get frameRate():int
 		{
 			for (var key:String in _directionDic)
 			{
 				return (_directionDic[key] as ResourceBatch).frameRate;
 			}
-			return 15;
+			return ImageResourceViewer.DEFAULT_FRAME_RATE;
 		}
-		
+
 		public function set frameRate(value:int):void
 		{
 			for (var key:String in _directionDic)
 			{
 				(_directionDic[key] as ResourceBatch).frameRate = value;
 			}
+		}
+
+		private var _anchor:int = ImageResourceViewer.DEFAULT_ANCHOR;
+
+		public function get anchor():int
+		{
+			for (var key:String in _directionDic)
+			{
+				return (_directionDic[key] as ResourceBatch).anchor;
+			}
+			return _anchor;
+		}
+
+		public function set anchor(value:int):void
+		{
+			for (var key:String in _directionDic)
+			{
+				(_directionDic[key] as ResourceBatch).anchor = value;
+			}
+			_anchor = value;
 		}
 
 		public function toString():String

@@ -178,6 +178,5 @@
 			 right="0"
 			 top="0"
 			 bottom="0"
-			 scaleMode="letterbox"
-			 fillMode="scale"/>
+			 fillMode="clip"/>
 </s:BorderContainer>

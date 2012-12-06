@@ -124,7 +124,12 @@ package statm.dev.mapeditor.dom.item
 			for each (var xml:XML in file.NPC)
 			{
 				var npcID:int = int(xml.@id);
-				var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.appearanceID.toString());
+				var nationSet:Array = [];
+				for each (var nationXML:XML in xml.talkLimit.nation)
+				{
+					nationSet.push(nationXML.toString());
+				}
+				var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.siteName.toString(), xml.appearanceID.toString(), nationSet);
 				addItemDefinition(npcDef);
 				for each (var npc:NPC in map.items.npcLayer.children)
 				{

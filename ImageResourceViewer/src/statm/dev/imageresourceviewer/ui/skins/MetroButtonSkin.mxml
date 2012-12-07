@@ -107,7 +107,7 @@
         left="1" right="1" top="1" bottom="1">
         <s:fill>
             <s:SolidColor 
-                color="#eeeeee"
+                color="#EEEEEE"
                 color.down="#333333"
                 color.over="#666666"/>
         </s:fill>
@@ -120,7 +120,7 @@
         left="0" right="0" top="0" bottom="0">
         <s:stroke>
             <s:SolidColorStroke 
-                color="#cccccc"
+                color="#CCCCCC"
                 color.down="#333333"
                 color.over="#666666"
                 weight="1"/>

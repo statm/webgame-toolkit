@@ -2,9 +2,9 @@ package statm.dev.imageresourceviewer
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-
+	
 	import mx.collections.ArrayCollection;
-
+	
 	import statm.dev.imageresourceviewer.data.Action;
 	import statm.dev.imageresourceviewer.data.Element;
 	import statm.dev.imageresourceviewer.data.FXElement;
@@ -110,6 +110,7 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public var movingSpeed:int = 30;
 
+		// 锚点
 		private var _anchor:int = ImageResourceViewer.DEFAULT_ANCHOR;
 
 		[Bindable(event = "anchorChanged")]
@@ -129,7 +130,8 @@ package statm.dev.imageresourceviewer
 			}
 		}
 
-		private var _primaryImageHeight:int = 0;
+		// 主图片尺寸
+		private var _primaryImageHeight:int = ImageResourceViewer.DEFAULT_IMAGE_DIMENSION;
 
 		[Bindable(event = "primaryImageHeightChanged")]
 		public function get primaryImageHeight():int
@@ -143,6 +145,10 @@ package statm.dev.imageresourceviewer
 			_primaryImageHeight = value;
 			dispatchEvent(new Event("primaryImageHeightChanged"));
 		}
+		
+		// Y 偏移
+		[Bindable]
+		public var offsetY:int = 0;
 
 		// 单例
 		private static var _instance:AppState = new AppState();

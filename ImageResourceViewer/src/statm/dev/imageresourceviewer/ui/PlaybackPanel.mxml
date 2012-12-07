@@ -10,7 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-
+			
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.type.DirectionType;
 
@@ -93,11 +93,11 @@
 				}
 			}
 
+			[Bindable]
 			private var draggingAnchor:Boolean = false;
 
 			protected function playbackGroup_mouseMoveHandler(event:MouseEvent):void
 			{
-				crosshair.x = (playbackGroup.width - crosshair.width) / 2;
 				var crosshairY:int = playbackGroup.mouseY - 12;
 				if (crosshairY > playbackGroup.height - crosshair.height)
 				{
@@ -123,6 +123,7 @@
 				}
 				else
 				{
+					crosshair.visible = false;
 					playbackGroup.removeEventListener(MouseEvent.MOUSE_DOWN, anchor_mouseDownHandler);
 				}
 			}
@@ -143,6 +144,34 @@
 				AppState.instance.anchor = int(anchorPoint.bottom) + 3;
 				stage.removeEventListener(MouseEvent.MOUSE_UP, anchor_mouseUpHandler);
 			}
+			
+			private var lastOffsetY:int = 0;
+			
+			protected function cbxShowOffsetSlider_changeHandler(event:Event):void
+			{
+				if (cbxShowOffsetSlider.selected)
+				{
+					nsOffsetY.setFocus();
+					AppState.instance.offsetY = lastOffsetY;
+					nsOffsetY.textDisplay.selectRange(0, 0);
+				}
+				else
+				{
+					stage.focus = null;
+					lastOffsetY = AppState.instance.offsetY;
+					AppState.instance.offsetY = 0;
+				}
+			}
+
+			protected function playbackGroup_rollOverHandler(event:MouseEvent):void
+			{
+				crosshair.visible = (cbxShowCrosshair.selected);
+			}
+
+			protected function playbackGroup_rollOutHandler(event:MouseEvent):void
+			{
+				crosshair.visible = false;
+			}
 		]]>
 	</fx:Script>
 
@@ -156,6 +185,8 @@
 				 source="{UIResource.PLAYBACK_BG}"/>
 
 		<s:Group id="playbackGroup"
+				 rollOver="playbackGroup_rollOverHandler(event)"
+				 rollOut="playbackGroup_rollOutHandler(event)"
 				 mouseMove="playbackGroup_mouseMoveHandler(event)"
 				 minWidth="340"
 				 minHeight="340"
@@ -184,14 +215,24 @@
 					   width="10"
 					   height="10">
 				<s:fill>
-					<s:SolidColor color="#FF0000"
-								  alpha=".8"/>
+					<s:SolidColor color="#FF0000"/>
 				</s:fill>
+				<s:filters>
+					<s:GlowFilter color="#FFFFFF"/>
+				</s:filters>
 			</s:Ellipse>
 
-			<s:Group id="crosshair"
-					 includeInLayout="false"
+			<s:Label right="{playbackGroup.width - anchorPoint.x}"
+					 y="{anchorPoint.y + 7}"
 					 visible="{cbxShowCrosshair.selected}"
+					 text="{(playbackGroup.height - anchorPoint.y - 7).toString()}"
+					 color="#FFFFFF"
+					 fontWeight="bold"
+					 fontSize="10"/>
+
+			<s:Group id="crosshair"
+					 visible="false"
+					 horizontalCenter="0"
 					 width="24"
 					 height="24">
 				<s:Line id="crosshairV"
@@ -282,14 +323,31 @@
 
 		<s:CheckBox id="cbxShowBackground"
 					label="显示背景"
-					selected="@{grpPlaybackBg.visible}"
+					selected="@{playbackBg.visible}"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
 
 		<s:CheckBox id="cbxShowCrosshair"
-					label="调整锚点"
+					label="设置锚点"
 					selected="false"
 					change="cbxShowCrosshair_changeHandler(event)"
 					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
+
+		<s:CheckBox id="cbxShowOffsetSlider"
+					label="设置偏移"
+					selected="false"
+					change="cbxShowOffsetSlider_changeHandler(event)"
+					skinClass="statm.dev.imageresourceviewer.ui.skins.MetroCheckBoxSkin"/>
+
+		<s:NumericStepper id="nsOffsetY"
+						  width="100%"
+						  visible="{cbxShowOffsetSlider.selected}"
+						  includeInLayout="{cbxShowOffsetSlider.selected}"
+						  minimum="-170"
+						  maximum="170"
+						  stepSize="1"
+						  focusEnabled="false"
+						  value="@{AppState.instance.offsetY}"
+						  skinClass="statm.dev.imageresourceviewer.ui.skins.MetroNumericStepperSkin"/>
 	</s:VGroup>
 
 	<ui:PlaybackBar id="playbackBar"

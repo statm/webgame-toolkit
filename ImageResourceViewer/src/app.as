@@ -42,6 +42,8 @@ public static const DEFAULT_FRAME_RATE:int = 15;
 
 public static const DEFAULT_ANCHOR:int = 115;
 
+public static const DEFAULT_IMAGE_DIMENSION:int = 340;
+
 // 版本/升级
 public static var VERSION:String;
 
@@ -130,50 +132,8 @@ protected function nativeDragDropHandler(event:NativeDragEvent):void
 		this.currentState = "normal";
 	}
 
-	//	var filePathArray:Array = [];
-	//	for each (var file:File in fileArray)
-	//	{
-	//		filePathArray.push(file.nativePath);
-	//	}
-	//	startProcessing(filePathArray);
 	startProcessing(fileArray);
 }
-
-//private var fileLoadingWorker:Worker;
-//private var fileLoadingWorker_inChannel:MessageChannel;
-//private var fileLoadingWorker_outChannel:MessageChannel;
-//
-//private function startProcessing(filePathArray : Array) : void
-//{
-//	fileLoadingWorker = WorkerDomain.current.createWorker(WorkerManager.statm_dev_imageresourceviewer_workers_FileLoadingWorker, true);
-//	
-//	fileLoadingWorker_inChannel = Worker.current.createMessageChannel(fileLoadingWorker);
-//	fileLoadingWorker_outChannel = fileLoadingWorker.createMessageChannel(Worker.current);
-//	
-//	fileLoadingWorker.setSharedProperty("statm.dev.imageresourceviewer.msgchannels.fileloadingworker_in", fileLoadingWorker_inChannel);
-//	fileLoadingWorker.setSharedProperty("statm.dev.imageresourceviewer.msgchannels.fileloadingworker_out", fileLoadingWorker_outChannel);
-//	
-//	fileLoadingWorker_outChannel.addEventListener(Event.CHANNEL_MESSAGE, fileLoadingWorker_messageHandler);
-//	fileLoadingWorker.start();
-//	
-//	fileLoadingWorker_inChannel.send(filePathArray);
-//}
-//
-//private function fileLoadingWorker_messageHandler(event : Event) : void
-//{
-//	var batches : Array = MessageChannel(event.currentTarget).receive() as Array;
-//	for each (var batch : ResourceBatch in batches)
-//	{
-//		ResourceLib.addResource(batch);
-//	}
-//	
-//	ResourceLib.print();
-//	
-//	if (this.currentState == "processing")
-//	{
-//		this.currentState = "normal";
-//	}
-//}
 
 // 文件读取
 private function startProcessing(fileArray:Array):void
@@ -195,11 +155,8 @@ private function startProcessing(fileArray:Array):void
 	}
 	processingIndex = 0;
 
-	//	t = getTimer();
 	this.addEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
 }
-
-//private var t:int;
 
 private var folderList:Vector.<File>;
 
@@ -234,8 +191,6 @@ private function traverse_enterFrameHandler(event:Event):void
 		processingCount++;
 	}
 
-	//	trace("pI=" + processingIndex + ", fL=" + folderList.length);
-
 	if (processingIndex > folderList.length - 1)
 	{
 		$traverseComplete();
@@ -246,9 +201,7 @@ private function $traverseComplete():void
 {
 	this.removeEventListener(Event.ENTER_FRAME, traverse_enterFrameHandler);
 
-	//	trace("耗时" + (getTimer() - t) + "ms");
-
-	ResourceLib.print();
+//	ResourceLib.print();
 }
 
 // UI 动作

@@ -4,6 +4,8 @@
 				xmlns:mx="library://ns.adobe.com/flex/mx"
 				xmlns:imageplayer="statm.dev.libs.imageplayer.*"
 				removedFromStage="dispose()"
+				width="{AppState.instance.primaryImageHeight}"
+				height="{AppState.instance.primaryImageHeight}"
 				autoDrawBackground="false">
 
 	<fx:Script>
@@ -27,6 +29,8 @@
 				{
 					var elem:Element = value as Element;
 					var batch:ResourceBatch = elem.getCurrentBatch();
+
+					showOffset = (elem.type != ResourceType.UNKNOWN && elem.type != ResourceType.FX && elem.type != ResourceType.MOUNT);
 
 					if (elem.type != ResourceType.UNKNOWN && elem.type != ResourceType.FX && elem.type != ResourceType.MOUNT && batch && batch.length > 0)
 					{
@@ -78,12 +82,15 @@
 					batch.removeEventListener(ImageBatchEvent.PROGRESS, batch_completeHandler);
 				}
 			}
+
+			[Bindable]
+			private var showOffset:Boolean = false;
 		]]>
 	</fx:Script>
 
 	<imageplayer:ImagePlayer id="player"
 							 horizontalCenter="0"
-							 verticalCenter="0"
+							 verticalCenter="{showOffset ? -AppState.instance.offsetY : 0}"
 							 showBorder="false"/>
 
 </s:ItemRenderer>

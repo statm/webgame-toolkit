@@ -59,7 +59,7 @@
 	</ui:titleBarContent>
 
 	<s:HGroup left="175"
-			  right="0"
+			  right="6"
 			  gap="10"
 			  top="0"
 			  bottom="0">

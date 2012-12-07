@@ -88,7 +88,7 @@ HSliderThumbSkin and HSliderTrackSkin classes, respectively.
             @see spark.skins.spark.HSliderTrackSkin -->
     <s:Button id="track" left="0" right="0" top="0" bottom="0" minWidth="33" width="100" 
               tabEnabled="false"
-              skinClass="statm.dev.imageresourceviewer.ui.skins.MetroPlayerProgressBarTrackSkin" />
+              skinClass="statm.dev.imageresourceviewer.ui.skins.MetroSliderTrackSkin" />
 	
 	<s:Rect top="1" bottom="1" left="1" width="{thumb.x}">
 		<s:fill>
@@ -101,5 +101,5 @@ HSliderThumbSkin and HSliderTrackSkin classes, respectively.
             @see spark.skins.spark.HSliderThumbSkin -->
     <s:Button id="thumb" top="0" bottom="0" 
               tabEnabled="false"
-              skinClass="statm.dev.imageresourceviewer.ui.skins.MetroPlayerProgressBarThumbSkin" />
+              skinClass="statm.dev.imageresourceviewer.ui.skins.MetroSliderThumbSkin" />
 </s:SparkSkin>

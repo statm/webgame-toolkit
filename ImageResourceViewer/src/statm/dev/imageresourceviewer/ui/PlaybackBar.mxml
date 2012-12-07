@@ -59,7 +59,7 @@
 			   value="{AppState.instance.currentFrame}"
 			   change="changeHandler(event)"
 			   dataTipPrecision="0"
-			   skinClass="statm.dev.imageresourceviewer.ui.skins.MetroPlayerProgressBarSkin"/>
+			   skinClass="statm.dev.imageresourceviewer.ui.skins.MetroHSliderSkin"/>
 
 	<s:Label text="帧率:"
 			 color="#333333"/>

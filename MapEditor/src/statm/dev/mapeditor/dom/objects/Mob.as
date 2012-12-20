@@ -69,7 +69,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _delay)
 			{
 				_delay = value;
-				_mobDef.defaultProps.delay = value;
+				_mobDef && (_mobDef.defaultProps.delay = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -86,7 +86,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _battleEnabled)
 			{
 				_battleEnabled = value;
-				_mobDef.defaultProps.battleEnabled = value;
+				_mobDef && (_mobDef.defaultProps.battleEnabled = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -103,7 +103,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _autoBattle)
 			{
 				_autoBattle = value;
-				_mobDef.defaultProps.autoBattle = value;
+				_mobDef && (_mobDef.defaultProps.autoBattle = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -120,7 +120,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _autoMove)
 			{
 				_autoMove = value;
-				_mobDef.defaultProps.autoMove = value;
+				_mobDef && (_mobDef.defaultProps.autoMove = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -137,7 +137,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _respawnTme)
 			{
 				_respawnTme = value;
-				_mobDef.defaultProps.respawnTime = value;
+				_mobDef && (_mobDef.defaultProps.respawnTime = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -154,7 +154,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _standByTime)
 			{
 				_standByTime = value;
-				_mobDef.defaultProps.standByTime = value;
+				_mobDef && (_mobDef.defaultProps.standByTime = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}
@@ -171,7 +171,7 @@ package statm.dev.mapeditor.dom.objects
 			if (value != _moveSpeed)
 			{
 				_moveSpeed = value;
-				_mobDef.defaultProps.moveSpeed = value;
+				_mobDef && (_mobDef.defaultProps.moveSpeed = value);
 				this.notifyChange(MapEditingActions.OBJECT_PROPS);
 			}
 		}

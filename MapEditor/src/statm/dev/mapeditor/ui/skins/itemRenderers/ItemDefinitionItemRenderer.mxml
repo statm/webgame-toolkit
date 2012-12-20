@@ -2,9 +2,7 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				xmlns:s="library://ns.adobe.com/flex/spark"
 				xmlns:mx="library://ns.adobe.com/flex/mx"
-				width="80"
-				height="80"
-				autoDrawBackground="true">
+				width="80" height="80" autoDrawBackground="true">
 
 	<fx:Script>
 		<![CDATA[
@@ -15,27 +13,27 @@
 			{
 				super.data = value;
 
-				var currentMap:Map = AppState.getCurrentMap();
-				iconImage.source = currentMap.iconList.getIcon(data.iconID);
-				itemLabel.text = data.name;
+				if (data)
+				{
+					var currentMap:Map = AppState.getCurrentMap();
+					iconImage.source = currentMap.iconList.getIcon(data.iconID);
+					itemLabel.text = data.name;
+				}
+				else
+				{
+					iconImage.source = null;
+					itemLabel.text = "";
+				}
 			}
 		]]>
 	</fx:Script>
 
-	<s:Group width="80"
-			 verticalCenter="0"
-			 clipAndEnableScrolling="true">
+	<s:Group width="80" clipAndEnableScrolling="true" verticalCenter="0">
 		<s:layout>
 			<s:VerticalLayout horizontalAlign="center"/>
 		</s:layout>
 
-		<s:BitmapImage id="iconImage"
-					   width="31"
-					   height="31"
-					   scaleMode="letterbox"
-					   fillMode="scale"/>
-		<s:Label id="itemLabel"
-				 width="80"
-				 textAlign="center"/>
+		<s:BitmapImage id="iconImage" width="31" height="31" fillMode="scale" scaleMode="letterbox"/>
+		<s:Label id="itemLabel" width="80" textAlign="center"/>
 	</s:Group>
 </s:ItemRenderer>

@@ -470,7 +470,7 @@ package statm.dev.mapeditor.mediators
 					newItem.x = dragAnchor.x;
 					newItem.y = dragAnchor.y;
 					currentMap.items.addItem(newItem);
-//					AppState.setCurrentSelection(newItem);
+					AppState.setCurrentSelection(newItem);
 				}
 			}
 

@@ -29,22 +29,22 @@ package statm.dev.mapeditor.ui
 		public static const PVP_ICON : Class;
 
 		// 特殊物件图标
-		[Embed(source = "../../../../assets/transportIcons/B.png")]
+		[Embed(source = "../../../../assets/itemIcons/B.png")]
 		public static const BORN_POINT_ICON : Class;
 
-		[Embed(source = "../../../../assets/transportIcons/D.png")]
+		[Embed(source = "../../../../assets/itemIcons/D.png")]
 		public static const LINK_DEST_POINT_ICON : Class;
 
-		[Embed(source = "../../../../assets/transportIcons/L.png")]
+		[Embed(source = "../../../../assets/itemIcons/L.png")]
 		public static const LINK_POINT_ICON : Class;
 
-		[Embed(source = "../../../../assets/transportIcons/T.png")]
+		[Embed(source = "../../../../assets/itemIcons/T.png")]
 		public static const TELEPORT_POINT_ICON : Class;
 
-		[Embed(source = "../../../../assets/transportIcons/W.png")]
+		[Embed(source = "../../../../assets/itemIcons/W.png")]
 		public static const WAYPOINT_ICON : Class;
 		
-		[Embed(source = "../../../../assets/transportIcons/W.png")]
+		[Embed(source = "../../../../assets/itemIcons/W.png")]
 		public static const NPC_ICON : Class;
 	}
 }

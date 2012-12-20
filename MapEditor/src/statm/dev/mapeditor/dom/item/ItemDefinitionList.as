@@ -78,7 +78,7 @@ package statm.dev.mapeditor.dom.item
 		{
 			var result:XML = <itemDefinitionList/>;
 
-			for each (var itemDef:ItemDefinitionBase in _itemDefinitions)
+			for each (var itemDef:ItemDefinitionBase in _itemDefinitions.source)
 			{
 				if (itemDef.iconID < 5)
 				{

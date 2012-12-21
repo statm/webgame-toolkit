@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
-	<s:layout>
-		<s:VerticalLayout gap="2"/>
-	</s:layout>
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx">
+    <s:layout>
+        <s:VerticalLayout gap="2"/>
+    </s:layout>
 
-	<fx:Metadata>
+    <fx:Metadata>
 		[Event(name="nationChanged", type="flash.events.Event")]
 	</fx:Metadata>
 
-	<fx:Script>
-		<![CDATA[
-			public function getNations() : Array
-			{
-				var result : Array = [];
+    <fx:Script>
+        <![CDATA[
+            public function getNations():Array
+            {
+                var result:Array = [];
 
-				cbxWu.selected && result.push("WU");
-				cbxShu.selected && result.push("SHU");
-				cbxWei.selected && result.push("WEI");
+                cbxWu.selected && result.push("WU");
+                cbxShu.selected && result.push("SHU");
+                cbxWei.selected && result.push("WEI");
 
-				return result;
-			}
+                return result;
+            }
 
-			public function setNations(nations : Array) : void
-			{
-				cbxWu.selected = (nations.indexOf("WU") != -1);
-				cbxShu.selected = (nations.indexOf("SHU") != -1);
-				cbxWei.selected = (nations.indexOf("WEI") != -1);
-			}
+            public function setNations(nations:Array):void
+            {
+                cbxWu.selected = (nations.indexOf("WU") != -1);
+                cbxShu.selected = (nations.indexOf("SHU") != -1);
+                cbxWei.selected = (nations.indexOf("WEI") != -1);
+            }
 
-			private function dispatchChangeEvent() : void
-			{
-				this.dispatchEvent(new Event("nationChanged"));
-			}
-		]]>
-	</fx:Script>
+            private function dispatchChangeEvent():void
+            {
+                this.dispatchEvent(new Event("nationChanged"));
+            }
+        ]]>
+    </fx:Script>
 
-	<s:CheckBox id="cbxWu"
-				label="吴"
-				change="dispatchChangeEvent();"
-				selected="true"/>
-	<s:CheckBox id="cbxShu"
-				label="蜀"
-				change="dispatchChangeEvent();"
-				selected="true"/>
-	<s:CheckBox id="cbxWei"
-				label="魏"
-				change="dispatchChangeEvent();"
-				selected="true"/>
+    <s:CheckBox id="cbxWu"
+        label="吴"
+        selected="true"
+        change="dispatchChangeEvent();"/>
+    <s:CheckBox id="cbxShu"
+        label="蜀"
+        selected="true"
+        change="dispatchChangeEvent();"/>
+    <s:CheckBox id="cbxWei"
+        label="魏"
+        selected="true"
+        change="dispatchChangeEvent();"/>
 </s:Group>

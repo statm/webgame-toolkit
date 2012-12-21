@@ -1,40 +1,37 @@
 package statm.dev.mapeditor.dom.layers
 {
+    import mx.collections.ArrayCollection;
+
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.item.ItemFactory;
 
     /**
-     * DOM 对象：怪物层。
+     * DOM 对象：采集点层
      *
      * @author statm
      *
      */
-    public class MobLayer extends PlacementLayerBase
+    public class MineLayer extends PlacementLayerBase
     {
-        public function MobLayer(root:DomNode)
+        public function MineLayer(root:DomNode)
         {
             super(root);
-
-            _name = "怪物";
+            _name = "采集点";
         }
 
         override public function toXML():XML
         {
             var result:XML = super.toXML();
 
-            result.setName("mobLayer");
+            result.setName("mineLayer");
 
             return result;
         }
 
-
         override public function readXML(xml:XML):void
         {
             ItemFactory.domRoot = root;
-            for each (var mobXML:XML in xml.children())
-            {
-                this.addItem(ItemFactory.createItemFromXML(mobXML));
-            }
+            // TODO
         }
     }
 }

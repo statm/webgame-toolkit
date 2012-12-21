@@ -1,151 +1,145 @@
 package statm.dev.mapeditor.ui
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.sampler.getLexicalScopes;
-	import flash.utils.Dictionary;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.sampler.getLexicalScopes;
+    import flash.utils.Dictionary;
 
-	import spark.core.SpriteVisualElement;
+    import spark.core.SpriteVisualElement;
 
-	import statm.dev.mapeditor.utils.assert;
+    import statm.dev.mapeditor.utils.assert;
 
 
-	/**
-	 * 无限大位图。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class BigBitmap extends SpriteVisualElement
-	{
-		private var UNIT_WIDTH : int;
-		private var UNIT_HEIGHT : int;
+    /**
+     * 无限大位图。
+     *
+     * @author statm
+     *
+     */
+    public class BigBitmap extends SpriteVisualElement
+    {
+        private var UNIT_WIDTH:int;
 
-		public function BigBitmap(unitWidth : int = 600, unitHeight : int = 600) : void
-		{
-			super();
+        private var UNIT_HEIGHT:int;
 
-			UNIT_WIDTH = unitWidth;
-			UNIT_HEIGHT = unitHeight;
-		}
+        public function BigBitmap(unitWidth:int = 600, unitHeight:int = 600):void
+        {
+            super();
 
-		private var tileDic : Dictionary = new Dictionary();
+            UNIT_WIDTH = unitWidth;
+            UNIT_HEIGHT = unitHeight;
+        }
 
-		private function globalToTile(x : Number, y : Number) : Point
-		{
-			return new Point(Math.floor(x / UNIT_WIDTH), Math.floor(y / UNIT_HEIGHT));
-		}
+        private var tileDic:Dictionary = new Dictionary();
 
-		private function hasTile(tileCoord : Point) : Boolean
-		{
-			return (tileDic[tileCoord.x + "," + tileCoord.y] != null);
-		}
+        private function globalToTile(x:Number, y:Number):Point
+        {
+            return new Point(Math.floor(x / UNIT_WIDTH), Math.floor(y / UNIT_HEIGHT));
+        }
 
-		public function getTile(tileCoord : Point) : BitmapData
-		{
-			if (hasTile(tileCoord))
-			{
-				return tileDic[tileCoord.x + "," + tileCoord.y];
-			}
+        private function hasTile(tileCoord:Point):Boolean
+        {
+            return (tileDic[tileCoord.x + "," + tileCoord.y] != null);
+        }
 
-			var tileBitmapData : BitmapData = new BitmapData(UNIT_WIDTH, UNIT_HEIGHT, true,
-				0x00000000);
-			var tile : Bitmap = new Bitmap(tileBitmapData);
+        public function getTile(tileCoord:Point):BitmapData
+        {
+            if (hasTile(tileCoord))
+            {
+                return tileDic[tileCoord.x + "," + tileCoord.y];
+            }
 
-			tile.x = tileCoord.x * UNIT_WIDTH;
-			tile.y = tileCoord.y * UNIT_HEIGHT;
+            var tileBitmapData:BitmapData = new BitmapData(UNIT_WIDTH, UNIT_HEIGHT, true, 0x00000000);
+            var tile:Bitmap = new Bitmap(tileBitmapData);
 
-			tileDic[tileCoord.x + "," + tileCoord.y] = tileBitmapData;
+            tile.x = tileCoord.x * UNIT_WIDTH;
+            tile.y = tileCoord.y * UNIT_HEIGHT;
 
-			this.addChild(tile);
+            tileDic[tileCoord.x + "," + tileCoord.y] = tileBitmapData;
 
-			return tileBitmapData;
-		}
+            this.addChild(tile);
 
-		private function getTileRect(tileCoord : Point) : Rectangle
-		{
-			return new Rectangle(tileCoord.x * UNIT_WIDTH, tileCoord.y * UNIT_HEIGHT, UNIT_WIDTH,
-				UNIT_HEIGHT);
-		}
+            return tileBitmapData;
+        }
 
-		public function copyPixels(sourceBitmapData : BitmapData, destPoint : Point) : void
-		{
-			var rect : Rectangle = sourceBitmapData.rect;
-			rect.offsetPoint(destPoint);
+        private function getTileRect(tileCoord:Point):Rectangle
+        {
+            return new Rectangle(tileCoord.x * UNIT_WIDTH, tileCoord.y * UNIT_HEIGHT, UNIT_WIDTH, UNIT_HEIGHT);
+        }
 
-			var xMin : int = Math.floor(rect.x / UNIT_WIDTH);
-			var xMax : int = Math.ceil(rect.right / UNIT_WIDTH);
-			var yMin : int = Math.floor(rect.y / UNIT_HEIGHT);
-			var yMax : int = Math.ceil(rect.bottom / UNIT_HEIGHT);
+        public function copyPixels(sourceBitmapData:BitmapData, destPoint:Point):void
+        {
+            var rect:Rectangle = sourceBitmapData.rect;
+            rect.offsetPoint(destPoint);
 
-			assert(xMin >= 0);
-			assert(yMin >= 0);
-			assert(xMax >= xMin);
-			assert(yMax >= yMin);
+            var xMin:int = Math.floor(rect.x / UNIT_WIDTH);
+            var xMax:int = Math.ceil(rect.right / UNIT_WIDTH);
+            var yMin:int = Math.floor(rect.y / UNIT_HEIGHT);
+            var yMax:int = Math.ceil(rect.bottom / UNIT_HEIGHT);
 
-			for (var i : int = xMin; i < xMax; i++)
-			{
-				for (var j : int = yMin; j < yMax; j++)
-				{
-					var tileCoord : Point = new Point(i, j); // 格子坐标
-					var tileRect : Rectangle = getTileRect(tileCoord); // 格子的像素框
-					var intersect : Rectangle = rect.intersection(tileRect); // 实际绘制的像素区域
+            assert(xMin >= 0);
+            assert(yMin >= 0);
+            assert(xMax >= xMin);
+            assert(yMax >= yMin);
 
-					getTile(tileCoord).copyPixels(sourceBitmapData,
-						new Rectangle(intersect.x - destPoint.x,
-						intersect.y - destPoint.y,
-						intersect.width,
-						intersect.height),
-						new Point(intersect.x - tileRect.x, intersect.y - tileRect.y));
-				}
-			}
-		}
+            for (var i:int = xMin; i < xMax; i++)
+            {
+                for (var j:int = yMin; j < yMax; j++)
+                {
+                    var tileCoord:Point = new Point(i, j); // 格子坐标
+                    var tileRect:Rectangle = getTileRect(tileCoord); // 格子的像素框
+                    var intersect:Rectangle = rect.intersection(tileRect); // 实际绘制的像素区域
 
-		public function clear() : void
-		{
-			for each (var tileBitmapData : BitmapData in tileDic)
-			{
-				tileBitmapData.fillRect(tileBitmapData.rect, 0x00000000);
-			}
-		}
+                    getTile(tileCoord).copyPixels(sourceBitmapData, new Rectangle(intersect.x - destPoint.x, intersect.y - destPoint.y, intersect.width, intersect.height), new Point(intersect.x - tileRect.x, intersect.y - tileRect.y));
+                }
+            }
+        }
 
-		public function fillRect(rect : Rectangle, color : uint) : void
-		{
-			var xMin : int = Math.floor(rect.x / UNIT_WIDTH);
-			var xMax : int = Math.ceil(rect.right / UNIT_WIDTH);
-			var yMin : int = Math.floor(rect.y / UNIT_HEIGHT);
-			var yMax : int = Math.ceil(rect.bottom / UNIT_HEIGHT);
+        public function clear():void
+        {
+            for each (var tileBitmapData:BitmapData in tileDic)
+            {
+                tileBitmapData.fillRect(tileBitmapData.rect, 0x00000000);
+            }
+        }
 
-			assert(xMin >= 0);
-			assert(yMin >= 0);
-			assert(xMax >= xMin);
-			assert(yMax >= yMin);
+        public function fillRect(rect:Rectangle, color:uint):void
+        {
+            var xMin:int = Math.floor(rect.x / UNIT_WIDTH);
+            var xMax:int = Math.ceil(rect.right / UNIT_WIDTH);
+            var yMin:int = Math.floor(rect.y / UNIT_HEIGHT);
+            var yMax:int = Math.ceil(rect.bottom / UNIT_HEIGHT);
 
-			for (var i : int = xMin; i < xMax; i++)
-			{
-				for (var j : int = yMin; j < yMax; j++)
-				{
-					var tileCoord : Point = new Point(i, j);
-					var tileRect : Rectangle = getTileRect(tileCoord);
-					var intersection : Rectangle = getTileRect(tileCoord).intersection(rect);
-					intersection.offset(-tileRect.x, -tileRect.y);
+            assert(xMin >= 0);
+            assert(yMin >= 0);
+            assert(xMax >= xMin);
+            assert(yMax >= yMin);
 
-					getTile(tileCoord).fillRect(intersection, color);
-				}
-			}
-		}
+            for (var i:int = xMin; i < xMax; i++)
+            {
+                for (var j:int = yMin; j < yMax; j++)
+                {
+                    var tileCoord:Point = new Point(i, j);
+                    var tileRect:Rectangle = getTileRect(tileCoord);
+                    var intersection:Rectangle = getTileRect(tileCoord).intersection(rect);
+                    intersection.offset(-tileRect.x, -tileRect.y);
 
-		[Bindable]
-		override public function get visible() : Boolean
-		{
-			return super.visible;
-		}
+                    getTile(tileCoord).fillRect(intersection, color);
+                }
+            }
+        }
 
-		override public function set visible(value : Boolean) : void
-		{
-			super.visible = value;
-		}
-	}
+        [Bindable]
+        override public function get visible():Boolean
+        {
+            return super.visible;
+        }
+
+        override public function set visible(value:Boolean):void
+        {
+            super.visible = value;
+        }
+    }
 }

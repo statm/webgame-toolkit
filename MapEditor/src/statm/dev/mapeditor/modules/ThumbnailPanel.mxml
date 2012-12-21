@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ui:MinimizablePanel xmlns:fx="http://ns.adobe.com/mxml/2009"
-					 xmlns:s="library://ns.adobe.com/flex/spark"
-					 xmlns:mx="library://ns.adobe.com/flex/mx"
-					 xmlns:ui="statm.dev.mapeditor.ui.*"
-					 title="缩略图"
-					 height="250"
-					 creationComplete="creationCompleteHandler(event)">
-	<fx:Script>
-		<![CDATA[
-			import mx.events.FlexEvent;
+<ui:MinimizablePanel 
+    height="250"
+    creationComplete="creationCompleteHandler(event)"
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+    xmlns:ui="statm.dev.mapeditor.ui.*"
+    title="缩略图">
+    <fx:Script>
+        <![CDATA[
+            import mx.events.FlexEvent;
 
-			import statm.dev.mapeditor.app.AppFacade;
-			import statm.dev.mapeditor.mediators.ThumbnailPanelMediator;
+            import statm.dev.mapeditor.app.AppFacade;
+            import statm.dev.mapeditor.mediators.ThumbnailPanelMediator;
 
-			protected function creationCompleteHandler(event : FlexEvent) : void
-			{
-				AppFacade.getInstance().registerMediator(new ThumbnailPanelMediator(ThumbnailPanelMediator.NAME, this));
-			}
+            protected function creationCompleteHandler(event:FlexEvent):void
+            {
+                AppFacade.getInstance().registerMediator(new ThumbnailPanelMediator(ThumbnailPanelMediator.NAME, this));
+            }
 
-			public function setThumbBg(bgPath : String) : void
-			{
-				if (!bgPath || bgPath.length == 0)
-				{
-					thumbImg.source = null;
-				}
-				else
-				{
-					thumbImg.source = "file:///" + bgPath;
-				}
-			}
-		]]>
-	</fx:Script>
+            public function setThumbBg(bgPath:String):void
+            {
+                if (!bgPath || bgPath.length == 0)
+                {
+                    thumbImg.source = null;
+                }
+                else
+                {
+                    thumbImg.source = "file:///" + bgPath;
+                }
+            }
+        ]]>
+    </fx:Script>
 
-	<s:Group id="thumbnailGroup"
-			 width="350"
-			 height="100%"
-			 clipAndEnableScrolling="true">
-		<s:Image id="thumbImg"
-				 left="0"
-				 right="0"
-				 top="0"
-				 bottom="0"
-				 backgroundColor="#CCCCCC"
-				 horizontalAlign="center"
-				 verticalAlign="middle"
-				 fillMode="scale"
-				 scaleMode="letterbox"/>
-		<s:Rect id="viewportIndicator">
-			<s:stroke>
-				<s:SolidColorStroke weight="2"
-									color="#FF0000"/>
-			</s:stroke>
-		</s:Rect>
-	</s:Group>
+    <s:Group id="thumbnailGroup"
+        width="350" height="100%"
+        clipAndEnableScrolling="true">
+        <s:Image id="thumbImg"
+            left="0" right="0" top="0" bottom="0"
+            backgroundColor="#CCCCCC"
+            horizontalAlign="center"
+            verticalAlign="middle"
+            fillMode="scale"
+            scaleMode="letterbox"/>
+        <s:Rect id="viewportIndicator">
+            <s:stroke>
+                <s:SolidColorStroke 
+                    color="#FF0000"
+                    weight="2"/>
+            </s:stroke>
+        </s:Rect>
+    </s:Group>
 </ui:MinimizablePanel>

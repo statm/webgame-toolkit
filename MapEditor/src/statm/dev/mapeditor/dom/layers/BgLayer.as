@@ -1,59 +1,59 @@
 package statm.dev.mapeditor.dom.layers
 {
-	import flash.filesystem.File;
-	
-	import statm.dev.mapeditor.app.AppFacade;
-	import statm.dev.mapeditor.app.AppNotificationCode;
-	import statm.dev.mapeditor.app.AppState;
-	import statm.dev.mapeditor.app.MapEditingActions;
-	import statm.dev.mapeditor.dom.DomNode;
-	import statm.dev.mapeditor.dom.Map;
+    import flash.filesystem.File;
 
-	/**
-	 * DOM 对象：背景。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class BgLayer extends DomNode
-	{
-		public function BgLayer(root : DomNode)
-		{
-			super(root);
+    import statm.dev.mapeditor.app.AppFacade;
+    import statm.dev.mapeditor.app.AppNotificationCode;
+    import statm.dev.mapeditor.app.AppState;
+    import statm.dev.mapeditor.app.MapEditingActions;
+    import statm.dev.mapeditor.dom.DomNode;
+    import statm.dev.mapeditor.dom.Map;
 
-			_parent = root;
-			_name = "背景";
-		}
+    /**
+     * DOM 对象：背景。
+     *
+     * @author statm
+     *
+     */
+    public class BgLayer extends DomNode
+    {
+        public function BgLayer(root:DomNode)
+        {
+            super(root);
 
-		private var _bgPath : String = "";
+            _parent = root;
+            _name = "背景";
+        }
 
-		public function get bgPath() : String
-		{
-			return _bgPath;
-		}
+        private var _bgPath:String = "";
 
-		public function set bgPath(path : String) : void
-		{
-			if (path != _bgPath)
-			{
-				_bgPath = path;
-				notifyChange(MapEditingActions.MAP_BG);
-			}
-		}
+        public function get bgPath():String
+        {
+            return _bgPath;
+        }
 
-		override public function toXML() : XML
-		{
+        public function set bgPath(path:String):void
+        {
+            if (path != _bgPath)
+            {
+                _bgPath = path;
+                notifyChange(MapEditingActions.MAP_BG);
+            }
+        }
+
+        override public function toXML():XML
+        {
 //			var result : XML = <bgLayer path={this.bgPath}/>;
 //
 //			return result;
-			return <bgLayer/>;
-		}
+            return <bgLayer/>;
+        }
 
-		override public function readXML(xml : XML) : void
-		{
+        override public function readXML(xml:XML):void
+        {
 //			this.bgPath = xml.@path;
-			var mapFile:File = new File(Map(root).filePath);
-			this.bgPath = mapFile.resolvePath(".." + File.separator + mapFile.name.split(".")[0] + ".jpg").nativePath;
-		}
-	}
+            var mapFile:File = new File(Map(root).filePath);
+            this.bgPath = mapFile.resolvePath(".." + File.separator + mapFile.name.split(".")[0] + ".jpg").nativePath;
+        }
+    }
 }

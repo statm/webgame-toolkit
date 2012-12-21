@@ -1,51 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
-			   xmlns:s="library://ns.adobe.com/flex/spark"
-			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   width="400"
-			   height="300"
-			   title="新建 NPC"
-			   close="PopUpManager.removePopUp(this)">
-	<fx:Script>
-		<![CDATA[
-			import mx.managers.PopUpManager;
+<s:TitleWindow 
+    width="400" height="300"
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+    title="新建 NPC"
+    close="PopUpManager.removePopUp(this)">
+    <fx:Script>
+        <![CDATA[
+            import mx.managers.PopUpManager;
 
-			import statm.dev.mapeditor.app.AppState;
-			import statm.dev.mapeditor.dom.item.NPCItemDefinition;
+            import statm.dev.mapeditor.app.AppState;
+            import statm.dev.mapeditor.dom.item.NPCItemDefinition;
 
-			public function reset() : void
-			{
-				tiNPCID.text = tiNPCName.text = tiNPCSkinID.text = "";
-			}
+            public function reset():void
+            {
+                tiNPCID.text = tiNPCName.text = tiNPCSkinID.text = "";
+            }
 
-			protected function btnSubmit_clickHandler(event : MouseEvent) : void
-			{
-				AppState.getCurrentMap().itemDefinitionList.itemDefinitions.addItem(
-					new NPCItemDefinition(parseInt(tiNPCID.text),
-					tiNPCName.text,
-					parseInt(tiNPCSkinID.text)));
+            protected function btnSubmit_clickHandler(event:MouseEvent):void
+            {
+                AppState.getCurrentMap().itemDefinitionList.itemDefinitions.addItem(new NPCItemDefinition(parseInt(tiNPCID.text), tiNPCName.text, parseInt(tiNPCSkinID.text)));
 
-				PopUpManager.removePopUp(this);
-			}
-		]]>
-	</fx:Script>
+                PopUpManager.removePopUp(this);
+            }
+        ]]>
+    </fx:Script>
 
-	<s:layout>
-		<s:VerticalLayout horizontalAlign="center"/>
-	</s:layout>
+    <s:layout>
+        <s:VerticalLayout horizontalAlign="center"/>
+    </s:layout>
 
-	<s:Form>
-		<s:FormItem label="NPC ID:">
-			<s:TextInput id="tiNPCID"/>
-		</s:FormItem>
-		<s:FormItem label="NPC 名称:">
-			<s:TextInput id="tiNPCName"/>
-		</s:FormItem>
-		<s:FormItem label="NPC 模型 ID:">
-			<s:TextInput id="tiNPCSkinID"/>
-		</s:FormItem>
-	</s:Form>
-	<s:Button id="btnSubmit"
-			  label="确定"
-			  click="btnSubmit_clickHandler(event)"/>
+    <s:Form>
+        <s:FormItem label="NPC ID:">
+            <s:TextInput id="tiNPCID"/>
+        </s:FormItem>
+        <s:FormItem label="NPC 名称:">
+            <s:TextInput id="tiNPCName"/>
+        </s:FormItem>
+        <s:FormItem label="NPC 模型 ID:">
+            <s:TextInput id="tiNPCSkinID"/>
+        </s:FormItem>
+    </s:Form>
+    <s:Button id="btnSubmit"
+        label="确定"
+        click="btnSubmit_clickHandler(event)"/>
 </s:TitleWindow>

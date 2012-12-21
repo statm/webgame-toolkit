@@ -1,122 +1,122 @@
 package statm.dev.mapeditor.mediators
 {
-	import flash.events.MouseEvent;
+    import flash.events.MouseEvent;
 
-	import spark.components.Button;
+    import spark.components.Button;
 
-	import org.puremvc.as3.interfaces.INotification;
-	import org.puremvc.as3.patterns.mediator.Mediator;
+    import org.puremvc.as3.interfaces.INotification;
+    import org.puremvc.as3.patterns.mediator.Mediator;
 
-	import statm.dev.mapeditor.app.AppNotificationCode;
-	import statm.dev.mapeditor.app.AppState;
-	import statm.dev.mapeditor.dom.Map;
-
-
-	/**
-	 * 菜单条 Mediator，同时控制窗口标题。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class ControlBarMediator extends Mediator
-	{
-		public static const NAME:String = "ControlBarMediator";
-
-		public function ControlBarMediator(mediatorName:String = null, viewComponent:Object = null)
-		{
-			super(mediatorName, viewComponent);
-
-			Button(viewComponent.btnNewMapFile).addEventListener(MouseEvent.CLICK, btnNewMapFile_clickHandler);
-			Button(viewComponent.btnBrowseMapFile).addEventListener(MouseEvent.CLICK, btnBrowseMapFile_clickHandler);
-			Button(viewComponent.btnSaveMapFile).addEventListener(MouseEvent.CLICK, btnSaveMapFile_clickHandler);
-			Button(viewComponent.btnCloseMapFile).addEventListener(MouseEvent.CLICK, btnCloseMapFile_clickHandler);
-			Button(viewComponent.btnExportXML).addEventListener(MouseEvent.CLICK, btnExportXML_clickHandler);
-			Button(viewComponent.btnImportNPC).addEventListener(MouseEvent.CLICK, btnImportNPC_clickHandler);
-			Button(viewComponent.btnImportMob).addEventListener(MouseEvent.CLICK, btnImportMob_clickHandler);
-		}
+    import statm.dev.mapeditor.app.AppNotificationCode;
+    import statm.dev.mapeditor.app.AppState;
+    import statm.dev.mapeditor.dom.Map;
 
 
-		override public function listNotificationInterests():Array
-		{
-			return [AppNotificationCode.MAP_DATA_READY, AppNotificationCode.MAP_FILE_SAVED, AppNotificationCode.MAP_DATA_CHANGED, AppNotificationCode.MAP_FILE_CLOSED];
-		}
+    /**
+     * 菜单条 Mediator，同时控制窗口标题。
+     *
+     * @author statm
+     *
+     */
+    public class ControlBarMediator extends Mediator
+    {
+        public static const NAME:String = "ControlBarMediator";
 
-		override public function handleNotification(notification:INotification):void
-		{
-			var map:Map = AppState.getCurrentMap();
+        public function ControlBarMediator(mediatorName:String = null, viewComponent:Object = null)
+        {
+            super(mediatorName, viewComponent);
 
-			if (!map)
-			{
-				setWindowTitle(null);
-				return;
-			}
+            Button(viewComponent.btnNewMapFile).addEventListener(MouseEvent.CLICK, btnNewMapFile_clickHandler);
+            Button(viewComponent.btnBrowseMapFile).addEventListener(MouseEvent.CLICK, btnBrowseMapFile_clickHandler);
+            Button(viewComponent.btnSaveMapFile).addEventListener(MouseEvent.CLICK, btnSaveMapFile_clickHandler);
+            Button(viewComponent.btnCloseMapFile).addEventListener(MouseEvent.CLICK, btnCloseMapFile_clickHandler);
+            Button(viewComponent.btnExportXML).addEventListener(MouseEvent.CLICK, btnExportXML_clickHandler);
+            Button(viewComponent.btnImportNPC).addEventListener(MouseEvent.CLICK, btnImportNPC_clickHandler);
+            Button(viewComponent.btnImportMob).addEventListener(MouseEvent.CLICK, btnImportMob_clickHandler);
+        }
 
-			switch (notification.getName())
-			{
-				case AppNotificationCode.MAP_DATA_READY:
-				case AppNotificationCode.MAP_FILE_SAVED:
-					map.setDirty(false);
-					break;
 
-				case AppNotificationCode.MAP_DATA_CHANGED:
-					map.setDirty(true);
-					break;
-			}
+        override public function listNotificationInterests():Array
+        {
+            return [ AppNotificationCode.MAP_DATA_READY, AppNotificationCode.MAP_FILE_SAVED, AppNotificationCode.MAP_DATA_CHANGED, AppNotificationCode.MAP_FILE_CLOSED ];
+        }
 
-			setWindowTitle(map);
-		}
+        override public function handleNotification(notification:INotification):void
+        {
+            var map:Map = AppState.getCurrentMap();
 
-		private function btnNewMapFile_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.CREATE_MAP_FILE);
-		}
+            if (!map)
+            {
+                setWindowTitle(null);
+                return;
+            }
 
-		private function btnBrowseMapFile_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.BROWSE_MAP_FILE);
-		}
+            switch (notification.getName())
+            {
+                case AppNotificationCode.MAP_DATA_READY:
+                case AppNotificationCode.MAP_FILE_SAVED:
+                    map.setDirty(false);
+                    break;
 
-		private function btnSaveMapFile_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.SAVE_MAP_FILE);
-		}
+                case AppNotificationCode.MAP_DATA_CHANGED:
+                    map.setDirty(true);
+                    break;
+            }
 
-		private function btnCloseMapFile_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.CLOSE_MAP_FILE);
-		}
+            setWindowTitle(map);
+        }
 
-		private function btnExportXML_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.EXPORT_XML);
-		}
+        private function btnNewMapFile_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.CREATE_MAP_FILE);
+        }
 
-		private function btnImportNPC_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.IMPORT_NPC);
-		}
+        private function btnBrowseMapFile_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.BROWSE_MAP_FILE);
+        }
 
-		private function btnImportMob_clickHandler(event:MouseEvent):void
-		{
-			sendNotification(AppNotificationCode.IMPORT_MOB);
-		}
+        private function btnSaveMapFile_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.SAVE_MAP_FILE);
+        }
 
-		private function setWindowTitle(map:Map = null):void
-		{
-			var title:String = "";
+        private function btnCloseMapFile_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.CLOSE_MAP_FILE);
+        }
 
-			if (map)
-			{
-				title += (map.isDirty ? "*" : "");
-				title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
-				title += " - 地图编辑器 v1.2";
-			}
-			else
-			{
-				title = "地图编辑器 v1.2";
-			}
+        private function btnExportXML_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.EXPORT_XML);
+        }
 
-			viewComponent.stage.nativeWindow.title = title;
-		}
-	}
+        private function btnImportNPC_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.IMPORT_NPC);
+        }
+
+        private function btnImportMob_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.IMPORT_MOB);
+        }
+
+        private function setWindowTitle(map:Map = null):void
+        {
+            var title:String = "";
+
+            if (map)
+            {
+                title += (map.isDirty ? "*" : "");
+                title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
+                title += " - 地图编辑器 v1.2";
+            }
+            else
+            {
+                title = "地图编辑器 v1.2";
+            }
+
+            viewComponent.stage.nativeWindow.title = title;
+        }
+    }
 }

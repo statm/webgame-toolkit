@@ -1,140 +1,133 @@
 package statm.dev.mapeditor.dom.layers
 {
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	
-	import mx.collections.ArrayCollection;
-	
-	import statm.dev.mapeditor.app.AppFacade;
-	import statm.dev.mapeditor.app.AppNotificationCode;
-	import statm.dev.mapeditor.app.MapEditingActions;
-	import statm.dev.mapeditor.dom.DomNode;
-	import statm.dev.mapeditor.dom.Map;
-	import statm.dev.mapeditor.utils.GridUtils;
-	import statm.dev.mapeditor.utils.VersionUtils;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 
-	/**
-	 * DOM 对象：网格组。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class Grids extends DomNode
-	{
-		public function Grids(root : DomNode)
-		{
-			super(root);
+    import mx.collections.ArrayCollection;
 
-			_name = "网格";
-			_parent = root;
-			_children = new ArrayCollection([
-				_regionLayer = new RegionLayer(root),
-				_walkingLayer = new WalkingLayer(root),
-				_walkingShadowLayer = new WalkingShadowLayer(root),
-				_combatLayer = new CombatLayer(root)]);
-			_regionLayer.parent = _walkingLayer.parent = _combatLayer.parent = this;
-		}
+    import statm.dev.mapeditor.app.AppFacade;
+    import statm.dev.mapeditor.app.AppNotificationCode;
+    import statm.dev.mapeditor.app.MapEditingActions;
+    import statm.dev.mapeditor.dom.DomNode;
+    import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.utils.GridUtils;
+    import statm.dev.mapeditor.utils.VersionUtils;
 
-		private var _regionLayer : RegionLayer;
+    /**
+     * DOM 对象：网格组。
+     *
+     * @author statm
+     *
+     */
+    public class Grids extends DomNode
+    {
+        public function Grids(root:DomNode)
+        {
+            super(root);
 
-		public function get regionLayer() : RegionLayer
-		{
-			return _regionLayer;
-		}
+            _name = "网格";
+            _parent = root;
+            _children = new ArrayCollection([ _regionLayer = new RegionLayer(root), _walkingLayer = new WalkingLayer(root), _walkingShadowLayer = new WalkingShadowLayer(root), _combatLayer = new CombatLayer(root)]);
+            _regionLayer.parent = _walkingLayer.parent = _combatLayer.parent = this;
+        }
 
-		private var _walkingLayer : WalkingLayer;
+        private var _regionLayer:RegionLayer;
 
-		public function get walkingLayer() : WalkingLayer
-		{
-			return _walkingLayer;
-		}
+        public function get regionLayer():RegionLayer
+        {
+            return _regionLayer;
+        }
 
-		private var _walkingShadowLayer : WalkingShadowLayer;
+        private var _walkingLayer:WalkingLayer;
 
-		public function get walkingShadowLayer() : WalkingShadowLayer
-		{
-			return _walkingShadowLayer;
-		}
+        public function get walkingLayer():WalkingLayer
+        {
+            return _walkingLayer;
+        }
 
-		private var _combatLayer : CombatLayer;
+        private var _walkingShadowLayer:WalkingShadowLayer;
 
-		public function get combatLayer() : CombatLayer
-		{
-			return _combatLayer;
-		}
+        public function get walkingShadowLayer():WalkingShadowLayer
+        {
+            return _walkingShadowLayer;
+        }
 
-		private var _gridSize : Point = new Point(1, 1);
+        private var _combatLayer:CombatLayer;
 
-		public function get gridSize() : Point
-		{
-			return _gridSize;
-		}
+        public function get combatLayer():CombatLayer
+        {
+            return _combatLayer;
+        }
 
-		public function set gridSize(size : Point) : void
-		{
-			if (!size.equals(_gridSize))
-			{
-				_gridSize = size;
+        private var _gridSize:Point = new Point(1, 1);
 
-				_gridRange.width = _gridSize.x * GridUtils.BLOCK_DIMENSION;
-				_gridRange.height = _gridSize.y * GridUtils.BLOCK_DIMENSION;
+        public function get gridSize():Point
+        {
+            return _gridSize;
+        }
 
-				this.notifyChange(MapEditingActions.GRID_SIZE);
-			}
-		}
+        public function set gridSize(size:Point):void
+        {
+            if (!size.equals(_gridSize))
+            {
+                _gridSize = size;
 
-		private var _gridAnchor : Point = new Point(0, 0);
+                _gridRange.width = _gridSize.x * GridUtils.BLOCK_DIMENSION;
+                _gridRange.height = _gridSize.y * GridUtils.BLOCK_DIMENSION;
 
-		public function get gridAnchor() : Point
-		{
-			return _gridAnchor;
-		}
+                this.notifyChange(MapEditingActions.GRID_SIZE);
+            }
+        }
 
-		private var _gridRange : Rectangle = new Rectangle(_gridAnchor.x, _gridAnchor.y, _gridSize.x * GridUtils.BLOCK_DIMENSION, _gridSize.y * GridUtils.BLOCK_DIMENSION);
+        private var _gridAnchor:Point = new Point(0, 0);
 
-		public function get gridRange() : Rectangle
-		{
-			return _gridRange;
-		}
+        public function get gridAnchor():Point
+        {
+            return _gridAnchor;
+        }
 
-		public function set gridAnchor(anchor : Point) : void
-		{
-			if (!anchor.equals(_gridAnchor))
-			{
-				_gridAnchor = anchor;
-				this.notifyChange(MapEditingActions.GRID_ANCHOR);
-			}
-		}
+        private var _gridRange:Rectangle = new Rectangle(_gridAnchor.x, _gridAnchor.y, _gridSize.x * GridUtils.BLOCK_DIMENSION, _gridSize.y * GridUtils.BLOCK_DIMENSION);
 
-		override public function toXML() : XML
-		{
-			var result : XML = <grids row={gridSize.y} col={gridSize.x} x={gridAnchor.x} y={gridAnchor.y}/>;
+        public function get gridRange():Rectangle
+        {
+            return _gridRange;
+        }
 
-			result.appendChild(regionLayer.toXML())
-				.appendChild(walkingLayer.toXML())
-				.appendChild(walkingShadowLayer.toXML())
-				.appendChild(combatLayer.toXML());
+        public function set gridAnchor(anchor:Point):void
+        {
+            if (!anchor.equals(_gridAnchor))
+            {
+                _gridAnchor = anchor;
+                this.notifyChange(MapEditingActions.GRID_ANCHOR);
+            }
+        }
 
-			return result;
-		}
+        override public function toXML():XML
+        {
+            var result:XML = <grids row={gridSize.y} col={gridSize.x} x={gridAnchor.x} y={gridAnchor.y}/>;
 
-		override public function readXML(xml : XML) : void
-		{
-			// v1.2.4 将网格单元变为了 10x10，读取以前的文件时要做修改。
-			if (VersionUtils.compareVersion(Map(root).version, "1.2.4") < 0)
-			{
-				this.gridSize = new Point(parseInt(xml.@col) * 2, parseInt(xml.@row) * 2);
-			}
-			else
-			{
-				this.gridSize = new Point(parseInt(xml.@col), parseInt(xml.@row));
-			}
-			this.gridAnchor = new Point(parseInt(xml.@x), parseInt(xml.@y));
+            result.appendChild(regionLayer.toXML()).appendChild(walkingLayer.toXML()).appendChild(walkingShadowLayer.toXML()).appendChild(combatLayer.toXML());
 
-			this.regionLayer.readXML(xml.regionLayer[0]);
-			this.walkingLayer.readXML(xml.walkingLayer[0]);
-			this.walkingShadowLayer.readXML(xml.walkingShadowLayer[0]);
-			this.combatLayer.readXML(xml.combatLayer[0]);
-		}
-	}
+            return result;
+        }
+
+        override public function readXML(xml:XML):void
+        {
+            // v1.2.4 将网格单元变为了 10x10，读取以前的文件时要做修改。
+            if (VersionUtils.compareVersion(Map(root).version, "1.2.4") < 0)
+            {
+                this.gridSize = new Point(parseInt(xml.@col) * 2, parseInt(xml.@row) * 2);
+            }
+            else
+            {
+                this.gridSize = new Point(parseInt(xml.@col), parseInt(xml.@row));
+            }
+            this.gridAnchor = new Point(parseInt(xml.@x), parseInt(xml.@y));
+
+            this.regionLayer.readXML(xml.regionLayer[0]);
+            this.walkingLayer.readXML(xml.walkingLayer[0]);
+            this.walkingShadowLayer.readXML(xml.walkingShadowLayer[0]);
+            this.combatLayer.readXML(xml.combatLayer[0]);
+        }
+    }
 }

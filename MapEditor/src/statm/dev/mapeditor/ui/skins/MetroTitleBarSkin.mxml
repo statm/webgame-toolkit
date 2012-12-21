@@ -1,150 +1,146 @@
 <!--- The default skin class for the title bar of the Spark WindowedApplication component
-	  and Spark Window component when you use Flex chrome.
-	  The title bar skin includes the close, minimize, and maximize buttons, the
-	  title icon, and the title text.
+      and Spark Window component when you use Flex chrome.
+      The title bar skin includes the close, minimize, and maximize buttons, the
+      title icon, and the title text.
 
-	  <p>The Flex chrome is defined by the SparkChromeWindowedApplicationSkin skin class
-	  in the spark.skins.spark package.
-	  To use the Flex chrome, set <code>systemChrome</code> to "none" in the application's .xml file,
-	  and set the <code>skinClass</code> style to spark.skins.spark.SparkChromeWindowedApplicationSkin. </p>
+      <p>The Flex chrome is defined by the SparkChromeWindowedApplicationSkin skin class
+      in the spark.skins.spark package.
+      To use the Flex chrome, set <code>systemChrome</code> to "none" in the application's .xml file,
+      and set the <code>skinClass</code> style to spark.skins.spark.SparkChromeWindowedApplicationSkin. </p>
 
-	  @langversion 3.0
-	  @playerversion Flash 10
-	  @playerversion AIR 1.5
-	  @productversion Flex 4
+      @langversion 3.0
+      @playerversion Flash 10
+      @playerversion AIR 1.5
+      @productversion Flex 4
 
-	  @see spark.components.WindowedApplication
-	  @see spark.components.Window
-	  @see spark.skins.spark.SparkChromeWindowedApplicationSkin
+      @see spark.components.WindowedApplication
+      @see spark.components.Window
+      @see spark.skins.spark.SparkChromeWindowedApplicationSkin
 -->
-<s:SparkSkin minHeight="38"
-			 xmlns:fx="http://ns.adobe.com/mxml/2009"
-			 xmlns:s="library://ns.adobe.com/flex/spark"
-			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
-			 xmlns:mx="library://ns.adobe.com/flex/mx">
+<s:SparkSkin 
+    minHeight="38"
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+    xmlns:mx="library://ns.adobe.com/flex/mx">
 
-	<fx:Metadata>
+    <fx:Metadata>
       /** 
         * @copy spark.skins.spark.ApplicationSkin#hostComponent
         */
       [HostComponent("statm.dev.mapeditor.ui.MetroTitleBar")]
     </fx:Metadata>
 
-	<fx:Script fb:purpose="styling">
-		/*  Define the skin elements that should not be colorized.
-		 *  Exclude the titleBar and scroller because they are SparkSkins and we
-		 *  don't want to colorize them twice.
-		 */
-		private static const exclusions : Array = ["titleIconImage", "titleText"];
+    <fx:Script fb:purpose="styling">
+        /*  Define the skin elements that should not be colorized.
+         *  Exclude the titleBar and scroller because they are SparkSkins and we
+         *  don't want to colorize them twice.
+         */
+        private static const exclusions:Array = [ "titleIconImage", "titleText" ];
 
-		/**
-		 * @private
-		 */
-		override public function get colorizeExclusions() : Array
-		{
-			return exclusions;
-		}
+        /**
+         * @private
+         */
+        override public function get colorizeExclusions():Array
+        {
+            return exclusions;
+        }
 
-		/**
-		 * @private
-		 */
-		override protected function initializationComplete() : void
-		{
-			useChromeColor = true;
-			super.initializationComplete();
-		}
-	</fx:Script>
+        /**
+         * @private
+         */
+        override protected function initializationComplete():void
+        {
+            useChromeColor = true;
+            super.initializationComplete();
+        }
+    </fx:Script>
 
-	<s:states>
-		<s:State name="normal"/>
-		<s:State name="disabled"/>
-		<s:State name="normalAndMaximized"
-				 stateGroups="maximizedGroup"/>
-		<s:State name="disabledAndMaximized"
-				 stateGroups="maximizedGroup"/>
-	</s:states>
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="disabled"/>
+        <s:State name="normalAndMaximized"
+            stateGroups="maximizedGroup"/>
+        <s:State name="disabledAndMaximized"
+            stateGroups="maximizedGroup"/>
+    </s:states>
 
-	<!-- fill -->
-	<!--- Defines the background color of the skin. -->
-	<s:Rect id="background"
-			left="0"
-			right="0"
-			top="0"
-			bottom="0">
-		<s:fill>
-			<s:SolidColor color="0xFFFFFF"/>
-		</s:fill>
-	</s:Rect>
+    <!-- fill -->
+    <!--- Defines the background color of the skin. -->
+    <s:Rect id="background"
+        left="0" right="0" top="0" bottom="0">
+        <s:fill>
+            <s:SolidColor color="0xFFFFFF"/>
+        </s:fill>
+    </s:Rect>
 
-	<s:Group width="100%"
-			 height="100%"
-			 left="0"
-			 right="0"
-			 minHeight="24">
+    <s:Group 
+        width="100%" height="100%"
+        left="0" right="0"
+        minHeight="24">
 
-		<s:layout>
-			<s:HorizontalLayout gap="5"/>
-		</s:layout>
+        <s:layout>
+            <s:HorizontalLayout gap="5"/>
+        </s:layout>
 
-		<!-- title bar icon -->
-		<!--- @copy spark.components.windowClasses.TitleBar#titleIconImage -->
-		<s:BitmapImage id="titleIconImage"
-					   minWidth="0"
-					   fillMode="clip"/>
+        <!-- title bar icon -->
+        <!--- @copy spark.components.windowClasses.TitleBar#titleIconImage -->
+        <s:BitmapImage id="titleIconImage"
+            minWidth="0"
+            fillMode="clip"/>
 
-		<!-- title -->
-		<!--- @copy spark.components.windowClasses.TitleBar#titleText -->
-		<s:Label id="titleText"
-				 width="100%"
-				 height="100%"
-				 verticalAlign="middle"
-				 color="#585858"
-				 fontSize="12"
-				 minWidth="0"
-				 maxDisplayedLines="1"/>
+        <!-- title -->
+        <!--- @copy spark.components.windowClasses.TitleBar#titleText -->
+        <s:Label id="titleText"
+            width="100%" height="100%"
+            color="#585858"
+            fontSize="12"
+            verticalAlign="middle"
+            minWidth="0"
+            maxDisplayedLines="1"/>
 
-		<s:Group id="titleBarGroup">
-			<s:layout>
-				<s:HorizontalLayout verticalAlign="middle"/>
-			</s:layout>
-		</s:Group>
+        <s:Group id="titleBarGroup">
+            <s:layout>
+                <s:HorizontalLayout verticalAlign="middle"/>
+            </s:layout>
+        </s:Group>
 
-		<!-- minimize button -->
-		<!---
-			By default, the button uses the spark.skins.spark.windowChrome.MinimizeButtonSkin class
-			to define the skin for the mimimized button.
+        <!-- minimize button -->
+        <!---
+            By default, the button uses the spark.skins.spark.windowChrome.MinimizeButtonSkin class
+            to define the skin for the mimimized button.
 
-			@copy spark.components.windowClasses.TitleBar#minimizeButton
+            @copy spark.components.windowClasses.TitleBar#minimizeButton
 
-			@see spark.skins.spark.windowChrome.MinimizeButtonSkin
-		-->
-		<s:Button id="minimizeButton"
-				  skinClass="statm.dev.mapeditor.ui.skins.MinimizeButtonSkin"/>
+            @see spark.skins.spark.windowChrome.MinimizeButtonSkin
+        -->
+        <s:Button id="minimizeButton"
+            skinClass="statm.dev.mapeditor.ui.skins.MinimizeButtonSkin"/>
 
-		<!-- maximize button -->
-		<!---
-			By default, the button uses the spark.skins.spark.windowChrome.MinimizeButtonSkin class
-			to define the skin for the maximized button.
+        <!-- maximize button -->
+        <!---
+            By default, the button uses the spark.skins.spark.windowChrome.MinimizeButtonSkin class
+            to define the skin for the maximized button.
 
-			@copy spark.components.windowClasses.TitleBar#maximizeButton
+            @copy spark.components.windowClasses.TitleBar#maximizeButton
 
-			@see spark.skins.spark.windowChrome.MaximizeButtonSkin
-		-->
-		<s:Button id="maximizeButton"
-				  skinClass="statm.dev.mapeditor.ui.skins.MaximizeButtonSkin"
-				  skinClass.maximizedGroup="statm.dev.mapeditor.ui.skins.RestoreButtonSkin"/>
+            @see spark.skins.spark.windowChrome.MaximizeButtonSkin
+        -->
+        <s:Button id="maximizeButton"
+            skinClass="statm.dev.mapeditor.ui.skins.MaximizeButtonSkin"
+            skinClass.maximizedGroup="statm.dev.mapeditor.ui.skins.RestoreButtonSkin"/>
 
-		<!-- close button -->
-		<!---
-			By default, the button uses the spark.skins.spark.windowChrome.MinimizeButtonSkin class
-			to define the skin for the close button.
+        <!-- close button -->
+        <!---
+            By default, the button uses the spark.skins.spark.windowChrome.MinimizeButtonSkin class
+            to define the skin for the close button.
 
-			@copy spark.components.windowClasses.TitleBar#closeButton
+            @copy spark.components.windowClasses.TitleBar#closeButton
 
-			@see spark.skins.spark.windowChrome.CloseButtonSkin
-		-->
-		<s:Button id="closeButton"
-				  skinClass="statm.dev.mapeditor.ui.skins.CloseButtonSkin"/>
+            @see spark.skins.spark.windowChrome.CloseButtonSkin
+        -->
+        <s:Button id="closeButton"
+            skinClass="statm.dev.mapeditor.ui.skins.CloseButtonSkin"/>
 
-	</s:Group>
+    </s:Group>
 </s:SparkSkin>

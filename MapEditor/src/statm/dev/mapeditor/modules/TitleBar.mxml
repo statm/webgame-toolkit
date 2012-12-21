@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationCompleteHandler(event)"
-		 width="100%"
-		 minHeight="36">
+<s:Group 
+    width="100%"
+    minHeight="36"
+    creationComplete="creationCompleteHandler(event)"
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx">
 
-	<fx:Script>
-		<![CDATA[
-			import mx.events.FlexEvent;
+    <fx:Script>
+        <![CDATA[
+            import mx.events.FlexEvent;
 
-			import statm.dev.mapeditor.app.AppFacade;
-			import statm.dev.mapeditor.mediators.ControlBarMediator;
+            import statm.dev.mapeditor.app.AppFacade;
+            import statm.dev.mapeditor.mediators.ControlBarMediator;
 
-			protected function creationCompleteHandler(event : FlexEvent) : void
-			{
-				AppFacade.getInstance().registerMediator(new ControlBarMediator(ControlBarMediator.NAME, this));
-			}
-		]]>
-	</fx:Script>
+            protected function creationCompleteHandler(event:FlexEvent):void
+            {
+                AppFacade.getInstance().registerMediator(new ControlBarMediator(ControlBarMediator.NAME, this));
+            }
+        ]]>
+    </fx:Script>
 
-	<s:Group left="0"
-			 right="0"
-			 top="0"
-			 bottom="0">
-		<s:layout>
-			<s:HorizontalLayout verticalAlign="middle"/>
-		</s:layout>
-		<s:Button id="btnNewMapFile"
-				  label="创建地图"
-				  focusEnabled="false"/>
-		<s:Button id="btnBrowseMapFile"
-				  label="打开地图"
-				  focusEnabled="false"/>
-		<s:Button id="btnSaveMapFile"
-				  label="保存地图"
-				  focusEnabled="false"/>
-		<s:Button id="btnCloseMapFile"
-				  label="关闭地图"
-				  focusEnabled="false"/>
-		<s:Button id="btnExportXML"
-				  label="导出数据..."
-				  focusEnabled="false"/>
-		<s:Button id="btnImportNPC"
-				  label="导入NPC数据..."
-				  focusEnabled="false"/>
-		<s:Button id="btnImportMob"
-				  label="导入怪物数据..."
-				  focusEnabled="false"/>
-		<s:Spacer width="100%"/>
-		<s:Label id="lblCurrentCoord"/>
-	</s:Group>
+    <s:Group 
+        left="0" right="0" top="0" bottom="0">
+        <s:layout>
+            <s:HorizontalLayout verticalAlign="middle"/>
+        </s:layout>
+        <s:Button id="btnNewMapFile"
+            focusEnabled="false"
+            label="创建地图"/>
+        <s:Button id="btnBrowseMapFile"
+            focusEnabled="false"
+            label="打开地图"/>
+        <s:Button id="btnSaveMapFile"
+            focusEnabled="false"
+            label="保存地图"/>
+        <s:Button id="btnCloseMapFile"
+            focusEnabled="false"
+            label="关闭地图"/>
+        <s:Button id="btnExportXML"
+            focusEnabled="false"
+            label="导出数据..."/>
+        <s:Button id="btnImportNPC"
+            focusEnabled="false"
+            label="导入NPC数据..."/>
+        <s:Button id="btnImportMob"
+            focusEnabled="false"
+            label="导入怪物数据..."/>
+        <s:Spacer width="100%"/>
+        <s:Label id="lblCurrentCoord"/>
+    </s:Group>
 </s:Group>

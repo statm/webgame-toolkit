@@ -1,326 +1,328 @@
 package statm.dev.mapeditor.io
 {
-	import flash.filesystem.File;
-	import flash.utils.Dictionary;
-	
-	import statm.dev.mapeditor.app.AppState;
-	import statm.dev.mapeditor.dom.DomObject;
-	import statm.dev.mapeditor.dom.Map;
-	import statm.dev.mapeditor.dom.brush.Brush;
-	import statm.dev.mapeditor.dom.layers.CombatLayer;
-	import statm.dev.mapeditor.dom.layers.RegionLayer;
-	import statm.dev.mapeditor.dom.layers.WalkingLayer;
-	import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
-	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
-	import statm.dev.mapeditor.dom.objects.LinkPoint;
-	import statm.dev.mapeditor.dom.objects.NPC;
-	import statm.dev.mapeditor.dom.objects.TeleportPoint;
-	import statm.dev.mapeditor.dom.objects.Waypoint;
-	import statm.dev.mapeditor.utils.GridUtils;
+    import flash.filesystem.File;
+    import flash.utils.Dictionary;
 
-	/**
-	 * 将地图文件输出为客户端 XML 格式。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class ClientWriter
-	{
-		private var map : Map;
-		private var xmlResult : XML;
+    import statm.dev.mapeditor.app.AppState;
+    import statm.dev.mapeditor.dom.DomObject;
+    import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.dom.brush.Brush;
+    import statm.dev.mapeditor.dom.layers.CombatLayer;
+    import statm.dev.mapeditor.dom.layers.RegionLayer;
+    import statm.dev.mapeditor.dom.layers.WalkingLayer;
+    import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
+    import statm.dev.mapeditor.dom.objects.LinkDestPoint;
+    import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.NPC;
+    import statm.dev.mapeditor.dom.objects.TeleportPoint;
+    import statm.dev.mapeditor.dom.objects.Waypoint;
+    import statm.dev.mapeditor.utils.GridUtils;
 
-		public function read(map : Map) : void
-		{
-			reset();
-			this.map = map;
-			parseMap();
-		}
+    /**
+     * 将地图文件输出为客户端 XML 格式。
+     *
+     * @author statm
+     *
+     */
+    public class ClientWriter
+    {
+        private var map:Map;
 
-		public function flush() : XML
-		{
-			return xmlResult;
-		}
+        private var xmlResult:XML;
 
-		private function reset() : void
-		{
+        public function read(map:Map):void
+        {
+            reset();
+            this.map = map;
+            parseMap();
+        }
 
-		}
+        public function flush():XML
+        {
+            return xmlResult;
+        }
 
-		private function parseMap() : void
-		{
-			xmlResult = <worldMap>
-					<version>{AppState.xmlUID}</version>
-					<id>{map.mapID}</id>
-					<name>{map.mapName}</name>
-					<maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>
-					<maxRow>{map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION}</maxRow>
-					<gridX>{map.grids.gridAnchor.x}</gridX>
-					<gridY>{map.grids.gridAnchor.y}</gridY>
-					<image>{getImageName()}</image>
-					<imageSize width={map.bgLayer.display.width} height={map.bgLayer.display.height}/>
-					<smallImageSize width={map.smallMapWidth} height={map.smallMapHeight}/>
-					<levelLimit>{map.levelLimit}</levelLimit>
-					{generateTileAndPlanLists()}
-					{generateTransportPoints()}
-					{generateWaypoints()}
-					{generateNPCList()}
-				</worldMap>;
-		}
+        private function reset():void
+        {
 
-		private function getImageName() : String
-		{
-			if (!map.bgLayer.bgPath || map.bgLayer.bgPath.length == 0)
-			{
-				return "";
-			}
+        }
 
-			return new File(map.bgLayer.bgPath).name.split(".")[0];
-		}
+        private function parseMap():void
+        {
+            xmlResult = <worldMap>
+                    <version>{AppState.xmlUID}</version>
+                    <id>{map.mapID}</id>
+                    <name>{map.mapName}</name>
+                    <maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>
+                    <maxRow>{map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION}</maxRow>
+                    <gridX>{map.grids.gridAnchor.x}</gridX>
+                    <gridY>{map.grids.gridAnchor.y}</gridY>
+                    <image>{getImageName()}</image>
+                    <imageSize width={map.bgLayer.display.width} height={map.bgLayer.display.height}/>
+                    <smallImageSize width={map.smallMapWidth} height={map.smallMapHeight}/>
+                    <levelLimit>{map.levelLimit}</levelLimit>
+                    {generateTileAndPlanLists()}
+                    {generateTransportPoints()}
+                    {generateWaypoints()}
+                    {generateNPCList()}
+                </worldMap>;
+        }
 
-		private function generateTileAndPlanLists() : XMLList
-		{
-			traverseTiles();
+        private function getImageName():String
+        {
+            if (!map.bgLayer.bgPath || map.bgLayer.bgPath.length == 0)
+            {
+                return "";
+            }
 
-			var planList : XML = generateTilePlanList();
-			var tileList : XML = generateTileList();
+            return new File(map.bgLayer.bgPath).name.split(".")[0];
+        }
 
-			return tileList + planList;
-		}
+        private function generateTileAndPlanLists():XMLList
+        {
+            traverseTiles();
 
-		private var currentTilePlans : Dictionary = new Dictionary();
-		private var currentTiles : Dictionary = new Dictionary();
+            var planList:XML = generateTilePlanList();
+            var tileList:XML = generateTileList();
 
-		private function traverseTiles() : void
-		{
-			var planCount : int = 0;
+            return tileList + planList;
+        }
 
-			var maxX : int = map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION;
-			var maxY : int = map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION;
+        private var currentTilePlans:Dictionary = new Dictionary();
 
-			var hashString : String;
+        private var currentTiles:Dictionary = new Dictionary();
 
-			var regionLayer : RegionLayer = map.grids.regionLayer;
-			var walkingLayer : WalkingLayer = map.grids.walkingLayer;
-			var walkingShadowLayer : WalkingShadowLayer = map.grids.walkingShadowLayer;
-			var combatLayer : CombatLayer = map.grids.combatLayer;
+        private function traverseTiles():void
+        {
+            var planCount:int = 0;
 
-			var regionBrushID : int;
-			var walkingBrushID : int;
-			var walkingShadowBrushID : int;
-			var combatBrushID : int;
+            var maxX:int = map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION;
+            var maxY:int = map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION;
 
-			for (var i : int = 0; i < maxX; i++)
-			{
-				for (var j : int = 0; j < maxY; j++)
-				{
-					var regionBrush : Brush = regionLayer.getMask(i, j);
-					var walkingBrush : Brush = walkingLayer.getMask(i, j);
-					var walkingShadowBrush : Brush = walkingShadowLayer.getMask(i, j);
-					var combatBrush : Brush = combatLayer.getMask(i, j);
+            var hashString:String;
 
-					regionBrushID = (regionBrush ? regionBrush.id : -1);
-					walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
-					walkingShadowBrushID = (walkingShadowBrush ? walkingShadowBrush.id : -1);
-					combatBrushID = (combatBrush ? combatBrush.id : -1);
+            var regionLayer:RegionLayer = map.grids.regionLayer;
+            var walkingLayer:WalkingLayer = map.grids.walkingLayer;
+            var walkingShadowLayer:WalkingShadowLayer = map.grids.walkingShadowLayer;
+            var combatLayer:CombatLayer = map.grids.combatLayer;
 
-					// 特殊逻辑：如果阴影层有标记，而行走层无标记，则阴影层的标记无效。
-					if (walkingBrushID == -1
-						&& walkingShadowBrushID != -1)
-					{
-						walkingBrush = null;
-						walkingBrushID = -1;
-					}
+            var regionBrushID:int;
+            var walkingBrushID:int;
+            var walkingShadowBrushID:int;
+            var combatBrushID:int;
 
-					if (regionBrushID == -1
-						&& walkingBrushID == -1
-						&& walkingShadowBrushID == -1
-						&& combatBrushID == -1)
-					{
-						continue;
-					}
+            for (var i:int = 0; i < maxX; i++)
+            {
+                for (var j:int = 0; j < maxY; j++)
+                {
+                    var regionBrush:Brush = regionLayer.getMask(i, j);
+                    var walkingBrush:Brush = walkingLayer.getMask(i, j);
+                    var walkingShadowBrush:Brush = walkingShadowLayer.getMask(i, j);
+                    var combatBrush:Brush = combatLayer.getMask(i, j);
 
-					hashString = regionBrushID + "|" + walkingBrushID + "|" + walkingShadowBrushID + "|" + combatBrushID;
+                    regionBrushID = (regionBrush ? regionBrush.id : -1);
+                    walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
+                    walkingShadowBrushID = (walkingShadowBrush ? walkingShadowBrush.id : -1);
+                    combatBrushID = (combatBrush ? combatBrush.id : -1);
 
-					var plan : TilePlan = currentTilePlans[hashString] as TilePlan;
+                    // 特殊逻辑：如果阴影层有标记，而行走层无标记，则阴影层的标记无效。
+                    if (walkingBrushID == -1 && walkingShadowBrushID != -1)
+                    {
+                        walkingBrush = null;
+                        walkingBrushID = -1;
+                    }
 
-					if (!plan)
-					{
-						plan = new TilePlan();
-						plan.id = ++planCount;
-						plan.region = regionBrush;
-						plan.walkingShadow = walkingShadowBrush;
-						plan.walking = walkingBrush;
-						plan.combat = combatBrush;
+                    if (regionBrushID == -1 && walkingBrushID == -1 && walkingShadowBrushID == -1 && combatBrushID == -1)
+                    {
+                        continue;
+                    }
 
-						currentTilePlans[hashString] = plan;
-					}
+                    hashString = regionBrushID + "|" + walkingBrushID + "|" + walkingShadowBrushID + "|" + combatBrushID;
 
-					currentTiles[i + "," + j] = plan.id;
-				}
-			}
-		}
+                    var plan:TilePlan = currentTilePlans[hashString] as TilePlan;
 
-		private function generateTilePlanList() : XML
-		{
-			var result : XML = <tilePlanList/>;
+                    if (!plan)
+                    {
+                        plan = new TilePlan();
+                        plan.id = ++planCount;
+                        plan.region = regionBrush;
+                        plan.walkingShadow = walkingShadowBrush;
+                        plan.walking = walkingBrush;
+                        plan.combat = combatBrush;
 
-			for each (var plan : TilePlan in currentTilePlans)
-			{
-				result.appendChild(plan.toXML());
-			}
+                        currentTilePlans[hashString] = plan;
+                    }
 
-			return result;
-		}
+                    currentTiles[i + "," + j] = plan.id;
+                }
+            }
+        }
 
-		private function generateTileList() : XML
-		{
-			var result : XML = <tileList/>;
+        private function generateTilePlanList():XML
+        {
+            var result:XML = <tilePlanList/>;
 
-			for (var key : String in currentTiles)
-			{
-				var coordArray : Array = key.split(",");
-				var x : int = parseInt(coordArray[0]);
-				var y : int = parseInt(coordArray[1]);
+            for each (var plan:TilePlan in currentTilePlans)
+            {
+                result.appendChild(plan.toXML());
+            }
 
-				result.appendChild(<tile><planID>{currentTiles[key]}</planID><position col={x} row={y}/></tile>);
-			}
+            return result;
+        }
 
-			return result;
-		}
+        private function generateTileList():XML
+        {
+            var result:XML = <tileList/>;
 
-		private function generateTransportPoints() : XMLList
-		{
-			var tpResult : XML = <teleporterList/>;
-			var lpResult : XML = <linkPointList/>;
+            for (var key:String in currentTiles)
+            {
+                var coordArray:Array = key.split(",");
+                var x:int = parseInt(coordArray[0]);
+                var y:int = parseInt(coordArray[1]);
 
-			for each (var node : DomObject in map.items.transportPoints.children)
-			{
-				if (node is TeleportPoint)
-				{
-					tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
-				}
-				else if (node is LinkPoint)
-				{
-					lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
-				}
-			}
+                result.appendChild(<tile><planID>{currentTiles[key]}</planID><position col={x} row={y}/></tile>);
+            }
 
-			return tpResult + lpResult;
-		}
+            return result;
+        }
 
-		private function generateTeleportPoint(tp : TeleportPoint) : XML
-		{
-			var result : XML = <teleporter>
-					<mapID>{map.mapID}</mapID>
-					<position col={tp.x} row={tp.y}/>
-				</teleporter>;
+        private function generateTransportPoints():XMLList
+        {
+            var tpResult:XML = <teleporterList/>;
+            var lpResult:XML = <linkPointList/>;
 
-			var allowNationNode : XML = <allowNation/>;
+            for each (var node:DomObject in map.items.transportPoints.children)
+            {
+                if (node is TeleportPoint)
+                {
+                    tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
+                }
+                else if (node is LinkPoint)
+                {
+                    lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
+                }
+            }
 
-			for each (var nation : String in tp.allowNations)
-			{
-				allowNationNode.appendChild(<nation>{nation}</nation>);
-			}
+            return tpResult + lpResult;
+        }
 
-			result.appendChild(allowNationNode);
+        private function generateTeleportPoint(tp:TeleportPoint):XML
+        {
+            var result:XML = <teleporter>
+                    <mapID>{map.mapID}</mapID>
+                    <position col={tp.x} row={tp.y}/>
+                </teleporter>;
 
-			return result;
-		}
+            var allowNationNode:XML = <allowNation/>;
 
-		private function generateLinkPoint(lp : LinkPoint) : XML
-		{
-			var result : XML = <linkPoint>
-					<source col={lp.x} row={lp.y}/>
-				</linkPoint>;
+            for each (var nation:String in tp.allowNations)
+            {
+                allowNationNode.appendChild(<nation>{nation}</nation>);
+            }
 
-			var destinationListNode : XML = <destinationList/>;
+            result.appendChild(allowNationNode);
 
-			for each (var ldp : LinkDestPoint in lp.children)
-			{
-				destinationListNode.appendChild(generateLinkDestPoint(ldp));
-			}
+            return result;
+        }
 
-			result.appendChild(destinationListNode);
+        private function generateLinkPoint(lp:LinkPoint):XML
+        {
+            var result:XML = <linkPoint>
+                    <source col={lp.x} row={lp.y}/>
+                </linkPoint>;
 
-			return result;
-		}
+            var destinationListNode:XML = <destinationList/>;
 
-		private function generateLinkDestPoint(ldp : LinkDestPoint) : XML
-		{
-			var result : XML = <teleporter>
-					<mapID>{ldp.mapID}</mapID>
-					<position col={ldp.x} row={ldp.y}/>
-				</teleporter>;
+            for each (var ldp:LinkDestPoint in lp.children)
+            {
+                destinationListNode.appendChild(generateLinkDestPoint(ldp));
+            }
 
-			var allowNationNode : XML = <allowNation/>;
+            result.appendChild(destinationListNode);
 
-			for each (var nation : String in ldp.allowNations)
-			{
-				allowNationNode.appendChild(<nation>{nation}</nation>);
-			}
+            return result;
+        }
 
-			result.appendChild(allowNationNode);
+        private function generateLinkDestPoint(ldp:LinkDestPoint):XML
+        {
+            var result:XML = <teleporter>
+                    <mapID>{ldp.mapID}</mapID>
+                    <position col={ldp.x} row={ldp.y}/>
+                </teleporter>;
 
-			return result;
-		}
+            var allowNationNode:XML = <allowNation/>;
 
-		private function generateWaypoints() : XML
-		{
-			var result : XML = <waypointList/>;
+            for each (var nation:String in ldp.allowNations)
+            {
+                allowNationNode.appendChild(<nation>{nation}</nation>);
+            }
 
-			for each (var waypoint : Waypoint in map.items.waypoints.children)
-			{
-				var waypointXML : XML = <waypoint>
-						<position col={waypoint.x} row={waypoint.y}/>
-					</waypoint>;
+            result.appendChild(allowNationNode);
 
-				var adjXML : XML = <adjacencies/>;
-				for each (var wp : Waypoint in waypoint.adjacentWaypoints)
-				{
-					adjXML.appendChild(<position col={wp.x} row={wp.y}/>);
-				}
+            return result;
+        }
 
-				waypointXML.appendChild(adjXML);
+        private function generateWaypoints():XML
+        {
+            var result:XML = <waypointList/>;
 
-				result.appendChild(waypointXML);
-			}
+            for each (var waypoint:Waypoint in map.items.waypoints.children)
+            {
+                var waypointXML:XML = <waypoint>
+                        <position col={waypoint.x} row={waypoint.y}/>
+                    </waypoint>;
 
-			return result;
-		}
-		
-		private function generateNPCList():XML
-		{
-			var result:XML = <NPCList/>;
-			
-			for each (var npc:NPC in map.items.npcLayer.children)
-			{
-				result.appendChild(<NPC id={npc.npcDef.npcID}><position col={npc.x} row={npc.y}/></NPC>);
-			}
-			
-			return result;
-		}
-	}
+                var adjXML:XML = <adjacencies/>;
+                for each (var wp:Waypoint in waypoint.adjacentWaypoints)
+                {
+                    adjXML.appendChild(<position col={wp.x} row={wp.y}/>);
+                }
+
+                waypointXML.appendChild(adjXML);
+
+                result.appendChild(waypointXML);
+            }
+
+            return result;
+        }
+
+        private function generateNPCList():XML
+        {
+            var result:XML = <NPCList/>;
+
+            for each (var npc:NPC in map.items.npcLayer.children)
+            {
+                result.appendChild(<NPC id={npc.npcDef.npcID}><position col={npc.x} row={npc.y}/></NPC>);
+            }
+
+            return result;
+        }
+    }
 }
 import statm.dev.mapeditor.dom.brush.Brush;
 
 class TilePlan
 {
-	public var id : int;
-	public var region : Brush;
-	public var walking : Brush;
-	public var walkingShadow : Brush;
-	public var combat : Brush;
+    public var id:int;
 
-	public function toXML() : XML
-	{
-		var result : XML = <tilePlan>
-				<id>{id}</id>
-				<siteID>{(region && region.data) ? region.data : "1"}</siteID>
-				<walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
-				<walkShadow>{(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}</walkShadow>
-				<battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
-			</tilePlan>;
+    public var region:Brush;
 
-		return result;
-	}
+    public var walking:Brush;
+
+    public var walkingShadow:Brush;
+
+    public var combat:Brush;
+
+    public function toXML():XML
+    {
+        var result:XML = <tilePlan>
+                <id>{id}</id>
+                <siteID>{(region && region.data) ? region.data : "1"}</siteID>
+                <walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
+                <walkShadow>{(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}</walkShadow>
+                <battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
+            </tilePlan>;
+
+        return result;
+    }
 }

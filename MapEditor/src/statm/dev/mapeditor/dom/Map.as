@@ -1,224 +1,224 @@
 package statm.dev.mapeditor.dom
 {
-	import mx.collections.ArrayCollection;
-	
-	import statm.dev.mapeditor.app.MapEditingActions;
-	import statm.dev.mapeditor.dom.brush.Brush;
-	import statm.dev.mapeditor.dom.brush.BrushList;
-	import statm.dev.mapeditor.dom.item.ItemDefinitionList;
-	import statm.dev.mapeditor.dom.layers.BgLayer;
-	import statm.dev.mapeditor.dom.layers.Grids;
-	import statm.dev.mapeditor.dom.layers.Items;
-	import statm.dev.mapeditor.dom.objects.IconList;
+    import mx.collections.ArrayCollection;
 
-	/**
-	 * DOM 对象：地图。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class Map extends DomNode
-	{
-		public function Map()
-		{
-			super(null);
+    import statm.dev.mapeditor.app.MapEditingActions;
+    import statm.dev.mapeditor.dom.brush.Brush;
+    import statm.dev.mapeditor.dom.brush.BrushList;
+    import statm.dev.mapeditor.dom.item.ItemDefinitionList;
+    import statm.dev.mapeditor.dom.layers.BgLayer;
+    import statm.dev.mapeditor.dom.layers.Grids;
+    import statm.dev.mapeditor.dom.layers.Items;
+    import statm.dev.mapeditor.dom.objects.IconList;
 
-			_name="地图";
-			_children=new ArrayCollection([_bgLayer=new BgLayer(this), _grids=new Grids(this), _items=new Items(this)]);
-			_brushList=BrushList.createInstance();
-			_iconList=new IconList();
-			_itemDefinitionList=new ItemDefinitionList();
-		}
+    /**
+     * DOM 对象：地图。
+     *
+     * @author statm
+     *
+     */
+    public class Map extends DomNode
+    {
+        public function Map()
+        {
+            super(null);
 
-		private var _version:String=MapEditor.VERSION;
+            _name = "地图";
+            _children = new ArrayCollection([ _bgLayer = new BgLayer(this), _grids = new Grids(this), _items = new Items(this)]);
+            _brushList = BrushList.createInstance();
+            _iconList = new IconList();
+            _itemDefinitionList = new ItemDefinitionList();
+        }
 
-		public function get version():String
-		{
-			return _version;
-		}
+        private var _version:String = MapEditor.VERSION;
 
-		private var _bgLayer:BgLayer;
+        public function get version():String
+        {
+            return _version;
+        }
 
-		public function get bgLayer():BgLayer
-		{
-			return _bgLayer;
-		}
+        private var _bgLayer:BgLayer;
 
-		private var _grids:Grids;
+        public function get bgLayer():BgLayer
+        {
+            return _bgLayer;
+        }
 
-		public function get grids():Grids
-		{
-			return _grids;
-		}
+        private var _grids:Grids;
 
-		private var _items:Items;
+        public function get grids():Grids
+        {
+            return _grids;
+        }
 
-		public function get items():Items
-		{
-			return _items;
-		}
+        private var _items:Items;
 
-		private var _mapID:int=1234;
+        public function get items():Items
+        {
+            return _items;
+        }
 
-		public function get mapID():int
-		{
-			return _mapID;
-		}
+        private var _mapID:int = 1234;
 
-		public function set mapID(id:int):void
-		{
-			if (id != _mapID)
-			{
-				_mapID=id;
-				notifyChange(MapEditingActions.OBJECT_PROPS);
-			}
-		}
+        public function get mapID():int
+        {
+            return _mapID;
+        }
 
-		private var _mapName:String="新地图";
+        public function set mapID(id:int):void
+        {
+            if (id != _mapID)
+            {
+                _mapID = id;
+                notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
 
-		public function get mapName():String
-		{
-			return _mapName;
-		}
+        private var _mapName:String = "新地图";
 
-		public function set mapName(name:String):void
-		{
-			if (name != _mapName)
-			{
-				_mapName=name;
-				this.notifyChange(MapEditingActions.OBJECT_PROPS);
-			}
-		}
+        public function get mapName():String
+        {
+            return _mapName;
+        }
 
-		private var _levelLimit:int;
+        public function set mapName(name:String):void
+        {
+            if (name != _mapName)
+            {
+                _mapName = name;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
 
-		public function get levelLimit():int
-		{
-			return _levelLimit;
-		}
+        private var _levelLimit:int;
 
-		public function set levelLimit(limit:int):void
-		{
-			if (limit != _levelLimit)
-			{
-				_levelLimit=limit;
-				this.notifyChange(MapEditingActions.OBJECT_PROPS);
-			}
-		}
+        public function get levelLimit():int
+        {
+            return _levelLimit;
+        }
 
-		private var _brushList:BrushList;
+        public function set levelLimit(limit:int):void
+        {
+            if (limit != _levelLimit)
+            {
+                _levelLimit = limit;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
 
-		public function get brushList():BrushList
-		{
-			return _brushList;
-		}
+        private var _brushList:BrushList;
 
-		private var _iconList:IconList;
+        public function get brushList():BrushList
+        {
+            return _brushList;
+        }
 
-		public function get iconList():IconList
-		{
-			return _iconList;
-		}
+        private var _iconList:IconList;
 
-		private var _itemDefinitionList:ItemDefinitionList;
+        public function get iconList():IconList
+        {
+            return _iconList;
+        }
 
-		public function get itemDefinitionList():ItemDefinitionList
-		{
-			return _itemDefinitionList;
-		}
+        private var _itemDefinitionList:ItemDefinitionList;
 
-		private var dirty:Boolean=false;
+        public function get itemDefinitionList():ItemDefinitionList
+        {
+            return _itemDefinitionList;
+        }
 
-		public function get isDirty():Boolean
-		{
-			return dirty;
-		}
+        private var dirty:Boolean = false;
 
-		public function setDirty(dirty:Boolean):void
-		{
-			if (dirty != this.dirty)
-			{
-				this.dirty=dirty;
-			}
-		}
+        public function get isDirty():Boolean
+        {
+            return dirty;
+        }
 
-		private var _filePath:String;
+        public function setDirty(dirty:Boolean):void
+        {
+            if (dirty != this.dirty)
+            {
+                this.dirty = dirty;
+            }
+        }
 
-		public function get filePath():String
-		{
-			return _filePath;
-		}
+        private var _filePath:String;
 
-		public function set filePath(path:String):void
-		{
-			_filePath=path;
-		}
+        public function get filePath():String
+        {
+            return _filePath;
+        }
 
-		private var _smallMapWidth:int;
+        public function set filePath(path:String):void
+        {
+            _filePath = path;
+        }
 
-		public function get smallMapWidth():int
-		{
-			return _smallMapWidth;
-		}
+        private var _smallMapWidth:int;
 
-		public function set smallMapWidth(value:int):void
-		{
-			if (_smallMapWidth != value)
-			{
-				_smallMapWidth=value;
-				this.notifyChange(MapEditingActions.OBJECT_PROPS);
-			}
-		}
+        public function get smallMapWidth():int
+        {
+            return _smallMapWidth;
+        }
 
-		private var _smallMapHeight:int;
+        public function set smallMapWidth(value:int):void
+        {
+            if (_smallMapWidth != value)
+            {
+                _smallMapWidth = value;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
 
-		public function get smallMapHeight():int
-		{
-			return _smallMapHeight;
-		}
+        private var _smallMapHeight:int;
 
-		public function set smallMapHeight(value:int):void
-		{
-			if (_smallMapHeight != value)
-			{
-				_smallMapHeight=value;
-				this.notifyChange(MapEditingActions.OBJECT_PROPS);
-			}
-		}
+        public function get smallMapHeight():int
+        {
+            return _smallMapHeight;
+        }
 
-		public function testWalk(x:int, y:int):Boolean
-		{
-			var brush:Brush=grids.walkingLayer.getMask(x, y) as Brush;
-			return (brush && (brush.name == "可行走"));
-		}
+        public function set smallMapHeight(value:int):void
+        {
+            if (_smallMapHeight != value)
+            {
+                _smallMapHeight = value;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
 
-		override public function toXML():XML
-		{
-			var result:XML=<map id={this.mapID} name={this.mapName} levelLimit={this.levelLimit} smallMapWidth={this.smallMapWidth} smallMapHeight={this.smallMapHeight} version={MapEditor.VERSION}/>;
+        public function testWalk(x:int, y:int):Boolean
+        {
+            var brush:Brush = grids.walkingLayer.getMask(x, y) as Brush;
+            return (brush && (brush.name == "可行走"));
+        }
 
-			var layers:XML=<layers/>;
-			layers.appendChild(_bgLayer.toXML()).appendChild(_grids.toXML()).appendChild(_items.toXML());
+        override public function toXML():XML
+        {
+            var result:XML = <map id={this.mapID} name={this.mapName} levelLimit={this.levelLimit} smallMapWidth={this.smallMapWidth} smallMapHeight={this.smallMapHeight} version={MapEditor.VERSION}/>;
 
-			result.appendChild(layers).appendChild(_brushList.toXML()).appendChild(_iconList.toXML()).appendChild(_itemDefinitionList.toXML());
+            var layers:XML = <layers/>;
+            layers.appendChild(_bgLayer.toXML()).appendChild(_grids.toXML()).appendChild(_items.toXML());
 
-			return result;
-		}
+            result.appendChild(layers).appendChild(_brushList.toXML()).appendChild(_iconList.toXML()).appendChild(_itemDefinitionList.toXML());
 
-		override public function readXML(xml:XML):void
-		{
-			this._version=xml.@version;
-			this._mapID=parseInt(xml.@id);
-			this._mapName=xml.@name;
-			this._levelLimit=xml.@levelLimit;
-			this._smallMapWidth=xml.@smallMapWidth;
-			this._smallMapHeight=xml.@smallMapHeight;
+            return result;
+        }
 
-			this.brushList.readXML(xml.brushList[0]);
-			this.bgLayer.readXML(xml.layers.bgLayer[0]);
-			this.grids.readXML(xml.layers.grids[0]);
-			this.iconList.readXML(xml.iconList[0]);
-			this.itemDefinitionList.readXML(xml.itemDefinitionList[0]);
-			this.items.readXML(xml.layers.items[0]);
-		}
-	}
+        override public function readXML(xml:XML):void
+        {
+            this._version = xml.@version;
+            this._mapID = parseInt(xml.@id);
+            this._mapName = xml.@name;
+            this._levelLimit = xml.@levelLimit;
+            this._smallMapWidth = xml.@smallMapWidth;
+            this._smallMapHeight = xml.@smallMapHeight;
+
+            this.brushList.readXML(xml.brushList[0]);
+            this.bgLayer.readXML(xml.layers.bgLayer[0]);
+            this.grids.readXML(xml.layers.grids[0]);
+            this.iconList.readXML(xml.iconList[0]);
+            this.itemDefinitionList.readXML(xml.itemDefinitionList[0]);
+            this.items.readXML(xml.layers.items[0]);
+        }
+    }
 }

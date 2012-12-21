@@ -1,328 +1,333 @@
 package statm.dev.mapeditor.io
 {
-	import flash.filesystem.File;
-	import flash.utils.Dictionary;
+    import flash.filesystem.File;
+    import flash.utils.Dictionary;
 
-	import mx.controls.Alert;
+    import mx.controls.Alert;
 
-	import statm.dev.mapeditor.app.AppState;
-	import statm.dev.mapeditor.dom.DomObject;
-	import statm.dev.mapeditor.dom.Map;
-	import statm.dev.mapeditor.dom.brush.Brush;
-	import statm.dev.mapeditor.dom.layers.CombatLayer;
-	import statm.dev.mapeditor.dom.layers.RegionLayer;
-	import statm.dev.mapeditor.dom.layers.WalkingLayer;
-	import statm.dev.mapeditor.dom.objects.BornPoint;
-	import statm.dev.mapeditor.dom.objects.LinkDestPoint;
-	import statm.dev.mapeditor.dom.objects.LinkPoint;
-	import statm.dev.mapeditor.dom.objects.Mob;
-	import statm.dev.mapeditor.dom.objects.NPC;
-	import statm.dev.mapeditor.dom.objects.TeleportPoint;
-	import statm.dev.mapeditor.utils.GridUtils;
+    import statm.dev.mapeditor.app.AppState;
+    import statm.dev.mapeditor.dom.DomObject;
+    import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.dom.brush.Brush;
+    import statm.dev.mapeditor.dom.layers.CombatLayer;
+    import statm.dev.mapeditor.dom.layers.RegionLayer;
+    import statm.dev.mapeditor.dom.layers.WalkingLayer;
+    import statm.dev.mapeditor.dom.objects.BornPoint;
+    import statm.dev.mapeditor.dom.objects.LinkDestPoint;
+    import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mob;
+    import statm.dev.mapeditor.dom.objects.NPC;
+    import statm.dev.mapeditor.dom.objects.TeleportPoint;
+    import statm.dev.mapeditor.utils.GridUtils;
 
-	/**
-	 * 将地图文件输出为服务器端 XML 格式。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class ServerWriter
-	{
-		private var map:Map;
-		private var xmlResult:XML;
+    /**
+     * 将地图文件输出为服务器端 XML 格式。
+     *
+     * @author statm
+     *
+     */
+    public class ServerWriter
+    {
+        private var map:Map;
 
-		public function read(map:Map):void
-		{
-			reset();
-			this.map = map;
-			parseMap();
-		}
+        private var xmlResult:XML;
 
-		public function flush():XML
-		{
-			return xmlResult;
-		}
+        public function read(map:Map):void
+        {
+            reset();
+            this.map = map;
+            parseMap();
+        }
 
-		private function reset():void
-		{
+        public function flush():XML
+        {
+            return xmlResult;
+        }
 
-		}
+        private function reset():void
+        {
 
-		private function parseMap():void
-		{
-			xmlResult = <worldMapModel>
-					<version>{AppState.xmlUID}</version>
-					<id>{map.mapID}</id>
-					<name>{map.mapName}</name>
-					<maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>
-					<maxRow>{map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION}</maxRow>
-					<gridX>{map.grids.gridAnchor.x}</gridX>
-					<gridY>{map.grids.gridAnchor.y}</gridY>
-					<image>{getImageName()}</image>
-					<levelLimit>{map.levelLimit}</levelLimit>
-					{generateTileAndPlanLists()}
-					{generateTransportPoints()}
-					{generateNPC()}
-					{generateMobs()}
-				</worldMapModel>;
-		}
+        }
 
-		private function getImageName():String
-		{
-			if (!map.bgLayer.bgPath || map.bgLayer.bgPath.length == 0)
-			{
-				return "";
-			}
+        private function parseMap():void
+        {
+            xmlResult = <worldMapModel>
+                    <version>{AppState.xmlUID}</version>
+                    <id>{map.mapID}</id>
+                    <name>{map.mapName}</name>
+                    <maxCol>{map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION}</maxCol>
+                    <maxRow>{map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION}</maxRow>
+                    <gridX>{map.grids.gridAnchor.x}</gridX>
+                    <gridY>{map.grids.gridAnchor.y}</gridY>
+                    <image>{getImageName()}</image>
+                    <levelLimit>{map.levelLimit}</levelLimit>
+                    {generateTileAndPlanLists()}
+                    {generateTransportPoints()}
+                    {generateNPC()}
+                    {generateMobs()}
+                </worldMapModel>;
+        }
 
-			return "image/" + map.mapName + ".jpg";
-		}
+        private function getImageName():String
+        {
+            if (!map.bgLayer.bgPath || map.bgLayer.bgPath.length == 0)
+            {
+                return "";
+            }
 
-		private function generateTileAndPlanLists():XMLList
-		{
-			traverseTiles();
+            return "image/" + map.mapName + ".jpg";
+        }
 
-			var planList:XML = generateTilePlanList();
-			var tileList:XML = generateTileList();
+        private function generateTileAndPlanLists():XMLList
+        {
+            traverseTiles();
 
-			return tileList + planList;
-		}
+            var planList:XML = generateTilePlanList();
+            var tileList:XML = generateTileList();
 
-		private var currentTilePlans:Dictionary = new Dictionary();
-		private var currentTiles:Dictionary = new Dictionary();
+            return tileList + planList;
+        }
 
-		private function traverseTiles():void
-		{
-			var planCount:int = 0;
+        private var currentTilePlans:Dictionary = new Dictionary();
 
-			var maxX:int = map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION;
-			var maxY:int = map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION;
+        private var currentTiles:Dictionary = new Dictionary();
 
-			var hashString:String;
+        private function traverseTiles():void
+        {
+            var planCount:int = 0;
 
-			var regionLayer:RegionLayer = map.grids.regionLayer;
-			var walkingLayer:WalkingLayer = map.grids.walkingLayer;
-			var combatLayer:CombatLayer = map.grids.combatLayer;
+            var maxX:int = map.grids.gridSize.x * GridUtils.BLOCK_DIMENSION;
+            var maxY:int = map.grids.gridSize.y * GridUtils.BLOCK_DIMENSION;
 
-			var regionBrushID:int;
-			var walkingBrushID:int;
-			var combatBrushID:int;
+            var hashString:String;
 
-			for (var i:int = 0; i < maxX; i++)
-			{
-				for (var j:int = 0; j < maxY; j++)
-				{
-					var regionBrush:Brush = regionLayer.getMask(i, j);
-					var walkingBrush:Brush = walkingLayer.getMask(i, j);
-					var combatBrush:Brush = combatLayer.getMask(i, j);
+            var regionLayer:RegionLayer = map.grids.regionLayer;
+            var walkingLayer:WalkingLayer = map.grids.walkingLayer;
+            var combatLayer:CombatLayer = map.grids.combatLayer;
 
-					regionBrushID = (regionBrush ? regionBrush.id : -1);
-					walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
-					combatBrushID = (combatBrush ? combatBrush.id : -1);
+            var regionBrushID:int;
+            var walkingBrushID:int;
+            var combatBrushID:int;
 
-					if (regionBrushID == -1 && walkingBrushID == -1 && combatBrushID == -1)
-					{
-						continue;
-					}
+            for (var i:int = 0; i < maxX; i++)
+            {
+                for (var j:int = 0; j < maxY; j++)
+                {
+                    var regionBrush:Brush = regionLayer.getMask(i, j);
+                    var walkingBrush:Brush = walkingLayer.getMask(i, j);
+                    var combatBrush:Brush = combatLayer.getMask(i, j);
 
-					hashString = regionBrushID + "|" + walkingBrushID + "|" + combatBrushID;
+                    regionBrushID = (regionBrush ? regionBrush.id : -1);
+                    walkingBrushID = (walkingBrush ? walkingBrush.id : -1);
+                    combatBrushID = (combatBrush ? combatBrush.id : -1);
 
-					var plan:TilePlan = currentTilePlans[hashString] as TilePlan;
+                    if (regionBrushID == -1 && walkingBrushID == -1 && combatBrushID == -1)
+                    {
+                        continue;
+                    }
 
-					if (!plan)
-					{
-						plan = new TilePlan();
-						plan.id = ++planCount;
-						plan.region = regionBrush;
-						plan.walking = walkingBrush;
-						plan.combat = combatBrush;
+                    hashString = regionBrushID + "|" + walkingBrushID + "|" + combatBrushID;
 
-						currentTilePlans[hashString] = plan;
-					}
+                    var plan:TilePlan = currentTilePlans[hashString] as TilePlan;
 
-					currentTiles[i + "," + j] = plan.id;
-				}
-			}
-		}
+                    if (!plan)
+                    {
+                        plan = new TilePlan();
+                        plan.id = ++planCount;
+                        plan.region = regionBrush;
+                        plan.walking = walkingBrush;
+                        plan.combat = combatBrush;
 
-		private function generateTilePlanList():XML
-		{
-			var result:XML = <tilePlanModelList/>;
+                        currentTilePlans[hashString] = plan;
+                    }
 
-			for each (var plan:TilePlan in currentTilePlans)
-			{
-				result.appendChild(plan.toXML());
-			}
+                    currentTiles[i + "," + j] = plan.id;
+                }
+            }
+        }
 
-			return result;
-		}
+        private function generateTilePlanList():XML
+        {
+            var result:XML = <tilePlanModelList/>;
 
-		private function generateTileList():XML
-		{
-			var result:XML = <tileModelList/>;
+            for each (var plan:TilePlan in currentTilePlans)
+            {
+                result.appendChild(plan.toXML());
+            }
 
-			for (var key:String in currentTiles)
-			{
-				var coordArray:Array = key.split(",");
-				var x:int = parseInt(coordArray[0]);
-				var y:int = parseInt(coordArray[1]);
+            return result;
+        }
 
-				result.appendChild(<tileModel><planID>{currentTiles[key]}</planID><position col={x} row={y}/></tileModel>);
-			}
+        private function generateTileList():XML
+        {
+            var result:XML = <tileModelList/>;
 
-			return result;
-		}
+            for (var key:String in currentTiles)
+            {
+                var coordArray:Array = key.split(",");
+                var x:int = parseInt(coordArray[0]);
+                var y:int = parseInt(coordArray[1]);
 
-		private function generateTransportPoints():XMLList
-		{
-			var tpResult:XML = <teleporterList/>;
-			var lpResult:XML = <linkPointList/>;
-			var bpResult:XML = <bornPointList/>;
+                result.appendChild(<tileModel><planID>{currentTiles[key]}</planID><position col={x} row={y}/></tileModel>);
+            }
 
-			for each (var node:DomObject in map.items.transportPoints.children)
-			{
-				if (node is TeleportPoint)
-				{
-					tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
-				}
-				else if (node is LinkPoint)
-				{
-					lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
-				}
-				else if (node is BornPoint)
-				{
-					bpResult.appendChild(generateBornPoint(BornPoint(node)));
-				}
-			}
+            return result;
+        }
 
-			return tpResult + lpResult + bpResult;
-		}
+        private function generateTransportPoints():XMLList
+        {
+            var tpResult:XML = <teleporterList/>;
+            var lpResult:XML = <linkPointList/>;
+            var bpResult:XML = <bornPointList/>;
 
-		private function generateTeleportPoint(tp:TeleportPoint):XML
-		{
-			var result:XML = <teleporter>
-					<mapID>{map.mapID}</mapID>
-					<position col={tp.x} row={tp.y}/>
-					<allowNation/>
-				</teleporter>;
+            for each (var node:DomObject in map.items.transportPoints.children)
+            {
+                if (node is TeleportPoint)
+                {
+                    tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
+                }
+                else if (node is LinkPoint)
+                {
+                    lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
+                }
+                else if (node is BornPoint)
+                {
+                    bpResult.appendChild(generateBornPoint(BornPoint(node)));
+                }
+            }
 
-			for each (var nation:String in tp.allowNations)
-			{
-				result.allowNation.appendChild(<nation>{nation}</nation>);
-			}
+            return tpResult + lpResult + bpResult;
+        }
 
-			return result;
-		}
+        private function generateTeleportPoint(tp:TeleportPoint):XML
+        {
+            var result:XML = <teleporter>
+                    <mapID>{map.mapID}</mapID>
+                    <position col={tp.x} row={tp.y}/>
+                    <allowNation/>
+                </teleporter>;
 
-		private function generateLinkPoint(lp:LinkPoint):XML
-		{
-			var result:XML = <linkPoint>
-					<source col={lp.x} row={lp.y}/>
-					<destinationList/>
-				</linkPoint>;
+            for each (var nation:String in tp.allowNations)
+            {
+                result.allowNation.appendChild(<nation>{nation}</nation>);
+            }
 
-			for each (var ldp:LinkDestPoint in lp.children)
-			{
-				result.destinationList.appendChild(generateLinkDestPoint(ldp));
-			}
+            return result;
+        }
 
-			return result;
-		}
+        private function generateLinkPoint(lp:LinkPoint):XML
+        {
+            var result:XML = <linkPoint>
+                    <source col={lp.x} row={lp.y}/>
+                    <destinationList/>
+                </linkPoint>;
 
-		private function generateLinkDestPoint(ldp:LinkDestPoint):XML
-		{
-			var result:XML = <teleporter>
-					<mapID>{ldp.mapID}</mapID>
-					<position col={ldp.x} row={ldp.y}/>
-					<allowNation/>
-				</teleporter>;
+            for each (var ldp:LinkDestPoint in lp.children)
+            {
+                result.destinationList.appendChild(generateLinkDestPoint(ldp));
+            }
 
-			for each (var nation:String in ldp.allowNations)
-			{
-				result.allowNation.appendChild(<nation>{nation}</nation>);
-			}
+            return result;
+        }
 
-			return result;
-		}
+        private function generateLinkDestPoint(ldp:LinkDestPoint):XML
+        {
+            var result:XML = <teleporter>
+                    <mapID>{ldp.mapID}</mapID>
+                    <position col={ldp.x} row={ldp.y}/>
+                    <allowNation/>
+                </teleporter>;
 
-		private function generateBornPoint(bp:BornPoint):XML
-		{
-			var result:XML = <bornPoint>
-					<position col={bp.x} row={bp.y}/>
-					<allowNation/>
-				</bornPoint>;
+            for each (var nation:String in ldp.allowNations)
+            {
+                result.allowNation.appendChild(<nation>{nation}</nation>);
+            }
 
-			for each (var nation:String in bp.allowNations)
-			{
-				result.allowNation.appendChild(<nation>{nation}</nation>);
-			}
+            return result;
+        }
 
-			return result;
-		}
+        private function generateBornPoint(bp:BornPoint):XML
+        {
+            var result:XML = <bornPoint>
+                    <position col={bp.x} row={bp.y}/>
+                    <allowNation/>
+                </bornPoint>;
 
-		private function generateNPC():XML
-		{
-			var result:XML = <actionScopeList></actionScopeList>;
+            for each (var nation:String in bp.allowNations)
+            {
+                result.allowNation.appendChild(<nation>{nation}</nation>);
+            }
 
-			for each (var npc:NPC in map.items.npcLayer.children)
-			{
-				var nations:XML = <nationSet/>;
-				for each (var nation:String in npc.npcDef.nationSet)
-				{
-					nations.appendChild(<nation>{nation}</nation>);
-				}
-				result.appendChild(<actionScope>
-						<worldID>{map.mapID}</worldID>
-						<siteName>{npc.npcDef.npcAlias}</siteName>
-						<scopeType>NPC</scopeType>
-						<position col={npc.x} row={npc.y}/>
-						{nations}
-					</actionScope>);
-			}
+            return result;
+        }
 
-			return result;
-		}
+        private function generateNPC():XML
+        {
+            var result:XML = <actionScopeList></actionScopeList>;
 
-		private function generateMobs():XML
-		{
-			var result:XML = <robotsList><robots/></robotsList>;
+            for each (var npc:NPC in map.items.npcLayer.children)
+            {
+                var nations:XML = <nationSet/>;
+                for each (var nation:String in npc.npcDef.nationSet)
+                {
+                    nations.appendChild(<nation>{nation}</nation>);
+                }
+                result.appendChild(<actionScope>
+                                       <worldID>{map.mapID}</worldID>
+                                       <siteName>{npc.npcDef.npcAlias}</siteName>
+                                       <scopeType>NPC</scopeType>
+                                       <position col={npc.x} row={npc.y}/>
+                                       {nations}
+                                   </actionScope>);
+            }
 
-			for each (var mob:Mob in map.items.mobLayer.children)
-			{
-				result.robots.appendChild(<robot>
-						<monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
-						<delay>{mob.delay}</delay>
-						<beBattled>{mob.battleEnabled}</beBattled>
-						<autoBattle>{mob.autoBattle}</autoBattle>
-						<autoMove>{mob.autoMove}</autoMove>
-						<refreshTime>{mob.respawnTime}</refreshTime>
-						<standByTime>{mob.standByTime}</standByTime>
-						<moveSpeed>{mob.moveSpeed}</moveSpeed>
-						<enterPosition col={mob.x} row={mob.y}/>
-					</robot>);
-			}
+            return result;
+        }
 
-			return result;
-		}
-	}
+        private function generateMobs():XML
+        {
+            var result:XML = <robotsList><robots/></robotsList>;
+
+            for each (var mob:Mob in map.items.mobLayer.children)
+            {
+                result.robots.appendChild(<robot>
+                                              <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
+                                              <delay>{mob.delay}</delay>
+                                              <beBattled>{mob.battleEnabled}</beBattled>
+                                              <autoBattle>{mob.autoBattle}</autoBattle>
+                                              <autoMove>{mob.autoMove}</autoMove>
+                                              <refreshTime>{mob.respawnTime}</refreshTime>
+                                              <standByTime>{mob.standByTime}</standByTime>
+                                              <moveSpeed>{mob.moveSpeed}</moveSpeed>
+                                              <enterPosition col={mob.x} row={mob.y}/>
+                                          </robot>);
+            }
+
+            return result;
+        }
+    }
 }
 import statm.dev.mapeditor.dom.brush.Brush;
 
 class TilePlan
 {
-	public var id:int;
-	public var region:Brush;
-	public var walking:Brush;
-	public var combat:Brush;
+    public var id:int;
 
-	public function toXML():XML
-	{
-		var result:XML = <tilePlanModel>
-				<id>{id}</id>
-				<siteID>{(region && region.data) ? region.data : "1"}</siteID>
-				<walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
-				<battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
-			</tilePlanModel>;
+    public var region:Brush;
 
-		return result;
-	}
+    public var walking:Brush;
+
+    public var combat:Brush;
+
+    public function toXML():XML
+    {
+        var result:XML = <tilePlanModel>
+                <id>{id}</id>
+                <siteID>{(region && region.data) ? region.data : "1"}</siteID>
+                <walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
+                <battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
+            </tilePlanModel>;
+
+        return result;
+    }
 }

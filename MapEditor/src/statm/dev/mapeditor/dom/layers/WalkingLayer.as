@@ -1,31 +1,31 @@
 package statm.dev.mapeditor.dom.layers
 {
-	import statm.dev.mapeditor.dom.DomNode;
-	import statm.dev.mapeditor.dom.brush.Brush;
-	import statm.dev.mapeditor.dom.brush.BrushList;
+    import statm.dev.mapeditor.dom.DomNode;
+    import statm.dev.mapeditor.dom.brush.Brush;
+    import statm.dev.mapeditor.dom.brush.BrushList;
 
-	/**
-	 * DOM 对象：行走层。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class WalkingLayer extends MaskLayerBase
-	{
-		public function WalkingLayer(root : DomNode)
-		{
-			super(root);
+    /**
+     * DOM 对象：行走层。
+     *
+     * @author statm
+     *
+     */
+    public class WalkingLayer extends MaskLayerBase
+    {
+        public function WalkingLayer(root:DomNode)
+        {
+            super(root);
 
-			_name = "行走模式";
-		}
+            _name = "行走模式";
+        }
 
-		override public function toXML() : XML
-		{
-			var result : XML = super.toXML();
+        override public function toXML():XML
+        {
+            var result:XML = super.toXML();
 
-			result.setName("walkingLayer");
+            result.setName("walkingLayer");
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

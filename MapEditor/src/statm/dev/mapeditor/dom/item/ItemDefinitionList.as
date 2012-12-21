@@ -1,162 +1,162 @@
 package statm.dev.mapeditor.dom.item
 {
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 
-	import mx.collections.ArrayCollection;
+    import mx.collections.ArrayCollection;
 
-	import statm.dev.mapeditor.app.AppState;
-	import statm.dev.mapeditor.dom.Map;
-	import statm.dev.mapeditor.dom.objects.Mob;
-	import statm.dev.mapeditor.dom.objects.NPC;
-	import statm.dev.mapeditor.io.IXMLSerializable;
+    import statm.dev.mapeditor.app.AppState;
+    import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.dom.objects.Mob;
+    import statm.dev.mapeditor.dom.objects.NPC;
+    import statm.dev.mapeditor.io.IXMLSerializable;
 
-	/**
-	 * 物件定义列表。
-	 *
-	 * @author statm
-	 *
-	 */
-	public class ItemDefinitionList implements IXMLSerializable
-	{
-		public function ItemDefinitionList()
-		{
-			addBuiltinItemDefs();
-		}
+    /**
+     * 物件定义列表。
+     *
+     * @author statm
+     *
+     */
+    public class ItemDefinitionList implements IXMLSerializable
+    {
+        public function ItemDefinitionList()
+        {
+            addBuiltinItemDefs();
+        }
 
-		private function addBuiltinItemDefs():void
-		{
-			addItemDefinition(new ItemDefinitionBase(0, ItemType.TELEPORT_POINT, "传送点"));
-			addItemDefinition(new ItemDefinitionBase(1, ItemType.LINK_POINT, "连接点"));
-			addItemDefinition(new ItemDefinitionBase(2, ItemType.LINK_DEST_POINT, "连接目标点"));
-			addItemDefinition(new ItemDefinitionBase(3, ItemType.BORN_POINT, "出生点"));
-			addItemDefinition(new ItemDefinitionBase(4, ItemType.WAYPOINT, "路点"));
-		}
+        private function addBuiltinItemDefs():void
+        {
+            addItemDefinition(new ItemDefinitionBase(0, ItemType.TELEPORT_POINT, "传送点"));
+            addItemDefinition(new ItemDefinitionBase(1, ItemType.LINK_POINT, "连接点"));
+            addItemDefinition(new ItemDefinitionBase(2, ItemType.LINK_DEST_POINT, "连接目标点"));
+            addItemDefinition(new ItemDefinitionBase(3, ItemType.BORN_POINT, "出生点"));
+            addItemDefinition(new ItemDefinitionBase(4, ItemType.WAYPOINT, "路点"));
+        }
 
-		private var _itemDefinitions:ArrayCollection = new ArrayCollection();
+        private var _itemDefinitions:ArrayCollection = new ArrayCollection();
 
-		public function get itemDefinitions():ArrayCollection
-		{
-			return _itemDefinitions;
-		}
+        public function get itemDefinitions():ArrayCollection
+        {
+            return _itemDefinitions;
+        }
 
-		private function addItemDefinition(itemDef:ItemDefinitionBase):void
-		{
-			_itemDefinitions.addItem(itemDef);
-			if (itemDef is NPCItemDefinition)
-			{
-				if (npcDefs[NPCItemDefinition(itemDef).npcID])
-				{
-					_itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(npcDefs[NPCItemDefinition(itemDef).npcID]));
-				}
-				npcDefs[NPCItemDefinition(itemDef).npcID] = itemDef;
-			}
-			if (itemDef is MobItemDefinition)
-			{
-				if (mobDefs[MobItemDefinition(itemDef).mobID])
-				{
-					_itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(mobDefs[MobItemDefinition(itemDef).mobID]));
-				}
-				mobDefs[MobItemDefinition(itemDef).mobID] = itemDef;
-			}
-		}
+        private function addItemDefinition(itemDef:ItemDefinitionBase):void
+        {
+            _itemDefinitions.addItem(itemDef);
+            if (itemDef is NPCItemDefinition)
+            {
+                if (npcDefs[NPCItemDefinition(itemDef).npcID])
+                {
+                    _itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(npcDefs[NPCItemDefinition(itemDef).npcID]));
+                }
+                npcDefs[NPCItemDefinition(itemDef).npcID] = itemDef;
+            }
+            if (itemDef is MobItemDefinition)
+            {
+                if (mobDefs[MobItemDefinition(itemDef).mobID])
+                {
+                    _itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(mobDefs[MobItemDefinition(itemDef).mobID]));
+                }
+                mobDefs[MobItemDefinition(itemDef).mobID] = itemDef;
+            }
+        }
 
-		private var npcDefs:Dictionary = new Dictionary();
+        private var npcDefs:Dictionary = new Dictionary();
 
-		public function getNPCDefinitionByID(npcID:int):NPCItemDefinition
-		{
-			return npcDefs[npcID];
-		}
+        public function getNPCDefinitionByID(npcID:int):NPCItemDefinition
+        {
+            return npcDefs[npcID];
+        }
 
-		private var mobDefs:Dictionary = new Dictionary();
+        private var mobDefs:Dictionary = new Dictionary();
 
-		public function getMobDefinitionByID(mobID:int):MobItemDefinition
-		{
-			return mobDefs[mobID];
-		}
+        public function getMobDefinitionByID(mobID:int):MobItemDefinition
+        {
+            return mobDefs[mobID];
+        }
 
-		public function toXML():XML
-		{
-			var result:XML = <itemDefinitionList/>;
+        public function toXML():XML
+        {
+            var result:XML = <itemDefinitionList/>;
 
-			for each (var itemDef:ItemDefinitionBase in _itemDefinitions.source)
-			{
-				if (itemDef.iconID < 5)
-				{
-					continue;
-				}
-				result.appendChild(itemDef.toXML());
-			}
+            for each (var itemDef:ItemDefinitionBase in _itemDefinitions.source)
+            {
+                if (itemDef.iconID < 5)
+                {
+                    continue;
+                }
+                result.appendChild(itemDef.toXML());
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		public function readXML(xml:XML):void
-		{
-			_itemDefinitions.removeAll();
+        public function readXML(xml:XML):void
+        {
+            _itemDefinitions.removeAll();
 
-			addBuiltinItemDefs();
+            addBuiltinItemDefs();
 
-			for each (var itemDefXML:XML in xml.itemDefinition)
-			{
-				var itemDef:ItemDefinitionBase;
+            for each (var itemDefXML:XML in xml.itemDefinition)
+            {
+                var itemDef:ItemDefinitionBase;
 
-				switch (itemDefXML.@type.toString())
-				{
-					case ItemType.NPC:
-						itemDef = new NPCItemDefinition();
-						break;
-					case ItemType.MOB:
-						itemDef = new MobItemDefinition();
-						break;
-					default:
-						itemDef = new ItemDefinitionBase();
-						break;
-				}
+                switch (itemDefXML.@type.toString())
+                {
+                    case ItemType.NPC:
+                        itemDef = new NPCItemDefinition();
+                        break;
+                    case ItemType.MOB:
+                        itemDef = new MobItemDefinition();
+                        break;
+                    default:
+                        itemDef = new ItemDefinitionBase();
+                        break;
+                }
 
-				itemDef.readXML(itemDefXML);
-				addItemDefinition(itemDef);
-			}
-		}
+                itemDef.readXML(itemDefXML);
+                addItemDefinition(itemDef);
+            }
+        }
 
-		public function importNPCXML(file:XML):void
-		{
-			var map:Map = AppState.getCurrentMap();
-			for each (var xml:XML in file.NPC)
-			{
-				var npcID:int = int(xml.@id);
-				var nationSet:Array = [];
-				for each (var nationXML:XML in xml.talkLimit.nation)
-				{
-					nationSet.push(nationXML.toString());
-				}
-				var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.siteName.toString(), xml.appearanceID.toString(), nationSet);
-				addItemDefinition(npcDef);
-				for each (var npc:NPC in map.items.npcLayer.children)
-				{
-					if (npc.npcID == npcID)
-					{
-						npc.npcDef = npcDef;
-					}
-				}
-			}
-		}
+        public function importNPCXML(file:XML):void
+        {
+            var map:Map = AppState.getCurrentMap();
+            for each (var xml:XML in file.NPC)
+            {
+                var npcID:int = int(xml.@id);
+                var nationSet:Array = [];
+                for each (var nationXML:XML in xml.talkLimit.nation)
+                {
+                    nationSet.push(nationXML.toString());
+                }
+                var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.siteName.toString(), xml.appearanceID.toString(), nationSet);
+                addItemDefinition(npcDef);
+                for each (var npc:NPC in map.items.npcLayer.children)
+                {
+                    if (npc.npcID == npcID)
+                    {
+                        npc.npcDef = npcDef;
+                    }
+                }
+            }
+        }
 
-		public function importMobXML(file:XML):void
-		{
-			var map:Map = AppState.getCurrentMap();
-			for each (var xml:XML in file.item)
-			{
-				var mobID:int = int(xml.@id);
-				var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
-				addItemDefinition(mobDef);
-				for each (var mob:Mob in map.items.mobLayer.children)
-				{
-					if (mob.mobID == mobID)
-					{
-						mob.mobDef = mobDef;
-					}
-				}
-			}
-		}
-	}
+        public function importMobXML(file:XML):void
+        {
+            var map:Map = AppState.getCurrentMap();
+            for each (var xml:XML in file.item)
+            {
+                var mobID:int = int(xml.@id);
+                var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
+                addItemDefinition(mobDef);
+                for each (var mob:Mob in map.items.mobLayer.children)
+                {
+                    if (mob.mobID == mobID)
+                    {
+                        mob.mobDef = mobDef;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -47,6 +47,9 @@
         <s:Button id="btnImportMob"
             focusEnabled="false"
             label="导入怪物数据..."/>
+        <s:Button id="btnImportMineral"
+            focusEnabled="false"
+            label="导入采集点数据..."/>
         <s:Spacer width="100%"/>
         <s:Label id="lblCurrentCoord"/>
     </s:Group>

@@ -2,11 +2,12 @@ package statm.dev.mapeditor.app
 {
     import org.puremvc.as3.interfaces.IFacade;
     import org.puremvc.as3.patterns.facade.Facade;
-
+    
     import statm.dev.mapeditor.commands.AppExitCommand;
     import statm.dev.mapeditor.commands.CloseMapFileCommand;
     import statm.dev.mapeditor.commands.CreateMapFileCommand;
     import statm.dev.mapeditor.commands.ExportXMLCommand;
+    import statm.dev.mapeditor.commands.ImportMineralCommand;
     import statm.dev.mapeditor.commands.ImportMobCommand;
     import statm.dev.mapeditor.commands.ImportNPCCommand;
     import statm.dev.mapeditor.commands.OpenMapFileCommand;
@@ -48,6 +49,7 @@ package statm.dev.mapeditor.app
             this.registerCommand(AppNotificationCode.EXPORT_XML, ExportXMLCommand);
             this.registerCommand(AppNotificationCode.IMPORT_NPC, ImportNPCCommand);
             this.registerCommand(AppNotificationCode.IMPORT_MOB, ImportMobCommand);
+            this.registerCommand(AppNotificationCode.IMPORT_MINERAL, ImportMineralCommand);
         }
     }
 }

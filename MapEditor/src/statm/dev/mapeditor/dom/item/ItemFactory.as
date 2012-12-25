@@ -8,6 +8,7 @@ package statm.dev.mapeditor.dom.item
     import statm.dev.mapeditor.dom.objects.Item;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -61,7 +62,12 @@ package statm.dev.mapeditor.dom.item
 
                 case "mob":
                     item = new Mob(domRoot);
-                    item.iconImage.source = Map(domRoot).iconList.getIcon(5);
+                    item.iconImage.source = Map(domRoot).iconList.getIcon(6);
+                    break;
+
+                case "mineral":
+                    item = new Mineral(domRoot);
+                    item.iconImage.source = Map(domRoot).iconList.getIcon(7);
                     break;
             }
 
@@ -103,6 +109,10 @@ package statm.dev.mapeditor.dom.item
 
                 case ItemType.MOB:
                     item = new Mob(domRoot, MobItemDefinition(itemDef));
+                    break;
+
+                case ItemType.MINERAL:
+                    item = new Mineral(domRoot, MineralItemDefinition(itemDef));
                     break;
             }
 

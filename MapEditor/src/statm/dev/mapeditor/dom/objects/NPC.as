@@ -1,5 +1,10 @@
 package statm.dev.mapeditor.dom.objects
 {
+    import flash.filters.GlowFilter;
+    
+    import spark.components.Group;
+    import spark.components.Label;
+    
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.item.NPCItemDefinition;
@@ -13,11 +18,26 @@ package statm.dev.mapeditor.dom.objects
      */
     public class NPC extends Item
     {
+        private var lblName:Label;
+
         public function NPC(root:DomNode, NPCDef:NPCItemDefinition = null)
         {
             super(root);
             _name = "NPC";
+            lblName = new Label();
             this.npcDef = NPCDef;
+
+            var group:Group = new Group();
+            group.width = 31;
+            group.addElement(iconImage);
+            lblName.y = -17;
+            lblName.horizontalCenter = 0;
+			lblName.setStyle("color", 0xFFFFFF);
+			lblName.setStyle("fontSize", 14);
+			lblName.filters = [new GlowFilter(0x000000, 1., 5., 5., 8)];
+            lblName.mouseEnabled = false;
+            group.addElement(lblName);
+            this.display = group;
         }
 
         private var _npcDef:NPCItemDefinition;
@@ -31,6 +51,7 @@ package statm.dev.mapeditor.dom.objects
         {
             _npcDef = value;
             value && (_npcID = value.npcID);
+            value && (lblName.text = value.npcName);
         }
 
         private var _npcID:int;
@@ -43,13 +64,12 @@ package statm.dev.mapeditor.dom.objects
         public function set npcID(value:int):void
         {
             _npcID = value;
-            _npcDef = Map(root).itemDefinitionList.getNPCDefinitionByID(_npcID);
+            npcDef = Map(root).itemDefinitionList.getNPCDefinitionByID(_npcID);
         }
 
         override public function readXML(xml:XML):void
         {
-            _npcID = parseInt(xml.@npcID);
-            _npcDef = Map(root).itemDefinitionList.getNPCDefinitionByID(_npcID);
+            this.npcID = parseInt(xml.@npcID);
 
             this.x = xml.@x;
             this.y = xml.@y;

@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.layers
 {
     import mx.collections.ArrayCollection;
-
+    
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.item.ItemFactory;
@@ -9,6 +9,7 @@ package statm.dev.mapeditor.dom.layers
     import statm.dev.mapeditor.dom.objects.Item;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -29,8 +30,8 @@ package statm.dev.mapeditor.dom.layers
 
             _name = "物件";
             _parent = root;
-            _children = new ArrayCollection([ _npcLayer = new NPCLayer(root), _mobLayer = new MobLayer(root), _transportPoints = new TransportPoints(root), _waypoints = new WaypointLayer(root), _mineLayer = new MineLayer(root)]);
-            _npcLayer.parent = _mobLayer.parent = _transportPoints.parent = _waypoints.parent = _mineLayer.parent = this;
+            _children = new ArrayCollection([ _npcLayer = new NPCLayer(root), _mobLayer = new MobLayer(root), _transportPoints = new TransportPoints(root), _waypoints = new WaypointLayer(root), _mineralLayer = new MineralLayer(root)]);
+            _npcLayer.parent = _mobLayer.parent = _transportPoints.parent = _waypoints.parent = _mineralLayer.parent = this;
         }
 
         private var _npcLayer:NPCLayer;
@@ -61,11 +62,11 @@ package statm.dev.mapeditor.dom.layers
             return _waypoints;
         }
 
-        private var _mineLayer:MineLayer;
+        private var _mineralLayer:MineralLayer;
 
-        public function get mineLayer():MineLayer
+        public function get mineralLayer():MineralLayer
         {
-            return _mineLayer;
+            return _mineralLayer;
         }
 
         public function addItem(item:Item):void
@@ -98,6 +99,10 @@ package statm.dev.mapeditor.dom.layers
             {
                 mobLayer.addItem(item);
             }
+			else if (item is Mineral)
+			{
+				mineralLayer.addItem(item);
+			}
         }
 
         override public function deselect():void
@@ -121,6 +126,7 @@ package statm.dev.mapeditor.dom.layers
             this.waypoints.readXML(xml.waypointLayer[0]);
             this.npcLayer.readXML(xml.NPCLayer[0]);
             this.mobLayer.readXML(xml.mobLayer[0]);
+            this.mineralLayer.readXML(xml.mineralLayer[0]);
         }
     }
 }

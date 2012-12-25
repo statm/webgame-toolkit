@@ -13,7 +13,8 @@ package statm.dev.mapeditor.commands
 
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
-    import statm.dev.mapeditor.io.ClientWriter;
+    import statm.dev.mapeditor.io.ClientLinkPointWriter;
+    import statm.dev.mapeditor.io.ClientMapWriter;
     import statm.dev.mapeditor.io.ServerWriter;
 
 
@@ -29,6 +30,12 @@ package statm.dev.mapeditor.commands
         {
             super();
         }
+
+        private var clientMapWriter:ClientMapWriter;
+
+        private var clientLinkPointWriter:ClientLinkPointWriter;
+
+        private var serverWriter:ServerWriter;
 
         override public function execute(notification:INotification):void
         {
@@ -49,13 +56,15 @@ package statm.dev.mapeditor.commands
 
             var dir:File = File(event.currentTarget);
 
-            writeClientFile(dir);
-            writeServerFile(dir);
+            writeClientMapFile(dir.resolvePath("./客户端/"));
+            writeClientLinkPointFile(dir.resolvePath("./客户端/"));
+            writeServerFile(dir.resolvePath("./服务端/"));
 
-            Alert.show("导出完成。");
+            var log:String = clientMapWriter.getLog() + "\n\n" + serverWriter.getLog();
+            Alert.show("导出完成。\n日志:\n" + log);
         }
 
-        private function writeClientFile(dir:File):void
+        private function writeClientMapFile(dir:File):void
         {
             var map:Map = AppState.getCurrentMap();
             if (!map)
@@ -63,11 +72,11 @@ package statm.dev.mapeditor.commands
                 return;
             }
 
-            var writer:ClientWriter = new ClientWriter();
-            writer.read(map);
+            clientMapWriter = new ClientMapWriter();
+            clientMapWriter.read(map);
             try
             {
-                var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
+                var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + clientMapWriter.flush().toXMLString();
             }
             catch (e:Error)
             {
@@ -83,6 +92,34 @@ package statm.dev.mapeditor.commands
             fileStream.close();
         }
 
+        private function writeClientLinkPointFile(dir:File):void
+        {
+            var map:Map = AppState.getCurrentMap();
+            if (!map)
+            {
+                return;
+            }
+
+            clientLinkPointWriter = new ClientLinkPointWriter();
+            clientLinkPointWriter.read(map);
+            try
+            {
+                var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + clientLinkPointWriter.flush().toXMLString();
+            }
+            catch (e:Error)
+            {
+                Alert.show("导出失败");
+                return;
+            }
+
+            var fileName:String = "LinkPointConfig" + map.mapID + ".xml";
+
+            var fileStream:FileStream = new FileStream();
+            fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);
+            fileStream.writeMultiByte(fileContent, "utf-8");
+            fileStream.close();
+        }
+
         private function writeServerFile(dir:File):void
         {
             var map:Map = AppState.getCurrentMap();
@@ -91,11 +128,11 @@ package statm.dev.mapeditor.commands
                 return;
             }
 
-            var writer:ServerWriter = new ServerWriter();
-            writer.read(map);
+            serverWriter = new ServerWriter();
+            serverWriter.read(map);
             try
             {
-                var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + writer.flush().toXMLString();
+                var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + serverWriter.flush().toXMLString();
             }
             catch (e:Error)
             {

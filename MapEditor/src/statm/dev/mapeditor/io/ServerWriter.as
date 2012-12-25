@@ -1,9 +1,6 @@
 package statm.dev.mapeditor.io
 {
-    import flash.filesystem.File;
     import flash.utils.Dictionary;
-
-    import mx.controls.Alert;
 
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomObject;
@@ -15,6 +12,7 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.objects.BornPoint;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -31,6 +29,8 @@ package statm.dev.mapeditor.io
         private var map:Map;
 
         private var xmlResult:XML;
+
+        private var log:String = "";
 
         public function read(map:Map):void
         {
@@ -65,6 +65,7 @@ package statm.dev.mapeditor.io
                     {generateTransportPoints()}
                     {generateNPC()}
                     {generateMobs()}
+                    {generateMinerals()}
                 </worldMapModel>;
         }
 
@@ -267,6 +268,12 @@ package statm.dev.mapeditor.io
 
             for each (var npc:NPC in map.items.npcLayer.children)
             {
+                if (!npc.npcDef)
+                {
+                    log += "无法找到 NPC 描述。(NPC_ID=" + npc.npcID + ", pos=" + npc.x + "," + npc.y + ")" + "\n";
+                    continue;
+                }
+
                 var nations:XML = <nationSet/>;
                 for each (var nation:String in npc.npcDef.nationSet)
                 {
@@ -290,6 +297,12 @@ package statm.dev.mapeditor.io
 
             for each (var mob:Mob in map.items.mobLayer.children)
             {
+                if (!mob.mobDef)
+                {
+                    log += "无法找到怪物描述。(MOB_ID=" + mob.mobID + ", pos=" + mob.x + "," + mob.y + ")" + "\n";
+                    continue;
+                }
+
                 result.robots.appendChild(<robot>
                                               <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
                                               <delay>{mob.delay}</delay>
@@ -304,6 +317,33 @@ package statm.dev.mapeditor.io
             }
 
             return result;
+        }
+
+        private function generateMinerals():XML
+        {
+            var result:XML = <suppliesRobotList/>;
+
+            for each (var mineral:Mineral in map.items.mineralLayer.children)
+            {
+                if (!mineral.mineralDef)
+                {
+                    log += "无法找到采集点描述。(MINERAL_ID=" + mineral.mineralID + ", pos=" + mineral.x + "," + mineral.y + ")" + "\n";
+                    continue;
+                }
+
+                result.appendChild(<suppliesRobot>
+                                       <supplies>{mineral.mineralDef.mineralAlias}</supplies>
+                                       <refreshTime>{mineral.respawnTime}</refreshTime>
+                                       <enterPosition col={mineral.x} row={mineral.y}/>
+                                   </suppliesRobot>);
+            }
+
+            return result;
+        }
+
+        public function getLog():String
+        {
+            return log;
         }
     }
 }

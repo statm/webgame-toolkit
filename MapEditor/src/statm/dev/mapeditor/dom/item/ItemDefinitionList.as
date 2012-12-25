@@ -1,11 +1,12 @@
 package statm.dev.mapeditor.dom.item
 {
     import flash.utils.Dictionary;
-
+    
     import mx.collections.ArrayCollection;
-
+    
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
     import statm.dev.mapeditor.io.IXMLSerializable;
@@ -58,6 +59,14 @@ package statm.dev.mapeditor.dom.item
                 }
                 mobDefs[MobItemDefinition(itemDef).mobID] = itemDef;
             }
+            if (itemDef is MineralItemDefinition)
+            {
+                if (mineralDefs[MineralItemDefinition(itemDef).mineralID])
+                {
+                    _itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(mineralDefs[MineralItemDefinition(itemDef).mineralID]));
+                }
+                mineralDefs[MineralItemDefinition(itemDef).mineralID] = itemDef;
+            }
         }
 
         private var npcDefs:Dictionary = new Dictionary();
@@ -72,6 +81,13 @@ package statm.dev.mapeditor.dom.item
         public function getMobDefinitionByID(mobID:int):MobItemDefinition
         {
             return mobDefs[mobID];
+        }
+
+        private var mineralDefs:Dictionary = new Dictionary();
+
+        public function getMineralDefinitionByID(mineralID:int):MineralItemDefinition
+        {
+            return mineralDefs[mineralID];
         }
 
         public function toXML():XML
@@ -108,6 +124,9 @@ package statm.dev.mapeditor.dom.item
                     case ItemType.MOB:
                         itemDef = new MobItemDefinition();
                         break;
+                    case ItemType.MINERAL:
+                        itemDef = new MineralItemDefinition();
+                        break;
                     default:
                         itemDef = new ItemDefinitionBase();
                         break;
@@ -131,14 +150,15 @@ package statm.dev.mapeditor.dom.item
                 }
                 var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.siteName.toString(), xml.appearanceID.toString(), nationSet);
                 addItemDefinition(npcDef);
-                for each (var npc:NPC in map.items.npcLayer.children)
-                {
-                    if (npc.npcID == npcID)
-                    {
-                        npc.npcDef = npcDef;
-                    }
-                }
             }
+			
+			for each (var npc:NPC in map.items.npcLayer.children)
+			{
+				if (npcDefs[npc.npcID])
+				{
+					npc.npcDef = npcDefs[npc.npcID];
+				}
+			}
         }
 
         public function importMobXML(file:XML):void
@@ -149,14 +169,34 @@ package statm.dev.mapeditor.dom.item
                 var mobID:int = int(xml.@id);
                 var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
                 addItemDefinition(mobDef);
-                for each (var mob:Mob in map.items.mobLayer.children)
+            }
+
+            for each (var mob:Mob in map.items.mobLayer.children)
+            {
+                if (mobDefs[mob.mobID])
                 {
-                    if (mob.mobID == mobID)
-                    {
-                        mob.mobDef = mobDef;
-                    }
+                    mob.mobDef = mobDefs[mob.mobID];
                 }
             }
+        }
+
+        public function importMineralXML(file:XML):void
+        {
+            var map:Map = AppState.getCurrentMap();
+            for each (var xml:XML in file.item)
+            {
+                var mineralID:int = int(xml.id);
+                var mineralDef:MineralItemDefinition = new MineralItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
+                addItemDefinition(mineralDef);
+            }
+			
+			for each (var mineral:Mineral in map.items.mineralLayer.children)
+			{
+				if (mineralDefs[mineral.mineralID])
+				{
+					mineral.mineralDef = mineralDefs[mineral.mineralID];
+				}
+			}
         }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:MetroChromeWindowedApplication 
-    width="950" height="700"
+    width="1050" height="700"
     addedToStage="init()"
     xmlns:fx="http://ns.adobe.com/mxml/2009"
     xmlns:s="library://ns.adobe.com/flex/spark"
@@ -8,7 +8,7 @@
     xmlns:modules="statm.dev.mapeditor.modules.*"
     xmlns:ui="statm.dev.mapeditor.ui.*"
     showStatusBar="false"
-    title="地图编辑器 v2.2"
+    title="地图编辑器 v2.3"
     closing="closingHandler(event)"
     frameRate="40"
     displayStateChange="displayStateChangeHandler(event)">

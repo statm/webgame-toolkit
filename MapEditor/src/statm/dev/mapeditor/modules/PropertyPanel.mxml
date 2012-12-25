@@ -76,7 +76,15 @@
                     case 2:
                         data.filterFunction = function(o:Object):Boolean
                         {
-                            return (o.type != ItemType.NPC) && (o.type != ItemType.MOB) && (o.type != ItemType.LINK_DEST_POINT);
+                            return (o.type == ItemType.MINERAL);
+                        }
+                        data.refresh();
+                        break;
+
+                    case 3:
+                        data.filterFunction = function(o:Object):Boolean
+                        {
+                            return (o.type != ItemType.NPC) && (o.type != ItemType.MOB) && (o.type != ItemType.MINERAL) && (o.type != ItemType.LINK_DEST_POINT);
                         };
                         data.refresh();
                         break;
@@ -106,6 +114,7 @@
         <s:State name="linkDestPointProps"/>
         <s:State name="npcProps"/>
         <s:State name="mobProps"/>
+        <s:State name="mineralProps"/>
     </ui:states>
 
     <s:Scroller 
@@ -139,6 +148,7 @@
                     <s:label.linkDestPointProps>连接目标点</s:label.linkDestPointProps>
                     <s:label.npcProps>NPC</s:label.npcProps>
                     <s:label.mobProps>怪物</s:label.mobProps>
+                    <s:label.mineralProps>采集点</s:label.mineralProps>
                 </s:FormHeading>
                 <!-- 地图属性 -->
                 <s:FormItem 
@@ -311,8 +321,9 @@
                     </s:layout>
                     <s:TabBar id="itemsListFilterBar"
                         cornerRadius="0"
-                        dataProvider="{new ArrayList(['NPC', '怪物', '地图元素'])}"
-                        selectedIndex="2"
+						width="255"
+                        dataProvider="{new ArrayList(['NPC', '怪物', '采集点', '其他'])}"
+                        selectedIndex="3"
                         change="filterItems();"/>
                     <s:List id="itemsList"
                         width="255" height="190"
@@ -385,12 +396,32 @@
                 </s:FormItem>
                 <!-- NPC 属性 -->
                 <s:FormItem 
+                    label="ID:"
+                    includeIn="npcProps">
+                    <s:Label id="lblNPCID"/>
+                </s:FormItem>
+				<s:FormItem 
+					label="名称:"
+					includeIn="npcProps">
+					<s:Label id="lblNPCName"/>
+				</s:FormItem>
+                <s:FormItem 
                     label="坐标:"
                     includeIn="npcProps">
                     <ui:CoordText id="ctNPCCoord"
                         coordChanged="submit();"/>
                 </s:FormItem>
                 <!-- 怪物属性 -->
+				<s:FormItem 
+					label="ID:"
+					includeIn="mobProps">
+					<s:Label id="lblMobID"/>
+				</s:FormItem>
+				<s:FormItem 
+					label="名称:"
+					includeIn="mobProps">
+					<s:Label id="lblMobName"/>
+				</s:FormItem>
                 <s:FormItem 
                     label="坐标:"
                     includeIn="mobProps">
@@ -446,6 +477,23 @@
                         focusOut="submit();"
                         restrict="0-9"
                         enter="submit();"/>
+                </s:FormItem>
+                <!-- 采集点属性 -->
+				<s:FormItem 
+					label="ID:"
+					includeIn="mineralProps">
+					<s:Label id="lblMineralID"/>
+				</s:FormItem>
+				<s:FormItem 
+					label="名称:"
+					includeIn="mineralProps">
+					<s:Label id="lblMineralName"/>
+				</s:FormItem>
+                <s:FormItem 
+                    label="坐标:"
+                    includeIn="mineralProps">
+                    <ui:CoordText id="ctMineralCoord"
+                        coordChanged="submit();"/>
                 </s:FormItem>
             </s:Form>
         </s:Group>

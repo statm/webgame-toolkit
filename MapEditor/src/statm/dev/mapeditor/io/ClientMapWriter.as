@@ -24,11 +24,13 @@ package statm.dev.mapeditor.io
      * @author statm
      *
      */
-    public class ClientWriter
+    public class ClientMapWriter
     {
         private var map:Map;
 
         private var xmlResult:XML;
+
+        private var log:String = "";
 
         public function read(map:Map):void
         {
@@ -186,10 +188,10 @@ package statm.dev.mapeditor.io
             return result;
         }
 
-        private function generateTransportPoints():XMLList
+        private function generateTransportPoints():XML
         {
             var tpResult:XML = <teleporterList/>;
-            var lpResult:XML = <linkPointList/>;
+//            var lpResult:XML = <linkPointList/>;
 
             for each (var node:DomObject in map.items.transportPoints.children)
             {
@@ -197,13 +199,14 @@ package statm.dev.mapeditor.io
                 {
                     tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
                 }
-                else if (node is LinkPoint)
-                {
-                    lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
-                }
+//                else if (node is LinkPoint)
+//                {
+//                    lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
+//                }
             }
 
-            return tpResult + lpResult;
+//            return tpResult + lpResult;
+			return tpResult;
         }
 
         private function generateTeleportPoint(tp:TeleportPoint):XML
@@ -225,42 +228,42 @@ package statm.dev.mapeditor.io
             return result;
         }
 
-        private function generateLinkPoint(lp:LinkPoint):XML
-        {
-            var result:XML = <linkPoint>
-                    <source col={lp.x} row={lp.y}/>
-                </linkPoint>;
+//        private function generateLinkPoint(lp:LinkPoint):XML
+//        {
+//            var result:XML = <linkPoint>
+//                    <source col={lp.x} row={lp.y}/>
+//                </linkPoint>;
+//
+//            var destinationListNode:XML = <destinationList/>;
+//
+//            for each (var ldp:LinkDestPoint in lp.children)
+//            {
+//                destinationListNode.appendChild(generateLinkDestPoint(ldp));
+//            }
+//
+//            result.appendChild(destinationListNode);
+//
+//            return result;
+//        }
 
-            var destinationListNode:XML = <destinationList/>;
-
-            for each (var ldp:LinkDestPoint in lp.children)
-            {
-                destinationListNode.appendChild(generateLinkDestPoint(ldp));
-            }
-
-            result.appendChild(destinationListNode);
-
-            return result;
-        }
-
-        private function generateLinkDestPoint(ldp:LinkDestPoint):XML
-        {
-            var result:XML = <teleporter>
-                    <mapID>{ldp.mapID}</mapID>
-                    <position col={ldp.x} row={ldp.y}/>
-                </teleporter>;
-
-            var allowNationNode:XML = <allowNation/>;
-
-            for each (var nation:String in ldp.allowNations)
-            {
-                allowNationNode.appendChild(<nation>{nation}</nation>);
-            }
-
-            result.appendChild(allowNationNode);
-
-            return result;
-        }
+//        private function generateLinkDestPoint(ldp:LinkDestPoint):XML
+//        {
+//            var result:XML = <teleporter>
+//                    <mapID>{ldp.mapID}</mapID>
+//                    <position col={ldp.x} row={ldp.y}/>
+//                </teleporter>;
+//
+//            var allowNationNode:XML = <allowNation/>;
+//
+//            for each (var nation:String in ldp.allowNations)
+//            {
+//                allowNationNode.appendChild(<nation>{nation}</nation>);
+//            }
+//
+//            result.appendChild(allowNationNode);
+//
+//            return result;
+//        }
 
         private function generateWaypoints():XML
         {
@@ -292,10 +295,15 @@ package statm.dev.mapeditor.io
 
             for each (var npc:NPC in map.items.npcLayer.children)
             {
-                result.appendChild(<NPC id={npc.npcDef.npcID}><position col={npc.x} row={npc.y}/></NPC>);
+                result.appendChild(<NPC id={npc.npcID}><position col={npc.x} row={npc.y}/></NPC>);
             }
 
             return result;
+        }
+
+        public function getLog():String
+        {
+            return log;
         }
     }
 }

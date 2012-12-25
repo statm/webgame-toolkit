@@ -21,6 +21,7 @@
             import statm.dev.mapeditor.dom.objects.BornPoint;
             import statm.dev.mapeditor.dom.objects.LinkDestPoint;
             import statm.dev.mapeditor.dom.objects.LinkPoint;
+            import statm.dev.mapeditor.dom.objects.Mineral;
             import statm.dev.mapeditor.dom.objects.Mob;
             import statm.dev.mapeditor.dom.objects.NPC;
             import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -152,12 +153,17 @@
                 else if (node is NPC)
                 {
                     var npc:NPC = NPC(node);
-                    result = npc.name + " (" + npc.x + "," + npc.y + ")";
+                    result = (npc.npcDef ? npc.npcDef.npcName : "") + " (" + npc.x + "," + npc.y + ")";
                 }
                 else if (node is Mob)
                 {
                     var mob:Mob = Mob(node);
-                    result = mob.name + " (" + mob.x + "," + mob.y + ")";
+                    result = (mob.mobDef ? mob.mobDef.mobName : "") + " (" + mob.x + "," + mob.y + ")";
+                }
+                else if (node is Mineral)
+                {
+                    var mineral:Mineral = Mineral(node);
+                    result = (mineral.mineralDef ? mineral.mineralDef.mineralName : "") + " (" + mineral.x + "," + mineral.y + ")";
                 }
 
                 if (result.length > 0)

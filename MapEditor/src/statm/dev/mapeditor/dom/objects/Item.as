@@ -1,11 +1,7 @@
 package statm.dev.mapeditor.dom.objects
 {
-    import flash.display.BitmapData;
-    import flash.filters.GlowFilter;
-
     import spark.components.Image;
-    import spark.primitives.BitmapImage;
-
+    
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.DomObject;
 

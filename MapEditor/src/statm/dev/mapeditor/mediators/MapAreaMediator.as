@@ -78,6 +78,7 @@ package statm.dev.mapeditor.mediators
                         currentMap.items.display = mapArea.items;
                         currentMap.items.npcLayer.display = mapArea.NPCLayer;
                         currentMap.items.mobLayer.display = mapArea.mobLayer;
+                        currentMap.items.mineralLayer.display = mapArea.mineralLayer;
                         currentMap.items.transportPoints.display = mapArea.transportLayer;
                         currentMap.items.waypoints.display = mapArea.waypointLayer;
 
@@ -135,6 +136,7 @@ package statm.dev.mapeditor.mediators
                     mapArea.waypointLayer.removeAllElements();
                     mapArea.NPCLayer.removeAllElements();
                     mapArea.mobLayer.removeAllElements();
+                    mapArea.mineralLayer.removeAllElements();
                     AppState.stopDrawingMask();
                     AppState.stopDrawingItem();
                     break;

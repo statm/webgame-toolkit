@@ -11,9 +11,9 @@ package statm.dev.mapeditor.dom.layers
      * @author statm
      *
      */
-    public class MineLayer extends PlacementLayerBase
+    public class MineralLayer extends PlacementLayerBase
     {
-        public function MineLayer(root:DomNode)
+        public function MineralLayer(root:DomNode)
         {
             super(root);
             _name = "采集点";
@@ -23,7 +23,7 @@ package statm.dev.mapeditor.dom.layers
         {
             var result:XML = super.toXML();
 
-            result.setName("mineLayer");
+            result.setName("mineralLayer");
 
             return result;
         }

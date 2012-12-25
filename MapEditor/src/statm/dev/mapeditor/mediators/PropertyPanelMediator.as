@@ -21,6 +21,7 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.layers.CombatLayer;
     import statm.dev.mapeditor.dom.layers.Grids;
     import statm.dev.mapeditor.dom.layers.Items;
+    import statm.dev.mapeditor.dom.layers.MineralLayer;
     import statm.dev.mapeditor.dom.layers.MobLayer;
     import statm.dev.mapeditor.dom.layers.NPCLayer;
     import statm.dev.mapeditor.dom.layers.RegionLayer;
@@ -31,6 +32,7 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.objects.BornPoint;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -134,7 +136,7 @@ package statm.dev.mapeditor.mediators
             {
                 panel.currentState = "combatLayerEditing";
             }
-            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is TransportPoints) || (selection is WaypointLayer))
+            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is MineralLayer) || (selection is TransportPoints) || (selection is WaypointLayer))
             {
                 panel.currentState = "itemLayerEditing";
             }
@@ -169,11 +171,29 @@ package statm.dev.mapeditor.mediators
             else if (selection is NPC)
             {
                 panel.currentState = "npcProps";
+                if (NPC(selection).npcDef)
+                {
+                    panel.lblNPCName.text = NPC(selection).npcDef.npcName;
+                }
+                else
+                {
+                    panel.lblNPCName.text = "";
+                }
+                panel.lblNPCID.text = NPC(selection).npcID.toString();
                 panel.ctNPCCoord.setCoord(NPC(selection).x, NPC(selection).y);
             }
             else if (selection is Mob)
             {
                 panel.currentState = "mobProps";
+                if (Mob(selection).mobDef)
+                {
+                    panel.lblMobName.text = Mob(selection).mobDef.mobName;
+                }
+                else
+                {
+                    panel.lblMobName.text = "";
+                }
+                panel.lblMobID.text = Mob(selection).mobID.toString();
                 panel.ctMobCoord.setCoord(Mob(selection).x, Mob(selection).y);
                 panel.tiMobDelay.text = Mob(selection).delay.toString();
                 panel.cbxMobBattleEnabled.selected = Mob(selection).battleEnabled;
@@ -182,6 +202,20 @@ package statm.dev.mapeditor.mediators
                 panel.tiMobRespawnTime.text = Mob(selection).respawnTime.toString();
                 panel.tiMobStandByTime.text = Mob(selection).standByTime.toString();
                 panel.tiMobMoveSpeed.text = Mob(selection).moveSpeed.toString();
+            }
+            else if (selection is Mineral)
+            {
+                panel.currentState = "mineralProps";
+                if (Mineral(selection).mineralDef)
+                {
+                    panel.lblMineralName.text = Mineral(selection).mineralDef.mineralName;
+                }
+                else
+                {
+                    panel.lblMineralName.text = "";
+                }
+                panel.lblMineralID.text = Mineral(selection).mineralID.toString();
+                panel.ctMineralCoord.setCoord(Mineral(selection).x, Mineral(selection).y);
             }
             else
             {
@@ -281,6 +315,11 @@ package statm.dev.mapeditor.mediators
                     Mob(selection).moveSpeed = int(panel.tiMobMoveSpeed.text);
                     Mob(selection).x = panel.ctMobCoord.getCoord().x;
                     Mob(selection).y = panel.ctMobCoord.getCoord().y;
+                    break;
+
+                case "mineralProps":
+                    Mineral(selection).x = panel.ctMineralCoord.getCoord().x;
+                    Mineral(selection).y = panel.ctMineralCoord.getCoord().y;
                     break;
             }
         }

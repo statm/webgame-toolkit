@@ -91,10 +91,11 @@
                 <ui:BigBitmap id="combatLayer"/>
 
                 <s:Group id="items">
+                    <s:Group id="waypointLayer"/>
                     <s:Group id="NPCLayer"/>
                     <s:Group id="mobLayer"/>
+					<s:Group id="mineralLayer"/>
                     <s:Group id="transportLayer"/>
-                    <s:Group id="waypointLayer"/>
                     <s:Group id="itemDrawingLayer"
                         alpha="0.6"/>
                 </s:Group>

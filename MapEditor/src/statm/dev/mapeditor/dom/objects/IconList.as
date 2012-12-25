@@ -36,6 +36,7 @@ package statm.dev.mapeditor.dom.objects
             addIcon(4, new UIResource.WAYPOINT_ICON().bitmapData);
             addIcon(5, new UIResource.NPC_ICON().bitmapData);
             addIcon(6, new UIResource.MOB_ICON().bitmapData);
+            addIcon(7, new UIResource.MINERAL_ICON().bitmapData);
         }
 
         private function addIcon(id:int, icon:BitmapData):void
@@ -54,7 +55,7 @@ package statm.dev.mapeditor.dom.objects
 
             for (var id:String in _list)
             {
-                if (parseInt(id) < 7)
+                if (parseInt(id) < 8)
                 {
                     continue;
                 }

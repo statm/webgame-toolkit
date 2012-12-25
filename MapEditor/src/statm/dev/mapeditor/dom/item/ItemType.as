@@ -22,5 +22,7 @@ package statm.dev.mapeditor.dom.item
         public static const BORN_POINT:String = "BORN_POINT";
 
         public static const WAYPOINT:String = "WAYPOINT";
+
+        public static const MINERAL:String = "MINERAL";
     }
 }

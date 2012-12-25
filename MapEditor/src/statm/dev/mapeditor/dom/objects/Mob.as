@@ -1,5 +1,10 @@
 package statm.dev.mapeditor.dom.objects
 {
+    import flash.filters.GlowFilter;
+    
+    import spark.components.Group;
+    import spark.components.Label;
+    
     import statm.dev.mapeditor.app.MapEditingActions;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
@@ -13,11 +18,15 @@ package statm.dev.mapeditor.dom.objects
      */
     public class Mob extends Item
     {
+		private var lblName:Label;
+		
         public function Mob(root:DomNode, mobDef:MobItemDefinition = null)
         {
             super(root);
             _name = "怪物";
+			lblName = new Label();
             this.mobDef = mobDef;
+			
             if (mobDef)
             {
                 var props:Object = mobDef.defaultProps;
@@ -29,6 +38,18 @@ package statm.dev.mapeditor.dom.objects
                 props.hasOwnProperty("standByTime") && (_standByTime = props.standByTime);
                 props.hasOwnProperty("moveSpeed") && (_moveSpeed = props.moveSpeed);
             }
+			
+			var group:Group = new Group();
+			group.width = 31;
+			group.addElement(iconImage);
+			lblName.y = -17;
+			lblName.horizontalCenter = 0;
+			lblName.setStyle("color", 0xFFFFFF);
+			lblName.setStyle("fontSize", 12);
+			lblName.filters = [new GlowFilter(0x000000, 1., 5., 5., 8)];
+			lblName.mouseEnabled = false;
+			group.addElement(lblName);
+			this.display = group;
         }
 
         private var _mobDef:MobItemDefinition;
@@ -42,6 +63,7 @@ package statm.dev.mapeditor.dom.objects
         {
             _mobDef = value;
             value && (_mobID = value.mobID);
+			value && (lblName.text = value.mobName);
         }
 
         private var _mobID:int;
@@ -51,10 +73,10 @@ package statm.dev.mapeditor.dom.objects
             return _mobID;
         }
 
-        public function set modID(value:int):void
+        public function set mobID(value:int):void
         {
             _mobID = value;
-            _mobDef = Map(root).itemDefinitionList.getMobDefinitionByID(_mobID);
+            mobDef = Map(root).itemDefinitionList.getMobDefinitionByID(_mobID);
         }
 
         private var _delay:int = 1000;
@@ -178,8 +200,7 @@ package statm.dev.mapeditor.dom.objects
 
         override public function readXML(xml:XML):void
         {
-            _mobID = parseInt(xml.@mobID);
-            _mobDef = Map(root).itemDefinitionList.getMobDefinitionByID(_mobID);
+			this.mobID = parseInt(xml.@mobID);
 
             this.x = xml.@x;
             this.y = xml.@y;

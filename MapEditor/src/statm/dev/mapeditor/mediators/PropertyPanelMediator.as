@@ -216,6 +216,7 @@ package statm.dev.mapeditor.mediators
                 }
                 panel.lblMineralID.text = Mineral(selection).mineralID.toString();
                 panel.ctMineralCoord.setCoord(Mineral(selection).x, Mineral(selection).y);
+                panel.tiMineralRespawnTime.text = Mineral(selection).respawnTime.toString();
             }
             else
             {
@@ -320,6 +321,7 @@ package statm.dev.mapeditor.mediators
                 case "mineralProps":
                     Mineral(selection).x = panel.ctMineralCoord.getCoord().x;
                     Mineral(selection).y = panel.ctMineralCoord.getCoord().y;
+                    Mineral(selection).respawnTime = int(panel.tiMineralRespawnTime.text);
                     break;
             }
         }

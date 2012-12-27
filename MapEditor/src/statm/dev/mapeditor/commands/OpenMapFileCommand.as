@@ -5,10 +5,12 @@ package statm.dev.mapeditor.commands
     import flash.filesystem.FileMode;
     import flash.filesystem.FileStream;
     import flash.net.FileFilter;
-
+    
+    import mx.controls.Alert;
+    
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.command.SimpleCommand;
-
+    
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
@@ -46,21 +48,29 @@ package statm.dev.mapeditor.commands
                     sendNotification(AppNotificationCode.CLOSE_MAP_FILE);
                 }
 
-                var fileStream:FileStream = new FileStream();
-                fileStream.open(fileToOpen, FileMode.READ);
-
-                var fileXML:XML = new XML(fileStream.readMultiByte(fileStream.bytesAvailable, "utf-8"));
-                var map:Map = new Map();
-                map.filePath = fileToOpen.nativePath;
-                MapFileUtils.XMLToMap(fileXML, map);
-
-                fileStream.close();
-
-                AppState.setCurrentMap(map);
-                sendNotification(AppNotificationCode.MAP_DATA_READY);
+				try
+				{
+	                var fileStream:FileStream = new FileStream();
+	                fileStream.open(fileToOpen, FileMode.UPDATE);
+	
+	                var fileXML:XML = new XML(fileStream.readMultiByte(fileStream.bytesAvailable, "utf-8"));
+	                var map:Map = new Map();
+	                map.filePath = fileToOpen.nativePath;
+	                MapFileUtils.XMLToMap(fileXML, map);
+	
+	                fileStream.close();
+	
+	                AppState.setCurrentMap(map);
+	                sendNotification(AppNotificationCode.MAP_DATA_READY);
+				}
+				catch (e:Error)
+				{
+					fileStream.close();
+					Alert.show("文件已锁定，打开失败。");
+				}
             });
 
-            fileToOpen.browseForOpen("打开地图文件", [ new FileFilter("地图文件(*.xml)", "*.xml")]);
+            fileToOpen.browseForOpen("打开地图文件", [ new FileFilter("地图文件(*.map)", "*.map")]);
         }
     }
 }

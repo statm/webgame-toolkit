@@ -2,7 +2,7 @@ package statm.dev.mapeditor.io
 {
     import flash.filesystem.File;
     import flash.utils.Dictionary;
-
+    
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.Map;
@@ -11,8 +11,6 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.layers.RegionLayer;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
-    import statm.dev.mapeditor.dom.objects.LinkDestPoint;
-    import statm.dev.mapeditor.dom.objects.LinkPoint;
     import statm.dev.mapeditor.dom.objects.NPC;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.dom.objects.Waypoint;
@@ -206,7 +204,7 @@ package statm.dev.mapeditor.io
             }
 
 //            return tpResult + lpResult;
-			return tpResult;
+            return tpResult;
         }
 
         private function generateTeleportPoint(tp:TeleportPoint):XML

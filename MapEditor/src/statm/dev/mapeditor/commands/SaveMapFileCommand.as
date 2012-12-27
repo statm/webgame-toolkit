@@ -58,7 +58,7 @@ package statm.dev.mapeditor.commands
             else
             {
                 fileToSave = File.desktopDirectory;
-                fileName = map.mapName + ".xml";
+                fileName = map.mapName + ".map";
                 overwrite = false;
             }
 

@@ -63,7 +63,7 @@ package statm.dev.imageresourceviewer.data.io
 				}
 			}
 
-			if (unloadedBatchCount == 0)
+			if (unloadedBatchCount <= 0)
 			{
 				originalImages = action.getAllImages();
 

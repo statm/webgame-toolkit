@@ -21,6 +21,12 @@ package statm.dev.mapeditor.dom.objects
 			lblName = new Label();
 			this.mineralDef = mineralDef;
 			
+			if (mineralDef)
+			{
+				var props:Object = mineralDef.defaultProps;
+				props.hasOwnProperty("respawnTime") && (_respawnTme = props.respawnTime);
+			}
+			
 			var group:Group = new Group();
 			group.width = 31;
 			group.addElement(iconImage);

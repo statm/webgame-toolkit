@@ -293,7 +293,7 @@ package statm.dev.mapeditor.io
 
         private function generateMobs():XML
         {
-            var result:XML = <robotsList><robots/></robotsList>;
+            var result:XML = <monsterRobotsList><monsterRobots/></monsterRobotsList>;
 
             for each (var mob:Mob in map.items.mobLayer.children)
             {
@@ -303,7 +303,7 @@ package statm.dev.mapeditor.io
                     continue;
                 }
 
-                result.robots.appendChild(<robot>
+                result.monsterRobots.appendChild(<monsterRobot>
                                               <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
                                               <delay>{mob.delay}</delay>
                                               <beBattled>{mob.battleEnabled}</beBattled>
@@ -313,7 +313,7 @@ package statm.dev.mapeditor.io
                                               <standByTime>{mob.standByTime}</standByTime>
                                               <moveSpeed>{mob.moveSpeed}</moveSpeed>
                                               <enterPosition col={mob.x} row={mob.y}/>
-                                          </robot>);
+                                          </monsterRobot>);
             }
 
             return result;

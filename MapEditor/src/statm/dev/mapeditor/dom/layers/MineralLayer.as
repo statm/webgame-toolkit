@@ -1,7 +1,5 @@
 package statm.dev.mapeditor.dom.layers
 {
-    import mx.collections.ArrayCollection;
-
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.item.ItemFactory;
 
@@ -31,7 +29,10 @@ package statm.dev.mapeditor.dom.layers
         override public function readXML(xml:XML):void
         {
             ItemFactory.domRoot = root;
-            // TODO
+            for each (var mineralXML:XML in xml.children())
+			{
+				this.addItem(ItemFactory.createItemFromXML(mineralXML));
+			}
         }
     }
 }

@@ -140,6 +140,20 @@ package statm.dev.mapeditor.dom.item
         public function importNPCXML(file:XML):void
         {
             var map:Map = AppState.getCurrentMap();
+			var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+
+            _itemDefinitions.filterFunction = function(o:Object):Boolean
+            {
+                return (o is NPCItemDefinition);
+            };
+            _itemDefinitions.refresh();
+            _itemDefinitions.removeAll();
+			
+			_itemDefinitions.filterFunction = oldFilterFunc;
+			_itemDefinitions.refresh();
+
+            npcDefs = new Dictionary();
+
             for each (var xml:XML in file.NPC)
             {
                 var npcID:int = int(xml.@id);
@@ -151,51 +165,100 @@ package statm.dev.mapeditor.dom.item
                 var npcDef:NPCItemDefinition = new NPCItemDefinition(npcID, xml.name.toString(), xml.siteName.toString(), xml.appearanceID.toString(), nationSet);
                 addItemDefinition(npcDef);
             }
+
+			var l:int = map.items.npcLayer.children.length;
 			
-			for each (var npc:NPC in map.items.npcLayer.children)
+			for (var i:int = l - 1; i >= 0; i--)
 			{
+				var npc:NPC = NPC(map.items.npcLayer.children.getItemAt(i));
 				if (npcDefs[npc.npcID])
 				{
 					npc.npcDef = npcDefs[npc.npcID];
 				}
+				else
+				{
+					map.items.npcLayer.removeItem(npc);
+				} 
 			}
         }
 
         public function importMobXML(file:XML):void
         {
-            var map:Map = AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
+			var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+			
+			_itemDefinitions.filterFunction = function(o:Object):Boolean
+			{
+				return (o is MobItemDefinition);
+			};
+			_itemDefinitions.refresh();
+			_itemDefinitions.removeAll();
+			
+			_itemDefinitions.filterFunction = oldFilterFunc;
+			_itemDefinitions.refresh();
+			
+			mobDefs = new Dictionary();
+			
             for each (var xml:XML in file.item)
             {
                 var mobID:int = int(xml.@id);
                 var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
                 addItemDefinition(mobDef);
             }
-
-            for each (var mob:Mob in map.items.mobLayer.children)
-            {
-                if (mobDefs[mob.mobID])
-                {
-                    mob.mobDef = mobDefs[mob.mobID];
-                }
-            }
+			
+			var l:int = map.items.mobLayer.children.length;
+			
+			for (var i:int = l - 1; i >= 0; i--)
+			{
+				var mob:Mob = Mob(map.items.mobLayer.children.getItemAt(i));
+				if (mobDefs[mob.mobID])
+				{
+					mob.mobDef = mobDefs[mob.mobID];
+				}
+				else
+				{
+					map.items.mobLayer.removeItem(mob);
+				} 
+			}
         }
 
         public function importMineralXML(file:XML):void
         {
-            var map:Map = AppState.getCurrentMap();
+			var map:Map = AppState.getCurrentMap();
+			var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+			
+			_itemDefinitions.filterFunction = function(o:Object):Boolean
+			{
+				return (o is MineralItemDefinition);
+			};
+			_itemDefinitions.refresh();
+			_itemDefinitions.removeAll();
+			
+			_itemDefinitions.filterFunction = oldFilterFunc;
+			_itemDefinitions.refresh();
+			
+            mineralDefs = new Dictionary();
+
             for each (var xml:XML in file.item)
             {
                 var mineralID:int = int(xml.id);
                 var mineralDef:MineralItemDefinition = new MineralItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
                 addItemDefinition(mineralDef);
             }
+
+			var l:int = map.items.mineralLayer.children.length;
 			
-			for each (var mineral:Mineral in map.items.mineralLayer.children)
+			for (var i:int = l - 1; i >= 0; i--)
 			{
-				if (mineralDefs[mineral.mineralID])
+				var mineral:Mineral = Mineral(map.items.mineralLayer.children.getItemAt(i));
+				if (mobDefs[mineral.mineralID])
 				{
 					mineral.mineralDef = mineralDefs[mineral.mineralID];
 				}
+				else
+				{
+					map.items.mineralLayer.removeItem(mineral);
+				} 
 			}
         }
     }

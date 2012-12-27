@@ -114,7 +114,7 @@ package statm.dev.mapeditor.dom.layers
         {
             var results:XML = <items/>;
 
-            results.appendChild(npcLayer.toXML()).appendChild(mobLayer.toXML()).appendChild(transportPoints.toXML()).appendChild(waypoints.toXML());
+            results.appendChild(npcLayer.toXML()).appendChild(mobLayer.toXML()).appendChild(transportPoints.toXML()).appendChild(waypoints.toXML()).appendChild(mineralLayer.toXML());
 
             return results;
         }

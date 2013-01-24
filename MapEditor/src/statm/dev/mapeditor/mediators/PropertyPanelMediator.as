@@ -21,8 +21,10 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.layers.CombatLayer;
     import statm.dev.mapeditor.dom.layers.Grids;
     import statm.dev.mapeditor.dom.layers.Items;
+    import statm.dev.mapeditor.dom.layers.MarkLayer;
     import statm.dev.mapeditor.dom.layers.MineralLayer;
     import statm.dev.mapeditor.dom.layers.MobLayer;
+    import statm.dev.mapeditor.dom.layers.MobLayerContainer;
     import statm.dev.mapeditor.dom.layers.NPCLayer;
     import statm.dev.mapeditor.dom.layers.RegionLayer;
     import statm.dev.mapeditor.dom.layers.TransportPoints;
@@ -32,6 +34,7 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.objects.BornPoint;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mark;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
@@ -56,6 +59,7 @@ package statm.dev.mapeditor.mediators
             viewComponent.addEventListener("submit", submitProperties, true);
             viewComponent.addEventListener(FlexEvent.CONTENT_CREATION_COMPLETE, deferredSetupHandler, true);
             viewComponent.addEventListener("newDestPoint", newDestPointHandler);
+            viewComponent.addEventListener("newMobLayer", newMobLayerHandler);
         }
 
         override public function listNotificationInterests():Array
@@ -136,9 +140,13 @@ package statm.dev.mapeditor.mediators
             {
                 panel.currentState = "combatLayerEditing";
             }
-            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is MineralLayer) || (selection is TransportPoints) || (selection is WaypointLayer))
+            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is MineralLayer) || (selection is TransportPoints) || (selection is WaypointLayer) || (selection is MarkLayer))
             {
                 panel.currentState = "itemLayerEditing";
+            }
+            else if (selection is MobLayerContainer)
+            {
+                panel.currentState = "mobLayerContainerEditing";
             }
             else if (selection is TransportPoints)
             {
@@ -202,6 +210,7 @@ package statm.dev.mapeditor.mediators
                 panel.tiMobRespawnTime.text = Mob(selection).respawnTime.toString();
                 panel.tiMobStandByTime.text = Mob(selection).standByTime.toString();
                 panel.tiMobMoveSpeed.text = Mob(selection).moveSpeed.toString();
+                panel.tiMobPatrolRange.text = Mob(selection).patrolRange.toString();
             }
             else if (selection is Mineral)
             {
@@ -217,6 +226,12 @@ package statm.dev.mapeditor.mediators
                 panel.lblMineralID.text = Mineral(selection).mineralID.toString();
                 panel.ctMineralCoord.setCoord(Mineral(selection).x, Mineral(selection).y);
                 panel.tiMineralRespawnTime.text = Mineral(selection).respawnTime.toString();
+            }
+            else if (selection is Mark)
+            {
+                panel.currentState = "markProps";
+                panel.tiMarkName.text = Mark(selection).markName;
+                panel.ctMarkCoord.setCoord(Mark(selection).x, Mark(selection).y);
             }
             else
             {
@@ -314,6 +329,7 @@ package statm.dev.mapeditor.mediators
                     Mob(selection).respawnTime = int(panel.tiMobRespawnTime.text);
                     Mob(selection).standByTime = int(panel.tiMobStandByTime.text);
                     Mob(selection).moveSpeed = int(panel.tiMobMoveSpeed.text);
+                    Mob(selection).patrolRange = int(panel.tiMobPatrolRange.text);
                     Mob(selection).x = panel.ctMobCoord.getCoord().x;
                     Mob(selection).y = panel.ctMobCoord.getCoord().y;
                     break;
@@ -322,6 +338,12 @@ package statm.dev.mapeditor.mediators
                     Mineral(selection).x = panel.ctMineralCoord.getCoord().x;
                     Mineral(selection).y = panel.ctMineralCoord.getCoord().y;
                     Mineral(selection).respawnTime = int(panel.tiMineralRespawnTime.text);
+                    break;
+
+                case "markProps":
+                    Mark(selection).x = panel.ctMarkCoord.getCoord().x;
+                    Mark(selection).y = panel.ctMarkCoord.getCoord().y;
+                    Mark(selection).markName = panel.tiMarkName.text;
                     break;
             }
         }
@@ -452,6 +474,13 @@ package statm.dev.mapeditor.mediators
                 newDestPoint.y = linkPoint.y + 1;
             }
             currentMap.items.addItem(newDestPoint);
+        }
+
+        private function newMobLayerHandler(event:Event):void
+        {
+            var currentMap:Map = AppState.getCurrentMap();
+            AppState.setCurrentSelection(currentMap.items.mobLayerContainer.addMobLayer());
+			
         }
     }
 }

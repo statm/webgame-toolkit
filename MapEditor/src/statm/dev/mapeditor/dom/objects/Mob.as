@@ -1,10 +1,10 @@
 package statm.dev.mapeditor.dom.objects
 {
     import flash.filters.GlowFilter;
-    
+
     import spark.components.Group;
     import spark.components.Label;
-    
+
     import statm.dev.mapeditor.app.MapEditingActions;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
@@ -18,15 +18,15 @@ package statm.dev.mapeditor.dom.objects
      */
     public class Mob extends Item
     {
-		private var lblName:Label;
-		
+        private var lblName:Label;
+
         public function Mob(root:DomNode, mobDef:MobItemDefinition = null)
         {
             super(root);
             _name = "怪物";
-			lblName = new Label();
+            lblName = new Label();
             this.mobDef = mobDef;
-			
+
             if (mobDef)
             {
                 var props:Object = mobDef.defaultProps;
@@ -37,19 +37,20 @@ package statm.dev.mapeditor.dom.objects
                 props.hasOwnProperty("respawnTime") && (_respawnTme = props.respawnTime);
                 props.hasOwnProperty("standByTime") && (_standByTime = props.standByTime);
                 props.hasOwnProperty("moveSpeed") && (_moveSpeed = props.moveSpeed);
+				props.hasOwnProperty("patrolRange") && (_patrolRange = props.patrolRange);
             }
-			
-			var group:Group = new Group();
-			group.width = 31;
-			group.addElement(iconImage);
-			lblName.y = -17;
-			lblName.horizontalCenter = 0;
-			lblName.setStyle("color", 0xFFFFFF);
-			lblName.setStyle("fontSize", 12);
-			lblName.filters = [new GlowFilter(0x000000, 1., 5., 5., 8)];
-			lblName.mouseEnabled = false;
-			group.addElement(lblName);
-			this.display = group;
+
+            var group:Group = new Group();
+            group.width = 31;
+            group.addElement(iconImage);
+            lblName.y = -17;
+            lblName.horizontalCenter = 0;
+            lblName.setStyle("color", 0xFFFFFF);
+            lblName.setStyle("fontSize", 12);
+            lblName.filters = [ new GlowFilter(0x000000, 1., 5., 5., 8)];
+            lblName.mouseEnabled = false;
+            group.addElement(lblName);
+            this.display = group;
         }
 
         private var _mobDef:MobItemDefinition;
@@ -63,7 +64,7 @@ package statm.dev.mapeditor.dom.objects
         {
             _mobDef = value;
             value && (_mobID = value.mobID);
-			value && (lblName.text = value.mobName);
+            value && (lblName.text = value.mobName);
         }
 
         private var _mobID:int;
@@ -198,24 +199,42 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
+        private var _patrolRange:int;
+
+        public function get patrolRange():int
+        {
+            return _patrolRange;
+        }
+
+        public function set patrolRange(value:int):void
+        {
+            if (value != _patrolRange)
+            {
+                _patrolRange = value;
+                _mobDef && (_mobDef.defaultProps.patrolRange = value);
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
+
         override public function readXML(xml:XML):void
         {
-			this.mobID = parseInt(xml.@mobID);
+            this.mobID = parseInt(xml.@mobID);
 
             this.x = xml.@x;
             this.y = xml.@y;
             this.delay = xml.@delay;
-            this.battleEnabled = xml.@battleEnabled;
-            this.autoBattle = xml.@autoBattle;
-            this.autoMove = xml.@autoMove;
+            this.battleEnabled = (xml.@battleEnabled.toString() == "true");
+            this.autoBattle = (xml.@autoBattle.toString() == "true");
+            this.autoMove = (xml.@autoMove.toString() == "true");
             this.respawnTime = xml.@respawnTime;
             this.standByTime = xml.@standByTime;
             this.moveSpeed = xml.@moveSpeed;
+            this.patrolRange = xml.@patrolRange;
         }
 
         override public function toXML():XML
         {
-            return <mob x={x} y={y} mobID={_mobID} delay={_delay} battleEnabled={_battleEnabled} autoBattle={_autoBattle} autoMove={_autoMove} respawnTime={_respawnTme} standByTime={_standByTime} moveSpeed={_moveSpeed}/>
+            return <mob x={x} y={y} mobID={_mobID} delay={_delay} battleEnabled={_battleEnabled} autoBattle={_autoBattle} autoMove={_autoMove} respawnTime={_respawnTme} standByTime={_standByTime} moveSpeed={_moveSpeed} patrolRange={_patrolRange}/>
         }
     }
 }

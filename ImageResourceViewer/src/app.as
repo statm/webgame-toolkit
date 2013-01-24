@@ -371,7 +371,7 @@ private function calculateAnchor():void
 	var p:ArrayCollection = AppState.instance.playingElements;
 	for each (var elem:Element in AppState.instance.playingElements)
 	{
-		if (!(elem is FXElement) && (elem.type != ResourceType.MOUNT)) // 有时坐骑会放在前面，要跳过
+		if (!(elem is FXElement) && (elem.type != ResourceType.MOUNT) && (elem.name != "无")) // 有时坐骑会放在前面，要跳过
 		{
 			AppState.instance.anchor = elem.anchor;
 			return;
@@ -462,7 +462,7 @@ private function $writeSpritesheet(event:Event):void
 
 				for each (var action:Action in elem.actionList)
 				{
-					new SpritesheetWriter().writeActionSpritesheet(action, elemPath);
+					new SpritesheetWriter().writeActionSpritesheet(action, elemPath, (elem.type != ResourceType.FX));
 				}
 			}
 		}

@@ -11,11 +11,11 @@ package statm.dev.mapeditor.dom.layers
      */
     public class MobLayer extends PlacementLayerBase
     {
-        public function MobLayer(root:DomNode)
+        public function MobLayer(root:DomNode, layerID:int)
         {
             super(root);
 
-            _name = "怪物";
+            _name = "第 " + layerID + " 层";
         }
 
         override public function toXML():XML

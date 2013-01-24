@@ -8,6 +8,7 @@ package statm.dev.mapeditor.dom.item
     import statm.dev.mapeditor.dom.objects.Item;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mark;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
@@ -69,6 +70,11 @@ package statm.dev.mapeditor.dom.item
                     item = new Mineral(domRoot);
                     item.iconImage.source = Map(domRoot).iconList.getIcon(7);
                     break;
+
+                case "mark":
+                    item = new Mark(domRoot);
+                    item.iconImage.source = Map(domRoot).iconList.getIcon(4);
+                    break;
             }
 
             item.readXML(itemXML);
@@ -113,6 +119,10 @@ package statm.dev.mapeditor.dom.item
 
                 case ItemType.MINERAL:
                     item = new Mineral(domRoot, MineralItemDefinition(itemDef));
+                    break;
+
+                case ItemType.MARK:
+                    item = new Mark(domRoot);
                     break;
             }
 

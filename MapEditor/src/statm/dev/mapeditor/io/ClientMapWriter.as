@@ -4,15 +4,12 @@ package statm.dev.mapeditor.io
     import flash.utils.Dictionary;
     
     import statm.dev.mapeditor.app.AppState;
-    import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.brush.Brush;
     import statm.dev.mapeditor.dom.layers.CombatLayer;
     import statm.dev.mapeditor.dom.layers.RegionLayer;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
-    import statm.dev.mapeditor.dom.objects.NPC;
-    import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.dom.objects.Waypoint;
     import statm.dev.mapeditor.utils.GridUtils;
 
@@ -62,9 +59,7 @@ package statm.dev.mapeditor.io
                     <smallImageSize width={map.smallMapWidth} height={map.smallMapHeight}/>
                     <levelLimit>{map.levelLimit}</levelLimit>
                     {generateTileAndPlanLists()}
-                    {generateTransportPoints()}
                     {generateWaypoints()}
-                    {generateNPCList()}
                 </worldMap>;
         }
 
@@ -180,80 +175,43 @@ package statm.dev.mapeditor.io
                 var x:int = parseInt(coordArray[0]);
                 var y:int = parseInt(coordArray[1]);
 
-                result.appendChild(<tile><planID>{currentTiles[key]}</planID><position col={x} row={y}/></tile>);
+                result.appendChild(<tile pID={currentTiles[key]} p={x * 1000 + y}/>);
             }
 
             return result;
         }
 
-        private function generateTransportPoints():XML
-        {
-            var tpResult:XML = <teleporterList/>;
+//        private function generateTransportPoints():XML
+//        {
+//            var tpResult:XML = <teleporterList/>;
 //            var lpResult:XML = <linkPointList/>;
 
-            for each (var node:DomObject in map.items.transportPoints.children)
-            {
-                if (node is TeleportPoint)
-                {
-                    tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
-                }
+//            for each (var node:DomObject in map.items.transportPoints.children)
+//            {
+//                if (node is TeleportPoint)
+//                {
+//                    tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
+//                }
 //                else if (node is LinkPoint)
 //                {
 //                    lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
 //                }
-            }
+//            }
 
 //            return tpResult + lpResult;
-            return tpResult;
-        }
-
-        private function generateTeleportPoint(tp:TeleportPoint):XML
-        {
-            var result:XML = <teleporter>
-                    <mapID>{map.mapID}</mapID>
-                    <position col={tp.x} row={tp.y}/>
-                </teleporter>;
-
-            var allowNationNode:XML = <allowNation/>;
-
-            for each (var nation:String in tp.allowNations)
-            {
-                allowNationNode.appendChild(<nation>{nation}</nation>);
-            }
-
-            result.appendChild(allowNationNode);
-
-            return result;
-        }
-
-//        private function generateLinkPoint(lp:LinkPoint):XML
-//        {
-//            var result:XML = <linkPoint>
-//                    <source col={lp.x} row={lp.y}/>
-//                </linkPoint>;
-//
-//            var destinationListNode:XML = <destinationList/>;
-//
-//            for each (var ldp:LinkDestPoint in lp.children)
-//            {
-//                destinationListNode.appendChild(generateLinkDestPoint(ldp));
-//            }
-//
-//            result.appendChild(destinationListNode);
-//
-//            return result;
+//            return tpResult;
 //        }
 
-//        private function generateLinkDestPoint(ldp:LinkDestPoint):XML
+//        private function generateTeleportPoint(tp:TeleportPoint):XML
 //        {
 //            var result:XML = <teleporter>
-//                    <mapID>{ldp.mapID}</mapID>
-//                    <position col={ldp.x} row={ldp.y}/>
+//                    <mapID>{map.mapID}</mapID>
+//                    <position col={tp.x} row={tp.y}/>
 //                </teleporter>;
 //
 //            var allowNationNode:XML = <allowNation/>;
 //
-//            for each (var nation:String in ldp.allowNations)
+//            for each (var nation:String in tp.allowNations)
 //            {
 //                allowNationNode.appendChild(<nation>{nation}</nation>);
 //            }
@@ -269,17 +227,12 @@ package statm.dev.mapeditor.io
 
             for each (var waypoint:Waypoint in map.items.waypoints.children)
             {
-                var waypointXML:XML = <waypoint>
-                        <position col={waypoint.x} row={waypoint.y}/>
-                    </waypoint>;
+                var waypointXML:XML = <waypoint p={waypoint.x * 1000 + waypoint.y}/>;
 
-                var adjXML:XML = <adjacencies/>;
                 for each (var wp:Waypoint in waypoint.adjacentWaypoints)
                 {
-                    adjXML.appendChild(<position col={wp.x} row={wp.y}/>);
+					waypointXML.appendChild(<adjacency p={wp.x * 1000 + wp.y}/>);
                 }
-
-                waypointXML.appendChild(adjXML);
 
                 result.appendChild(waypointXML);
             }
@@ -287,17 +240,17 @@ package statm.dev.mapeditor.io
             return result;
         }
 
-        private function generateNPCList():XML
-        {
-            var result:XML = <NPCList/>;
-
-            for each (var npc:NPC in map.items.npcLayer.children)
-            {
-                result.appendChild(<NPC id={npc.npcID}><position col={npc.x} row={npc.y}/></NPC>);
-            }
-
-            return result;
-        }
+//        private function generateNPCList():XML
+//        {
+//            var result:XML = <NPCList/>;
+//
+//            for each (var npc:NPC in map.items.npcLayer.children)
+//            {
+//                result.appendChild(<NPC id={npc.npcID}><position col={npc.x} row={npc.y}/></NPC>);
+//            }
+//
+//            return result;
+//        }
 
         public function getLog():String
         {
@@ -321,11 +274,8 @@ class TilePlan
 
     public function toXML():XML
     {
-        var result:XML = <tilePlan>
-                <id>{id}</id>
-                <siteID>{(region && region.data) ? region.data : "1"}</siteID>
+        var result:XML = <tilePlan id={id} siteID={(region && region.data) ? region.data : "1"} walkShadow={(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}>
                 <walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
-                <walkShadow>{(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}</walkShadow>
                 <battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
             </tilePlan>;
 

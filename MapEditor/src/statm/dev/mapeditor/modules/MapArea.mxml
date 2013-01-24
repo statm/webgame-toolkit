@@ -92,8 +92,9 @@
 
                 <s:Group id="items">
                     <s:Group id="waypointLayer"/>
+					<s:Group id="markLayer"/>
                     <s:Group id="NPCLayer"/>
-                    <s:Group id="mobLayer"/>
+                    <s:Group id="mobLayers"/>
 					<s:Group id="mineralLayer"/>
                     <s:Group id="transportLayer"/>
                     <s:Group id="itemDrawingLayer"

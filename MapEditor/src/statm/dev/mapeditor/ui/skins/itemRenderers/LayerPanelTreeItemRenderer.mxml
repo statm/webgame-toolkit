@@ -21,6 +21,7 @@
             import statm.dev.mapeditor.dom.objects.BornPoint;
             import statm.dev.mapeditor.dom.objects.LinkDestPoint;
             import statm.dev.mapeditor.dom.objects.LinkPoint;
+            import statm.dev.mapeditor.dom.objects.Mark;
             import statm.dev.mapeditor.dom.objects.Mineral;
             import statm.dev.mapeditor.dom.objects.Mob;
             import statm.dev.mapeditor.dom.objects.NPC;
@@ -164,6 +165,11 @@
                 {
                     var mineral:Mineral = Mineral(node);
                     result = (mineral.mineralDef ? mineral.mineralDef.mineralName : "") + " (" + mineral.x + "," + mineral.y + ")";
+                }
+                else if (node is Mark)
+                {
+                    var mark:Mark = Mark(node);
+                    result = mark.markName + " (" + mark.x + "," + mark.y + ")";
                 }
 
                 if (result.length > 0)

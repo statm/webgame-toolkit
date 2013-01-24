@@ -7,6 +7,7 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.brush.Brush;
     import statm.dev.mapeditor.dom.layers.CombatLayer;
+    import statm.dev.mapeditor.dom.layers.MobLayer;
     import statm.dev.mapeditor.dom.layers.RegionLayer;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
@@ -293,27 +294,35 @@ package statm.dev.mapeditor.io
 
         private function generateMobs():XML
         {
-            var result:XML = <monsterRobotsList><monsterRobots/></monsterRobotsList>;
+            var result:XML = <monsterRobotsList/>;
 
-            for each (var mob:Mob in map.items.mobLayer.children)
+            for each (var mobLayer:MobLayer in map.items.mobLayerContainer.children)
             {
-                if (!mob.mobDef)
+                var layerResult:XML = <monsterRobots/>;
+
+                for each (var mob:Mob in mobLayer)
                 {
-                    log += "无法找到怪物描述。(MOB_ID=" + mob.mobID + ", pos=" + mob.x + "," + mob.y + ")" + "\n";
-                    continue;
+                    if (!mob.mobDef)
+                    {
+                        log += "无法找到怪物描述。(MOB_ID=" + mob.mobID + ", pos=" + mob.x + "," + mob.y + ")" + "\n";
+                        continue;
+                    }
+
+                    layerResult.monsterRobots.appendChild(<monsterRobot>
+                                                              <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
+                                                              <delay>{mob.delay}</delay>
+                                                              <beBattled>{mob.battleEnabled}</beBattled>
+                                                              <autoBattle>{mob.autoBattle}</autoBattle>
+                                                              <autoMove>{mob.autoMove}</autoMove>
+                                                              <refreshTime>{mob.respawnTime}</refreshTime>
+                                                              <standByTime>{mob.standByTime}</standByTime>
+                                                              <moveSpeed>{mob.moveSpeed}</moveSpeed>
+                                                              <patrolRange>{mob.patrolRange}</patrolRange>
+                                                              <enterPosition col={mob.x} row={mob.y}/>
+                                                          </monsterRobot>);
                 }
 
-                result.monsterRobots.appendChild(<monsterRobot>
-                                              <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
-                                              <delay>{mob.delay}</delay>
-                                              <beBattled>{mob.battleEnabled}</beBattled>
-                                              <autoBattle>{mob.autoBattle}</autoBattle>
-                                              <autoMove>{mob.autoMove}</autoMove>
-                                              <refreshTime>{mob.respawnTime}</refreshTime>
-                                              <standByTime>{mob.standByTime}</standByTime>
-                                              <moveSpeed>{mob.moveSpeed}</moveSpeed>
-                                              <enterPosition col={mob.x} row={mob.y}/>
-                                          </monsterRobot>);
+                result.appendChild(layerResult);
             }
 
             return result;

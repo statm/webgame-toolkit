@@ -2,18 +2,20 @@ package statm.dev.mapeditor.mediators
 {
     import mx.collections.ArrayCollection;
 
+    import spark.events.IndexChangeEvent;
+
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-
-    import spark.events.IndexChangeEvent;
 
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.dom.layers.MobLayer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.modules.LayerPanel;
 
@@ -55,6 +57,7 @@ package statm.dev.mapeditor.mediators
 
                         panel.layerTree.expandItem(map.grids);
                         panel.layerTree.expandItem(map.items);
+                        panel.layerTree.expandItem(map.items.mobLayerContainer);
                     }
                     break;
 
@@ -73,6 +76,18 @@ package statm.dev.mapeditor.mediators
                     if (selection is LinkDestPoint)
                     {
                         panel.layerTree.expandItem(LinkDestPoint(selection).parent);
+                        panel.layerTree.selectedItem = selection;
+                    }
+
+                    if (selection is MobLayer)
+                    {
+                        panel.layerTree.expandItem(selection.parent);
+                        panel.layerTree.selectedItem = selection;
+                    }
+
+                    if (selection is Mob)
+                    {
+                        panel.layerTree.expandItem(selection.parent);
                         panel.layerTree.selectedItem = selection;
                     }
                     break;

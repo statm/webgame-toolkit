@@ -15,6 +15,8 @@ package statm.dev.mapeditor.commands
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.io.ClientLinkPointWriter;
     import statm.dev.mapeditor.io.ClientMapWriter;
+    import statm.dev.mapeditor.io.ClientMarkWriter;
+    import statm.dev.mapeditor.io.ClientNPCWriter;
     import statm.dev.mapeditor.io.ServerWriter;
 
 
@@ -32,8 +34,12 @@ package statm.dev.mapeditor.commands
         }
 
         private var clientMapWriter:ClientMapWriter;
+		
+		private var clientMarkWriter:ClientMarkWriter;
 
         private var clientLinkPointWriter:ClientLinkPointWriter;
+		
+		private var clientNPCWriter:ClientNPCWriter;
 
         private var serverWriter:ServerWriter;
 
@@ -58,6 +64,8 @@ package statm.dev.mapeditor.commands
 
 //            writeMapImage(dir.resolvePath("./客户端/"));
             writeClientMapFile(dir.resolvePath("./客户端/"));
+            writeClientMarkFile(dir.resolvePath("./客户端/"));
+			writeClientNPCFile(dir.resolvePath("./客户端/"));
             writeClientLinkPointFile(dir.resolvePath("./客户端/"));
             writeServerFile(dir.resolvePath("./服务端/"));
 
@@ -103,6 +111,7 @@ package statm.dev.mapeditor.commands
             try
             {
                 var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + clientMapWriter.flush().toXMLString();
+				fileContent = fileContent.replace(/\n[\s]*/g, "");
             }
             catch (e:Error)
             {
@@ -117,6 +126,62 @@ package statm.dev.mapeditor.commands
             fileStream.writeMultiByte(fileContent, "utf-8");
             fileStream.close();
         }
+		
+		private function writeClientNPCFile(dir:File):void
+		{
+			var map:Map = AppState.getCurrentMap();
+			if (!map)
+			{
+				return;
+			}
+			
+			clientNPCWriter = new ClientNPCWriter();
+			clientNPCWriter.read(map);
+			try
+			{
+				var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + clientNPCWriter.flush().toXMLString();
+			}
+			catch (e:Error)
+			{
+				Alert.show("导出失败");
+				return;
+			}
+			
+			var fileName:String = "MapNPC" + map.mapID + ".xml";
+			
+			var fileStream:FileStream = new FileStream();
+			fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);
+			fileStream.writeMultiByte(fileContent, "utf-8");
+			fileStream.close();
+		}
+		
+		private function writeClientMarkFile(dir:File):void
+		{
+			var map:Map = AppState.getCurrentMap();
+			if (!map)
+			{
+				return;
+			}
+			
+			clientMarkWriter = new ClientMarkWriter();
+			clientMarkWriter.read(map);
+			try
+			{
+				var fileContent:String = '<?xml version="1.0" encoding="utf-8"?>\n' + clientMarkWriter.flush().toXMLString();
+			}
+			catch (e:Error)
+			{
+				Alert.show("导出失败");
+				return;
+			}
+			
+			var fileName:String = "MapSite" + map.mapID + ".xml";
+			
+			var fileStream:FileStream = new FileStream();
+			fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);
+			fileStream.writeMultiByte(fileContent, "utf-8");
+			fileStream.close();
+		}
 
         private function writeClientLinkPointFile(dir:File):void
         {
@@ -138,7 +203,7 @@ package statm.dev.mapeditor.commands
                 return;
             }
 
-            var fileName:String = "LinkPointConfig" + map.mapID + ".xml";
+            var fileName:String = "MapLinkPoint" + map.mapID + ".xml";
 
             var fileStream:FileStream = new FileStream();
             fileStream.open(dir.resolvePath(fileName), FileMode.WRITE);

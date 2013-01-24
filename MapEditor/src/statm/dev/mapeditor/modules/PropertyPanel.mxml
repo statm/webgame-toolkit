@@ -95,6 +95,11 @@
             {
                 this.dispatchEvent(new Event("newDestPoint"));
             }
+
+            protected function btnAddMobLayer_clickHandler(event:MouseEvent):void
+            {
+                this.dispatchEvent(new Event("newMobLayer"));
+            }
         ]]>
     </fx:Script>
     <ui:states>
@@ -115,6 +120,8 @@
         <s:State name="npcProps"/>
         <s:State name="mobProps"/>
         <s:State name="mineralProps"/>
+        <s:State name="markProps"/>
+        <s:State name="mobLayerContainerEditing"/>
     </ui:states>
 
     <s:Scroller 
@@ -141,6 +148,7 @@
                     <s:label.walkingShadowLayerEditing>行走半透明</s:label.walkingShadowLayerEditing>
                     <s:label.combatLayerEditing>战斗模式</s:label.combatLayerEditing>
                     <s:label.itemLayerEditing>添加物件</s:label.itemLayerEditing>
+                    <s:label.mobLayerContainerEditing>编辑怪物层</s:label.mobLayerContainerEditing>
                     <s:label.transportLayerProps>传送</s:label.transportLayerProps>
                     <s:label.teleportPointProps>传送点</s:label.teleportPointProps>
                     <s:label.linkPointProps>连接点</s:label.linkPointProps>
@@ -149,6 +157,7 @@
                     <s:label.npcProps>NPC</s:label.npcProps>
                     <s:label.mobProps>怪物</s:label.mobProps>
                     <s:label.mineralProps>采集点</s:label.mineralProps>
+                    <s:label.markProps>标记点</s:label.markProps>
                 </s:FormHeading>
                 <!-- 地图属性 -->
                 <s:FormItem 
@@ -320,8 +329,8 @@
                         <s:VerticalLayout gap="0"/>
                     </s:layout>
                     <s:TabBar id="itemsListFilterBar"
+                        width="255"
                         cornerRadius="0"
-						width="255"
                         dataProvider="{new ArrayList(['NPC', '怪物', '采集点', '其他'])}"
                         selectedIndex="3"
                         change="filterItems();"/>
@@ -337,6 +346,12 @@
                                 verticalGap="1"/>
                         </s:layout>
                     </s:List>
+                </s:FormItem>
+                <!-- 怪物层编辑 -->
+                <s:FormItem includeIn="mobLayerContainerEditing">
+                    <s:Button id="btnAddMobLayer"
+                        label="添加怪物层"
+                        click="btnAddMobLayer_clickHandler(event)"/>
                 </s:FormItem>
                 <!-- 传送点属性 -->
                 <s:FormItem 
@@ -358,6 +373,7 @@
                     <ui:CoordText id="ctLinkPointCoord"
                         coordChanged="submit();"/>
                     <s:Button id="btnCreateLinkDestPoint"
+                        label="添加目标点"
                         click="btnCreateLinkDestPoint_clickHandler(event)"/>
                 </s:FormItem>
                 <!-- 出生点属性 -->
@@ -400,11 +416,11 @@
                     includeIn="npcProps">
                     <s:Label id="lblNPCID"/>
                 </s:FormItem>
-				<s:FormItem 
-					label="名称:"
-					includeIn="npcProps">
-					<s:Label id="lblNPCName"/>
-				</s:FormItem>
+                <s:FormItem 
+                    label="名称:"
+                    includeIn="npcProps">
+                    <s:Label id="lblNPCName"/>
+                </s:FormItem>
                 <s:FormItem 
                     label="坐标:"
                     includeIn="npcProps">
@@ -412,16 +428,16 @@
                         coordChanged="submit();"/>
                 </s:FormItem>
                 <!-- 怪物属性 -->
-				<s:FormItem 
-					label="ID:"
-					includeIn="mobProps">
-					<s:Label id="lblMobID"/>
-				</s:FormItem>
-				<s:FormItem 
-					label="名称:"
-					includeIn="mobProps">
-					<s:Label id="lblMobName"/>
-				</s:FormItem>
+                <s:FormItem 
+                    label="ID:"
+                    includeIn="mobProps">
+                    <s:Label id="lblMobID"/>
+                </s:FormItem>
+                <s:FormItem 
+                    label="名称:"
+                    includeIn="mobProps">
+                    <s:Label id="lblMobName"/>
+                </s:FormItem>
                 <s:FormItem 
                     label="坐标:"
                     includeIn="mobProps">
@@ -478,31 +494,53 @@
                         restrict="0-9"
                         enter="submit();"/>
                 </s:FormItem>
+                <s:FormItem 
+                    label="巡逻范围:"
+                    includeIn="mobProps">
+                    <s:TextInput id="tiMobPatrolRange"
+                        focusOut="submit();"
+                        restrict="0-9"
+                        enter="submit();"/>
+                </s:FormItem>
                 <!-- 采集点属性 -->
-				<s:FormItem 
-					label="ID:"
-					includeIn="mineralProps">
-					<s:Label id="lblMineralID"/>
-				</s:FormItem>
-				<s:FormItem 
-					label="名称:"
-					includeIn="mineralProps">
-					<s:Label id="lblMineralName"/>
-				</s:FormItem>
+                <s:FormItem 
+                    label="ID:"
+                    includeIn="mineralProps">
+                    <s:Label id="lblMineralID"/>
+                </s:FormItem>
+                <s:FormItem 
+                    label="名称:"
+                    includeIn="mineralProps">
+                    <s:Label id="lblMineralName"/>
+                </s:FormItem>
                 <s:FormItem 
                     label="坐标:"
                     includeIn="mineralProps">
                     <ui:CoordText id="ctMineralCoord"
                         coordChanged="submit();"/>
                 </s:FormItem>
-				<s:FormItem 
-					label="刷新时间:"
-					includeIn="mineralProps">
-					<s:TextInput id="tiMineralRespawnTime"
-								 focusOut="submit();"
-								 restrict="0-9"
-								 enter="submit();"/>
-				</s:FormItem>
+                <s:FormItem 
+                    label="刷新时间:"
+                    includeIn="mineralProps">
+                    <s:TextInput id="tiMineralRespawnTime"
+                        focusOut="submit();"
+                        restrict="0-9"
+                        enter="submit();"/>
+                </s:FormItem>
+                <!-- 标记点属性 -->
+                <s:FormItem 
+                    label="名称:"
+                    includeIn="markProps">
+                    <s:TextInput id="tiMarkName"
+                        focusOut="submit();"
+                        enter="submit();"/>
+                </s:FormItem>
+                <s:FormItem 
+                    label="坐标:"
+                    includeIn="markProps">
+                    <ui:CoordText id="ctMarkCoord"
+                        coordChanged="submit();"/>
+                </s:FormItem>
             </s:Form>
         </s:Group>
     </s:Scroller>

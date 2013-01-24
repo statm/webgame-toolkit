@@ -9,6 +9,7 @@ package statm.dev.mapeditor.dom.layers
     import statm.dev.mapeditor.dom.objects.Item;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mark;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
@@ -30,8 +31,8 @@ package statm.dev.mapeditor.dom.layers
 
             _name = "物件";
             _parent = root;
-            _children = new ArrayCollection([ _npcLayer = new NPCLayer(root), _mobLayer = new MobLayer(root), _transportPoints = new TransportPoints(root), _waypoints = new WaypointLayer(root), _mineralLayer = new MineralLayer(root)]);
-            _npcLayer.parent = _mobLayer.parent = _transportPoints.parent = _waypoints.parent = _mineralLayer.parent = this;
+            _children = new ArrayCollection([ _npcLayer = new NPCLayer(root), _mobLayerContainer = new MobLayerContainer(root), _transportPoints = new TransportPoints(root), _waypoints = new WaypointLayer(root), _mineralLayer = new MineralLayer(root), _markLayer = new MarkLayer(root)]);
+            _npcLayer.parent = _mobLayerContainer.parent = _transportPoints.parent = _waypoints.parent = _mineralLayer.parent = _markLayer.parent = this;
         }
 
         private var _npcLayer:NPCLayer;
@@ -41,11 +42,11 @@ package statm.dev.mapeditor.dom.layers
             return _npcLayer;
         }
 
-        private var _mobLayer:MobLayer;
+        private var _mobLayerContainer:MobLayerContainer;
 
-        public function get mobLayer():MobLayer
+        public function get mobLayerContainer():MobLayerContainer
         {
-            return _mobLayer;
+            return _mobLayerContainer;
         }
 
         private var _transportPoints:TransportPoints;
@@ -69,15 +70,22 @@ package statm.dev.mapeditor.dom.layers
             return _mineralLayer;
         }
 
+        private var _markLayer:MarkLayer;
+
+        public function get markLayer():MarkLayer
+        {
+            return _markLayer;
+        }
+
         public function addItem(item:Item):void
         {
+            var selection:DomNode = AppState.getCurrentSelection();
             if ((item is TeleportPoint) || (item is LinkPoint) || (item is BornPoint))
             {
                 transportPoints.addItem(item);
             }
             else if (item is LinkDestPoint)
             {
-                var selection:DomNode = AppState.getCurrentSelection();
                 if (selection && (selection is LinkPoint))
                 {
                     LinkPoint(selection).addLinkDestination(LinkDestPoint(item));
@@ -97,12 +105,19 @@ package statm.dev.mapeditor.dom.layers
             }
             else if (item is Mob)
             {
-                mobLayer.addItem(item);
+                if (selection is MobLayer)
+                {
+                    MobLayer(selection).addItem(item);
+                }
             }
-			else if (item is Mineral)
-			{
-				mineralLayer.addItem(item);
-			}
+            else if (item is Mineral)
+            {
+                mineralLayer.addItem(item);
+            }
+            else if (item is Mark)
+            {
+                markLayer.addItem(item);
+            }
         }
 
         override public function deselect():void
@@ -114,7 +129,7 @@ package statm.dev.mapeditor.dom.layers
         {
             var results:XML = <items/>;
 
-            results.appendChild(npcLayer.toXML()).appendChild(mobLayer.toXML()).appendChild(transportPoints.toXML()).appendChild(waypoints.toXML()).appendChild(mineralLayer.toXML());
+            results.appendChild(npcLayer.toXML()).appendChild(mobLayerContainer.toXML()).appendChild(transportPoints.toXML()).appendChild(waypoints.toXML()).appendChild(mineralLayer.toXML()).appendChild(markLayer.toXML());
 
             return results;
         }
@@ -122,11 +137,12 @@ package statm.dev.mapeditor.dom.layers
         override public function readXML(xml:XML):void
         {
             ItemFactory.domRoot = root;
-            this.transportPoints.readXML(xml.transportLayer[0]);
-            this.waypoints.readXML(xml.waypointLayer[0]);
-            this.npcLayer.readXML(xml.NPCLayer[0]);
-            this.mobLayer.readXML(xml.mobLayer[0]);
-            this.mineralLayer.readXML(xml.mineralLayer[0]);
+            xml.transportLayer[0] && this.transportPoints.readXML(xml.transportLayer[0]);
+            xml.waypointLayer[0] && this.waypoints.readXML(xml.waypointLayer[0]);
+            xml.NPCLayer[0] && this.npcLayer.readXML(xml.NPCLayer[0]);
+            xml.mobLayers[0] && this.mobLayerContainer.readXML(xml.mobLayers[0]);
+            xml.mineralLayer[0] && this.mineralLayer.readXML(xml.mineralLayer[0]);
+            xml.markLayer[0] && this.markLayer.readXML(xml.markLayer[0]);
         }
     }
 }

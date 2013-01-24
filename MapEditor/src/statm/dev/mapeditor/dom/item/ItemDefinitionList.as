@@ -6,6 +6,7 @@ package statm.dev.mapeditor.dom.item
     
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
+    import statm.dev.mapeditor.dom.layers.MobLayer;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
@@ -31,6 +32,7 @@ package statm.dev.mapeditor.dom.item
             addItemDefinition(new ItemDefinitionBase(2, ItemType.LINK_DEST_POINT, "连接目标点"));
             addItemDefinition(new ItemDefinitionBase(3, ItemType.BORN_POINT, "出生点"));
             addItemDefinition(new ItemDefinitionBase(4, ItemType.WAYPOINT, "路点"));
+			addItemDefinition(new ItemDefinitionBase(4, ItemType.MARK, "标记点"));
         }
 
         private var _itemDefinitions:ArrayCollection = new ArrayCollection();
@@ -206,18 +208,19 @@ package statm.dev.mapeditor.dom.item
                 addItemDefinition(mobDef);
             }
 			
-			var l:int = map.items.mobLayer.children.length;
+			var mobs:ArrayCollection = map.items.mobLayerContainer.getAllMobs();
+			var l:int = mobs.length;
 			
 			for (var i:int = l - 1; i >= 0; i--)
 			{
-				var mob:Mob = Mob(map.items.mobLayer.children.getItemAt(i));
+				var mob:Mob = Mob(mobs.getItemAt(i));
 				if (mobDefs[mob.mobID])
 				{
 					mob.mobDef = mobDefs[mob.mobID];
 				}
 				else
 				{
-					map.items.mobLayer.removeItem(mob);
+					MobLayer(mob.parent).removeItem(mob);
 				} 
 			}
         }

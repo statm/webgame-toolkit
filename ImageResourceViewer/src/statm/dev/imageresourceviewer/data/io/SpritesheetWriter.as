@@ -4,12 +4,15 @@ package statm.dev.imageresourceviewer.data.io
     import flash.filesystem.File;
     import flash.filesystem.FileMode;
     import flash.filesystem.FileStream;
+    import flash.geom.Matrix;
     import flash.geom.Point;
     import flash.geom.Rectangle;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
     import flash.utils.ByteArray;
-
+    
     import mx.graphics.codec.PNGEncoder;
-
+    
     import statm.dev.imageresourceviewer.data.Action;
     import statm.dev.imageresourceviewer.data.resource.ResourceBatch;
     import statm.dev.imageresourceviewer.data.type.DirectionType;

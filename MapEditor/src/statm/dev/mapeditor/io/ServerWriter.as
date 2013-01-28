@@ -300,7 +300,7 @@ package statm.dev.mapeditor.io
             {
                 var layerResult:XML = <monsterRobots/>;
 
-                for each (var mob:Mob in mobLayer)
+                for each (var mob:Mob in mobLayer.children)
                 {
                     if (!mob.mobDef)
                     {

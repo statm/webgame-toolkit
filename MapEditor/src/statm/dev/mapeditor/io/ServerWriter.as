@@ -308,7 +308,7 @@ package statm.dev.mapeditor.io
                         continue;
                     }
 
-                    layerResult.monsterRobots.appendChild(<monsterRobot>
+                    layerResult.appendChild(<monsterRobot>
                                                               <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
                                                               <delay>{mob.delay}</delay>
                                                               <beBattled>{mob.battleEnabled}</beBattled>

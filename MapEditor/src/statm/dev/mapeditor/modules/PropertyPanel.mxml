@@ -465,6 +465,12 @@
                         change="submit();"/>
                 </s:FormItem>
                 <s:FormItem 
+                    label="必须战胜:"
+                    includeIn="mobProps">
+                    <s:CheckBox id="cbxMobTask"
+                        change="submit();"/>
+                </s:FormItem>
+                <s:FormItem 
                     label="自动移动:"
                     includeIn="mobProps">
                     <s:CheckBox id="cbxMobAutoMove"

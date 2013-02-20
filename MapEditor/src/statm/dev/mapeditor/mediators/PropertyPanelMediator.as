@@ -211,6 +211,7 @@ package statm.dev.mapeditor.mediators
                 panel.tiMobStandByTime.text = Mob(selection).standByTime.toString();
                 panel.tiMobMoveSpeed.text = Mob(selection).moveSpeed.toString();
                 panel.tiMobPatrolRange.text = Mob(selection).patrolRange.toString();
+				panel.cbxMobTask.selected = Mob(selection).task;
             }
             else if (selection is Mineral)
             {
@@ -330,6 +331,7 @@ package statm.dev.mapeditor.mediators
                     Mob(selection).standByTime = int(panel.tiMobStandByTime.text);
                     Mob(selection).moveSpeed = int(panel.tiMobMoveSpeed.text);
                     Mob(selection).patrolRange = int(panel.tiMobPatrolRange.text);
+					Mob(selection).task = panel.cbxMobTask.selected;
                     Mob(selection).x = panel.ctMobCoord.getCoord().x;
                     Mob(selection).y = panel.ctMobCoord.getCoord().y;
                     break;

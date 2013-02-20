@@ -37,7 +37,7 @@ package statm.dev.mapeditor.dom.objects
                 props.hasOwnProperty("respawnTime") && (_respawnTme = props.respawnTime);
                 props.hasOwnProperty("standByTime") && (_standByTime = props.standByTime);
                 props.hasOwnProperty("moveSpeed") && (_moveSpeed = props.moveSpeed);
-				props.hasOwnProperty("patrolRange") && (_patrolRange = props.patrolRange);
+                props.hasOwnProperty("patrolRange") && (_patrolRange = props.patrolRange);
             }
 
             var group:Group = new Group();
@@ -216,6 +216,24 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
+        private var _task:Boolean = false;
+
+        public function get task():Boolean
+        {
+            return _task;
+        }
+
+        public function set task(value:Boolean):void
+        {
+            if (value != _task)
+            {
+                _task = value;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+
+                this.iconImage.source = Map(root).iconList.getIcon(value ? 8 : 6);
+            }
+        }
+
         override public function readXML(xml:XML):void
         {
             this.mobID = parseInt(xml.@mobID);
@@ -230,11 +248,12 @@ package statm.dev.mapeditor.dom.objects
             this.standByTime = xml.@standByTime;
             this.moveSpeed = xml.@moveSpeed;
             this.patrolRange = xml.@patrolRange;
+            this.task = (xml.@task.toString() == "true");
         }
 
         override public function toXML():XML
         {
-            return <mob x={x} y={y} mobID={_mobID} delay={_delay} battleEnabled={_battleEnabled} autoBattle={_autoBattle} autoMove={_autoMove} respawnTime={_respawnTme} standByTime={_standByTime} moveSpeed={_moveSpeed} patrolRange={_patrolRange}/>
+            return <mob x={x} y={y} mobID={_mobID} delay={_delay} battleEnabled={_battleEnabled} autoBattle={_autoBattle} autoMove={_autoMove} respawnTime={_respawnTme} standByTime={_standByTime} moveSpeed={_moveSpeed} patrolRange={_patrolRange} task={_task}/>;
         }
     }
 }

@@ -309,17 +309,18 @@ package statm.dev.mapeditor.io
                     }
 
                     layerResult.appendChild(<monsterRobot>
-                                                              <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
-                                                              <delay>{mob.delay}</delay>
-                                                              <beBattled>{mob.battleEnabled}</beBattled>
-                                                              <autoBattle>{mob.autoBattle}</autoBattle>
-                                                              <autoMove>{mob.autoMove}</autoMove>
-                                                              <refreshTime>{mob.respawnTime}</refreshTime>
-                                                              <standByTime>{mob.standByTime}</standByTime>
-                                                              <moveSpeed>{mob.moveSpeed}</moveSpeed>
-                                                              <patrolRange>{mob.patrolRange}</patrolRange>
-                                                              <enterPosition col={mob.x} row={mob.y}/>
-                                                          </monsterRobot>);
+                                                <monsterSquad>{mob.mobDef.mobAlias}</monsterSquad>
+                                                <delay>{mob.delay}</delay>
+                                                <beBattled>{mob.battleEnabled}</beBattled>
+                                                <autoBattle>{mob.autoBattle}</autoBattle>
+                                                <autoMove>{mob.autoMove}</autoMove>
+                                                <refreshTime>{mob.respawnTime}</refreshTime>
+                                                <standByTime>{mob.standByTime}</standByTime>
+                                                <moveSpeed>{mob.moveSpeed}</moveSpeed>
+                                                <patrolRange>{mob.patrolRange}</patrolRange>
+                                                <enterPosition col={mob.x} row={mob.y}/>
+                                                <task>{mob.task}</task>
+                                            </monsterRobot>);
                 }
 
                 result.appendChild(layerResult);

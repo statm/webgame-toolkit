@@ -50,8 +50,11 @@ package statm.dev.mapeditor.ui
 
         [Embed(source = "../../../../assets/itemIcons/MOB.png")]
         public static const MOB_ICON:Class;
-		
-		[Embed(source = "../../../../assets/itemIcons/MINERAL.png")]
-		public static const MINERAL_ICON:Class;
+
+        [Embed(source = "../../../../assets/itemIcons/MINERAL.png")]
+        public static const MINERAL_ICON:Class;
+
+        [Embed(source = "../../../../assets/itemIcons/MOB_TASK.png")]
+        public static const MOB_TASK_ICON:Class;
     }
 }

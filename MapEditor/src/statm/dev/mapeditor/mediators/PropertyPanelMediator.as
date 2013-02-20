@@ -2,13 +2,14 @@ package statm.dev.mapeditor.mediators
 {
     import flash.events.Event;
     import flash.geom.Point;
-
+    
     import mx.collections.ArrayList;
+    import mx.controls.Alert;
     import mx.events.FlexEvent;
-
+    
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-
+    
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.app.MapEditingActions;
@@ -27,6 +28,8 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.layers.MobLayerContainer;
     import statm.dev.mapeditor.dom.layers.NPCLayer;
     import statm.dev.mapeditor.dom.layers.RegionLayer;
+    import statm.dev.mapeditor.dom.layers.RouteLayer;
+    import statm.dev.mapeditor.dom.layers.RouteLayerContainer;
     import statm.dev.mapeditor.dom.layers.TransportPoints;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
@@ -38,6 +41,7 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
+    import statm.dev.mapeditor.dom.objects.RoutePoint;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.modules.PropertyPanel;
 
@@ -60,6 +64,7 @@ package statm.dev.mapeditor.mediators
             viewComponent.addEventListener(FlexEvent.CONTENT_CREATION_COMPLETE, deferredSetupHandler, true);
             viewComponent.addEventListener("newDestPoint", newDestPointHandler);
             viewComponent.addEventListener("newMobLayer", newMobLayerHandler);
+            viewComponent.addEventListener("newRouteLayer", newRouteLayerHandler);
         }
 
         override public function listNotificationInterests():Array
@@ -140,7 +145,7 @@ package statm.dev.mapeditor.mediators
             {
                 panel.currentState = "combatLayerEditing";
             }
-            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is MineralLayer) || (selection is TransportPoints) || (selection is WaypointLayer) || (selection is MarkLayer))
+            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is MineralLayer) || (selection is TransportPoints) || (selection is WaypointLayer) || (selection is MarkLayer) || (selection is RouteLayer))
             {
                 panel.currentState = "itemLayerEditing";
             }
@@ -211,7 +216,7 @@ package statm.dev.mapeditor.mediators
                 panel.tiMobStandByTime.text = Mob(selection).standByTime.toString();
                 panel.tiMobMoveSpeed.text = Mob(selection).moveSpeed.toString();
                 panel.tiMobPatrolRange.text = Mob(selection).patrolRange.toString();
-				panel.cbxMobTask.selected = Mob(selection).task;
+                panel.cbxMobTask.selected = Mob(selection).task;
             }
             else if (selection is Mineral)
             {
@@ -233,6 +238,14 @@ package statm.dev.mapeditor.mediators
                 panel.currentState = "markProps";
                 panel.tiMarkName.text = Mark(selection).markName;
                 panel.ctMarkCoord.setCoord(Mark(selection).x, Mark(selection).y);
+            }
+            else if (selection is RouteLayerContainer)
+            {
+                panel.currentState = "routeLayerContainerEditing";
+            }
+            else if (selection is RoutePoint)
+            {
+                panel.currentState = "routePointProps";
             }
             else
             {
@@ -331,7 +344,7 @@ package statm.dev.mapeditor.mediators
                     Mob(selection).standByTime = int(panel.tiMobStandByTime.text);
                     Mob(selection).moveSpeed = int(panel.tiMobMoveSpeed.text);
                     Mob(selection).patrolRange = int(panel.tiMobPatrolRange.text);
-					Mob(selection).task = panel.cbxMobTask.selected;
+                    Mob(selection).task = panel.cbxMobTask.selected;
                     Mob(selection).x = panel.ctMobCoord.getCoord().x;
                     Mob(selection).y = panel.ctMobCoord.getCoord().y;
                     break;
@@ -482,7 +495,17 @@ package statm.dev.mapeditor.mediators
         {
             var currentMap:Map = AppState.getCurrentMap();
             AppState.setCurrentSelection(currentMap.items.mobLayerContainer.addMobLayer());
-			
+        }
+
+        private function newRouteLayerHandler(event:Event):void
+        {
+			if (viewComponent.tiRouteLayerName.text.length == 0)
+			{
+				Alert.show("必须输入路线层名称");
+				return;
+			}
+            var currentMap:Map = AppState.getCurrentMap();
+            AppState.setCurrentSelection(currentMap.items.routeLayerContainer.addRouteLayer(viewComponent.tiRouteLayerName.text));
         }
     }
 }

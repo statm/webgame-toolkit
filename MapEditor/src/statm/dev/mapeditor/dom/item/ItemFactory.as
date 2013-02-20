@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.dom.item
 {
     import flash.display.BitmapData;
-
+    
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.objects.BornPoint;
@@ -12,6 +12,7 @@ package statm.dev.mapeditor.dom.item
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
+    import statm.dev.mapeditor.dom.objects.RoutePoint;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.dom.objects.Waypoint;
 
@@ -75,6 +76,11 @@ package statm.dev.mapeditor.dom.item
                     item = new Mark(domRoot);
                     item.iconImage.source = Map(domRoot).iconList.getIcon(4);
                     break;
+
+                case "routePoint":
+                    item = new RoutePoint(domRoot);
+                    item.iconImage.source = Map(domRoot).iconList.getIcon(4);
+                    break;
             }
 
             item.readXML(itemXML);
@@ -123,6 +129,10 @@ package statm.dev.mapeditor.dom.item
 
                 case ItemType.MARK:
                     item = new Mark(domRoot);
+                    break;
+
+                case ItemType.ROUTE_POINT:
+                    item = new RoutePoint(domRoot);
                     break;
             }
 

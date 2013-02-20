@@ -1,11 +1,9 @@
 package statm.dev.mapeditor.dom.objects
 {
     import mx.graphics.SolidColorStroke;
-
-    import spark.core.SpriteVisualElement;
-    import spark.filters.GlowFilter;
+    
     import spark.primitives.Line;
-
+    
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.layers.WaypointLayer;

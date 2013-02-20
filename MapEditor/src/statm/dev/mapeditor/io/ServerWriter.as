@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.io
 {
     import flash.utils.Dictionary;
-
+    
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.Map;
@@ -9,6 +9,7 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.layers.CombatLayer;
     import statm.dev.mapeditor.dom.layers.MobLayer;
     import statm.dev.mapeditor.dom.layers.RegionLayer;
+    import statm.dev.mapeditor.dom.layers.RouteLayer;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
@@ -16,6 +17,7 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
+    import statm.dev.mapeditor.dom.objects.RoutePoint;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.utils.GridUtils;
 
@@ -64,6 +66,7 @@ package statm.dev.mapeditor.io
                     <levelLimit>{map.levelLimit}</levelLimit>
                     {generateTileAndPlanLists()}
                     {generateTransportPoints()}
+                    {generateRoutes()}
                     {generateNPC()}
                     {generateMobs()}
                     {generateMinerals()}
@@ -258,6 +261,30 @@ package statm.dev.mapeditor.io
             for each (var nation:String in bp.allowNations)
             {
                 result.allowNation.appendChild(<nation>{nation}</nation>);
+            }
+
+            return result;
+        }
+
+        private function generateRoutes():XML
+        {
+            var result:XML = <patrolPathList/>;
+
+            for each (var routeLayer:RouteLayer in map.items.routeLayerContainer.children)
+            {
+                var layerXML:XML = <patrolPath>
+                        <pathName>{routeLayer.layerName}</pathName>
+                        <worldID>{map.mapID}</worldID>
+                        <goalList/>
+                    </patrolPath>;
+
+				for each (var routePoint:RoutePoint in routeLayer.children)
+				{
+					var pointXML:XML = <goal col={routePoint.x} row={routePoint.y}/>;
+					layerXML.goalList.appendChild(pointXML);
+				}
+
+                result.appendChild(layerXML);
             }
 
             return result;

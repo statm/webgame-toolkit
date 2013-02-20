@@ -33,6 +33,7 @@ package statm.dev.mapeditor.dom.item
             addItemDefinition(new ItemDefinitionBase(3, ItemType.BORN_POINT, "出生点"));
             addItemDefinition(new ItemDefinitionBase(4, ItemType.WAYPOINT, "路点"));
 			addItemDefinition(new ItemDefinitionBase(4, ItemType.MARK, "标记点"));
+			addItemDefinition(new ItemDefinitionBase(4, ItemType.ROUTE_POINT, "路径节点"));
         }
 
         private var _itemDefinitions:ArrayCollection = new ArrayCollection();

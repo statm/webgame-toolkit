@@ -97,6 +97,7 @@
                     <s:Group id="mobLayers"/>
 					<s:Group id="mineralLayer"/>
                     <s:Group id="transportLayer"/>
+					<s:Group id="routeLayers"/>
                     <s:Group id="itemDrawingLayer"
                         alpha="0.6"/>
                 </s:Group>

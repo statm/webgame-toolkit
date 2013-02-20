@@ -13,7 +13,7 @@
             import mx.collections.ArrayCollection;
             import mx.collections.ArrayList;
             import mx.events.FlexEvent;
-
+            
             import statm.dev.mapeditor.app.AppFacade;
             import statm.dev.mapeditor.dom.item.ItemType;
             import statm.dev.mapeditor.mediators.PropertyPanelMediator;
@@ -100,6 +100,11 @@
             {
                 this.dispatchEvent(new Event("newMobLayer"));
             }
+			
+			protected function btnAddRouteLayer_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("newRouteLayer"));
+			}
         ]]>
     </fx:Script>
     <ui:states>
@@ -118,10 +123,12 @@
         <s:State name="bornPointProps"/>
         <s:State name="linkDestPointProps"/>
         <s:State name="npcProps"/>
-        <s:State name="mobProps"/>
         <s:State name="mineralProps"/>
         <s:State name="markProps"/>
+        <s:State name="mobProps"/>
         <s:State name="mobLayerContainerEditing"/>
+		<s:State name="routePointProps"/>
+		<s:State name="routeLayerContainerEditing"/>
     </ui:states>
 
     <s:Scroller 
@@ -158,6 +165,8 @@
                     <s:label.mobProps>怪物</s:label.mobProps>
                     <s:label.mineralProps>采集点</s:label.mineralProps>
                     <s:label.markProps>标记点</s:label.markProps>
+					<s:label.routeLayerContainerEditing>编辑路线层</s:label.routeLayerContainerEditing>
+					<s:label.routePointProps>路线节点</s:label.routePointProps>
                 </s:FormHeading>
                 <!-- 地图属性 -->
                 <s:FormItem 
@@ -547,6 +556,16 @@
                     <ui:CoordText id="ctMarkCoord"
                         coordChanged="submit();"/>
                 </s:FormItem>
+				<!-- 路线层编辑 -->
+				<s:FormItem includeIn="routeLayerContainerEditing">
+					<s:layout>
+						<s:HorizontalLayout verticalAlign="middle"/>
+					</s:layout>
+					<s:TextInput id="tiRouteLayerName" height="30"/>
+					<s:Button id="btnAddRouteLayer"
+							  label="添加路线层"
+							  click="btnAddRouteLayer_clickHandler(event)"/>
+				</s:FormItem>
             </s:Form>
         </s:Group>
     </s:Scroller>

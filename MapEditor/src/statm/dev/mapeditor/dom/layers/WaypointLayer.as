@@ -2,18 +2,16 @@ package statm.dev.mapeditor.dom.layers
 {
     import flash.geom.Point;
     import flash.utils.Dictionary;
-
+    
     import mx.collections.ArrayCollection;
     import mx.core.IVisualElement;
     import mx.graphics.SolidColor;
-    import mx.graphics.SolidColorStroke;
-
+    
     import spark.collections.Sort;
     import spark.collections.SortField;
     import spark.components.Group;
     import spark.primitives.Ellipse;
-    import spark.primitives.Line;
-
+    
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.Map;

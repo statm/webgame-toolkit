@@ -2,7 +2,6 @@ package statm.dev.mapeditor.dom.objects
 {
     import statm.dev.mapeditor.app.MapEditingActions;
     import statm.dev.mapeditor.dom.DomNode;
-    import statm.dev.mapeditor.dom.Map;
 
     /**
      * DOM 对象：传送点。

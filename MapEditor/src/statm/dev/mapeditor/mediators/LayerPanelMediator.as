@@ -1,21 +1,24 @@
 package statm.dev.mapeditor.mediators
 {
     import mx.collections.ArrayCollection;
-
+    
     import spark.events.IndexChangeEvent;
-
+    
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-
+    
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.layers.MobLayer;
+    import statm.dev.mapeditor.dom.layers.RouteLayer;
+    import statm.dev.mapeditor.dom.layers.RouteLayerContainer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
     import statm.dev.mapeditor.dom.objects.Mob;
+    import statm.dev.mapeditor.dom.objects.RoutePoint;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
     import statm.dev.mapeditor.modules.LayerPanel;
 
@@ -29,6 +32,8 @@ package statm.dev.mapeditor.mediators
     public class LayerPanelMediator extends Mediator
     {
         public static const NAME:String = "LayerPanelMediator";
+
+        private static const EXPANSION_REQUIRING_TYPES:Array = [ TeleportPoint, LinkPoint, BornPoint, LinkDestPoint, MobLayer, Mob, RouteLayer, RoutePoint ];
 
         public function LayerPanelMediator(mediatorName:String = null, viewComponent:Object = null)
         {
@@ -67,28 +72,13 @@ package statm.dev.mapeditor.mediators
 
                 case AppNotificationCode.SELECTION_CHANGED:
                     var selection:DomNode = AppState.getCurrentSelection();
-                    if (selection is TeleportPoint || selection is LinkPoint || selection is BornPoint || selection is LinkDestPoint)
+                    for each (var cls:Class in EXPANSION_REQUIRING_TYPES)
                     {
-                        panel.layerTree.expandItem(map.items.transportPoints);
-                        panel.layerTree.selectedItem = selection;
-                    }
-
-                    if (selection is LinkDestPoint)
-                    {
-                        panel.layerTree.expandItem(LinkDestPoint(selection).parent);
-                        panel.layerTree.selectedItem = selection;
-                    }
-
-                    if (selection is MobLayer)
-                    {
-                        panel.layerTree.expandItem(selection.parent);
-                        panel.layerTree.selectedItem = selection;
-                    }
-
-                    if (selection is Mob)
-                    {
-                        panel.layerTree.expandItem(selection.parent);
-                        panel.layerTree.selectedItem = selection;
+						if (selection is cls)
+						{
+	                        panel.layerTree.expandItem(selection.parent);
+	                        panel.layerTree.selectedItem = selection;
+						}
                     }
                     break;
             }

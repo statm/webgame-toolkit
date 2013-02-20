@@ -4,16 +4,16 @@ package statm.dev.mapeditor.mediators
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-
+    
     import mx.events.EffectEvent;
     import mx.events.FlexEvent;
-
+    
     import spark.effects.easing.Sine;
     import spark.primitives.BitmapImage;
-
+    
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-
+    
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.app.MapEditingActions;
@@ -79,9 +79,10 @@ package statm.dev.mapeditor.mediators
                         currentMap.items.npcLayer.display = mapArea.NPCLayer;
                         currentMap.items.mobLayerContainer.display = mapArea.mobLayers;
                         currentMap.items.mineralLayer.display = mapArea.mineralLayer;
-						currentMap.items.markLayer.display = mapArea.markLayer;
+                        currentMap.items.markLayer.display = mapArea.markLayer;
                         currentMap.items.transportPoints.display = mapArea.transportLayer;
                         currentMap.items.waypoints.display = mapArea.waypointLayer;
+                        currentMap.items.routeLayerContainer.display = mapArea.routeLayers;
 
                         mapArea.setMapBg(currentMap.bgLayer.bgPath);
                         AppState.setViewport(new Rectangle(0, 0, mapArea.mapScroller.width, mapArea.mapScroller.height));
@@ -138,7 +139,7 @@ package statm.dev.mapeditor.mediators
                     mapArea.NPCLayer.removeAllElements();
                     mapArea.mobLayers.removeAllElements();
                     mapArea.mineralLayer.removeAllElements();
-					mapArea.markLayer.removeAllElements();
+                    mapArea.markLayer.removeAllElements();
                     AppState.stopDrawingMask();
                     AppState.stopDrawingItem();
                     break;

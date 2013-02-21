@@ -32,7 +32,7 @@ package statm.dev.mapeditor.dom.layers
         override public function toXML():XML
         {
             var result:XML = super.toXML();
-            result.name = _layerName;
+            result.@name = _layerName;
 
             result.setName("routeLayer");
 

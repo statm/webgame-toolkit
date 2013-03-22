@@ -6,6 +6,7 @@ package statm.dev.mapeditor.dom.layers
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.item.ItemFactory;
     import statm.dev.mapeditor.dom.objects.BornPoint;
+    import statm.dev.mapeditor.dom.objects.Fx;
     import statm.dev.mapeditor.dom.objects.Item;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
@@ -32,8 +33,8 @@ package statm.dev.mapeditor.dom.layers
 
             _name = "物件";
             _parent = root;
-            _children = new ArrayCollection([ _npcLayer = new NPCLayer(root), _mobLayerContainer = new MobLayerContainer(root), _transportPoints = new TransportPoints(root), _waypoints = new WaypointLayer(root), _mineralLayer = new MineralLayer(root), _markLayer = new MarkLayer(root), _routeLayerContainer = new RouteLayerContainer(root)]);
-            _npcLayer.parent = _mobLayerContainer.parent = _transportPoints.parent = _waypoints.parent = _mineralLayer.parent = _markLayer.parent = _routeLayerContainer.parent = this;
+            _children = new ArrayCollection([ _npcLayer = new NPCLayer(root), _mobLayerContainer = new MobLayerContainer(root), _transportPoints = new TransportPoints(root), _waypoints = new WaypointLayer(root), _mineralLayer = new MineralLayer(root), _markLayer = new MarkLayer(root), _routeLayerContainer = new RouteLayerContainer(root), _fxLayer = new FxLayer(root)]);
+            _npcLayer.parent = _mobLayerContainer.parent = _transportPoints.parent = _waypoints.parent = _mineralLayer.parent = _markLayer.parent = _routeLayerContainer.parent = _fxLayer.parent = this;
         }
 
         private var _npcLayer:NPCLayer;
@@ -85,6 +86,13 @@ package statm.dev.mapeditor.dom.layers
             return _routeLayerContainer;
         }
 
+        private var _fxLayer:FxLayer;
+
+        public function get fxLayer():FxLayer
+        {
+            return _fxLayer;
+        }
+
         public function addItem(item:Item):void
         {
             var selection:DomNode = AppState.getCurrentSelection();
@@ -133,6 +141,10 @@ package statm.dev.mapeditor.dom.layers
                     RouteLayer(selection).addItem(item);
                 }
             }
+            else if (item is Fx)
+            {
+                fxLayer.addItem(item);
+            }
         }
 
         override public function deselect():void
@@ -144,7 +156,7 @@ package statm.dev.mapeditor.dom.layers
         {
             var results:XML = <items/>;
 
-            results.appendChild(npcLayer.toXML()).appendChild(mobLayerContainer.toXML()).appendChild(transportPoints.toXML()).appendChild(waypoints.toXML()).appendChild(mineralLayer.toXML()).appendChild(markLayer.toXML()).appendChild(routeLayerContainer.toXML());
+            results.appendChild(npcLayer.toXML()).appendChild(mobLayerContainer.toXML()).appendChild(transportPoints.toXML()).appendChild(waypoints.toXML()).appendChild(mineralLayer.toXML()).appendChild(markLayer.toXML()).appendChild(routeLayerContainer.toXML()).appendChild(fxLayer.toXML());
 
             return results;
         }
@@ -159,6 +171,7 @@ package statm.dev.mapeditor.dom.layers
             xml.mineralLayer[0] && this.mineralLayer.readXML(xml.mineralLayer[0]);
             xml.markLayer[0] && this.markLayer.readXML(xml.markLayer[0]);
             xml.routeLayers[0] && this.routeLayerContainer.readXML(xml.routeLayers[0]);
+			xml.fxLayer[0] && this.fxLayer.readXML(xml.fxLayer[0]);
         }
     }
 }

@@ -29,16 +29,18 @@ package statm.dev.imageresourceviewer.data.io
     {
         private var useVerticalOffset:Boolean;
 
-        public function writeActionSpritesheet(action:Action, path:File, useVerticalOffset:Boolean = true):void
+        public function writeActionSpritesheet(action:Action, path:File, isFX:Boolean = true):void
         {
-            this.useVerticalOffset = useVerticalOffset;
+            this.useVerticalOffset = !isFX;
 
             var originalImages:Vector.<BitmapData>;
 
-            var unloadedBatchCount:int = action.batchCount;
+            var unloadedBatchCount:int = (isFX ? 1 : DirectionType.directionList.length);
             var unloadedBatches:Array = [];
+			
+			var directions:Array = (isFX ? [DirectionType.E] : DirectionType.directionList); 
 
-            for each (var direction:String in DirectionType.directionList)
+            for each (var direction:String in directions)
             {
                 var batch:ResourceBatch = action.getBatch(direction);
 
@@ -70,7 +72,7 @@ package statm.dev.imageresourceviewer.data.io
                 }
             }
 
-            if (unloadedBatchCount <= 0)
+            if (unloadedBatchCount == 0)
             {
                 originalImages = action.getAllImages();
 

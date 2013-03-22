@@ -34,6 +34,7 @@ package statm.dev.mapeditor.mediators
             Button(viewComponent.btnImportNPC).addEventListener(MouseEvent.CLICK, btnImportNPC_clickHandler);
             Button(viewComponent.btnImportMob).addEventListener(MouseEvent.CLICK, btnImportMob_clickHandler);
             Button(viewComponent.btnImportMineral).addEventListener(MouseEvent.CLICK, btnImportMineral_clickHandler);
+            Button(viewComponent.btnImportFx).addEventListener(MouseEvent.CLICK, btnImportFx_clickHandler);
         }
 
 
@@ -105,6 +106,11 @@ package statm.dev.mapeditor.mediators
         private function btnImportMineral_clickHandler(event:MouseEvent):void
         {
             sendNotification(AppNotificationCode.IMPORT_MINERAL);
+        }
+
+        private function btnImportFx_clickHandler(event:MouseEvent):void
+        {
+            sendNotification(AppNotificationCode.IMPORT_FX);
         }
 
         private function setWindowTitle(map:Map = null):void

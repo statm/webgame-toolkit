@@ -41,15 +41,19 @@
         <s:Button id="btnExportXML"
             focusEnabled="false"
             label="导出数据..."/>
+		<s:Label text="导入数据: "/>
         <s:Button id="btnImportNPC"
             focusEnabled="false"
-            label="导入NPC数据..."/>
+            label="NPC"/>
         <s:Button id="btnImportMob"
             focusEnabled="false"
-            label="导入怪物数据..."/>
+            label="怪物"/>
         <s:Button id="btnImportMineral"
             focusEnabled="false"
-            label="导入采集点数据..."/>
+            label="采集点"/>
+		<s:Button id="btnImportFx"
+				  focusEnabled="false"
+				  label="特效"/>
         <s:Spacer width="100%"/>
         <s:Label id="lblCurrentCoord"/>
     </s:Group>

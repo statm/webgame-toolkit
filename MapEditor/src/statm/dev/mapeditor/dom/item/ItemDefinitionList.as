@@ -1,12 +1,13 @@
 package statm.dev.mapeditor.dom.item
 {
     import flash.utils.Dictionary;
-    
+
     import mx.collections.ArrayCollection;
-    
+
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.layers.MobLayer;
+    import statm.dev.mapeditor.dom.objects.Fx;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
@@ -32,8 +33,8 @@ package statm.dev.mapeditor.dom.item
             addItemDefinition(new ItemDefinitionBase(2, ItemType.LINK_DEST_POINT, "连接目标点"));
             addItemDefinition(new ItemDefinitionBase(3, ItemType.BORN_POINT, "出生点"));
             addItemDefinition(new ItemDefinitionBase(4, ItemType.WAYPOINT, "路点"));
-			addItemDefinition(new ItemDefinitionBase(4, ItemType.MARK, "标记点"));
-			addItemDefinition(new ItemDefinitionBase(4, ItemType.ROUTE_POINT, "路径节点"));
+            addItemDefinition(new ItemDefinitionBase(9, ItemType.MARK, "标记点"));
+            addItemDefinition(new ItemDefinitionBase(10, ItemType.ROUTE_POINT, "路径节点"));
         }
 
         private var _itemDefinitions:ArrayCollection = new ArrayCollection();
@@ -70,6 +71,14 @@ package statm.dev.mapeditor.dom.item
                 }
                 mineralDefs[MineralItemDefinition(itemDef).mineralID] = itemDef;
             }
+            if (itemDef is FxItemDefinition)
+            {
+                if (fxDefs[FxItemDefinition(itemDef).fxID])
+                {
+                    _itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(fxDefs[FxItemDefinition(itemDef).fxID]));
+                }
+                fxDefs[FxItemDefinition(itemDef).fxID] = itemDef;
+            }
         }
 
         private var npcDefs:Dictionary = new Dictionary();
@@ -93,13 +102,20 @@ package statm.dev.mapeditor.dom.item
             return mineralDefs[mineralID];
         }
 
+        private var fxDefs:Dictionary = new Dictionary();
+
+        public function getFxDefinitionByID(fxID:int):FxItemDefinition
+        {
+            return fxDefs[fxID];
+        }
+
         public function toXML():XML
         {
             var result:XML = <itemDefinitionList/>;
 
             for each (var itemDef:ItemDefinitionBase in _itemDefinitions.source)
             {
-                if (itemDef.iconID < 5)
+                if (itemDef.type != ItemType.NPC && itemDef.type != ItemType.MOB && itemDef.type != ItemType.MINERAL && itemDef.type != ItemType.FX)
                 {
                     continue;
                 }
@@ -130,6 +146,9 @@ package statm.dev.mapeditor.dom.item
                     case ItemType.MINERAL:
                         itemDef = new MineralItemDefinition();
                         break;
+                    case ItemType.FX:
+                        itemDef = new FxItemDefinition();
+                        break;
                     default:
                         itemDef = new ItemDefinitionBase();
                         break;
@@ -143,7 +162,7 @@ package statm.dev.mapeditor.dom.item
         public function importNPCXML(file:XML):void
         {
             var map:Map = AppState.getCurrentMap();
-			var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+            var oldFilterFunc:Function = _itemDefinitions.filterFunction;
 
             _itemDefinitions.filterFunction = function(o:Object):Boolean
             {
@@ -151,9 +170,9 @@ package statm.dev.mapeditor.dom.item
             };
             _itemDefinitions.refresh();
             _itemDefinitions.removeAll();
-			
-			_itemDefinitions.filterFunction = oldFilterFunc;
-			_itemDefinitions.refresh();
+
+            _itemDefinitions.filterFunction = oldFilterFunc;
+            _itemDefinitions.refresh();
 
             npcDefs = new Dictionary();
 
@@ -169,78 +188,78 @@ package statm.dev.mapeditor.dom.item
                 addItemDefinition(npcDef);
             }
 
-			var l:int = map.items.npcLayer.children.length;
-			
-			for (var i:int = l - 1; i >= 0; i--)
-			{
-				var npc:NPC = NPC(map.items.npcLayer.children.getItemAt(i));
-				if (npcDefs[npc.npcID])
-				{
-					npc.npcDef = npcDefs[npc.npcID];
-				}
-				else
-				{
-					map.items.npcLayer.removeItem(npc);
-				} 
-			}
+            var l:int = map.items.npcLayer.children.length;
+
+            for (var i:int = l - 1; i >= 0; i--)
+            {
+                var npc:NPC = NPC(map.items.npcLayer.children.getItemAt(i));
+                if (npcDefs[npc.npcID])
+                {
+                    npc.npcDef = npcDefs[npc.npcID];
+                }
+                else
+                {
+                    map.items.npcLayer.removeItem(npc);
+                }
+            }
         }
 
         public function importMobXML(file:XML):void
         {
-			var map:Map = AppState.getCurrentMap();
-			var oldFilterFunc:Function = _itemDefinitions.filterFunction;
-			
-			_itemDefinitions.filterFunction = function(o:Object):Boolean
-			{
-				return (o is MobItemDefinition);
-			};
-			_itemDefinitions.refresh();
-			_itemDefinitions.removeAll();
-			
-			_itemDefinitions.filterFunction = oldFilterFunc;
-			_itemDefinitions.refresh();
-			
-			mobDefs = new Dictionary();
-			
+            var map:Map = AppState.getCurrentMap();
+            var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+
+            _itemDefinitions.filterFunction = function(o:Object):Boolean
+            {
+                return (o is MobItemDefinition);
+            };
+            _itemDefinitions.refresh();
+            _itemDefinitions.removeAll();
+
+            _itemDefinitions.filterFunction = oldFilterFunc;
+            _itemDefinitions.refresh();
+
+            mobDefs = new Dictionary();
+
             for each (var xml:XML in file.item)
             {
                 var mobID:int = int(xml.@id);
                 var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
                 addItemDefinition(mobDef);
             }
-			
-			var mobs:ArrayCollection = map.items.mobLayerContainer.getAllMobs();
-			var l:int = mobs.length;
-			
-			for (var i:int = l - 1; i >= 0; i--)
-			{
-				var mob:Mob = Mob(mobs.getItemAt(i));
-				if (mobDefs[mob.mobID])
-				{
-					mob.mobDef = mobDefs[mob.mobID];
-				}
-				else
-				{
-					MobLayer(mob.parent).removeItem(mob);
-				} 
-			}
+
+            var mobs:ArrayCollection = map.items.mobLayerContainer.getAllMobs();
+            var l:int = mobs.length;
+
+            for (var i:int = l - 1; i >= 0; i--)
+            {
+                var mob:Mob = Mob(mobs.getItemAt(i));
+                if (mobDefs[mob.mobID])
+                {
+                    mob.mobDef = mobDefs[mob.mobID];
+                }
+                else
+                {
+                    MobLayer(mob.parent).removeItem(mob);
+                }
+            }
         }
 
         public function importMineralXML(file:XML):void
         {
-			var map:Map = AppState.getCurrentMap();
-			var oldFilterFunc:Function = _itemDefinitions.filterFunction;
-			
-			_itemDefinitions.filterFunction = function(o:Object):Boolean
-			{
-				return (o is MineralItemDefinition);
-			};
-			_itemDefinitions.refresh();
-			_itemDefinitions.removeAll();
-			
-			_itemDefinitions.filterFunction = oldFilterFunc;
-			_itemDefinitions.refresh();
-			
+            var map:Map = AppState.getCurrentMap();
+            var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+
+            _itemDefinitions.filterFunction = function(o:Object):Boolean
+            {
+                return (o is MineralItemDefinition);
+            };
+            _itemDefinitions.refresh();
+            _itemDefinitions.removeAll();
+
+            _itemDefinitions.filterFunction = oldFilterFunc;
+            _itemDefinitions.refresh();
+
             mineralDefs = new Dictionary();
 
             for each (var xml:XML in file.item)
@@ -250,20 +269,60 @@ package statm.dev.mapeditor.dom.item
                 addItemDefinition(mineralDef);
             }
 
-			var l:int = map.items.mineralLayer.children.length;
-			
-			for (var i:int = l - 1; i >= 0; i--)
-			{
-				var mineral:Mineral = Mineral(map.items.mineralLayer.children.getItemAt(i));
-				if (mobDefs[mineral.mineralID])
-				{
-					mineral.mineralDef = mineralDefs[mineral.mineralID];
-				}
-				else
-				{
-					map.items.mineralLayer.removeItem(mineral);
-				} 
-			}
+            var l:int = map.items.mineralLayer.children.length;
+
+            for (var i:int = l - 1; i >= 0; i--)
+            {
+                var mineral:Mineral = Mineral(map.items.mineralLayer.children.getItemAt(i));
+                if (mineralDefs[mineral.mineralID])
+                {
+                    mineral.mineralDef = mineralDefs[mineral.mineralID];
+                }
+                else
+                {
+                    map.items.mineralLayer.removeItem(mineral);
+                }
+            }
+        }
+
+        public function importFxXML(file:XML):void
+        {
+            var map:Map = AppState.getCurrentMap();
+            var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+
+            _itemDefinitions.filterFunction = function(o:Object):Boolean
+            {
+                return (o is FxItemDefinition);
+            };
+            _itemDefinitions.refresh();
+            _itemDefinitions.removeAll();
+
+            _itemDefinitions.filterFunction = oldFilterFunc;
+            _itemDefinitions.refresh();
+
+            fxDefs = new Dictionary();
+
+            for each (var xml:XML in file.SceneFx)
+            {
+                var fxID:int = int(xml.@id);
+                var fxDef:FxItemDefinition = new FxItemDefinition(fxID, xml.@name);
+                addItemDefinition(fxDef);
+            }
+
+            var l:int = map.items.fxLayer.children.length;
+
+            for (var i:int = l - 1; i >= 0; i--)
+            {
+                var fx:Fx = Fx(map.items.fxLayer.children.getItemAt(i));
+                if (fxDefs[fx.fxID])
+                {
+                    fx.fxDef = fxDefs[fx.fxID];
+                }
+                else
+                {
+                    map.items.fxLayer.removeItem(fx);
+                }
+            }
         }
     }
 }

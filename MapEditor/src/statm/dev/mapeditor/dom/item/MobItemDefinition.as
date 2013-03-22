@@ -17,7 +17,7 @@ package statm.dev.mapeditor.dom.item
 
         public function MobItemDefinition(mobID:int = 0, mobName:String = "", mobAlias:String = "")
         {
-            super(6, ItemType.MOB, "怪物");
+            super(8, ItemType.MOB, "怪物");
             _mobID = mobID;
             _mobName = mobName;
             _mobAlias = mobAlias;

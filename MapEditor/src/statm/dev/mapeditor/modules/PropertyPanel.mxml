@@ -13,7 +13,7 @@
             import mx.collections.ArrayCollection;
             import mx.collections.ArrayList;
             import mx.events.FlexEvent;
-            
+
             import statm.dev.mapeditor.app.AppFacade;
             import statm.dev.mapeditor.dom.item.ItemType;
             import statm.dev.mapeditor.mediators.PropertyPanelMediator;
@@ -84,6 +84,14 @@
                     case 3:
                         data.filterFunction = function(o:Object):Boolean
                         {
+                            return (o.type == ItemType.FX);
+                        };
+                        data.refresh();
+                        break;
+
+					SceneFxConfig.xml              case 4:
+                        data.filterFunction = function(o:Object):Boolean
+                        {
                             return (o.type != ItemType.NPC) && (o.type != ItemType.MOB) && (o.type != ItemType.MINERAL) && (o.type != ItemType.LINK_DEST_POINT);
                         };
                         data.refresh();
@@ -100,11 +108,11 @@
             {
                 this.dispatchEvent(new Event("newMobLayer"));
             }
-			
-			protected function btnAddRouteLayer_clickHandler(event:MouseEvent):void
-			{
-				this.dispatchEvent(new Event("newRouteLayer"));
-			}
+
+            protected function btnAddRouteLayer_clickHandler(event:MouseEvent):void
+            {
+                this.dispatchEvent(new Event("newRouteLayer"));
+            }
         ]]>
     </fx:Script>
     <ui:states>
@@ -127,8 +135,9 @@
         <s:State name="markProps"/>
         <s:State name="mobProps"/>
         <s:State name="mobLayerContainerEditing"/>
-		<s:State name="routePointProps"/>
-		<s:State name="routeLayerContainerEditing"/>
+        <s:State name="routePointProps"/>
+        <s:State name="routeLayerContainerEditing"/>
+        <s:State name="fxProps"/>
     </ui:states>
 
     <s:Scroller 
@@ -165,8 +174,9 @@
                     <s:label.mobProps>怪物</s:label.mobProps>
                     <s:label.mineralProps>采集点</s:label.mineralProps>
                     <s:label.markProps>标记点</s:label.markProps>
-					<s:label.routeLayerContainerEditing>编辑路线层</s:label.routeLayerContainerEditing>
-					<s:label.routePointProps>路线节点</s:label.routePointProps>
+                    <s:label.routeLayerContainerEditing>编辑路线层</s:label.routeLayerContainerEditing>
+                    <s:label.routePointProps>路线节点</s:label.routePointProps>
+                    <s:label.fxProps>特效</s:label.fxProps>
                 </s:FormHeading>
                 <!-- 地图属性 -->
                 <s:FormItem 
@@ -332,19 +342,18 @@
                 </s:FormItem>
                 <!-- 物件层绘制 -->
                 <s:FormItem id="itemsFormItem"
-                    label="选择物件:"
                     includeIn="itemLayerEditing">
                     <s:layout>
                         <s:VerticalLayout gap="0"/>
                     </s:layout>
                     <s:TabBar id="itemsListFilterBar"
-                        width="255"
+                        width="285"
                         cornerRadius="0"
-                        dataProvider="{new ArrayList(['NPC', '怪物', '采集点', '其他'])}"
-                        selectedIndex="3"
+                        dataProvider="{new ArrayList(['NPC', '怪物', '采集点', '特效', '其他'])}"
+                        selectedIndex="4"
                         change="filterItems();"/>
                     <s:List id="itemsList"
-                        width="255" height="190"
+                        width="285" height="190"
                         minHeight="160"
                         click="submit();"
                         itemRenderer="statm.dev.mapeditor.ui.skins.itemRenderers.ItemDefinitionItemRenderer"
@@ -556,16 +565,29 @@
                     <ui:CoordText id="ctMarkCoord"
                         coordChanged="submit();"/>
                 </s:FormItem>
-				<!-- 路线层编辑 -->
-				<s:FormItem includeIn="routeLayerContainerEditing">
-					<s:layout>
-						<s:HorizontalLayout verticalAlign="middle"/>
-					</s:layout>
-					<s:TextInput id="tiRouteLayerName" height="30"/>
-					<s:Button id="btnAddRouteLayer"
-							  label="添加路线层"
-							  click="btnAddRouteLayer_clickHandler(event)"/>
-				</s:FormItem>
+                <!-- 路线层编辑 -->
+                <s:FormItem includeIn="routeLayerContainerEditing">
+                    <s:layout>
+                        <s:HorizontalLayout verticalAlign="middle"/>
+                    </s:layout>
+                    <s:TextInput id="tiRouteLayerName"
+                        height="30"/>
+                    <s:Button id="btnAddRouteLayer"
+                        label="添加路线层"
+                        click="btnAddRouteLayer_clickHandler(event)"/>
+                </s:FormItem>
+                <!-- 特效属性 -->
+                <s:FormItem 
+                    label="ID:"
+                    includeIn="fxProps">
+                    <s:Label id="lblFxID"/>
+                </s:FormItem>
+                <s:FormItem 
+                    label="坐标:"
+                    includeIn="fxProps">
+                    <ui:CoordText id="ctFxCoord"
+                        coordChanged="submit();"/>
+                </s:FormItem>
             </s:Form>
         </s:Group>
     </s:Scroller>

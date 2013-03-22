@@ -2,7 +2,7 @@ package statm.dev.mapeditor.dom.objects
 {
     import flash.display.BitmapData;
     import flash.utils.Dictionary;
-
+    
     import statm.dev.mapeditor.io.IXMLSerializable;
     import statm.dev.mapeditor.ui.UIResource;
     import statm.dev.mapeditor.utils.BitmapCODECUtils;
@@ -38,6 +38,8 @@ package statm.dev.mapeditor.dom.objects
             addIcon(6, new UIResource.MOB_ICON().bitmapData);
             addIcon(7, new UIResource.MINERAL_ICON().bitmapData);
             addIcon(8, new UIResource.MOB_TASK_ICON().bitmapData);
+			addIcon(9, new UIResource.MARK_ICON().bitmapData);
+			addIcon(10, new UIResource.ROUTE_POINT_ICON().bitmapData);
         }
 
         private function addIcon(id:int, icon:BitmapData):void
@@ -56,7 +58,7 @@ package statm.dev.mapeditor.dom.objects
 
             for (var id:String in _list)
             {
-                if (parseInt(id) < 9)
+                if (parseInt(id) < 11)
                 {
                     continue;
                 }

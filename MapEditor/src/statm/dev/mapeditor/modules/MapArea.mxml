@@ -91,6 +91,7 @@
                 <ui:BigBitmap id="combatLayer"/>
 
                 <s:Group id="items">
+					<s:Group id="fxLayer"/>
                     <s:Group id="waypointLayer"/>
 					<s:Group id="markLayer"/>
                     <s:Group id="NPCLayer"/>

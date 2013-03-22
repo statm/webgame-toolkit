@@ -272,19 +272,22 @@ package statm.dev.mapeditor.io
 
             for each (var routeLayer:RouteLayer in map.items.routeLayerContainer.children)
             {
-                var layerXML:XML = <patrolPath>
-                        <pathName>{routeLayer.layerName}</pathName>
-                        <worldID>{map.mapID}</worldID>
-                        <goalList/>
-                    </patrolPath>;
-
-				for each (var routePoint:RoutePoint in routeLayer.children)
+				if (routeLayer.children.length > 2)
 				{
-					var pointXML:XML = <goal col={routePoint.x} row={routePoint.y}/>;
-					layerXML.goalList.appendChild(pointXML);
+	                var layerXML:XML = <patrolPath>
+	                        <pathName>{routeLayer.layerName}</pathName>
+	                        <worldID>{map.mapID}</worldID>
+	                        <goalList/>
+	                    </patrolPath>;
+	
+					for each (var routePoint:RoutePoint in routeLayer.children)
+					{
+						var pointXML:XML = <goal col={routePoint.x} row={routePoint.y}/>;
+						layerXML.goalList.appendChild(pointXML);
+					}
+	
+	                result.appendChild(layerXML);
 				}
-
-                result.appendChild(layerXML);
             }
 
             return result;

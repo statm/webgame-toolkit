@@ -97,7 +97,7 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
-        private var _battleEnabled:Boolean = false;
+        private var _battleEnabled:Boolean = true;
 
         public function get battleEnabled():Boolean
         {
@@ -148,7 +148,7 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
-        private var _respawnTme:int = 10000;
+        private var _respawnTme:int = 10000000;
 
         public function get respawnTime():int
         {
@@ -199,7 +199,7 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
-        private var _patrolRange:int;
+        private var _patrolRange:int = 2;
 
         public function get patrolRange():int
         {
@@ -216,7 +216,7 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
-        private var _task:Boolean = false;
+        private var _task:Boolean = true;
 
         public function get task():Boolean
         {

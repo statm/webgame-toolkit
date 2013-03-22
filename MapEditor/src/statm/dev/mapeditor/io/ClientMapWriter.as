@@ -2,7 +2,7 @@ package statm.dev.mapeditor.io
 {
     import flash.filesystem.File;
     import flash.utils.Dictionary;
-    
+
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.brush.Brush;
@@ -10,6 +10,7 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.layers.RegionLayer;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
+    import statm.dev.mapeditor.dom.objects.Fx;
     import statm.dev.mapeditor.dom.objects.Waypoint;
     import statm.dev.mapeditor.utils.GridUtils;
 
@@ -60,6 +61,7 @@ package statm.dev.mapeditor.io
                     <levelLimit>{map.levelLimit}</levelLimit>
                     {generateTileAndPlanLists()}
                     {generateWaypoints()}
+                    {generateFx()}
                 </worldMap>;
         }
 
@@ -181,46 +183,6 @@ package statm.dev.mapeditor.io
             return result;
         }
 
-//        private function generateTransportPoints():XML
-//        {
-//            var tpResult:XML = <teleporterList/>;
-//            var lpResult:XML = <linkPointList/>;
-
-//            for each (var node:DomObject in map.items.transportPoints.children)
-//            {
-//                if (node is TeleportPoint)
-//                {
-//                    tpResult.appendChild(generateTeleportPoint(TeleportPoint(node)));
-//                }
-//                else if (node is LinkPoint)
-//                {
-//                    lpResult.appendChild(generateLinkPoint(LinkPoint(node)));
-//                }
-//            }
-
-//            return tpResult + lpResult;
-//            return tpResult;
-//        }
-
-//        private function generateTeleportPoint(tp:TeleportPoint):XML
-//        {
-//            var result:XML = <teleporter>
-//                    <mapID>{map.mapID}</mapID>
-//                    <position col={tp.x} row={tp.y}/>
-//                </teleporter>;
-//
-//            var allowNationNode:XML = <allowNation/>;
-//
-//            for each (var nation:String in tp.allowNations)
-//            {
-//                allowNationNode.appendChild(<nation>{nation}</nation>);
-//            }
-//
-//            result.appendChild(allowNationNode);
-//
-//            return result;
-//        }
-
         private function generateWaypoints():XML
         {
             var result:XML = <waypointList/>;
@@ -231,7 +193,7 @@ package statm.dev.mapeditor.io
 
                 for each (var wp:Waypoint in waypoint.adjacentWaypoints)
                 {
-					waypointXML.appendChild(<adjacency p={wp.x * 1000 + wp.y}/>);
+                    waypointXML.appendChild(<adjacency p={wp.x * 1000 + wp.y}/>);
                 }
 
                 result.appendChild(waypointXML);
@@ -240,17 +202,18 @@ package statm.dev.mapeditor.io
             return result;
         }
 
-//        private function generateNPCList():XML
-//        {
-//            var result:XML = <NPCList/>;
-//
-//            for each (var npc:NPC in map.items.npcLayer.children)
-//            {
-//                result.appendChild(<NPC id={npc.npcID}><position col={npc.x} row={npc.y}/></NPC>);
-//            }
-//
-//            return result;
-//        }
+        private function generateFx():XML
+        {
+            var result:XML = <sceneFxList/>;
+
+            for each (var fx:Fx in map.items.fxLayer.children)
+            {
+                var fxXML:XML = <sceneFx id={fx.fxID} x={fx.x} y={fx.y}/>;
+                result.appendChild(fxXML);
+            }
+
+            return result;
+        }
 
         public function getLog():String
         {

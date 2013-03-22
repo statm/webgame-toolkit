@@ -123,7 +123,7 @@
 				}
 				else
 				{
-					crosshair.visible = false;
+					crosshair.visible = crosshair.includeInLayout = false;
 					playbackGroup.removeEventListener(MouseEvent.MOUSE_DOWN, anchor_mouseDownHandler);
 				}
 			}
@@ -165,12 +165,12 @@
 
 			protected function playbackGroup_rollOverHandler(event:MouseEvent):void
 			{
-				crosshair.visible = (cbxShowCrosshair.selected);
+				crosshair.visible = crosshair.includeInLayout = (cbxShowCrosshair.selected);
 			}
 
 			protected function playbackGroup_rollOutHandler(event:MouseEvent):void
 			{
-				crosshair.visible = false;
+				crosshair.visible = crosshair.includeInLayout = false;
 			}
 		]]>
 	</fx:Script>
@@ -191,7 +191,7 @@
 				 minWidth="340"
 				 minHeight="340"
 				 horizontalCenter="0"
-				 verticalCenter="0">
+				 bottom="0">
 			<s:Rect id="anchorBg"
 					visible="{cbxShowCrosshair.selected}"
 					top="0"
@@ -231,6 +231,7 @@
 					 fontSize="10"/>
 
 			<s:Group id="crosshair"
+					 includeInLayout="false"
 					 visible="false"
 					 horizontalCenter="0"
 					 width="24"
@@ -342,8 +343,8 @@
 						  width="100%"
 						  visible="{cbxShowOffsetSlider.selected}"
 						  includeInLayout="{cbxShowOffsetSlider.selected}"
-						  minimum="-170"
-						  maximum="170"
+						  minimum="-600"
+						  maximum="600"
 						  stepSize="1"
 						  focusEnabled="false"
 						  value="@{AppState.instance.offsetY}"

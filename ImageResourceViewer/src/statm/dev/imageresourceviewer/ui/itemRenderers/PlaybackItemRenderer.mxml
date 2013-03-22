@@ -32,11 +32,11 @@
 
 					showOffset = (elem.type != ResourceType.UNKNOWN && elem.type != ResourceType.FX && elem.type != ResourceType.MOUNT);
 
-					if (elem.type != ResourceType.UNKNOWN && elem.type != ResourceType.FX && elem.type != ResourceType.MOUNT && batch && batch.length > 0)
+					if (elem.type != ResourceType.UNKNOWN && elem.type != ResourceType.FX && batch && batch.length > 0)
 					{
 						if (batch.batchState == ImageBatchState.COMPLETE)
 						{
-							AppState.instance.primaryImageHeight = batch.getImage(0).height;
+							AppState.instance.primaryImageHeight = Math.max(AppState.instance.primaryImageHeight, batch.getImage(0).height);
 						}
 						else if (batch.batchState != ImageBatchState.ERROR)
 						{
@@ -65,7 +65,7 @@
 			private function batch_completeHandler(event:ImageBatchEvent):void
 			{
 				var batch:ImageBatch = ImageBatch(event.currentTarget);
-				AppState.instance.primaryImageHeight = batch.getImage(0).height;
+				AppState.instance.primaryImageHeight = Math.max(AppState.instance.primaryImageHeight, batch.getImage(0).height);
 				batch.removeEventListener(ImageBatchEvent.COMPLETE, batch_completeHandler);
 			}
 
@@ -90,7 +90,7 @@
 
 	<imageplayer:ImagePlayer id="player"
 							 horizontalCenter="0"
-							 verticalCenter="{showOffset ? -AppState.instance.offsetY : 0}"
+							 bottom="{showOffset ? AppState.instance.offsetY : 0}"
 							 showBorder="false"/>
 
 </s:ItemRenderer>

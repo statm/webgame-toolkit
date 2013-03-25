@@ -110,17 +110,10 @@ package statm.dev.mapeditor.dom.layers
         {
             var result:XML = <placementLayer/>;
 
-            for (var key:String in itemDic)
+            for (var i:int = 0; i < this.children.length; i++)
             {
-                if (!itemDic[key])
-                {
-                    continue;
-                }
-
-                for each (var item:DomObject in itemDic[key])
-                {
-                    result.appendChild(item.toXML());
-                }
+                var item:DomObject = DomObject(this.children.getItemAt(i));
+                result.appendChild(item.toXML());
             }
 
             return result;

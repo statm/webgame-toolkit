@@ -499,7 +499,7 @@
                     includeIn="mobProps">
                     <s:TextInput id="tiMobRespawnTime"
                         focusOut="submit();"
-                        restrict="0-9"
+                        restrict="-0123456789"
                         enter="submit();"/>
                 </s:FormItem>
                 <s:FormItem 

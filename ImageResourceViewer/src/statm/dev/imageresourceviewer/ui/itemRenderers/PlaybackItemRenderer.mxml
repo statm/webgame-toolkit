@@ -90,7 +90,7 @@
 
 	<imageplayer:ImagePlayer id="player"
 							 horizontalCenter="0"
-							 bottom="{showOffset ? AppState.instance.offsetY : 0}"
+							 bottom="{showOffset ? -AppState.instance.offsetY : 0}"
 							 showBorder="false"/>
 
 </s:ItemRenderer>

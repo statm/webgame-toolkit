@@ -8,27 +8,27 @@
     implements="mx.managers.IFocusManagerComponent">
     <fx:Script>
         <![CDATA[
-			import com.sparkTree.Tree;
-			
-			import mx.events.FlexEvent;
-			
-			import statm.dev.mapeditor.app.AppState;
-			import statm.dev.mapeditor.dom.DomNode;
-			import statm.dev.mapeditor.dom.Map;
-			import statm.dev.mapeditor.dom.layers.BgLayer;
-			import statm.dev.mapeditor.dom.layers.Grids;
-			import statm.dev.mapeditor.dom.layers.RouteLayer;
-			import statm.dev.mapeditor.dom.layers.TransportPoints;
-			import statm.dev.mapeditor.dom.objects.BornPoint;
-			import statm.dev.mapeditor.dom.objects.LinkDestPoint;
-			import statm.dev.mapeditor.dom.objects.LinkPoint;
-			import statm.dev.mapeditor.dom.objects.Mark;
-			import statm.dev.mapeditor.dom.objects.Mineral;
-			import statm.dev.mapeditor.dom.objects.Mob;
-			import statm.dev.mapeditor.dom.objects.NPC;
-			import statm.dev.mapeditor.dom.objects.RoutePoint;
-			import statm.dev.mapeditor.dom.objects.TeleportPoint;
-			import statm.dev.mapeditor.dom.objects.Waypoint;
+            import com.sparkTree.Tree;
+
+            import mx.events.FlexEvent;
+
+            import statm.dev.mapeditor.app.AppState;
+            import statm.dev.mapeditor.dom.DomNode;
+            import statm.dev.mapeditor.dom.Map;
+            import statm.dev.mapeditor.dom.layers.BgLayer;
+            import statm.dev.mapeditor.dom.layers.Grids;
+            import statm.dev.mapeditor.dom.layers.RouteLayer;
+            import statm.dev.mapeditor.dom.layers.TransportPoints;
+            import statm.dev.mapeditor.dom.objects.BornPoint;
+            import statm.dev.mapeditor.dom.objects.LinkDestPoint;
+            import statm.dev.mapeditor.dom.objects.LinkPoint;
+            import statm.dev.mapeditor.dom.objects.Mark;
+            import statm.dev.mapeditor.dom.objects.Mineral;
+            import statm.dev.mapeditor.dom.objects.Mob;
+            import statm.dev.mapeditor.dom.objects.NPC;
+            import statm.dev.mapeditor.dom.objects.RoutePoint;
+            import statm.dev.mapeditor.dom.objects.TeleportPoint;
+            import statm.dev.mapeditor.dom.objects.Waypoint;
 
             protected function cbxVisibility_valueCommitHandler(event:FlexEvent):void
             {
@@ -173,11 +173,16 @@
                     var mark:Mark = Mark(node);
                     result = mark.markName + " (" + mark.x + "," + mark.y + ")";
                 }
-				else if (node is RouteLayer)
-				{
-					var routeLayer:RouteLayer = RouteLayer(node);
-					result = routeLayer.layerName;
-				}
+                else if (node is RouteLayer)
+                {
+                    var routeLayer:RouteLayer = RouteLayer(node);
+                    result = routeLayer.layerName;
+                }
+                else if (node is RoutePoint)
+                {
+                    var routePoint:RoutePoint = RoutePoint(node);
+                    result = "(" + routePoint.x + "," + routePoint.y + ")";
+                }
 
                 if (result.length > 0)
                 {

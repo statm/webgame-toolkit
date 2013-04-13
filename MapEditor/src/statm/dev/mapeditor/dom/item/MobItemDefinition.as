@@ -15,12 +15,15 @@ package statm.dev.mapeditor.dom.item
 
         private var _mobAlias:String;
 
-        public function MobItemDefinition(mobID:int = 0, mobName:String = "", mobAlias:String = "")
+        private var _battleType:String;
+
+        public function MobItemDefinition(mobID:int = 0, mobName:String = "", mobAlias:String = "", battleType:String = "")
         {
             super(8, ItemType.MOB, "怪物");
             _mobID = mobID;
             _mobName = mobName;
             _mobAlias = mobAlias;
+            _battleType = battleType;
         }
 
         public function get mobID():int
@@ -38,9 +41,14 @@ package statm.dev.mapeditor.dom.item
             return _mobAlias;
         }
 
+        public function get battleType():String
+        {
+            return _battleType;
+        }
+
         override public function get name():String
         {
-            return mobName + "(" + mobID + ")";
+            return mobName + "(" + mobID + ")" + battleType;
         }
 
         override public function readXML(xml:XML):void
@@ -48,11 +56,12 @@ package statm.dev.mapeditor.dom.item
             _mobID = parseInt(xml.@mobID);
             _mobName = xml.@mobName.toString();
             _mobAlias = xml.@mobAlias.toString();
+			_battleType = xml.@battleType.toString();
         }
 
         override public function toXML():XML
         {
-            return <itemDefinition type={_type} mobID={_mobID} mobName={_mobName} mobAlias={_mobAlias} iconID={_iconID}/>;
+            return <itemDefinition type={_type} mobID={_mobID} mobName={_mobName} mobAlias={_mobAlias} battleType={_battleType} iconID={_iconID}/>;
         }
 
         private var _defaultProps:Object = {};

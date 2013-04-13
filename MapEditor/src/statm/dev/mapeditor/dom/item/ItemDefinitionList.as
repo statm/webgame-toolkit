@@ -224,7 +224,7 @@ package statm.dev.mapeditor.dom.item
             for each (var xml:XML in file.item)
             {
                 var mobID:int = int(xml.@id);
-                var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString());
+                var mobDef:MobItemDefinition = new MobItemDefinition(int(xml.id), xml.desc.toString(), xml.alias.toString(), xml.battleType.toString());
                 addItemDefinition(mobDef);
             }
 

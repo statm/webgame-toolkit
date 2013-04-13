@@ -2,7 +2,6 @@ package statm.dev.mapeditor.io
 {
 	import statm.dev.mapeditor.dom.Map;
 	import statm.dev.mapeditor.dom.objects.Mark;
-	import statm.dev.mapeditor.dom.objects.NPC;
 
 	public class ClientMarkWriter
 	{

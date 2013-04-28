@@ -17,6 +17,9 @@ package statm.dev.mapeditor.ui
         [Embed(source = "../../../../assets/brushIcons/walking.png")]
         public static const WALKING_ICON:Class;
 
+        [Embed(source = "../../../../assets/brushIcons/ready.png")]
+        public static const READY_ICON:Class;
+
         [Embed(source = "../../../../assets/brushIcons/walking_shadow.png")]
         public static const WALKING_SHADOW_ICON:Class;
 
@@ -56,11 +59,11 @@ package statm.dev.mapeditor.ui
 
         [Embed(source = "../../../../assets/itemIcons/MOB_TASK.png")]
         public static const MOB_TASK_ICON:Class;
-		
-		[Embed(source="../../../../assets/itemIcons/M.png")]
-		public static const MARK_ICON:Class;
-		
-		[Embed(source="../../../../assets/itemIcons/R.png")]
-		public static const ROUTE_POINT_ICON:Class;
+
+        [Embed(source = "../../../../assets/itemIcons/M.png")]
+        public static const MARK_ICON:Class;
+
+        [Embed(source = "../../../../assets/itemIcons/R.png")]
+        public static const ROUTE_POINT_ICON:Class;
     }
 }

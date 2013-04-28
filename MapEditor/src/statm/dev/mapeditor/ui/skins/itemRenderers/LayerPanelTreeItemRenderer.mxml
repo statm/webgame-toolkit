@@ -172,6 +172,15 @@
                 {
                     var mark:Mark = Mark(node);
                     result = mark.markName + " (" + mark.x + "," + mark.y + ")";
+                    switch (mark.type)
+                    {
+                        case Mark.MOB:
+                            result = "[怪物] " + result;
+                            break;
+                        case Mark.MINERAL:
+                            result = "[采集点] " + result;
+                            break;
+                    }
                 }
                 else if (node is RouteLayer)
                 {

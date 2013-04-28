@@ -30,5 +30,7 @@ package statm.dev.mapeditor.dom.item
         public static const ROUTE_POINT:String = "ROUTE_POINT";
 
         public static const FX:String = "FX";
+		
+		public static const DECORATION:String = "DECORATION";
     }
 }

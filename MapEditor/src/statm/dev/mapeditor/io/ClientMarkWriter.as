@@ -34,7 +34,7 @@ package statm.dev.mapeditor.io
 			
 			for each (var mark:Mark in map.items.markLayer.children)
 			{
-				xmlResult.appendChild(<site name={mark.markName} mapID={map.mapID} col={mark.x} row={mark.y}/>);
+				xmlResult.appendChild(<site name={mark.markName} mapID={map.mapID} col={mark.x} row={mark.y} type={mark.type}/>);
 			}
 		}
 	}

@@ -35,6 +35,7 @@ package statm.dev.mapeditor.mediators
             Button(viewComponent.btnImportMob).addEventListener(MouseEvent.CLICK, btnImportMob_clickHandler);
             Button(viewComponent.btnImportMineral).addEventListener(MouseEvent.CLICK, btnImportMineral_clickHandler);
             Button(viewComponent.btnImportFx).addEventListener(MouseEvent.CLICK, btnImportFx_clickHandler);
+            Button(viewComponent.btnImportDecoration).addEventListener(MouseEvent.CLICK, btnImportDecoration_clickHandler);
         }
 
 
@@ -47,12 +48,6 @@ package statm.dev.mapeditor.mediators
         {
             var map:Map = AppState.getCurrentMap();
 
-            if (!map)
-            {
-                setWindowTitle(null);
-                return;
-            }
-
             switch (notification.getName())
             {
                 case AppNotificationCode.MAP_DATA_READY:
@@ -64,8 +59,6 @@ package statm.dev.mapeditor.mediators
                     map.setDirty(true);
                     break;
             }
-
-            setWindowTitle(map);
         }
 
         private function btnNewMapFile_clickHandler(event:MouseEvent):void
@@ -113,22 +106,9 @@ package statm.dev.mapeditor.mediators
             sendNotification(AppNotificationCode.IMPORT_FX);
         }
 
-        private function setWindowTitle(map:Map = null):void
+        private function btnImportDecoration_clickHandler(event:MouseEvent):void
         {
-            var title:String = "";
-
-            if (map)
-            {
-                title += (map.isDirty ? "*" : "");
-                title += (map.filePath ? map.filePath : (map.mapName + ".xml"));
-                title += " - 地图编辑器 v1.2";
-            }
-            else
-            {
-                title = "地图编辑器 v1.2";
-            }
-
-            viewComponent.stage.nativeWindow.title = title;
+            sendNotification(AppNotificationCode.IMPORT_DECORATION);
         }
     }
 }

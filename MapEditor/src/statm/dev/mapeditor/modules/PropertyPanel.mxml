@@ -13,7 +13,7 @@
             import mx.collections.ArrayCollection;
             import mx.collections.ArrayList;
             import mx.events.FlexEvent;
-
+            
             import statm.dev.mapeditor.app.AppFacade;
             import statm.dev.mapeditor.dom.item.ItemType;
             import statm.dev.mapeditor.mediators.PropertyPanelMediator;
@@ -565,6 +565,14 @@
                     <ui:CoordText id="ctMarkCoord"
                         coordChanged="submit();"/>
                 </s:FormItem>
+				<s:FormItem
+					label="类型"
+					includeIn="markProps">
+					<s:DropDownList id="ddlMarkType"
+									requireSelection="true"
+									dataProvider="{new ArrayList(['无', '怪物', '采集点'])}"
+									change="submit();"/>
+				</s:FormItem>
                 <!-- 路线层编辑 -->
                 <s:FormItem includeIn="routeLayerContainerEditing">
                     <s:layout>

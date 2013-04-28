@@ -2,7 +2,7 @@ package statm.dev.mapeditor.app
 {
     import org.puremvc.as3.interfaces.IFacade;
     import org.puremvc.as3.patterns.facade.Facade;
-
+    
     import statm.dev.mapeditor.commands.AppExitCommand;
     import statm.dev.mapeditor.commands.CloseMapFileCommand;
     import statm.dev.mapeditor.commands.CreateMapFileCommand;
@@ -52,6 +52,7 @@ package statm.dev.mapeditor.app
             this.registerCommand(AppNotificationCode.IMPORT_MOB, ImportMobCommand);
             this.registerCommand(AppNotificationCode.IMPORT_MINERAL, ImportMineralCommand);
             this.registerCommand(AppNotificationCode.IMPORT_FX, ImportFxCommand);
+			this.registerCommand(AppNotificationCode.IMPORT_DECORATION, ImportDecorationCommand);
         }
     }
 }

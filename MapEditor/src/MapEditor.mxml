@@ -8,7 +8,7 @@
     xmlns:modules="statm.dev.mapeditor.modules.*"
     xmlns:ui="statm.dev.mapeditor.ui.*"
     showStatusBar="false"
-    title="地图编辑器 v2.4"
+    title="地图编辑器 v2.5"
     closing="closingHandler(event)"
     frameRate="40"
     displayStateChange="displayStateChangeHandler(event)">

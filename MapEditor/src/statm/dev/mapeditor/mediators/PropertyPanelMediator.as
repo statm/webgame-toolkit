@@ -2,14 +2,14 @@ package statm.dev.mapeditor.mediators
 {
     import flash.events.Event;
     import flash.geom.Point;
-
+    
     import mx.collections.ArrayList;
     import mx.controls.Alert;
     import mx.events.FlexEvent;
-
+    
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-
+    
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.app.MapEditingActions;
@@ -240,6 +240,18 @@ package statm.dev.mapeditor.mediators
                 panel.currentState = "markProps";
                 panel.tiMarkName.text = Mark(selection).markName;
                 panel.ctMarkCoord.setCoord(Mark(selection).x, Mark(selection).y);
+                switch (Mark(selection).type)
+                {
+                    case Mark.MOB:
+                        panel.ddlMarkType.selectedIndex = 1;
+                        break;
+                    case Mark.MINERAL:
+                        panel.ddlMarkType.selectedIndex = 2;
+                        break;
+                    default:
+                        panel.ddlMarkType.selectedIndex = 0;
+                        break;
+                }
             }
             else if (selection is RouteLayerContainer)
             {
@@ -367,6 +379,18 @@ package statm.dev.mapeditor.mediators
                     Mark(selection).x = panel.ctMarkCoord.getCoord().x;
                     Mark(selection).y = panel.ctMarkCoord.getCoord().y;
                     Mark(selection).markName = panel.tiMarkName.text;
+					switch (panel.ddlMarkType.selectedIndex)
+					{
+						case 0:
+							Mark(selection).type = "";
+							break;
+						case 1:
+							Mark(selection).type = Mark.MOB;
+							break;
+						case 2:
+							Mark(selection).type = Mark.MINERAL;
+							break;
+					}
                     break;
 
                 case "fxProps":

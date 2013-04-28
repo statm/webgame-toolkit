@@ -10,25 +10,29 @@ package statm.dev.mapeditor.dom.objects
 
     public class Mark extends Item
     {
-		private var lblName:Label;
-		
+        public static const MOB:String = "MONSTER";
+
+        public static const MINERAL:String = "SUPPLIES";
+
+        private var lblName:Label;
+
         public function Mark(root:DomNode)
         {
             super(root);
             _name = "标记点";
-			lblName = new Label();
-			
-			var group:Group = new Group();
-			group.width = 31;
-			group.addElement(iconImage);
-			lblName.y = -17;
-			lblName.horizontalCenter = 0;
-			lblName.setStyle("color", 0xFFFFFF);
-			lblName.setStyle("fontSize", 14);
-			lblName.filters = [new GlowFilter(0x000000, 1., 5., 5., 8)];
-			lblName.mouseEnabled = false;
-			group.addElement(lblName);
-			this.display = group;
+            lblName = new Label();
+
+            var group:Group = new Group();
+            group.width = 31;
+            group.addElement(iconImage);
+            lblName.y = -17;
+            lblName.horizontalCenter = 0;
+            lblName.setStyle("color", 0xFFFFFF);
+            lblName.setStyle("fontSize", 14);
+            lblName.filters = [ new GlowFilter(0x000000, 1., 5., 5., 8)];
+            lblName.mouseEnabled = false;
+            group.addElement(lblName);
+            this.display = group;
         }
 
         private var _markName:String;
@@ -43,7 +47,23 @@ package statm.dev.mapeditor.dom.objects
             if (value != _markName)
             {
                 _markName = value;
-				lblName.text = value;
+                lblName.text = value;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
+
+        private var _type:String = "";
+
+        public function get type():String
+        {
+            return _type;
+        }
+
+        public function set type(value:String):void
+        {
+            if (value != _type)
+            {
+                _type = value;
                 this.notifyChange(MapEditingActions.OBJECT_PROPS);
             }
         }
@@ -53,11 +73,12 @@ package statm.dev.mapeditor.dom.objects
             this.markName = xml.@markName;
             this.x = xml.@x;
             this.y = xml.@y;
+            this.type = xml.@type;
         }
 
         override public function toXML():XML
         {
-            return <mark x={x} y={y} markName={_markName}/>;
+            return <mark x={x} y={y} markName={_markName} type={_type}/>;
         }
     }
 }

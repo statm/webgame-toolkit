@@ -42,5 +42,7 @@ package statm.dev.mapeditor.app
         public static const IMPORT_MINERAL:String = "importMineral";
 
         public static const IMPORT_FX:String = "importFx";
+
+        public static const IMPORT_DECORATION:String = "importDecoration";
     }
 }

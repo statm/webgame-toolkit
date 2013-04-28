@@ -1,9 +1,9 @@
 package statm.dev.mapeditor.dom.item
 {
     import flash.utils.Dictionary;
-
+    
     import mx.collections.ArrayCollection;
-
+    
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.layers.MobLayer;
@@ -107,6 +107,13 @@ package statm.dev.mapeditor.dom.item
         public function getFxDefinitionByID(fxID:int):FxItemDefinition
         {
             return fxDefs[fxID];
+        }
+
+        private var decorationDefs:Dictionary = new Dictionary();
+
+        public function getDecorationDefinitionByID(decorationID:int):DecorationItemDefinition
+        {
+            return decorationDefs[decorationID];
         }
 
         public function toXML():XML
@@ -323,6 +330,29 @@ package statm.dev.mapeditor.dom.item
                     map.items.fxLayer.removeItem(fx);
                 }
             }
+        }
+
+        public function importDecorationXML(file:XML):void
+        {
+            var map:Map = AppState.getCurrentMap();
+            var oldFilterFunc:Function = _itemDefinitions.filterFunction;
+
+            _itemDefinitions.filterFunction = function(o:Object):Boolean
+            {
+                return (o is DecorationItemDefinition);
+            };
+            _itemDefinitions.refresh();
+            _itemDefinitions.removeAll();
+
+            _itemDefinitions.filterFunction = oldFilterFunc;
+            _itemDefinitions.refresh();
+			
+			decorationDefs = new Dictionary();
+			
+			for each (var xml:XML in file.item)
+			{
+//				var decorationDef:DecorationItemDefinition = 
+			}
         }
     }
 }

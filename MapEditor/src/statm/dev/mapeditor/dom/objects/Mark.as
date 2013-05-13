@@ -1,10 +1,10 @@
 package statm.dev.mapeditor.dom.objects
 {
     import flash.filters.GlowFilter;
-    
+
     import spark.components.Group;
     import spark.components.Label;
-    
+
     import statm.dev.mapeditor.app.MapEditingActions;
     import statm.dev.mapeditor.dom.DomNode;
 
@@ -13,6 +13,8 @@ package statm.dev.mapeditor.dom.objects
         public static const MOB:String = "MONSTER";
 
         public static const MINERAL:String = "SUPPLIES";
+
+        public static const MOB_SPAWN:String = "MONSTER_BORN";
 
         private var lblName:Label;
 
@@ -35,7 +37,7 @@ package statm.dev.mapeditor.dom.objects
             this.display = group;
         }
 
-        private var _markName:String;
+        private var _markName:String = "";
 
         public function get markName():String
         {
@@ -68,17 +70,34 @@ package statm.dev.mapeditor.dom.objects
             }
         }
 
+        private var _level:int = 0;
+
+        public function get level():int
+        {
+            return _level;
+        }
+
+        public function set level(value:int):void
+        {
+            if (value != _level)
+            {
+                _level = value;
+                this.notifyChange(MapEditingActions.OBJECT_PROPS);
+            }
+        }
+
         override public function readXML(xml:XML):void
         {
             this.markName = xml.@markName;
             this.x = xml.@x;
             this.y = xml.@y;
             this.type = xml.@type;
+			this.level = int(xml.@level);
         }
 
         override public function toXML():XML
         {
-            return <mark x={x} y={y} markName={_markName} type={_type}/>;
+            return <mark x={x} y={y} markName={_markName} type={_type} level={_level}/>;
         }
     }
 }

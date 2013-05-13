@@ -48,26 +48,27 @@ package statm.dev.mapeditor.commands
                     sendNotification(AppNotificationCode.CLOSE_MAP_FILE);
                 }
 
-				try
-				{
+//				try
+//				{
 	                var fileStream:FileStream = new FileStream();
 	                fileStream.open(fileToOpen, FileMode.UPDATE);
 	
 	                var fileXML:XML = new XML(fileStream.readMultiByte(fileStream.bytesAvailable, "utf-8"));
 	                var map:Map = new Map();
+	                AppState.setCurrentMap(map);
+					
 	                map.filePath = fileToOpen.nativePath;
 	                MapFileUtils.XMLToMap(fileXML, map);
 	
 	                fileStream.close();
 	
-	                AppState.setCurrentMap(map);
 	                sendNotification(AppNotificationCode.MAP_DATA_READY);
-				}
-				catch (e:Error)
-				{
-					fileStream.close();
-					Alert.show("文件已锁定，打开失败。");
-				}
+//				}
+//				catch (e:Error)
+//				{
+//					fileStream.close();
+//					Alert.show("文件已锁定，打开失败。");
+//				}
             });
 
             fileToOpen.browseForOpen("打开地图文件", [ new FileFilter("地图文件(*.map)", "*.map")]);

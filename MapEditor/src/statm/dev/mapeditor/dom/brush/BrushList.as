@@ -18,7 +18,7 @@ package statm.dev.mapeditor.dom.brush
             addBrush(new Brush("可行走", "", new UIResource.WALKING_ICON().bitmapData, BrushType.WALKING));
             addBrush(new Brush("行走半透明", "true", new UIResource.WALKING_SHADOW_ICON().bitmapData, BrushType.WALKING_SHADOW));
             addBrush(new Brush("安全区", "<battleType>PVP</battleType>", new UIResource.PVE_ICON().bitmapData, BrushType.COMBAT));
-            addBrush(new Brush("备战阻挡", "READY", new UIResource.READY_ICON().bitmapData, BrushType.WALKING));
+            addBrush(new Brush("备战阻挡", "<walkState>READY</walkState>", new UIResource.READY_ICON().bitmapData, BrushType.WALKING));
         }
 
         public var regionBrushes:ArrayCollection = new ArrayCollection();

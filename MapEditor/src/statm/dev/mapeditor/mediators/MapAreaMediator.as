@@ -84,6 +84,7 @@ package statm.dev.mapeditor.mediators
                         currentMap.items.waypoints.display = mapArea.waypointLayer;
                         currentMap.items.routeLayerContainer.display = mapArea.routeLayers;
                         currentMap.items.fxLayer.display = mapArea.fxLayer;
+                        currentMap.items.decorationLayer.display = mapArea.decorationLayer;
 
                         mapArea.setMapBg(currentMap.bgLayer.bgPath);
                         AppState.setViewport(new Rectangle(0, 0, mapArea.mapScroller.width, mapArea.mapScroller.height));
@@ -143,6 +144,7 @@ package statm.dev.mapeditor.mediators
                     mapArea.markLayer.removeAllElements();
                     mapArea.routeLayers.removeAllElements();
                     mapArea.fxLayer.removeAllElements();
+                    mapArea.decorationLayer.removeAllElements();
                     AppState.stopDrawingMask();
                     AppState.stopDrawingItem();
                     break;

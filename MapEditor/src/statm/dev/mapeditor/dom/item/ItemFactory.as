@@ -1,10 +1,11 @@
 package statm.dev.mapeditor.dom.item
 {
     import flash.display.BitmapData;
-    
+
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.objects.BornPoint;
+    import statm.dev.mapeditor.dom.objects.Decoration;
     import statm.dev.mapeditor.dom.objects.Fx;
     import statm.dev.mapeditor.dom.objects.Item;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
@@ -82,11 +83,16 @@ package statm.dev.mapeditor.dom.item
                     item = new RoutePoint(domRoot);
                     item.iconImage.source = Map(domRoot).iconList.getIcon(10);
                     break;
-				
-				case "fx":
-					item = new Fx(domRoot);
-					item.iconImage.source = Map(domRoot).iconList.getIcon(10);
-					break;
+
+                case "fx":
+                    item = new Fx(domRoot);
+                    item.iconImage.source = Map(domRoot).iconList.getIcon(10);
+                    break;
+
+                case "decoration":
+                    item = new Decoration(domRoot);
+                    item.iconImage.source = Map(domRoot).iconList.getIcon(8);
+                    break;
             }
 
             item.readXML(itemXML);
@@ -143,6 +149,10 @@ package statm.dev.mapeditor.dom.item
 
                 case ItemType.FX:
                     item = new Fx(domRoot, FxItemDefinition(itemDef));
+                    break;
+
+                case ItemType.DECORATION:
+                    item = new Decoration(domRoot, DecorationItemDefinition(itemDef));
                     break;
             }
 

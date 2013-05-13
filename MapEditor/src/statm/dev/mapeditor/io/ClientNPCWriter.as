@@ -34,7 +34,7 @@ package statm.dev.mapeditor.io
 
             for each (var npc:NPC in map.items.npcLayer.children)
             {
-                xmlResult.appendChild(<NPC id={npc.npcID} mapID={map.mapID} col={npc.x} row={npc.y}/>);
+                xmlResult.appendChild(<NPC id={npc.npcID} mapID={map.mapID} col={npc.x} row={npc.y} ignoreOnMap={npc.ignoreOnMap}/>);
             }
         }
     }

@@ -2,14 +2,14 @@ package statm.dev.mapeditor.mediators
 {
     import flash.events.Event;
     import flash.geom.Point;
-    
+
     import mx.collections.ArrayList;
     import mx.controls.Alert;
     import mx.events.FlexEvent;
-    
+
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-    
+
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.app.MapEditingActions;
@@ -20,6 +20,7 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.item.ItemFactory;
     import statm.dev.mapeditor.dom.layers.BgLayer;
     import statm.dev.mapeditor.dom.layers.CombatLayer;
+    import statm.dev.mapeditor.dom.layers.DecorationLayer;
     import statm.dev.mapeditor.dom.layers.FxLayer;
     import statm.dev.mapeditor.dom.layers.Grids;
     import statm.dev.mapeditor.dom.layers.Items;
@@ -36,6 +37,7 @@ package statm.dev.mapeditor.mediators
     import statm.dev.mapeditor.dom.layers.WalkingShadowLayer;
     import statm.dev.mapeditor.dom.layers.WaypointLayer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
+    import statm.dev.mapeditor.dom.objects.Decoration;
     import statm.dev.mapeditor.dom.objects.Fx;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
@@ -147,7 +149,16 @@ package statm.dev.mapeditor.mediators
             {
                 panel.currentState = "combatLayerEditing";
             }
-            else if ((selection is Items) || (selection is NPCLayer) || (selection is MobLayer) || (selection is MineralLayer) || (selection is TransportPoints) || (selection is WaypointLayer) || (selection is MarkLayer) || (selection is RouteLayer) || (selection is FxLayer))
+            else if ((selection is Items)
+                || (selection is NPCLayer)
+                || (selection is MobLayer)
+                || (selection is MineralLayer)
+                || (selection is TransportPoints)
+                || (selection is WaypointLayer)
+                || (selection is MarkLayer)
+                || (selection is RouteLayer)
+                || (selection is FxLayer)
+                || (selection is DecorationLayer))
             {
                 panel.currentState = "itemLayerEditing";
             }
@@ -196,6 +207,7 @@ package statm.dev.mapeditor.mediators
                 }
                 panel.lblNPCID.text = NPC(selection).npcID.toString();
                 panel.ctNPCCoord.setCoord(NPC(selection).x, NPC(selection).y);
+                panel.cbxNPCIgnore.selected = NPC(selection).ignoreOnMap;
             }
             else if (selection is Mob)
             {
@@ -248,10 +260,14 @@ package statm.dev.mapeditor.mediators
                     case Mark.MINERAL:
                         panel.ddlMarkType.selectedIndex = 2;
                         break;
+                    case Mark.MOB_SPAWN:
+                        panel.ddlMarkType.selectedIndex = 3;
+                        break;
                     default:
                         panel.ddlMarkType.selectedIndex = 0;
                         break;
                 }
+                panel.tiMarkLevel.text = Mark(selection).level.toString();
             }
             else if (selection is RouteLayerContainer)
             {
@@ -266,6 +282,13 @@ package statm.dev.mapeditor.mediators
                 panel.currentState = "fxProps";
                 panel.lblFxID.text = Fx(selection).fxID.toString();
                 panel.ctFxCoord.setCoord(Fx(selection).x, Fx(selection).y);
+            }
+            else if (selection is Decoration)
+            {
+                panel.currentState = "decorationProps";
+                panel.lblDecorationID.text = Decoration(selection).decorationID.toString();
+                panel.lblDecorationName.text = Decoration(selection).decorationDef.decorationName;
+                panel.ctDecorationCoord.setCoord(Decoration(selection).x, Decoration(selection).y);
             }
             else
             {
@@ -353,6 +376,7 @@ package statm.dev.mapeditor.mediators
                 case "npcProps":
                     NPC(selection).x = panel.ctNPCCoord.getCoord().x;
                     NPC(selection).y = panel.ctNPCCoord.getCoord().y;
+                    NPC(selection).ignoreOnMap = panel.cbxNPCIgnore.selected;
                     break;
 
                 case "mobProps":
@@ -379,23 +403,32 @@ package statm.dev.mapeditor.mediators
                     Mark(selection).x = panel.ctMarkCoord.getCoord().x;
                     Mark(selection).y = panel.ctMarkCoord.getCoord().y;
                     Mark(selection).markName = panel.tiMarkName.text;
-					switch (panel.ddlMarkType.selectedIndex)
-					{
-						case 0:
-							Mark(selection).type = "";
-							break;
-						case 1:
-							Mark(selection).type = Mark.MOB;
-							break;
-						case 2:
-							Mark(selection).type = Mark.MINERAL;
-							break;
-					}
+                    switch (panel.ddlMarkType.selectedIndex)
+                    {
+                        case 0:
+                            Mark(selection).type = "";
+                            break;
+                        case 1:
+                            Mark(selection).type = Mark.MOB;
+                            break;
+                        case 2:
+                            Mark(selection).type = Mark.MINERAL;
+                            break;
+                        case 3:
+                            Mark(selection).type = Mark.MOB_SPAWN;
+                            break;
+                    }
+                    Mark(selection).level = int(panel.tiMarkLevel.text);
                     break;
 
                 case "fxProps":
                     Fx(selection).x = panel.ctFxCoord.getCoord().x;
                     Fx(selection).y = panel.ctFxCoord.getCoord().y;
+                    break;
+
+                case "decorationProps":
+                    Decoration(selection).x = panel.ctDecorationCoord.getCoord().x;
+                    Decoration(selection).y = panel.ctDecorationCoord.getCoord().y;
                     break;
             }
         }

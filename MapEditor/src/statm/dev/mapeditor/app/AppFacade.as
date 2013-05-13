@@ -7,6 +7,7 @@ package statm.dev.mapeditor.app
     import statm.dev.mapeditor.commands.CloseMapFileCommand;
     import statm.dev.mapeditor.commands.CreateMapFileCommand;
     import statm.dev.mapeditor.commands.ExportXMLCommand;
+    import statm.dev.mapeditor.commands.ImportDecorationCommand;
     import statm.dev.mapeditor.commands.ImportFxCommand;
     import statm.dev.mapeditor.commands.ImportMineralCommand;
     import statm.dev.mapeditor.commands.ImportMobCommand;

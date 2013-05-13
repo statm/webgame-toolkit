@@ -7,6 +7,7 @@ package statm.dev.mapeditor.dom.item
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.layers.MobLayer;
+    import statm.dev.mapeditor.dom.objects.Decoration;
     import statm.dev.mapeditor.dom.objects.Fx;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
@@ -79,6 +80,14 @@ package statm.dev.mapeditor.dom.item
                 }
                 fxDefs[FxItemDefinition(itemDef).fxID] = itemDef;
             }
+            if (itemDef is DecorationItemDefinition)
+            {
+                if (decorationDefs[DecorationItemDefinition(itemDef).decorationID])
+                {
+                    _itemDefinitions.removeItemAt(_itemDefinitions.getItemIndex(decorationDefs[DecorationItemDefinition(itemDef).decorationID]));
+                }
+                decorationDefs[DecorationItemDefinition(itemDef).decorationID] = itemDef;
+            }
         }
 
         private var npcDefs:Dictionary = new Dictionary();
@@ -122,7 +131,11 @@ package statm.dev.mapeditor.dom.item
 
             for each (var itemDef:ItemDefinitionBase in _itemDefinitions.source)
             {
-                if (itemDef.type != ItemType.NPC && itemDef.type != ItemType.MOB && itemDef.type != ItemType.MINERAL && itemDef.type != ItemType.FX)
+                if (itemDef.type != ItemType.NPC
+                    && itemDef.type != ItemType.MOB
+                    && itemDef.type != ItemType.MINERAL
+                    && itemDef.type != ItemType.FX
+                    && itemDef.type != ItemType.DECORATION)
                 {
                     continue;
                 }
@@ -155,6 +168,9 @@ package statm.dev.mapeditor.dom.item
                         break;
                     case ItemType.FX:
                         itemDef = new FxItemDefinition();
+                        break;
+                    case ItemType.DECORATION:
+                        itemDef = new DecorationItemDefinition();
                         break;
                     default:
                         itemDef = new ItemDefinitionBase();
@@ -346,13 +362,29 @@ package statm.dev.mapeditor.dom.item
 
             _itemDefinitions.filterFunction = oldFilterFunc;
             _itemDefinitions.refresh();
-			
-			decorationDefs = new Dictionary();
-			
-			for each (var xml:XML in file.item)
-			{
-//				var decorationDef:DecorationItemDefinition = 
-			}
+
+            decorationDefs = new Dictionary();
+
+            for each (var xml:XML in file.item)
+            {
+                var decorationDef:DecorationItemDefinition = new DecorationItemDefinition(int(xml.id), xml.alias, xml.desc);
+                addItemDefinition(decorationDef);
+            }
+
+            var l:int = map.items.decorationLayer.children.length;
+
+            for (var i:int = l - 1; i >= 0; i--)
+            {
+                var decoration:Decoration = Decoration(map.items.decorationLayer.children.getItemAt(i));
+                if (decorationDef[decoration.decorationID])
+                {
+                    decoration.decorationDef = decorationDefs[decoration.decorationID];
+                }
+                else
+                {
+                    map.items.decorationLayer.removeItem(decoration);
+                }
+            }
         }
     }
 }

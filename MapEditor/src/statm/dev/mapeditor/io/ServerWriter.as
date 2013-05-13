@@ -1,7 +1,7 @@
 package statm.dev.mapeditor.io
 {
     import flash.utils.Dictionary;
-    
+
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.Map;
@@ -12,8 +12,10 @@ package statm.dev.mapeditor.io
     import statm.dev.mapeditor.dom.layers.RouteLayer;
     import statm.dev.mapeditor.dom.layers.WalkingLayer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
+    import statm.dev.mapeditor.dom.objects.Decoration;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mark;
     import statm.dev.mapeditor.dom.objects.Mineral;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.NPC;
@@ -70,6 +72,7 @@ package statm.dev.mapeditor.io
                     {generateNPC()}
                     {generateMobs()}
                     {generateMinerals()}
+                    {generateDecorations()}
                 </worldMapModel>;
         }
 
@@ -272,22 +275,22 @@ package statm.dev.mapeditor.io
 
             for each (var routeLayer:RouteLayer in map.items.routeLayerContainer.children)
             {
-				if (routeLayer.children.length > 2)
-				{
-	                var layerXML:XML = <patrolPath>
-	                        <pathName>{routeLayer.layerName}</pathName>
-	                        <worldID>{map.mapID}</worldID>
-	                        <goalList/>
-	                    </patrolPath>;
-	
-					for each (var routePoint:RoutePoint in routeLayer.children)
-					{
-						var pointXML:XML = <goal col={routePoint.x} row={routePoint.y}/>;
-						layerXML.goalList.appendChild(pointXML);
-					}
-	
-	                result.appendChild(layerXML);
-				}
+                if (routeLayer.children.length > 2)
+                {
+                    var layerXML:XML = <patrolPath>
+                            <pathName>{routeLayer.layerName}</pathName>
+                            <worldID>{map.mapID}</worldID>
+                            <goalList/>
+                        </patrolPath>;
+
+                    for each (var routePoint:RoutePoint in routeLayer.children)
+                    {
+                        var pointXML:XML = <goal col={routePoint.x} row={routePoint.y}/>;
+                        layerXML.goalList.appendChild(pointXML);
+                    }
+
+                    result.appendChild(layerXML);
+                }
             }
 
             return result;
@@ -317,6 +320,24 @@ package statm.dev.mapeditor.io
                                        <position col={npc.x} row={npc.y}/>
                                        {nations}
                                    </actionScope>);
+            }
+
+            for each (var mark:Mark in map.items.markLayer.children)
+            {
+                if (mark.type == Mark.MOB_SPAWN)
+                {
+                    result.appendChild(<actionScope>
+                                           <worldID>{map.mapID}</worldID>
+                                           <siteName>{mark.markName}</siteName>
+                                           <scopeType>MONSTER_BORN</scopeType>
+                                           <position col={mark.x} row={mark.y}/>
+                                           <nationSet>
+                                               <nation>WU</nation>
+                                               <nation>SHU</nation>
+                                               <nation>WEI</nation>
+                                           </nationSet>
+                                       </actionScope>);
+                }
             }
 
             return result;
@@ -376,6 +397,27 @@ package statm.dev.mapeditor.io
                                        <refreshTime>{mineral.respawnTime}</refreshTime>
                                        <enterPosition col={mineral.x} row={mineral.y}/>
                                    </suppliesRobot>);
+            }
+
+            return result;
+        }
+
+        private function generateDecorations():XML
+        {
+            var result:XML = <decorationActorList/>;
+
+            for each (var decoration:Decoration in map.items.decorationLayer.children)
+            {
+                if (!decoration.decorationDef)
+                {
+                    log += "无法找到装饰物描述。(DECOR_ID=" + decoration.decorationID + ", pos=" + decoration.x + "," + decoration.y + ")" + "\n";
+                    continue;
+                }
+
+                result.appendChild(<decorationActor>
+                                       <decoration>{decoration.decorationDef.decorationAlias}</decoration>
+                                       <enterPosition col={decoration.x} row={decoration.y}/>
+                                   </decorationActor>);
             }
 
             return result;

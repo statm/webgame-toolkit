@@ -1,22 +1,23 @@
 package statm.dev.mapeditor.mediators
 {
     import mx.collections.ArrayCollection;
-    
+
     import spark.events.IndexChangeEvent;
-    
+
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
-    
+
     import statm.dev.mapeditor.app.AppNotificationCode;
     import statm.dev.mapeditor.app.AppState;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.Map;
     import statm.dev.mapeditor.dom.layers.MobLayer;
     import statm.dev.mapeditor.dom.layers.RouteLayer;
-    import statm.dev.mapeditor.dom.layers.RouteLayerContainer;
     import statm.dev.mapeditor.dom.objects.BornPoint;
+    import statm.dev.mapeditor.dom.objects.Decoration;
     import statm.dev.mapeditor.dom.objects.LinkDestPoint;
     import statm.dev.mapeditor.dom.objects.LinkPoint;
+    import statm.dev.mapeditor.dom.objects.Mark;
     import statm.dev.mapeditor.dom.objects.Mob;
     import statm.dev.mapeditor.dom.objects.RoutePoint;
     import statm.dev.mapeditor.dom.objects.TeleportPoint;
@@ -33,7 +34,7 @@ package statm.dev.mapeditor.mediators
     {
         public static const NAME:String = "LayerPanelMediator";
 
-        private static const EXPANSION_REQUIRING_TYPES:Array = [ TeleportPoint, LinkPoint, BornPoint, LinkDestPoint, MobLayer, Mob, RouteLayer, RoutePoint ];
+        private static const EXPANSION_REQUIRING_TYPES:Array = [ TeleportPoint, LinkPoint, BornPoint, LinkDestPoint, MobLayer, Mob, RouteLayer, RoutePoint, Mark, Decoration ];
 
         public function LayerPanelMediator(mediatorName:String = null, viewComponent:Object = null)
         {
@@ -74,11 +75,11 @@ package statm.dev.mapeditor.mediators
                     var selection:DomNode = AppState.getCurrentSelection();
                     for each (var cls:Class in EXPANSION_REQUIRING_TYPES)
                     {
-						if (selection is cls)
-						{
-	                        panel.layerTree.expandItem(selection.parent);
-	                        panel.layerTree.selectedItem = selection;
-						}
+                        if (selection is cls)
+                        {
+                            panel.layerTree.expandItem(selection.parent);
+                            panel.layerTree.selectedItem = selection;
+                        }
                     }
                     break;
             }

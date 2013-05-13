@@ -20,6 +20,7 @@
             import statm.dev.mapeditor.dom.layers.RouteLayer;
             import statm.dev.mapeditor.dom.layers.TransportPoints;
             import statm.dev.mapeditor.dom.objects.BornPoint;
+            import statm.dev.mapeditor.dom.objects.Decoration;
             import statm.dev.mapeditor.dom.objects.LinkDestPoint;
             import statm.dev.mapeditor.dom.objects.LinkPoint;
             import statm.dev.mapeditor.dom.objects.Mark;
@@ -180,6 +181,9 @@
                         case Mark.MINERAL:
                             result = "[采集点] " + result;
                             break;
+                        case Mark.MOB_SPAWN:
+                            result = "[怪物出生点] " + result;
+                            break;
                     }
                 }
                 else if (node is RouteLayer)
@@ -191,6 +195,11 @@
                 {
                     var routePoint:RoutePoint = RoutePoint(node);
                     result = "(" + routePoint.x + "," + routePoint.y + ")";
+                }
+                else if (node is Decoration)
+                {
+                    var decoration:Decoration = Decoration(node);
+                    result = (decoration.decorationDef ? decoration.decorationDef.decorationName : "") + " (" + decoration.x + "," + decoration.y + ")";
                 }
 
                 if (result.length > 0)

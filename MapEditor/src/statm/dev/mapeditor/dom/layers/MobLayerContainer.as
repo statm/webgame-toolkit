@@ -1,6 +1,7 @@
 package statm.dev.mapeditor.dom.layers
 {
     import mx.collections.ArrayCollection;
+    import mx.core.UIComponent;
 
     import spark.components.Group;
 
@@ -20,7 +21,7 @@ package statm.dev.mapeditor.dom.layers
         public function addMobLayer():MobLayer
         {
             var layer:MobLayer = new MobLayer(root, _children.length + 1);
-			layer.parent = this;
+            layer.parent = this;
             var mobLayerDisplay:Group = new Group();
             layer.display = mobLayerDisplay;
             if (this.display)
@@ -29,6 +30,19 @@ package statm.dev.mapeditor.dom.layers
             }
             _children.addItem(layer);
             return layer;
+        }
+
+        public function removeMobLayer(mobLayer:MobLayer):void
+        {
+            if (mobLayer.parent == this
+                && this.display.contains(mobLayer.display)
+                && _children.contains(mobLayer))
+            {
+                return;
+            }
+
+            this.display.removeElement(mobLayer.display);
+			_children.removeItemAt(_children.getItemIndex(mobLayer));
         }
 
         public function getAllMobs():ArrayCollection

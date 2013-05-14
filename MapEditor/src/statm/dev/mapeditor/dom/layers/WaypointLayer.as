@@ -12,6 +12,7 @@ package statm.dev.mapeditor.dom.layers
     import spark.components.Group;
     import spark.primitives.Ellipse;
     
+    import statm.dev.mapeditor.app.MapEditingActions;
     import statm.dev.mapeditor.dom.DomNode;
     import statm.dev.mapeditor.dom.DomObject;
     import statm.dev.mapeditor.dom.Map;
@@ -94,6 +95,7 @@ package statm.dev.mapeditor.dom.layers
                 delete connectionDic[lineKey];
             }
             connection.endPoints = [];
+			this.notifyChange(MapEditingActions.REMOVE_OBJECT);
         }
 
         override public function removeItem(item:DomObject):void

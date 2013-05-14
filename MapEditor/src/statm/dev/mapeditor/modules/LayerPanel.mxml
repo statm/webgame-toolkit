@@ -10,13 +10,9 @@
     xmlns:sparkTree="com.sparkTree.*">
     <fx:Script>
         <![CDATA[
-            import mx.collections.ArrayCollection;
             import mx.events.FlexEvent;
-
-            import spark.events.IndexChangeEvent;
-
+            
             import statm.dev.mapeditor.app.AppFacade;
-            import statm.dev.mapeditor.dom.Map;
             import statm.dev.mapeditor.mediators.LayerPanelMediator;
 
             protected function creationCompleteHandler(event:FlexEvent):void

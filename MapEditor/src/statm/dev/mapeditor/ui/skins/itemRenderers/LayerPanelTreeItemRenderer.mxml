@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tree:TreeItemRenderer 
     width="100%"
+    rightMouseDown="rightMouseDownHandler(event)"
     xmlns:fx="http://ns.adobe.com/mxml/2009"
     xmlns:s="library://ns.adobe.com/flex/spark"
     xmlns:mx="library://ns.adobe.com/flex/mx"
     xmlns:tree="com.sparkTree.*"
     implements="mx.managers.IFocusManagerComponent">
+
     <fx:Script>
         <![CDATA[
             import com.sparkTree.Tree;
 
             import mx.events.FlexEvent;
 
+            import spark.components.List;
+
             import statm.dev.mapeditor.app.AppState;
             import statm.dev.mapeditor.dom.DomNode;
+            import statm.dev.mapeditor.dom.DomObject;
             import statm.dev.mapeditor.dom.Map;
             import statm.dev.mapeditor.dom.layers.BgLayer;
             import statm.dev.mapeditor.dom.layers.Grids;
+            import statm.dev.mapeditor.dom.layers.MobLayer;
+            import statm.dev.mapeditor.dom.layers.MobLayerContainer;
+            import statm.dev.mapeditor.dom.layers.PlacementLayerBase;
             import statm.dev.mapeditor.dom.layers.RouteLayer;
             import statm.dev.mapeditor.dom.layers.TransportPoints;
             import statm.dev.mapeditor.dom.objects.BornPoint;
             import statm.dev.mapeditor.dom.objects.Decoration;
+            import statm.dev.mapeditor.dom.objects.Fx;
             import statm.dev.mapeditor.dom.objects.LinkDestPoint;
             import statm.dev.mapeditor.dom.objects.LinkPoint;
             import statm.dev.mapeditor.dom.objects.Mark;
@@ -30,6 +39,10 @@
             import statm.dev.mapeditor.dom.objects.RoutePoint;
             import statm.dev.mapeditor.dom.objects.TeleportPoint;
             import statm.dev.mapeditor.dom.objects.Waypoint;
+
+            private const VISIBILITY_TOGGLE_DISABLED_TYPES:Array = [ Map, TeleportPoint, LinkPoint, LinkDestPoint, BornPoint, Waypoint ];
+
+            private const DELETE_ENABLED_TYPES:Array = [ NPC, Mob, Mineral, Decoration, Fx, MobLayer, LinkPoint, LinkDestPoint, TeleportPoint, Waypoint, Mark, BornPoint, RoutePoint ];
 
             protected function cbxVisibility_valueCommitHandler(event:FlexEvent):void
             {
@@ -45,9 +58,48 @@
                 }
             }
 
-            private function getCheckboxVisibility(data:Object):Boolean
+            private function canHide(data:Object):Boolean
             {
-                return !(data is TeleportPoint) && !(data is LinkPoint) && !(data is LinkDestPoint) && !(data is BornPoint) && !(data is Waypoint);
+                for each (var cls:Class in VISIBILITY_TOGGLE_DISABLED_TYPES)
+                {
+                    if (data is cls)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            private function canDelete(data:Object):Boolean
+            {
+                for each (var cls:Class in DELETE_ENABLED_TYPES)
+                {
+                    if (data is cls)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            private function getContextMenu(data:Object):NativeMenu
+            {
+                var menu:NativeMenu = new NativeMenu();
+
+                if (canDelete(data))
+                {
+                    var deleteItem:NativeMenuItem = new NativeMenuItem("删除");
+                    deleteItem.data = "DELETE";
+                    menu.addItem(deleteItem);
+                }
+
+                if (menu.numItems > 0)
+                {
+                    menu.addEventListener(Event.SELECT, contextMenu_selectHandler);
+                    return menu;
+                }
+
+                return null;
             }
 
             override public function set data(value:Object):void
@@ -61,6 +113,7 @@
 
                 if (data)
                 {
+                    this.contextMenu = getContextMenu(data);
                     data.addEventListener(Event.CHANGE, data_changeHandler);
                 }
 
@@ -237,6 +290,29 @@
 
                 return result;
             }
+
+            protected function rightMouseDownHandler(event:MouseEvent):void
+            {
+                var list:List = this.owner as List;
+                list.selectedItem = this.data;
+            }
+
+            protected function contextMenu_selectHandler(event:Event):void
+            {
+                var item:NativeMenuItem = NativeMenuItem(event.target);
+                if (item.data == "DELETE")
+                {
+                    var itemParent:* = data.parent;
+                    if (itemParent is PlacementLayerBase)
+                    {
+                        PlacementLayerBase(itemParent).removeItem(DomObject(data));
+                    }
+                    else if (itemParent is MobLayerContainer)
+                    {
+                        MobLayerContainer(itemParent).removeMobLayer(MobLayer(data));
+                    }
+                }
+            }
         ]]>
     </fx:Script>
 
@@ -257,7 +333,7 @@
         enabled="{!(data is Map)}"
         selected="@{data.display.visible}"
         valueCommit="cbxVisibility_valueCommitHandler(event)"
-        visible="{getCheckboxVisibility(data)}"/>
+        visible="{canHide(data)}"/>
 
     <s:Spacer width="{indentation - 12}"/>
 

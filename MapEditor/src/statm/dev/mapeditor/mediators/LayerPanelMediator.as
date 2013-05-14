@@ -1,8 +1,9 @@
 package statm.dev.mapeditor.mediators
 {
-    import mx.collections.ArrayCollection;
+    import flash.utils.getTimer;
 
-    import spark.events.IndexChangeEvent;
+    import mx.collections.ArrayCollection;
+    import mx.events.FlexEvent;
 
     import org.puremvc.as3.interfaces.INotification;
     import org.puremvc.as3.patterns.mediator.Mediator;
@@ -39,7 +40,7 @@ package statm.dev.mapeditor.mediators
         public function LayerPanelMediator(mediatorName:String = null, viewComponent:Object = null)
         {
             super(mediatorName, viewComponent);
-            viewComponent.layerTree.addEventListener(IndexChangeEvent.CHANGE, tree_changeHandler);
+            viewComponent.layerTree.addEventListener(FlexEvent.VALUE_COMMIT, tree_changeHandler);
         }
 
         override public function listNotificationInterests():Array
@@ -85,7 +86,7 @@ package statm.dev.mapeditor.mediators
             }
         }
 
-        protected function tree_changeHandler(event:IndexChangeEvent):void
+        protected function tree_changeHandler(event:FlexEvent):void
         {
             AppState.setCurrentSelection(viewComponent.layerTree.selectedItem);
         }

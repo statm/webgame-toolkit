@@ -18,6 +18,11 @@ package statm.dev.mapeditor.dom.layers
             _name = "第 " + layerID + " 层";
         }
 
+        public function setLayerID(layerID:int):void
+        {
+            _name = "第 " + layerID + " 层";
+        }
+
         override public function toXML():XML
         {
             var result:XML = super.toXML();

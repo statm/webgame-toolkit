@@ -238,8 +238,8 @@ class TilePlan
     public function toXML():XML
     {
         var result:XML = <tilePlan id={id} siteID={(region && region.data) ? region.data : "1"} walkShadow={(walkingShadow && walkingShadow.data) ? walkingShadow.data : "false"}>
-                <walkStateLimit>{(walking && walking.data) ? walking.data : ""}</walkStateLimit>
-                <battleTypeLimit>{(combat && combat.data) ? combat.data : ""}</battleTypeLimit>
+                <walkStateLimit>{(walking && walking.data) ? XML(walking.data) : ""}</walkStateLimit>
+                <battleTypeLimit>{(combat && combat.data) ? XML(combat.data) : ""}</battleTypeLimit>
             </tilePlan>;
 
         return result;

@@ -1,10 +1,10 @@
 package statm.dev.mapeditor.dom.objects
 {
     import flash.filters.GlowFilter;
-
+    
     import spark.components.Group;
     import spark.components.Label;
-
+    
     import statm.dev.mapeditor.app.MapEditingActions;
     import statm.dev.mapeditor.dom.DomNode;
 
@@ -15,6 +15,8 @@ package statm.dev.mapeditor.dom.objects
         public static const MINERAL:String = "SUPPLIES";
 
         public static const MOB_SPAWN:String = "MONSTER_BORN";
+		
+		public static const MELEE_ENTR:String = "MELEE_BORN";
 
         private var lblName:Label;
 
@@ -85,7 +87,7 @@ package statm.dev.mapeditor.dom.objects
                 this.notifyChange(MapEditingActions.OBJECT_PROPS);
             }
         }
-
+		
         override public function readXML(xml:XML):void
         {
             this.markName = xml.@markName;

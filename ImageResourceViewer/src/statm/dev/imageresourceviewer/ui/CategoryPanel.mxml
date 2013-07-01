@@ -121,6 +121,11 @@
 						   itemName="{AppState.instance.selectedWeapon.name}"
 						   count="{ResourceLib.weapon.elements.length - 1}"
 						   click="btn_clickHandler(event)"/>
+		<ui:CategoryButton id="wings"
+						   categoryName="翅膀"
+						   itemName="{AppState.instance.selectedWings.name}"
+						   count="{ResourceLib.weapon.elements.length - 1}"
+						   click="btn_clickHandler(event)"/>
 		<ui:CategoryButton id="mount"
 						   categoryName="坐骑"
 						   itemName="{AppState.instance.selectedMount.name}"

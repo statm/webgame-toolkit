@@ -33,6 +33,11 @@ package statm.dev.imageresourceviewer.data.type
 		 * 坐骑模型。
 		 */
 		public static const MOUNT : String = "坐骑";
+		
+		/**
+		 * 翅膀模型。
+		 */
+		public static const WINGS:String = "翅膀";
 
 		/**
 		 * 宠物模型。
@@ -49,6 +54,6 @@ package statm.dev.imageresourceviewer.data.type
 		 */		
 		public static const UNKNOWN:String = "未知";
 
-		public static const typeList : Array = [HERO, WEAPON, NPC, MOB, MOUNT, PET, FX];
+		public static const typeList : Array = [HERO, WEAPON, WINGS, NPC, MOB, MOUNT, PET, FX];
 	}
 }

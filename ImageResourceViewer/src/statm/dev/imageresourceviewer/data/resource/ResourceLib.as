@@ -1,6 +1,5 @@
 package statm.dev.imageresourceviewer.data.resource
 {
-	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	
 	import statm.dev.imageresourceviewer.AppState;
@@ -21,6 +20,8 @@ package statm.dev.imageresourceviewer.data.resource
 		[Bindable]
 		public static var weapon : ResourceCategory;
 		[Bindable]
+		public static var wings : ResourceCategory;
+		[Bindable]
 		public static var mount : ResourceCategory;
 		[Bindable]
 		public static var npc : ResourceCategory;
@@ -35,6 +36,7 @@ package statm.dev.imageresourceviewer.data.resource
 
 		private static var heroDic : Dictionary;
 		private static var weaponDic : Dictionary;
+		private static var wingsDic : Dictionary;
 		private static var mountDic : Dictionary;
 		private static var npcDic : Dictionary;
 		private static var mobDic : Dictionary;
@@ -46,6 +48,7 @@ package statm.dev.imageresourceviewer.data.resource
 		{
 			hero = new ResourceCategory(ResourceType.HERO);
 			weapon = new ResourceCategory(ResourceType.WEAPON);
+			wings = new ResourceCategory(ResourceType.WINGS);
 			mount = new ResourceCategory(ResourceType.MOUNT);
 			npc = new ResourceCategory(ResourceType.NPC);
 			mob = new ResourceCategory(ResourceType.MOB);
@@ -55,6 +58,7 @@ package statm.dev.imageresourceviewer.data.resource
 
 			hero.elements.addItem(AppState.instance.selectedHero);
 			weapon.elements.addItem(AppState.instance.selectedWeapon);
+			wings.elements.addItem(AppState.instance.selectedWings);
 			mount.elements.addItem(AppState.instance.selectedMount);
 			npc.elements.addItem(AppState.instance.selectedNPC);
 			mob.elements.addItem(AppState.instance.selectedMob);
@@ -63,6 +67,7 @@ package statm.dev.imageresourceviewer.data.resource
 
 			heroDic = new Dictionary();
 			weaponDic = new Dictionary();
+			wingsDic = new Dictionary();
 			mountDic = new Dictionary();
 			npcDic = new Dictionary();
 			mobDic = new Dictionary();
@@ -138,6 +143,9 @@ package statm.dev.imageresourceviewer.data.resource
 
 				case ResourceType.WEAPON:
 					return weapon;
+					
+				case ResourceType.WINGS:
+					return wings;
 
 				case ResourceType.MOUNT:
 					return mount;
@@ -170,6 +178,9 @@ package statm.dev.imageresourceviewer.data.resource
 
 				case ResourceType.WEAPON:
 					return weaponDic;
+					
+				case ResourceType.WINGS:
+					return wingsDic;
 
 				case ResourceType.MOUNT:
 					return mountDic;
@@ -197,6 +208,7 @@ package statm.dev.imageresourceviewer.data.resource
 		{
 //			trace(hero.elements.source.join());
 //			trace(weapon.elements.source.join());
+//			trace(wings.elements.source.join());
 //			trace(mount.elements.source.join());
 //			trace(npc.elements.source.join());
 //			trace(mob.elements.source.join());

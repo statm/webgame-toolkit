@@ -51,6 +51,8 @@ package statm.dev.imageresourceviewer
 		[Bindable]
 		public var selectedWeapon:Element = new Element("无", ResourceType.WEAPON);
 		[Bindable]
+		public var selectedWings:Element = new Element("无", ResourceType.WINGS);
+		[Bindable]
 		public var selectedMount:Element = new Element("无", ResourceType.MOUNT);
 		[Bindable]
 		public var selectedNPC:Element = new Element("无", ResourceType.NPC);

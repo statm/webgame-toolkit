@@ -227,30 +227,44 @@ private function resourceList_changeHandler(event:IndexChangeEvent):void
             AppState.instance.categoryMode = ResourceType.HERO;
             categoryPanel.setSelectedCategoryButtons([ "hero", "weapon", "wings", "mount", "fx" ]);
             AppState.instance.selectedHero = selectedItem;
-            AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWings);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
             break;
 
         case ResourceType.WEAPON:
             AppState.instance.categoryMode = ResourceType.HERO;
             categoryPanel.setSelectedCategoryButtons([ "hero", "weapon", "wings", "mount", "fx" ]);
             AppState.instance.selectedWeapon = selectedItem;
-            AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWings);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
             break;
+		
+		case ResourceType.WINGS:
+			AppState.instance.categoryMode = ResourceType.HERO;
+			categoryPanel.setSelectedCategoryButtons([ "hero", "weapon", "wings", "mount", "fx" ]);
+			AppState.instance.selectedWings = selectedItem;
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWings);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
+			break;
 
         case ResourceType.MOUNT:
             AppState.instance.categoryMode = ResourceType.HERO;
             categoryPanel.setSelectedCategoryButtons([ "hero", "weapon", "wings", "mount", "fx" ]);
             AppState.instance.selectedMount = selectedItem;
-            AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
-            AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedWings);
+			AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
             break;
 
         case ResourceType.NPC:
@@ -281,9 +295,10 @@ private function resourceList_changeHandler(event:IndexChangeEvent):void
             {
                 categoryPanel.setSelectedCategoryButtons([ "hero", "weapon", "wings", "mount", "fx" ]);
                 AppState.instance.selectedFX = selectedItem as FXElement;
-                AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
-                AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
-                AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
+				AppState.instance.playingElements.addItem(AppState.instance.selectedWings);
             }
             else if (AppState.instance.categoryMode == ResourceType.NPC)
             {

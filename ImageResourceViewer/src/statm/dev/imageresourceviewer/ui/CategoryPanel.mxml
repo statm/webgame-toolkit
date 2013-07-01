@@ -9,7 +9,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.core.FlexGlobals;
-
+			
 			import statm.dev.imageresourceviewer.AppState;
 			import statm.dev.imageresourceviewer.data.Element;
 			import statm.dev.imageresourceviewer.data.resource.ResourceLib;
@@ -40,6 +40,10 @@
 						case weapon:
 							AppState.instance.selectedCategory = ResourceLib.weapon;
 							selectedElem = AppState.instance.selectedWeapon;
+							break;
+						case wings:
+							AppState.instance.selectedCategory = ResourceLib.wings;
+							selectedElem = AppState.instance.selectedWings;
 							break;
 						case mount:
 							AppState.instance.selectedCategory = ResourceLib.mount;
@@ -93,7 +97,7 @@
 					this[buttonName].selected = true;
 				}
 
-				for each (var button : CategoryButton in[hero, weapon, mount, pet, mob, npc, fx, unknown])
+				for each (var button : CategoryButton in[hero, weapon, wings, mount, pet, mob, npc, fx, unknown])
 				{
 					if (buttonNames.indexOf(button.id) == -1)
 					{

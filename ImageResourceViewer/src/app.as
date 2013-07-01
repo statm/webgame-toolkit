@@ -424,8 +424,8 @@ public function setDirection(direction:String):void
     {
 		AppState.instance.playingElements.addItem(AppState.instance.selectedHero);
 		AppState.instance.playingElements.addItem(AppState.instance.selectedWeapon);
-		AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
 		AppState.instance.playingElements.addItem(AppState.instance.selectedWings);
+		AppState.instance.playingElements.addItem(AppState.instance.selectedMount);
 		AppState.instance.playingElements.addItem(AppState.instance.selectedFX);
     }
     else // 否则坐骑放在最下层
